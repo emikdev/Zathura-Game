@@ -1,0 +1,26 @@
+import wollok.game.*
+
+import src.personajes.enemigo.*
+
+
+program spaceInvaders {
+
+	// Dimensiones del tablero en celdas
+	game.width(40)
+	game.height(20)
+
+	// Tamano de cada celda en px
+	game.cellSize(60)
+
+	// Titulo del juego
+	game.title("Zathura Game")
+
+	// Se define la imagen de fondo (temporal)
+	game.boardGround("fondo.jpg")
+
+
+
+	// Inicializador del juego
+	game.start()
+
+}
