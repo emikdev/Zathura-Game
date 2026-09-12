@@ -1,109 +1,136 @@
-import game.*
-import src.mecanicas.direcciones.*
+import wollok.game.*
 
-
-// Habria que retocar el codigo para quitar el miedo al booleano
-
+// Se define la clase nave
 class Nave {
-    var property image 
-    var property position 
-    var property vidas
 
-    var disparando = false
-    var estaViva = true
-    
+	var property position // Se define la posicion del objeto junto con sus Setter y Getter
+	var vidas // Cantidad de vidas que tiene la nave
 
+	const framesBase // Lista de frames base que debe ser definida por el objeto
+	const framesDisparo // Lista de frames de disparo que debe ser definida por el objeto
+	const framesMuerte // Lista de frames de muerte que debe ser definida por el objeto
+
+	var frameActual = 0 // Indice de qué imagen de la lista corresponde mostrar en este momento
+	var disparando = false // Flag que le dice a image() que lista de frames usar
+	var muerta = false // Flag que le dice a image() que lista de frames usar
+
+
+    // Getter que entrega la cantidad de vidas que tiene la nave
+	method vidas(){ 
+        
+        return vidas 
+        
+    }
+
+    // Setter de movimiento que mermite desplazar la nave
     method mover(direccion){
-        if(estaViva){
-            const nuevaPosition = direccion.siguiente(position)
-            position = nuevaPosition
+        if(not muerta)/* Si no esta muerta */{
+            const nuevaPosition = direccion.siguiente(position) // Guarda la siguioente posicion
+            position = nuevaPosition // Mueve la nave a la siguiente posicion
         }
 	}
 
-    method naveImpactada(){
-        if(estaViva){
-            self.naveDestruida()
-        }
-    }
+    // Getter que entrega la imagen de la nave
+	method image(){
 
-    method naveDestruida(){
-        if(vidas  > 0){
-            estaViva = false
-            game.say(self, "Estas muerto")
+		if (muerta) return framesMuerte.get(frameActual) // Retorna los frames correspondientes a la muerte de la nave cuando se queda sin vidas. 
+		if (disparando) return framesDisparo.get(frameActual) // Retorna los frames correspondientes a la nave disparando. 
+		return framesBase.get(0) // Retorna los frames base de la nave
 
-            game.schedule(5000, {
-                vidas -=1
-                position = game.origin()
-                estaViva = true
+	}
+
+	// Corre la animacion de disparo de la nave
+	method disparar(){
+
+		if (not muerta and not disparando)/* Si la nave no dispara y esta viva */{ 
+
+			disparando = true // Actualiza el flag de la nave
+			frameActual = 0 // Setea el frame actual al comienzo de la lista de frames
+			self.animarDisparo() // Ejecuta la animacion de disparo de la nave
+
+		}
+
+	}
+
+	// Anima el disparo hasta que llega al final de la lista frameDisparo, cuando termina settea disparando = false
+	method animarDisparo(){
+
+		if (frameActual < framesDisparo.size() - 1)/* Si aun hay frames en la lista */{ 
+
+			game.schedule(100, {
+
+				frameActual += 1 // Pasa al siguiente frame de la animacion
+				self.animarDisparo() // Se llama nuevamente a si misma para seguir con la animacion
+                
             })
 
-        }else{
-            estaViva = false
-            game.error("Te quedaste sin vidas")
-        }    
-    }
+		} else {
 
-    // El metodo disparar esta incompleto, solo lanza la animacion, pero no lanza el proyectil aun
+			game.schedule(100, {
 
-    method disparar(frameList){
-        
-        if(not disparando){
-            disparando = true
-            animator.createAnimation(self, 100, frameList)
-            disparando = false
-        }
+				disparando = false // Corta la animaciond e disparo
+				frameActual = 0 // Vuelve al primer frame 
 
-    }
+			})
+
+		}
+
+	}
+
+	// Disparador que quita una vida y activa animacion de muerte
+	method recibirImpacto() {
+
+		if (not muerta)/* Si la nave no esta muerta */{
+
+			vidas -= 1 // Se le resta una vida a la nave
+
+			if (vidas <= 0) /* Si la nave aun tiene vidas */{
+
+				self.animarMuerte() // Se ejercuta la animacion de muerte de la nave.
+
+			}
+
+		}
+
+	}
+
+
+	// Animacion de muerte, settea muerta = true
+	method animarMuerte() {
+
+		muerta = true // Actualiza el flag de la nave
+		frameActual = 0 // Setea el frame actual al comienzo de la lista de frames
+		self.siguienteFrameMuerte() // Pasa al siguiente frame de la animacion de muerte
+
+	}
+
+	// Corre la animacion de la muerte hasta llegar al final de la lista ordenada framesMuerte
+	method siguienteFrameMuerte() {
+
+		if (frameActual < framesMuerte.size() - 1)/* Si aun hay frames en la lista */{
+
+			game.schedule(150, {
+
+				frameActual += 1 // Pasa al siguiente frame de la lista
+				self.siguienteFrameMuerte() // Se llama nuevamente a si misma para seguir con la animacion
+
+			})
+
+		}
+
+	}
+
 
 }
 
-/*
-
-    ANIMATOR ES UN OBJETO CON LOS ELEMENTOS NECESARIOSA PARA CREAR UNA ANIMACION
-    POR MEDIO DE UNA LISTA ORDENADA DE STRINGS CON LA UBICACION DE LAS IMAGENES
-    PARA ANIMAR
-
-    Para crear una animacion se tiene que llamar al metodo 
-    createAnimation(element, animationSpeed, frameList), en element se debe pasar
-    el objeto que se desea animar, animationSpeed espera la cantidad de tiempo que
-    tiene que haber entre frame y frame (se tiene que pasar en milisegundos), y 
-    frameList es una lista ordenada que requiere los strings con las ubicaciones
-    de las imagenes, no se requiere que se pase la imagen del estado inicial del
-    objeto.
-
-    REQUIERE WOLLOK GAME
-
-*/
-object animator{
-
-    var frame = 0
-
-    method createAnimation(element, animationSpeed, frameList){
-
-        frameList.addAtIndex(0, element.image())
-        
-        if(frame < frameList.size()-1){
-            game.schedule(animationSpeed, {self.nextFrame(element, animationSpeed, frameList)})
-            
-        }else {
-            game.schedule(animationSpeed, {self.endAnimation(element, frameList)})
-        }
-    }
-    
-    method nextFrame(element, animationSpeed, frameList){
-        frame += 1
-        element.image(frameList.get(frame))
-        self.createAnimation(element, animationSpeed, frameList)
-    }
-
-    method endAnimation(element, frameList){
-        frame = 0
-        element.image(frameList.get(frame))
-    }
-}
-
+// Creacion de una instancia de la clase Nave
 const naveDefault = new Nave(
-    image = "naves/nave.png",
-    vidas = 3,
-    position = game.origin()
+
+    // Inicializacion de los atributos heredados de la clase
+	position = game.origin(),
+	vidas = 3, // Cantidad de vidas de la nave
+	framesBase = ["naves/nave.png"], // Lista de frames base
+	framesDisparo = ["naves/nave-disparo1.png", "naves/nave-disparo2.png"], // lista de frames de disparo
+	framesMuerte = ["naves/naveMuerte.png"] // Lista de frames de muerte
+
 )
