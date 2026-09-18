@@ -1,9 +1,11 @@
-import bala.*
+import src.mecanicas.balas.bala.*
 
-class BalaDoble inherits Bala{
+class BalaDoble inherits Bala {
+  // Inicializamos la lista de frames directo en el constructor de la subclase
+  override method frames() = ["naves/balaDoble-frame1.png", "naves/balaDoble-frame2.png"] 
 
-    override method frames() = ["naves/balaDoble-frame1.png", "naves/balaDoble-frame2.png"] // Definicion de los frames de la clase bala doble.
-
-    override method velocidad() = 150
-    
+  override method velocidad() = 1050
+  
+  // Definimos el daño que causa este tipo de bala si es necesario
+  override method daño() = 200 
 }
