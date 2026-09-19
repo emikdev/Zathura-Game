@@ -14,6 +14,10 @@ class Nave {
 	var disparando = false // Flag que le dice a image() que lista de frames usar
 	var muerta = false // Flag que le dice a image() que lista de frames usar
 
+	// tiposDeBalas esta como constante, ya que no se definio si puede obtener otras balas durante la partida
+	const tiposDeBalas // Arsenal de balas que tiene la nave
+	var slotBalaActual // Apunta como indice al slot donde esta parada la bala actual
+
 
     // Getter que entrega la cantidad de vidas que tiene la nave
 	method vidas(){ 
@@ -22,7 +26,7 @@ class Nave {
         
     }
 
-    // Setter de movimiento que mermite desplazar la nave
+    // Setter de movimiento que permite desplazar la nave
     method mover(direccion){
         if(not muerta)/* Si no esta muerta */{
             const nuevaPosition = direccion.siguiente(position) // Guarda la siguioente posicion
@@ -37,6 +41,27 @@ class Nave {
 		if (disparando) return framesDisparo.get(frameActual) // Retorna los frames correspondientes a la nave disparando. 
 		return framesBase.get(0) // Retorna los frames base de la nave
 
+	}
+
+	// Setter de la bala, cambia la bala que esta cargada lista para disparar
+	method eleccionDeBala(slot){	
+
+		slotBalaActual = slot // Cambia el indice de la lista de balas
+	
+	}
+
+	// Setter que avanza al siguiente slot del arsenal de balas
+	method siguienteBala(){
+
+		// Aumenta en 1 el slotBalaActual, si llega al final de la lista vuelve a la posicion 0
+		slotBalaActual = (slotBalaActual + 1) % tiposDeBalas.size()
+	}
+
+	// Getter que devuelve la bala actual cargada 
+	method balaActual(){
+
+		return tiposDeBalas.get(slotBalaActual)	// Devuelve la bala actual a partir del indice en tiposDeBalas
+	
 	}
 
 	// Corre la animacion de disparo de la nave
