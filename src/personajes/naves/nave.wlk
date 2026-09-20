@@ -148,8 +148,21 @@ class Nave {
 	// PARA TESTING
 
 	method muerta(){
+
 		return muerta
+
 	}
 
+	method tiposDeBalas(){
+
+		return tiposDeBalas
+
+	}
+
+	method slotBalaActual() {
+
+		return slotBalaActual
+
+	}
 
 }

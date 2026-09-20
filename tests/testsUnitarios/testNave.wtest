@@ -1,3 +1,4 @@
+import src.personajes.naves.nave.*
 import src.personajes.naves.clases.naveBasica.*
 import src.mecanicas.direcciones.*
 
@@ -73,5 +74,34 @@ describe "prueba de vidas y dañó" {
 
         assert.equals(true, naveDefault.muerta())
         assert.equals(0, naveDefault.vidas())
+    }
+}
+
+describe "se hace una prueba del inventario de balas, con sus 2 metodos" {
+    test "se compruba que inicie en el slot 0" {
+
+        assert.equals(0, naveDefault.slotBalaActual())
+    
+    }
+
+    test "se comprueba que funcione las elecciones de slot de bala"{
+        naveDefault.eleccionDeBala(1)
+        assert.equals(1, naveDefault.slotBalaActual())
+        assert.equals("bala2", naveDefault.balaActual())
+    
+        naveDefault.eleccionDeBala(0)
+        assert.equals(0, naveDefault.slotBalaActual())
+        assert.equals("bala1", naveDefault.balaActual())
+    }
+
+    test "se comprueba que funcione el metodo siguienteBala"{
+
+        naveDefault.siguienteBala()
+        assert.equals(1, naveDefault.slotBalaActual())
+        assert.equals("bala2", naveDefault.balaActual())
+
+        naveDefault.siguienteBala()
+        assert.equals(0, naveDefault.slotBalaActual())
+        assert.equals("bala1", naveDefault.balaActual())
     }
 }
