@@ -145,5 +145,11 @@ class Nave {
 
 	}
 
+	// PARA TESTING
+
+	method muerta(){
+		return muerta
+	}
+
 
 }

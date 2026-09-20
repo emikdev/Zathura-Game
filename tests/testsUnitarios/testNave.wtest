@@ -1,0 +1,77 @@
+import src.personajes.naves.clases.naveBasica.*
+import src.mecanicas.direcciones.*
+
+describe "Prueba de movimiento de la nave" {
+    test "se comprubea posicion inicial" {
+        
+        assert.equals(game.at(0, 0), naveDefault.position())
+
+    }
+
+    test "prueba de movimiento arriba"{
+
+        naveDefault.mover(arriba)
+
+        assert.equals(game.at(0, 1), naveDefault.position())
+    }
+
+    test "prueba de movimiento derecha"{
+
+        naveDefault.mover(derecha)
+
+        assert.equals(game.at(1, 0), naveDefault.position())
+    }
+
+    test "prueba de movimiento izquierda"{
+        
+        // Se mueve la nave 2 veces al a derecha para poder moverla a la izquierda, ya que la nave empieza en (0,0)
+        naveDefault.mover(derecha)
+        naveDefault.mover(derecha)
+
+        assert.equals(game.at(2,0), naveDefault.position())
+
+        naveDefault.mover(izquierda)
+
+        assert.equals(game.at(1,0), naveDefault.position())
+    }
+
+    test "prueba de movimiento abajo"{
+        // Se mueve la nave 2 veces al a arriba para poder moverla a la abajo, ya que la nave empieza en (0,0)
+        naveDefault.mover(arriba)
+        naveDefault.mover(arriba)
+
+        assert.equals(game.at(0,2), naveDefault.position())
+
+        naveDefault.mover(abajo)
+
+        assert.equals(game.at(0,1), naveDefault.position())
+    }
+}
+
+describe "prueba de vidas y dañó" {
+    test "las vidas tienen que empezar en 3"{
+        assert.equals(3, naveDefault.vidas())
+    }
+
+    test "las vidas tienen que bajar a medida que reciba daño"{
+        assert.equals(3, naveDefault.vidas())
+
+        naveDefault.recibirImpacto()
+        assert.equals(2, naveDefault.vidas())
+
+        naveDefault.recibirImpacto()
+        assert.equals(1, naveDefault.vidas())
+    }
+
+    test "al llegar las vidas a 0 la nave cambia a estado muerta"{
+        assert.equals(false, naveDefault.muerta())
+        assert.equals(3, naveDefault.vidas())
+
+        naveDefault.recibirImpacto()
+        naveDefault.recibirImpacto()
+        naveDefault.recibirImpacto()
+
+        assert.equals(true, naveDefault.muerta())
+        assert.equals(0, naveDefault.vidas())
+    }
+}
