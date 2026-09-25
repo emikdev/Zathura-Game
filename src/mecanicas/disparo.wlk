@@ -14,7 +14,11 @@ class Disparo {
   // Estado propio del disparo definido por el personaje que lo origino
   var property position
   const direccion
-  const property bando
+  const bando
+
+  method bando() {
+    return bando
+  }
 
   var frameActual = 0 // Frame actual de la animacion del disparo
 
