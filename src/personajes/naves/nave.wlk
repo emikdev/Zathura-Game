@@ -113,7 +113,7 @@ class Nave {
 	// Disparador que quita una vida y activa animacion de muerte
 	method recibirDano(dano) {
 
-		if (not estado == "muerta")/* Si la nave no esta muerta */{
+		if (estado != "muerta")/* Si la nave no esta muerta */{
 
 			vidas -= 1 // Se le resta una vida a la nave
 
