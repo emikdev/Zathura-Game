@@ -1,6 +1,7 @@
 import wollok.game.*
 import src.mecanicas.direcciones.*
 import src.mecanicas.disparo.*
+import src.mecanicas.balas.bala
 
 // Se define la clase nave
 class Nave {
@@ -141,7 +142,7 @@ class Nave {
 	// y mueve el indice a la bala basica (0)
 	method hayMunicion(){
 		
-		if(not self.balaActual().municion() > 0){ // Verifica si no tiene municion la bala actual
+		if(self.balaActual().municion() <= 0){ // Verifica si no tiene municion la bala actual
 			
 			balas.remove(balas.get(balaActual)) // Remueve la bala actual de la lista
 			balaActual = 0 // Mueve el indice a la bala basica
@@ -181,7 +182,7 @@ class Nave {
     // Setter de movimiento que permite desplazar la nave
     method mover(direccion){
 
-        if(not estado == "muerta")/* Si no esta muerta */{
+        if(estado != "muerta")/* Si no esta muerta */{
 
             const nuevaPosition = direccion.siguiente(position) // Guarda la siguioente posicion
             position = nuevaPosition // Mueve la nave a la siguiente posicion
