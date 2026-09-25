@@ -85,7 +85,7 @@ class Nave {
 	// Corre la animacion de la muerte hasta llegar al final de la lista ordenada framesMuerte
 	method animarMuerte() {
 
-		if (frameActual < framesMuerte.size() - 1)/* Si aun hay frames en la lista y quedan vidas*/{
+		if (frameActual < framesMuerte.size() - 1)/* Si aun hay frames en la lista*/{
 
 			game.schedule(150, {
 
@@ -94,19 +94,18 @@ class Nave {
 
 			})
 
-			game.removeVisual(self) // Se remueve la visual
+		}
+		
+		game.removeVisual(self) // Se remueve la visual
+		
+		if(vidas > 0){ //Verifica si tiene vidas para respawnear
 
-			if(vidas > 0){ //Verifica si tiene vidas para respawnear
+			game.schedule(3000, { // Despues de 3 segundos respawneo de la nave
 
-				game.schedule(3000, { // Despues de 3 segundos respawneo de la nave
+			position = game.at( game.width() / 2, 0) // Se settea la position en abajo en el centro
+			game.addVisual(self) // Se reañade la visual de la nave
 
-				position = game.at( game.width() / 2, 0) // Se settea la position en abajo en el centro
-				game.addVisual(self) // Se reañade la visual de la nave
-
-				})
-			}
-
-
+			})
 
 		}
 	}
