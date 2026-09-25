@@ -7,14 +7,14 @@ import src.mecanicas.direcciones.*
 class Disparo {
 
   // Datos recibidos de la Bala
-  var frames
-  var dano
-  var velocidad
+  const frames
+  const dano
+  const velocidad
 
   // Estado propio del disparo definido por el personaje que lo origino
   var property position
-  var property direccion
-  var property bando
+  const direccion
+  const property bando
 
   var frameActual = 0 // Frame actual de la animacion del disparo
 
@@ -60,26 +60,25 @@ class Disparo {
 
   // Comienza el ciclo de vida del disparo
   method iniciar() {
-
-    if (frames.isEmpty()) {
-
-      // Seguro para que no se generen disparos invalidos
-      self.destruir()
-
-    } else {
-
-      game.addVisual(self)
-
-      // La velocidad representa el tiempo total de una celda.
-      // Lo dividimos entre la cantidad de frames para obtener
-      // cuánto tiempo permanece cada frame en pantalla.
-      game.onTick(self.velocidad() / frames.size(), self, { self.actualizar() })
-
+    if (frames.isEmpty() or velocidad <= 0) {
+      self.destruir()  // el mensaje destiur ya comprueba solo si el elemento fue destruido que si en lugar del return utilizamos destruir para eliminar los restos
+      // self.error("Fallo al iniciar el disparo) // esto es para nosotros saber si es un fallo de generación pero tranquila mente se puede eliminar
     }
 
-    // El disparo se encarga de gestionar sus propias colisiones
-    game.onCollideDo(self, { objetivo => self.colisionarCon(objetivo) })
+    game.addVisual(self)
 
+    // La velocidad indica cuántas celdas completa el disparo por segundo.
+    const duracionCelda = 1000 / velocidad
+    // Convertimos a entero 
+    const duracionFrame = duracionCelda / frames.size() // esta parte hay contradicciones en que acepta decimales y otras que no lo probé y acepta que si no tendría que haber problemas
+
+    game.onTick(duracionFrame, self, {
+      self.actualizar()
+    })
+
+    game.onCollideDo(self, { objetivo =>
+      self.colisionarCon(objetivo)
+    })
   }
 
   // Intenta avanzar hacia la siguiente celda

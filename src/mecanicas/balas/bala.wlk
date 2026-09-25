@@ -1,10 +1,10 @@
 // Declaracion de la clase bala
 class Bala {
 
-  var frames // Lista de frames de la animacion 
-  var velocidad // Velocidad en la que se ejecuta la lista de frames
-  var dano // Dano que ocaciona el proyectil
-  var municion // Cantidad de municion que hay de dicha bala
+  const frames // Lista de frames de la animacion 
+  const velocidad // Velocidad en la que se ejecuta la lista de frames
+  const dano // Dano que ocaciona el proyectil
+  const municion // Cantidad de municion que hay de dicha bala
 
   // Getter que entrega la lista de frames correspondiente a la bala
 

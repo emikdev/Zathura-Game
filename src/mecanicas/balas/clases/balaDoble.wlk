@@ -7,5 +7,5 @@ class BalaDoble inherits Bala {
   override method velocidad() = 1050
   
   // Definimos el daño que causa este tipo de bala si es necesario
-  override method daño() = 200 
+  override method dano() = 200 
 }
