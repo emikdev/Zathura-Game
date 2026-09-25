@@ -1,7 +1,7 @@
 import wollok.game.*
 import src.mecanicas.direcciones.*
 import src.mecanicas.disparo.*
-import src.mecanicas.balas.bala
+import src.mecanicas.balas.bala.*
 
 // Se define la clase nave
 class Nave {
@@ -50,7 +50,7 @@ class Nave {
 	// Anima el disparo hasta que llega al final de la lista frameDisparo, cuando termina settea disparando = false
 	method animarDisparo(){
 
-		if (frameActual < framesDisparo.size() - 1)/* Si aun hay frames en la lista */{ 
+		if ( estado == "disparando" and frameActual < framesDisparo.size() - 1 )/* Si aun hay frames en la lista y si sigue disparando*/{ 
 
 			game.schedule(100, {
 
@@ -76,7 +76,7 @@ class Nave {
 	// Animacion de muerte, settea muerta = true
 	method morir() {
 
-		estado == "muerta" // Actualiza el flag de la nave
+		estado = "muerta" // Actualiza el flag de la nave
 		frameActual = 0 // Setea el frame actual al comienzo de la lista de frames
 		self.animarMuerte() // Pasa al siguiente frame de la animacion de muerte
 
@@ -85,7 +85,7 @@ class Nave {
 	// Corre la animacion de la muerte hasta llegar al final de la lista ordenada framesMuerte
 	method animarMuerte() {
 
-		if (frameActual < framesMuerte.size() - 1)/* Si aun hay frames en la lista */{
+		if (vidas > 0 and frameActual < framesMuerte.size() - 1)/* Si aun hay frames en la lista y quedan vidas*/{
 
 			game.schedule(150, {
 
@@ -94,12 +94,33 @@ class Nave {
 
 			})
 
-		}
+			game.removeVisual(self) // Se remueve la visual
 
+			game.schedule(3000, { // Despues de 3 segundos respawneo de la nave
+
+				position = game.at( game.width() / 2, 0) // Se settea la position en abajo en el centro
+				game.addVisual(self) // Se reañade la visual de la nave
+
+			})
+
+
+
+		}else if(vidas < 1 and frameActual < framesMuerte.size() - 1){ // Verifica que no tenga vidas y si aun hay frames
+
+			game.schedule(150, {
+
+				frameActual += 1 // Pasa al siguiente frame de la lista
+				self.animarMuerte() // Se llama nuevamente a si misma para seguir con la animacion
+
+			})
+
+			game.removeVisual(self) // Al morir remueve directamente el visual
+		
+		}
 	}
 
 	// Disparador que quita una vida y activa animacion de muerte
-	method recibirDano() {
+	method recibirDano(dano) {
 
 		if (not estado == "muerta")/* Si la nave no esta muerta */{
 
