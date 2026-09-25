@@ -1,0 +1,107 @@
+import src.personajes.naves.nave.*
+import src.personajes.naves.clases.naveBasica.*
+import src.mecanicas.direcciones.*
+
+describe "Prueba de movimiento de la nave" {
+    test "se comprubea posicion inicial" {
+        
+        assert.equals(game.at(0, 0), naveBasica.position())
+
+    }
+
+    test "prueba de movimiento arriba"{
+
+        naveBasica.mover(arriba)
+
+        assert.equals(game.at(0, 1), naveBasica.position())
+    }
+
+    test "prueba de movimiento derecha"{
+
+        naveBasica.mover(derecha)
+
+        assert.equals(game.at(1, 0), naveBasica.position())
+    }
+
+    test "prueba de movimiento izquierda"{
+        
+        // Se mueve la nave 2 veces al a derecha para poder moverla a la izquierda, ya que la nave empieza en (0,0)
+        naveBasica.mover(derecha)
+        naveBasica.mover(derecha)
+
+        assert.equals(game.at(2,0), naveBasica.position())
+
+        naveBasica.mover(izquierda)
+
+        assert.equals(game.at(1,0), naveBasica.position())
+    }
+
+    test "prueba de movimiento abajo"{
+        // Se mueve la nave 2 veces al a arriba para poder moverla a la abajo, ya que la nave empieza en (0,0)
+        naveBasica.mover(arriba)
+        naveBasica.mover(arriba)
+
+        assert.equals(game.at(0,2), naveBasica.position())
+
+        naveBasica.mover(abajo)
+
+        assert.equals(game.at(0,1), naveBasica.position())
+    }
+}
+
+describe "prueba de vidas y dañó" {
+    test "las vidas tienen que empezar en 3"{
+        assert.equals(3, naveBasica.vidas())
+    }
+
+    test "las vidas tienen que bajar a medida que reciba daño"{
+        assert.equals(3, naveBasica.vidas())
+
+        naveBasica.recibirImpacto()
+        assert.equals(2, naveBasica.vidas())
+
+        naveBasica.recibirImpacto()
+        assert.equals(1, naveBasica.vidas())
+    }
+
+    test "al llegar las vidas a 0 la nave cambia a estado muerta"{
+        assert.equals(false, naveBasica.muerta())
+        assert.equals(3, naveBasica.vidas())
+
+        naveBasica.recibirImpacto()
+        naveBasica.recibirImpacto()
+        naveBasica.recibirImpacto()
+
+        assert.equals(true, naveBasica.muerta())
+        assert.equals(0, naveBasica.vidas())
+    }
+}
+
+describe "se hace una prueba del inventario de balas, con sus 2 metodos" {
+    test "se compruba que inicie en el slot 0" {
+
+        assert.equals(0, naveBasica.slotBalaActual())
+    
+    }
+
+    test "se comprueba que funcione las elecciones de slot de bala"{
+        naveBasica.eleccionDeBala(1)
+        assert.equals(1, naveBasica.slotBalaActual())
+        assert.equals("bala2", naveBasica.balaActual())
+    
+        naveBasica.eleccionDeBala(0)
+        assert.equals(0, naveBasica.slotBalaActual())
+        assert.equals("bala1", naveBasica.balaActual())
+    }
+
+    test "se comprueba que funcione el metodo siguienteBala"{
+
+        naveBasica.siguienteBala()
+        assert.equals(1, naveBasica.slotBalaActual())
+        assert.equals("bala2", naveBasica.balaActual())
+
+        naveBasica.siguienteBala()
+        assert.equals(0, naveBasica.slotBalaActual())
+        assert.equals("bala1", naveBasica.balaActual())
+    }
+}
