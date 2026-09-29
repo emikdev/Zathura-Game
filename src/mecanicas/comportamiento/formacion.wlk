@@ -39,12 +39,6 @@ class Formacion {
 
   method iniciarCiclo() {
 
-    if (not activa) {
-
-      return
-
-    }
-
     const enemigosActivos = self.enemigosEnFormacion()
 
     // Si no quedan enemigos participando, la formacion termina.
@@ -52,7 +46,6 @@ class Formacion {
 
       activa = false
 
-      return
 
     }
 
@@ -82,41 +75,22 @@ class Formacion {
 
     const enemigosActivos = self.enemigosEnFormacion()
 
-    if (enemigosActivos.isEmpty()) {
-
-      activa = false
-
-      return
-
-    }
-
-    var todosPuedenAvanzar = true
-
-
     // Primero verificamos que TODOS puedan avanzar.
-    enemigosActivos.forEach({ enemigo =>
+    const todosPuedenAvanzar = enemigosActivos.all({ enemigo => direccion.puedeAvanzar(enemigo.position()) })
 
-      try {
-
-        direccion.siguiente(enemigo.position())
-
-      } catch e : DomainException {
-
-        todosPuedenAvanzar = false
-
-      }
-
-    })
-
+    //propongo sacar el try y utilizar el all para que en el primero que no pueda avanzar devuelva false, sin seguir mirando los demas.
+    // de esta forma es mas corto y no tiene dependencias
 
     if (todosPuedenAvanzar) {
 
       // Si todos pueden avanzar, ahora movemos a todos.
-      enemigosActivos.forEach({ enemigo =>
+      enemigosActivos.forEach({ enemigo =>        
 
-        enemigo.mover(direccion)
+        enemigo.mover(direccion) 
 
-      })
+      }
+
+      )
 
     } else {
 
