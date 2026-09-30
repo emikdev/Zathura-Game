@@ -1,0 +1,79 @@
+
+import wollok.game.*
+import src.personajes.naves.nave.*
+
+// --- OBJETOS DE PRUEBA PARA LAS DIRECCIONES ---
+// (Si ya tenés tus archivos de direcciones, podés borrarlos y usar tus imports)
+object arriba {
+	method siguiente(pos) = pos.up(1)
+}
+object abajo {
+	method siguiente(pos) = pos.down(1)
+}
+object izquierda {
+	method siguiente(pos) = pos.left(1)
+}
+object derecha {
+	method siguiente(pos) = pos.right(1)
+}
+
+// --- ENEMIGO DE PRUEBA (DUMMY) ---
+// Sirve para verificar que las colisiones y el daño del disparo funcionen
+object enemigoPrueba {
+	var property position = game.center() // Posicionado arriba en el centro
+	var vidas = 3
+
+	method bando() = "enemigo" // Bando diferente para que el disparo lo afecte
+
+	method image() = "EnemigoDePrueba.png" // Podés usar cualquier imagen que tengas
+
+	method recibirDano(dano) {
+		vidas = vidas - 1
+		game.say(self, "¡Auch! Me diste. Vidas: " + vidas)
+		if (vidas <= 0) {
+			game.say(self, "¡Morí!")
+			game.removeVisual(self)
+		}
+	}
+}
+
+// --- PROGRAMA PRINCIPAL DE PRUEBAS ---
+program testNaveDisparando {
+
+	// Configuración de la pantalla
+	game.width(24)
+	game.height(14)
+	game.cellSize(100) // Cada celda ahora es de 100x100
+
+	game.title("Test de Disparo - Zathura")
+
+	// Si no tenés "fondo.jpg" todavía, comentá esta línea para que no falle
+	// game.boardGround("fondo.jpg")
+
+	// Creamos el jugador con tus listas de frames
+	const jugador = new Nave(
+		position = game.at(20, 0), // Iniciamos en el centro inferior
+		vidas = 3,
+		framesBase = ["nave.png"],
+		framesDisparo = ["naveDisparando-frame1.png", "naveDisparando-frame2.png"],
+		framesMuerte = ["muerte-frame1.png","muerte-frame2.png","muerte-frame3.png","muerte-frame4.png","muerte-frame5.png","muerte-frame6.png","muerte-frame7.png"]
+	)
+
+	// Iniciamos al jugador (añade la visual y configura el teclado)
+	jugador.iniciar()
+
+	// Añadimos al enemigo de prueba al tablero
+	 keyboard.y().onPressDo {
+
+      game.addVisual(enemigoPrueba)
+
+    }
+
+	// Cartel de ayuda en consola al arrancar
+	game.schedule(500, { 
+		game.say(jugador, "Controles: A/D para mover. ESPACIO para disparar.") 
+	})
+
+	// Arranca el motor del juego
+	game.start()
+}
