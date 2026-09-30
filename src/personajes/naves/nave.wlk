@@ -2,6 +2,7 @@ import wollok.game.*
 import src.mecanicas.direcciones.*
 import src.mecanicas.disparo.*
 import src.mecanicas.balas.bala.*
+import src.mecanicas.balas.clases.balaNormal.*
 
 // Se define la clase nave
 class Nave {
@@ -25,8 +26,9 @@ class Nave {
 		IMPORTANTE: La primera posicion de la lista siempre tiene que contener 
 		la bala basica es decir la que tiene municion infinita
 	*/
-	var balas // Lista de balas que tiene la nave
-	var balaActual // Bala que la nave tiene seleccionada de la lista
+	const balaBase = new BalaNormal()
+	const balas = [balaBase]// Lista de balas que tiene la nave
+	var balaActual = 0 // Bala que la nave tiene seleccionada de la lista
 
 	const bando = "jugador"
 
@@ -202,9 +204,12 @@ class Nave {
     // Metodo que permite iniciar el ciclo de vida de la nave
     method iniciar() {
 
+	self.configurate()
     game.addVisual(self)
+  }
 
-    // Movimiento hacia la izquierda
+  method configurate() {
+	    // Movimiento hacia la izquierda
     keyboard.a().onPressDo {
 
       self.mover(izquierda)
@@ -286,7 +291,6 @@ class Nave {
       self.cambiarDeBalaA(9)
 
     }
-
   }
 
 }

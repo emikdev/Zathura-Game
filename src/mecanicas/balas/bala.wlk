@@ -1,48 +1,19 @@
-// Declaracion de la clase bala
 class Bala {
 
-  const frames // Lista de frames de la animacion 
-  const velocidad // Velocidad en la que se ejecuta la lista de frames
-  const dano // Dano que ocaciona el proyectil
-  const municion // Cantidad de municion que hay de dicha bala
+  // Usamos 'var' para que la munición pueda disminuir al disparar
+  var municion = 10000 
 
-  // Getter que entrega la lista de frames correspondiente a la bala
+  // Métodos abstractos/base que las subclases van a heredar o sobreescribir
+  method frames()
+  method velocidad()
+  method dano()
 
-  method frames(){
-
-    return frames
-
-  }
-
-  // Getter que entrega la velocidad correspondiente a la bala
-
-  method  velocidad(){
-
-    return velocidad
-
-  }
-
-  // Getter que entrega el dano correspondiente a la bala
-
-  method dano(){
-
-    return dano
-
-  }
-
-  // Getter que entrega la muncion correspondiente a la bala
-  
+  // Getter de la munición actual
   method municion(){
-
     return municion
-
   }
 
-  // Metodo que permite consumir la municion cuando la bala es disparada
   method consumirMunicion(){
-
-    municion - 1
-
+    municion = municion - 1
   }
-
 }

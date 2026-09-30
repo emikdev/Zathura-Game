@@ -1,9 +1,6 @@
 import wollok.game.*
-
 import src.mecanicas.direcciones.*
 
-
-// Representa un proyectil que se encuentra actualmente dentro del juego
 class Disparo {
 
   // Datos recibidos de la Bala
@@ -11,72 +8,50 @@ class Disparo {
   const dano
   const velocidad
 
-  // Estado propio del disparo definido por el personaje que lo origino
+  // Estado propio del disparo definido por el personaje que lo originó
   var property position
   const direccion
   const bando
 
-  method bando() {
-    return bando
+  // Creamos un String único para el evento del OnTick usando la identidad del objeto
+  const idTick = "tick_disparo_" + self.identity().toString() // supuesta mente este identificador es mas especifico para usarlo en el observer quisas se cambie
+
+  method bando() { 
+    return bando 
   }
 
-  var frameActual = 0 // Frame actual de la animacion del disparo
-
-  // Devuelve el daño que posee el disparo
-  method dano() {
-
-    return dano
-
+  method dano() { 
+    return dano 
   }
-
-  // Devuelve la velocidad del disparo
-  // Representa el tiempo total que tarda en recorrer una celda
-  method velocidad() {
-
-    return velocidad
-
+  method velocidad() { 
+    return velocidad 
   }
-
-  // Devuelve la imagen correspondiente al frame actual
-  method image() {
-
-    return frames.get(frameActual)
-
+  method image() { 
+    return frames.get(frameActual) 
   }
+  
+  // Agregamos este método para validar colisiones de forma limpia en Wollok
+  method esDisparo() = true
 
-  // Actualiza el estado del disparo en cada tick
+  var frameActual = 0 
+
   method actualizar() {
-
-    // Si llegamos al último frame,
-    // termina la animación de esta celda y avanzamos
     if (frameActual == frames.size() - 1) {
-
       frameActual = 0
       self.avanzar()
-
     } else {
-
       frameActual = frameActual + 1
-
     }
-
   }
 
-  // Comienza el ciclo de vida del disparo
   method iniciar() {
-    if (frames.isEmpty() or velocidad <= 0) {
-      self.destruir()  // el mensaje destiur ya comprueba solo si el elemento fue destruido que si en lugar del return utilizamos destruir para eliminar los restos
-      // self.error("Fallo al iniciar el disparo) // esto es para nosotros saber si es un fallo de generación pero tranquila mente se puede eliminar
-    }
-
     game.addVisual(self)
 
-    // La velocidad indica cuántas celdas completa el disparo por segundo.
     const duracionCelda = 1000 / velocidad
-    // Convertimos a entero 
-    const duracionFrame = duracionCelda / frames.size() // esta parte hay contradicciones en que acepta decimales y otras que no lo probé y acepta que si no tendría que haber problemas
+    const duracionFrame = duracionCelda / frames.size() 
 
-    game.onTick(duracionFrame, self, {
+    // SOLUCIÓN: Usamos 'idTick' (String único) en lugar de 'self'
+    game.onTick(duracionFrame, idTick, {
       self.actualizar()
     })
 
@@ -85,67 +60,48 @@ class Disparo {
     })
   }
 
-  // Intenta avanzar hacia la siguiente celda
+  // Comprueba si la bala se encuentra dentro de los márgenes del juego
+  method estaFueraDelTablero() {
+    return position.x() < 0 
+        or position.x() >= game.width() 
+        or position.y() < 0 
+        or position.y() >= game.height()
+  }
+
   method avanzar() {
-
     try {
-
       position = direccion.siguiente(position)
-
-    } catch e : DomainException {
-
-      // Si no existe la siguiente celda,
-      // significa que el disparo salió del tablero.
+    } catch e : Exception { 
       self.destruir()
-
     }
-
   }
 
-  // Gestiona una colision con otro objeto
   method colisionarCon(objetivo) {
+    // Verificamos de forma segura si chocamos contra otra bala protegiendo el mensaje
+    const esOtroDisparo = try { objetivo.esDisparo() } catch e : Exception { false }
 
-    // Si el otro objeto tambien es un disparo,
-    // ignoramos la colision y ambos continuan.
-    if (objetivo.className() != self.className()) {
-
-      // Si pertenecen a bandos diferentes,
-      // el objetivo recibe el dano del disparo.
+    if (not esOtroDisparo) {
       if (objetivo.bando() != self.bando()) {
-
         objetivo.recibirDano(self.dano())
-
-        // Un impacto valido consume el disparo.
         self.destruir()
-
       }
-
     }
-
   }
 
-  // Elimina el disparo del juego
   method destruir() {
-
     try {
-
-      game.removeTickEvent(self)
-
+      // Removemos el evento usando su String único identificador
+      game.removeTickEvent(idTick)
     } catch e : Exception {
-
-      // Evita problemas si el evento ya fue eliminado
-
+      // Evita problemas si el evento ya se había removido
     }
 
     if (game.hasVisual(self)) {
-
       game.removeVisual(self)
-
     }
-
   }
-
 }
+
 
 /*
 
