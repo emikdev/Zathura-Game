@@ -4,7 +4,7 @@ class Bala {
   const frames // Lista de frames de la animacion 
   const velocidad // Velocidad en la que se ejecuta la lista de frames
   const dano // Dano que ocaciona el proyectil
-  const municion // Cantidad de municion que hay de dicha bala
+  var municion // Cantidad de municion que hay de dicha bala. Change: municion es VARIABLE.
 
   // Getter que entrega la lista de frames correspondiente a la bala
 
