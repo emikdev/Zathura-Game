@@ -1,21 +1,23 @@
 import wollok.game.*
+import src.mapas.mapaDemo.*
 
-program spaceInvaders {
+program Zathura {
 
 	// Dimensiones del tablero en celdas
 	game.width(40)
 	game.height(20)
 
 	// Tamano de cada celda en px
-	game.cellSize(60)
+	game.cellSize(256)
 
 	// Titulo del juego
 	game.title("Zathura Game")
 
-	// Se define la imagen de fondo (temporal)
-	game.boardGround("fondo.jpg")
+	// Se define la imagen de fondo
+	game.boardGround("fondo1Galaga.gif")
 
-
+	// Cargar el nivel de la demo
+	mapaDemo.cargar()
 
 	// Inicializador del juego
 	game.start()
