@@ -13,11 +13,10 @@ class Formacion {
   var property direccion = derecha
 
   // Cantidad de celdas que completa la formacion por segundo.
-  var property velocidad = 2
+  var property velocidad = 1
 
   // Indica si la formacion continua activa
   var activa = false
-
 
   // Iniciar ciclo de vida de la formacion
   method iniciar() {
@@ -78,30 +77,22 @@ class Formacion {
     // Primero verificamos que TODOS puedan avanzar.
     const todosPuedenAvanzar = enemigosActivos.all({ enemigo => direccion.puedeAvanzar(enemigo.position()) })
 
-    //propongo sacar el try y utilizar el all para que en el primero que no pueda avanzar devuelva false, sin seguir mirando los demas.
-    // de esta forma es mas corto y no tiene dependencias
-
+    // Joaquin: propongo sacar el try y utilizar el all para que en el primero que no pueda avanzar devuelva false, sin seguir mirando los demas.
+    // De esta forma es mas corto y no tiene dependencias
     if (todosPuedenAvanzar) {
 
       // Si todos pueden avanzar, ahora movemos a todos.
-      enemigosActivos.forEach({ enemigo =>        
-
-        enemigo.mover(direccion) 
-
-      }
-
-      )
+      enemigosActivos.forEach({ enemigo => enemigo.mover(direccion) })
 
     } else {
 
       // Si uno solo llego al borde, baja toda la formacion y cambia de direccion.
       self.bajarFormacion()
-
       self.cambiarDireccion()
 
     }
 
-
+    // Llama nuevamente al ciclo para continuar
     self.iniciarCiclo()
 
   }
@@ -110,27 +101,14 @@ class Formacion {
   method bajarFormacion() {
 
     const enemigosActivos = self.enemigosEnFormacion()
-
-    enemigosActivos.forEach({ enemigo =>
-
-      enemigo.mover(abajo)
-
-    })
+    enemigosActivos.forEach({ enemigo => enemigo.mover(abajo) })
 
   }
 
   // Cambiar de direccion la formacion
   method cambiarDireccion() {
 
-    if (direccion == derecha) {
-
-      direccion = izquierda
-
-    } else {
-
-      direccion = derecha
-
-    }
+    direccion = direccion.opuesta()
 
   }
 
