@@ -16,3 +16,16 @@ class BalaNormal inherits Bala {
   }
 
 }
+
+const balaNormal = new BalaNormal(
+
+  frames = [
+    "disparoCeleste-frame1.png",
+    "disparoCeleste-frame2.png",
+    "disparoCeleste-frame3.png"
+  ],
+  velocidad = 5,
+  dano = 3,
+  municion = 1
+
+)
