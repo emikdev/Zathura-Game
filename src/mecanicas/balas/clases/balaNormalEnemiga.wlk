@@ -20,12 +20,12 @@ class BalaNormalEnemiga inherits Bala {
 const balaNormalEnemiga = new BalaNormalEnemiga(
 
   frames = [
-    "recursos/disparos/disparosRojos/disparo-frame1.png",
-    "recursos/disparos/disparosRojos/disparo-frame2.png",
-    "recursos/disparos/disparosRojos/disparo-frame3.png"
+    "disparoBlanco-frame1.png",
+    "disparoBlanco-frame2.png",
+    "disparoBlanco-frame3.png"
   ],
-  velocidad = 2,
+  velocidad = 4,
   dano = 1,
-  municion = 0
+  municion = 1
 
 )
