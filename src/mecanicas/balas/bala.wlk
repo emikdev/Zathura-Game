@@ -41,7 +41,14 @@ class Bala {
   // Metodo que permite consumir la municion cuando la bala es disparada
   method consumirMunicion(){
 
-    municion - 1
+    municion = (municion - 1).max(0)
+
+  }
+
+  // Indica si la bala cuenta con municion disponible
+  method tieneMunicion(){
+
+    return municion > 0
 
   }
 
