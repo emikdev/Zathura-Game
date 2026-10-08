@@ -34,6 +34,10 @@ object arriba {
 
     }
 
+    method puedeAvanzar(position) = tablero.dentro(position.up(1))
+
+    method opuesta() = abajo
+
 }
 
 // Objeto representativo de la direccion abajo
@@ -46,6 +50,10 @@ object abajo {
         return nueva // Retorna la nueva posicion a la que se desea moverse.
 
     }
+
+    method puedeAvanzar(position) = tablero.dentro(position.down(1))
+
+    method opuesta() = arriba
 
 }
 
@@ -60,6 +68,10 @@ object derecha {
 
     }
 
+    method puedeAvanzar(position) = tablero.dentro(position.right(1))
+
+    method opuesta() = izquierda
+
 }
 
 // Objeto representativo de la direccion izquierda
@@ -72,5 +84,9 @@ object izquierda{
         return nueva // Retorna la nueva posicion a la que se desea moverse.
         
     }
+
+    method puedeAvanzar(position) = tablero.dentro(position.left(1))
+
+    method opuesta() = derecha
 
 }
