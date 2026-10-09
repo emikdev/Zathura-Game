@@ -1,174 +1,86 @@
 import wollok.game.*
-
 import src.mecanicas.direcciones.*
-import src.mecanicas.gestorDisparosEnemigos.*
+import src.mecanicas.animador.*
+import src.mecanicas.gestorDisparos.*
 
-
-// Representa un proyectil que se encuentra actualmente dentro del juego
 class Disparo {
+  // Recibe un objeto de la clase Animador ya configurado
+  const property animacion 
+  // propiedades del disparo
+  const property dano
+  const property velocidad
+  const property bando
 
-  // Datos recibidos de la Bala
-  const frames
-  const dano
-  const velocidad
-
-  // Estado propio del disparo definido por el personaje que lo origino
   var property position
-  const direccion
-  const bando
+  // Ahora le pide la imagen directamente al gestor de animaciones
+  method image() = animacion.imagenActual()
+  // direccion del disparo 
+  const direccion = bando.direccionDisparo()
 
-  // Frame actual de la animacion del disparo
-  var frameActual = 0
-
-  // Devuelve el bando al que pertenece el disparo
-  method bando() {
-
-    return bando
-
-  }
-
-  // Devuelve el dano que posee el disparo
-  method dano() {
-
-    return dano
-
-  }
-
-  // Devuelve la velocidad del disparo
-  // Una velocidad mayor significa que el disparo viaja mas rapido.
-  method velocidad() {
-
-    return velocidad
-
-  }
-
-  // Devuelve la imagen correspondiente al frame actual
-  method image() {
-
-    return frames.get(frameActual)
-
-  }
-
-  // Actualiza el estado del disparo en cada tick
   method actualizar() {
-
-    // Si llegamos al ultimo frame,
-    // termina la animacion de esta celda y avanzamos.
-    if (frameActual == frames.size() - 1) {
-
-      frameActual = 0
-
+    // Avanza el frame. Si el animador avisa que terminó el ciclo (true), avanza de celda
+    const terminoCiclo = animacion.avanzarFrame()
+    if (terminoCiclo) {
       self.avanzar()
-
-    } else {
-
-      frameActual += 1
-
     }
-
   }
 
-  // Comienza el ciclo de vida del disparo
   method iniciar() {
-
-    if (frames.isEmpty() or velocidad <= 0) {
-
-      // No se inicia un disparo invalido.
-      self.destruir()
-
-    } else {
-
-      game.addVisual(self)
-
-      // La velocidad indica cuantas celdas completa
-      // el disparo por segundo.
-      const duracionCelda = 1000 / velocidad
-
-      // La duracion total de la celda se reparte
-      // entre todos sus frames.
-      const duracionFrame = duracionCelda / frames.size()
-
-      // Actualizacion de movimiento y animacion.
-      game.onTick(duracionFrame, self, { self.actualizar() })
-
-      // El disparo gestiona sus propias colisiones.
-      game.onCollideDo(self, { objetivo => self.colisionarCon(objetivo) })
-
-      // Solo los disparos enemigos ocupan un lugar dentro del limite global de proyectiles enemigos.
-      if (bando == "enemigos") {
-
-        gestorDisparosEnemigos.registrarDisparo(self)
-
-      }
-
-    }
-
+    game.addVisual(self)
+    // cambie el onCollideDo por el nativo onCollide pero no me lo detecta
+    game.onCollideDo(self, { objetivo => self.colisionarCon(objetivo) })
+    // El cálculo del tiempo usa los frames que tiene guardados el animador
+    const duracionFrame = (1000 / velocidad) / animacion.frames().size()
+    game.onTick(duracionFrame, self, { self.actualizar() })
   }
 
-  // Intenta avanzar hacia la siguiente celda
   method avanzar() {
-
     try {
-
       position = direccion.siguiente(position)
-
     } catch e : DomainException {
-
-      // Si no existe la siguiente celda,
-      // significa que el disparo salio del tablero.
+      // Si el disparo sale del área de juego, se destruye a sí mismo
       self.destruir()
-
     }
-
   }
 
-  // Gestiona una colision con otro objeto
   method colisionarCon(objetivo) {
-
-    // Otro disparo no es un objetivo valido.
-    if (objetivo.className() != self.className()) {
-
-      // Si pertenece al mismo bando, no recibe dano y el disparo continua.
-      if (objetivo.bando() != self.bando()) {
-
-        // El objetivo gestiona el dano recibido.
-        objetivo.recibirDano(self.dano())
-
-        // Un impacto valido consume el disparo.
-        self.destruir()
-
-      }
-
+    // Comparamos directamente los objetos o nombres de bando. ¡Casi cero consumo de CPU!
+    if (objetivo.bando().nombre() != bando.nombre()) {
+      objetivo.recibirDano(dano)
+      self.destruir()
     }
-
   }
 
-  // Elimina el disparo del juego
+
   method destruir() {
-
-    try {
-
-      game.removeTickEvent(self)
-
-    } catch e : Exception {
-
-      // Evita problemas si el evento ya fue eliminado.
-
+     // Primero le avisamos al gestor global para liberar el espacio del bando
+    gestorDisparos.liberarDisparo(self, bando)
+    if (game.hasVisual(self)) { 
+      game.removeVisual(self) 
     }
 
-    // Si era un disparo enemigo, deja de ocupar un lugar en el registro.
-    if (bando == "enemigos") {
-
-      gestorDisparosEnemigos.liberarDisparo(self)
-
+    try { 
+      game.removeTickEvent(self) 
+    } catch e : Exception { 
+      // Evita problemas si el evento ya fue eliminado
     }
-
-    if (game.hasVisual(self)) {
-
-      game.removeVisual(self)
-
-    }
-
   }
-
 }
+
+/* recomiendo directamente crear una classe armas para que tenga un metodo disparar() y ahi cree el disparo y lo inicie, asi si queremos delegar logiaca que no corresponde a disparo pero si a la arma  
+como iniciar un disparo:
+const animacionBala = new Animador(frames = ["bala1.png", "bala2.png", "bala3.png"])
+
+const disparoNuevo = new Disparo(
+    animacion = animacionBala,
+    dano = 10,
+    velocidad = 5,
+    bando = bandoJugador, // o el objeto bando correspondiente
+    position = nave.position(),
+    direccion = norte
+)
+
+disparoNuevo.iniciar()
+
+
+*/
