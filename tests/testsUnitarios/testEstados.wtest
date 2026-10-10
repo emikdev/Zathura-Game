@@ -1,0 +1,33 @@
+import src.mecanicas.estados.estado.*
+import src.mecanicas.estados.neutral.*
+import src.mecanicas.estados.disparando.*
+import src.mecanicas.estados.muerto.*
+
+describe "Evaluacion de flag para poder Disparar en, neutral, muerto, disparando"{
+    test "Evaluacion de flag en neutral"{
+        assert.equals(true, neutral.puedeDisparar())
+    }
+    
+    test "Evaluacion de flag en muerto"{
+        assert.equals(false, muerto.puedeDisparar())
+    }
+
+    test "Evaluacion de flag en disparando"{
+        assert.equals(false, disparando.puedeDisparar())
+    }
+} 
+
+describe "Evaluacion de flags muerto en neutral, disparando, muerto"{
+    
+    test "Evaluacion de flag en neutral"{
+        assert.equals(false, neutral.estaMuerta())
+    }
+
+    test "Evaluacion de flag en disparando"{
+        assert.equals(false, disparando.estaMuerta())
+    }
+
+    test "Evaluacion de flags en muerto"{
+        assert.equals(true, muerto.estaMuerta())
+    }
+}
