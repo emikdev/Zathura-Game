@@ -1,40 +1,8 @@
-import naves.nave.*
-import mecanicas.disparo.*
-import src.mecanicas.balas.bala.*
-object neutral {
-  
-    const frames = ["nave.png"]
+import src.mecanicas.estados.estado.*
 
-    method animar() {
-        
-        return frames
-    }
-        // Corre la animacion de disparo de la nave
-	method disparar(){
 
-		if(estado == "neutral"){ // Se chequea que la nave este en el estado neutral
+object neutral inherits Estado {
 
-			// Se intancia el disparo
-			const nuevoDisparo = new Disparo( 
-
-				frames = self.balaActual().frames(),
-				dano = self.balaActual().dano(),
-				velocidad = self.balaActual().velocidad(),
-				position = self.position().up(1),
-				direccion = arriba,
-				bando = bando
-
-			)
-
-			// Se inicia el disparo
-			nuevoDisparo.iniciar()
-
-			// Se consume la municion de la bala actual
-			self.balaActual().consumirMunicion()
-
-			// Se verifica si todavia hay municion de la bala actual, sino la elimina y se carga la bala basica
-			self.hayMunicion()
-
-		}
-	}
+  	override method frames(nave) = nave.framesBase() // trae los frames del estado neutral para poder correr su animacion, los trae del atributo de la nave
+	override method puedeDisparar() = true
 }
