@@ -1,0 +1,39 @@
+import wollok.game.*
+import src.mecanicas.disparo.*
+import src.mecanicas.animador.*
+import src.mecanicas.bandos.*
+import src.mecanicas.gestorDisparos.*
+
+describe "Tests de Colisiones de Proyectiles" {
+
+  method crearAnimador() {
+    return new Animador(frames = ["disparoCeleste-frame1.png", "disparoCeleste-frame2.png", "disparoCeleste-frame3.png"])
+  }
+
+  method initialize() {
+    game.clear()
+    game.width(10)
+    game.height(10)
+    gestorDisparos.initialize() 
+  }
+
+  test "Un disparo genera daño al impactar a un bando contrario" {
+    const enemigoFicticio = object {
+      var property vida = 50
+      method bando() = bandoEnemigo
+      method recibirDano(cantidad) { vida -= cantidad }
+    }
+
+    const disparoAliado = new Disparo(
+      animacion = self.crearAnimador(), 
+      dano = 15, 
+      velocidad = 5, 
+      bando = bandoJugador, 
+      position = game.at(4,4)
+    )
+
+    disparoAliado.colisionarCon(enemigoFicticio)
+
+    assert.equals(35, enemigoFicticio.vida())
+  }
+}

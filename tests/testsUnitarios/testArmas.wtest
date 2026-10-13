@@ -1,0 +1,69 @@
+import wollok.game.*
+import src.mecanicas.armas.*
+import src.mecanicas.disparo.*
+import src.mecanicas.animador.*
+import src.mecanicas.bandos.*
+import src.mecanicas.gestorDisparos.*
+
+describe "Tests Unitarios de la Clase Arma" {
+
+  method crearAnimador() {
+    return new Animador(frames = ["disparoCeleste-frame1.png", "disparoCeleste-frame2.png", "disparoCeleste-frame3.png"])
+  }
+
+  method initialize() {
+    game.clear()
+    game.width(10)
+    game.height(10)
+    gestorDisparos.initialize() 
+  }
+
+  test "El arma crea y registra un disparo correctamente en el bando al gatillar" {
+    const jugadorMock = object {
+      method bando() = bandoJugador
+      method position() = game.at(5, 5)
+    }
+
+    const miArma = new Arma(
+      framesBala = ["f1.png"],
+      danoBala = 30,
+      velocidadBala = 8
+    )
+
+    assert.that(gestorDisparos.puedeDisparar(bandoJugador))
+
+    miArma.disparar(jugadorMock)
+
+    9.times({ i => 
+      const d = new Disparo(animacion = self.crearAnimador(), dano = 10, velocidad = 5, bando = bandoJugador, position = game.origin())
+      gestorDisparos.registrarDisparo(d, bandoJugador)
+    })
+
+    assert.notThat(gestorDisparos.puedeDisparar(bandoJugador))
+  }
+
+  test "El arma no dispara si el bando del personaje excedió su límite global" {
+    const jugadorSaturado = object {
+      method bando() = bandoJugador
+      method position() = game.at(5, 5)
+    }
+
+    const miArma = new Arma()
+
+    10.times({ i => 
+      const d = new Disparo(animacion = self.crearAnimador(), dano = 10, velocidad = 5, bando = bandoJugador, position = game.origin())
+      gestorDisparos.registrarDisparo(d, bandoJugador)
+    })
+
+    assert.notThat(gestorDisparos.puedeDisparar(bandoJugador))
+
+    miArma.disparar(jugadorSaturado)
+    
+    assert.notThat(gestorDisparos.puedeDisparar(bandoJugador))
+  }
+
+  test "Verificación de la disponibilidad inicial de munición" {
+    const miArma = new Arma()
+    assert.that(miArma.hayMunicion())
+  }
+}

@@ -1,0 +1,147 @@
+import wollok.game.*
+import src.mecanicas.disparo.*
+import src.mecanicas.animador.*
+import src.mecanicas.bandos.*
+import src.mecanicas.gestorDisparos.*
+import src.mecanicas.armas.*
+
+
+describe "Test de armas y disparo" {
+
+  // Método auxiliar para no repetir código y que cada disparo tenga su propio animador independiente
+  method crearAnimador() {
+    return new Animador(frames = ["disparoCeleste-frame1.png", "disparoCeleste-frame2.png", "disparoCeleste-frame3.png"])
+  }
+
+  // Limpiamos y preparamos el entorno antes de cada test individual
+  method initialize() {
+    game.clear()
+    game.width(10)
+    game.height(10)
+    
+    // Inicializamos/Reseteamos los diccionarios del gestor real
+    gestorDisparos.initialize() 
+  }
+
+  // ==========================================
+  // 1. TEST DE ARMAS Y LÍMITES DEL GESTOR
+  // ==========================================
+  test "El gestor de disparos respeta el límite máximo por bando (Enemigo tope = 5)" {
+    // Creamos e instanciamos 5 disparos independientes para el enemigo
+    const disparo1 = new Disparo(animacion = self.crearAnimador(), dano = 10, velocidad = 5, bando = bandoEnemigo, position = game.at(1,1))
+    const disparo2 = new Disparo(animacion = self.crearAnimador(), dano = 10, velocidad = 5, bando = bandoEnemigo, position = game.at(1,2))
+    const disparo3 = new Disparo(animacion = self.crearAnimador(), dano = 10, velocidad = 5, bando = bandoEnemigo, position = game.at(1,3))
+    const disparo4 = new Disparo(animacion = self.crearAnimador(), dano = 10, velocidad = 5, bando = bandoEnemigo, position = game.at(1,4))
+    const disparo5 = new Disparo(animacion = self.crearAnimador(), dano = 10, velocidad = 5, bando = bandoEnemigo, position = game.at(1,5))
+    
+    // Registramos los 5 disparos para alcanzar el límite máximo permitido
+    gestorDisparos.registrarDisparo(disparo1, bandoEnemigo)
+    gestorDisparos.registrarDisparo(disparo2, bandoEnemigo)
+    gestorDisparos.registrarDisparo(disparo3, bandoEnemigo)
+    gestorDisparos.registrarDisparo(disparo4, bandoEnemigo)
+    gestorDisparos.registrarDisparo(disparo5, bandoEnemigo)
+
+    // Verificamos que el bando enemigo ya alcance su tope y NO pueda disparar más (5 < 5 es falso)
+    assert.notThat(gestorDisparos.puedeDisparar(bandoEnemigo))
+  }
+
+  test "El bando jugador inicia con permisos para disparar (Límite = 10)" {
+    // Al jugador le configuramos un límite inicial de 10 balas en el gestor, por lo que arranca en true
+    assert.that(gestorDisparos.puedeDisparar(bandoJugador))
+  }
+  
+
+  // ==========================================
+  // 3. TESTS ESPECÍFICOS DE ARMAS.WLK
+  // ==========================================
+  
+  test "El arma crea y registra un disparo correctamente en el bando al gatillar" {
+    // 1. Configuramos un personaje ficticio aliado que use el arma
+    const jugadorMock = object {
+      method bando() = bandoJugador
+      method position() = game.at(5, 5)
+    }
+
+    // 2. Instanciamos el arma real con una configuración de prueba
+    const miArma = new Arma(
+      framesBala = ["f1.png"],
+      danoBala = 30,
+      velocidadBala = 8
+    )
+
+    // 3. Verificamos que el gestor arranque vacío para el jugador
+    assert.that(gestorDisparos.puedeDisparar(bandoJugador))
+
+    // 4. Ejecutamos la acción principal de armas.wlk
+    miArma.disparar(jugadorMock)
+
+    // 5. Validación: Al disparar, el arma tuvo que registrar la bala en el gestor.
+    // Como el límite del jugador es 10, si ahora agregamos 9 más manualmente, debería bloquearse.
+    9.times({ i => 
+      const d = new Disparo(animacion = self.crearAnimador(), dano = 10, velocidad = 5, bando = bandoJugador, position = game.origin())
+      gestorDisparos.registrarDisparo(d, bandoJugador)
+    })
+
+    // Si el arma registró correctamente el primer disparo, ahora hay 10 en total y no puede disparar más
+    assert.notThat(gestorDisparos.puedeDisparar(bandoJugador))
+  }
+
+  test "El arma no dispara si el bando del personaje excedió su límite global" {
+    const jugadorSaturado = object {
+      method bando() = bandoJugador
+      method position() = game.at(5, 5)
+    }
+
+    const miArma = new Arma()
+
+    // Llenamos el gestor del jugador al máximo (10 disparos)
+    10.times({ i => 
+      const d = new Disparo(animacion = self.crearAnimador(), dano = 10, velocidad = 5, bando = bandoJugador, position = game.origin())
+      gestorDisparos.registrarDisparo(d, bandoJugador)
+    })
+
+    // El gestor ya está bloqueado
+    assert.notThat(gestorDisparos.puedeDisparar(bandoJugador))
+
+    // Intentamos disparar con el cargador del bando lleno
+    miArma.disparar(jugadorSaturado)
+    
+    // Si la lógica de armas.wlk funciona bien, el método `disparar` debió ignorar la acción
+    // y no provocar errores de ejecución gracias al condicional `puedeDisparar()`
+    assert.notThat(gestorDisparos.puedeDisparar(bandoJugador))
+  }
+
+  test "Verificación de la disponibilidad inicial de munición" {
+    const miArma = new Arma()
+    
+    // Valida que el método base responda true de acuerdo a la lógica actual (municion > 0)
+    assert.that(miArma.hayMunicion())
+  }
+
+  // ==========================================
+  // 2. TEST DE DISPARO Y COLISIONES
+  // ==========================================
+  test "Un disparo genera daño al impactar a un bando contrario" {
+    
+    // Objeto objetivo ficticio (Mock) para simular el impacto
+    const enemigoFicticio = object {
+      var property vida = 50
+      method bando() = bandoEnemigo
+      method recibirDano(cantidad) { vida -= cantidad }
+    }
+
+    const disparoAliado = new Disparo(
+      animacion = self.crearAnimador(), 
+      dano = 15, 
+      velocidad = 5, 
+      bando = bandoJugador, 
+      position = game.at(4,4)
+    )
+
+    // Simulamos el impacto directo invocando el método de colisión
+    disparoAliado.colisionarCon(enemigoFicticio)
+
+    // Verificaciones: el enemigo debió recibir el daño restando los 15 puntos (50 - 15 = 35)
+    assert.equals(35, enemigoFicticio.vida())
+  }
+}
