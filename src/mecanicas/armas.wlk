@@ -11,15 +11,9 @@ class Arma {
 
   // Acciones del arma
   method disparar(personaje) {
-<<<<<<< HEAD
         if(personaje.bando().puedeDisparar()){
           // Creamos un animador exclusivo para esta nueva bala
           const animacionBala = new Animador(frames = framesBala)
-=======
-        // Creamos un animador exclusivo para esta nueva bala 
-        // me falto el if que valide si es posible disparar 
-        const animacionBala = new Animador(frames = framesBala)
->>>>>>> 6a541637b0eeecddeef14c80a958e2a72aeb100d
 
           // Instanciamos el disparo delegándole sus responsabilidades básicas
           const nuevoDisparo = new Disparo(
