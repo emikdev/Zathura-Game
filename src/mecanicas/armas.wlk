@@ -11,22 +11,24 @@ class Arma {
 
   // Acciones del arma
   method disparar(personaje) {
-        // Creamos un animador exclusivo para esta nueva bala
-        const animacionBala = new Animador(frames = framesBala)
+        if(personaje.bando().puedeDisparar()){
+          // Creamos un animador exclusivo para esta nueva bala
+          const animacionBala = new Animador(frames = framesBala)
 
-        // Instanciamos el disparo delegándole sus responsabilidades básicas
-        const nuevoDisparo = new Disparo(
-            animacion = animacionBala,
-            dano = danoBala,
-            velocidad = velocidadBala,
-            bando = personaje.bando(), // El arma le pregunta el bando a la nave
-            position = personaje.position() // Sale desde la posición actual de la nave
-        )
-        // Le damos vida al proyectil
-        nuevoDisparo.iniciar()
+          // Instanciamos el disparo delegándole sus responsabilidades básicas
+          const nuevoDisparo = new Disparo(
+              animacion = animacionBala,
+              dano = danoBala,
+              velocidad = velocidadBala,
+              bando = personaje.bando(), // El arma le pregunta el bando a la nave
+              position = personaje.position() // Sale desde la posición actual de la nave
+          )
+          // Le damos vida al proyectil
+          nuevoDisparo.iniciar()
 
-        // Delegación: El arma le pide al bando del personaje que gestione el límite global
-        personaje.bando().registrar(nuevoDisparo)
+          // Delegación: El arma le pide al bando del personaje que gestione el límite global
+          personaje.bando().registrar(nuevoDisparo)
+        }
     }
 
     method hayMunicion() {

@@ -19,15 +19,11 @@ class Disparo {
 
   method actualizar() {
     // Avanza el frame. Si el animador avisa que terminó el ciclo (true), avanza de celda
-    const terminoCiclo = animacion.avanzarFrame()
-    if (terminoCiclo) {
-      self.avanzar()
-    }
+    self.avanzar()
   }
 
   method iniciar() {
     game.addVisual(self)
-    // cambie el onCollideDo por el nativo onCollide pero no me lo detecta
     game.onCollideDo(self, { objetivo => self.colisionarCon(objetivo) })
     // El cálculo del tiempo usa los frames que tiene guardados el animador
     const duracionFrame = (1000 / velocidad) / animacion.frames().size()
@@ -44,7 +40,7 @@ class Disparo {
   }
 
   method colisionarCon(objetivo) {
-    // Comparamos directamente los objetos o nombres de bando. ¡Casi cero consumo de CPU!
+    // Comparamos directamente los objetos o nombres de bando.
     if (objetivo.bando().nombre() != bando.nombre()) {
       objetivo.recibirDano(dano)
       self.destruir()
