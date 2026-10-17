@@ -1,46 +1,40 @@
 import src.mecanicas.disparo.*
 import wollok.game.*
-import src.mecanicas.animador.*     // Tu clase Animador
+import src.mecanicas.animador.*
 
 class Arma {
-  // Configuración base de la munición que dispara esta arma
-  const property framesBala = ["disparoCeleste-frame1.png", "disparoCeleste-frame2.png", "disparoCeleste-frame3.png"]    // Lista de imágenes para el proyectil (ej: ["bullet1.png", "bullet2.png"])
+  // Configuración por defecto de la munición base
+  const property framesBala = ["disparoCeleste-frame1.png", "disparoCeleste-frame2.png", "disparoCeleste-frame3.png"]
   const property danoBala = 10
   const property velocidadBala = 5
-  const municion = 100 // Cantidad de munición disponible para esta arma 
 
-  // Acciones del arma
   method disparar(personaje) {
-        if(personaje.bando().puedeDisparar()){
-          // Creamos un animador exclusivo para esta nueva bala
-          const animacionBala = new Animador(frames = framesBala)
+    // Valida tanto la munición propia como las reglas de límites del bando
+    if (self.hayMunicion() and personaje.bando().puedeDisparar()) {
+      
+      const animacionBala = new Animador(frames = framesBala)
 
-          // Instanciamos el disparo delegándole sus responsabilidades básicas
-          const nuevoDisparo = new Disparo(
-              animacion = animacionBala,
-              dano = danoBala,
-              velocidad = velocidadBala,
-              bando = personaje.bando(), // El arma le pregunta el bando a la nave
-              position = personaje.position() // Sale desde la posición actual de la nave
-          )
-          // Le damos vida al proyectil
-          nuevoDisparo.iniciar()
-
-          // Delegación: El arma le pide al bando del personaje que gestione el límite global
-          personaje.bando().registrar(nuevoDisparo)
-        }
+      const nuevoDisparo = new Disparo(
+          animacion = animacionBala,
+          dano = danoBala,
+          velocidad = velocidadBala,
+          bando = personaje.bando(), 
+          position = personaje.position() 
+      )
+      
+      nuevoDisparo.iniciar()
+      personaje.bando().registrar(nuevoDisparo)
+      
+      // Se ejecuta el consumo (por defecto en esta clase base no hace nada)
+      self.consumirMunicion()
     }
+  }
 
-    method hayMunicion() {
-      // Aquí se implementar la  para verificar si hay munición disponible
-      return municion > 0  // Por ahora, asumimos que siempre hay munición
-    }
+  // POLIMORFISMO: Por defecto el arma base SIEMPRE tiene munición
+  method hayMunicion() = true
 
-    method consumirMunicion() {
-      // Aquí se implementar la lógica para consumir munición
-    }
+  // POLIMORFISMO: Por defecto el arma base NO consume nada al disparar
+  method consumirMunicion() {
+    // Método vacío intencionalmente para las armas infinitas
+  }
 }
-
-// al disparar el arma crea un nuevo Disparo, que a su vez crea un Animador exclusivo para ese proyectil. Esto permite que cada bala tenga su propia animación independiente.
-
-// si queremos agregar más armas, podemos crear subclases de Arma con diferentes configuraciones de frames, daño y velocidad. y overridear el método consumirMunicion() y hayMunicion() si queremos un comportamiento especial.

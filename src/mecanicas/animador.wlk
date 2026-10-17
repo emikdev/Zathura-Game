@@ -1,24 +1,19 @@
 class Animador {
   const property frames
+  var frameActual = 0
 
-  // Devuelve el string del archivo de imagen actual
-  method imagenActual() = frames.first()
+  method imagenActual() = frames.get(frameActual)
 
-  // Avanza el frame. Si llega al final, avisa que terminó la celda (devuelve true)
   method avanzarFrame() {
-    const imagenActaul = self.imagenActual()
-    frames.remove(self.imagenActual())
-    frames.add(self.imagenActual())
+    const esElUltimo = (frameActual == frames.size() - 1)
+    if (not esElUltimo) {
+      frameActual += 1
+    }
+    return esElUltimo
+  }
+
+  // Permite que el disparo reinicie el ciclo al cambiar de celda
+  method reiniciar() {
+    frameActual = 0
   }
 }
-
-/* 
-    // se crear un animador en un classe
-    // Creamos un animador exclusivo para esta nueva bala
-    const animacionBala = new Animador(frames = framesBala)
-    method actualizar() {
-    // Avanza el frame. Si el animador avisa que terminó el ciclo (true), avanza de celda
-    const terminoCiclo = animacion.avanzarFrame()
-    // El cálculo del tiempo usa los frames que tiene guardados el animador
-    const duracionFrame = (1000 / velocidad)(este calculo es el de deplazamiento de la bala) / animacion.frames().size()  
-*/
