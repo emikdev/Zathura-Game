@@ -19,6 +19,7 @@ class Disparo {
   method actualizar() {
     // Lógica directa: avanza el frame del animador en cada latido
     const llegoAlFinal = animacion.avanzarFrame()
+    
     // Cuando completa el recorrido de la lista de frames, avanza de celda física
     if (llegoAlFinal) {
       self.avanzar()
@@ -30,16 +31,13 @@ class Disparo {
     game.addVisual(self)
     game.onCollideDo(self, { objetivo => self.colisionarCon(objetivo) })
     
+    
     // El cálculo del tiempo ahora es puramente la velocidad de la animación por frame
     const duracionCelda = 1000 / velocidad
     const duracionFrame = duracionCelda / animacion.frames().size()
     
     // Usamos un ID de texto único para el onTick en Wollok
-    game.onTick(
-      duracionFrame,
-      "tick_disparo_" + self.identity().toString(),
-      { self.actualizar() }
-    )
+    game.onTick(duracionFrame, self, { self.actualizar() })
   }
   
   method avanzar() {
@@ -68,7 +66,7 @@ class Disparo {
     
     try {
       // Removemos el evento usando el mismo ID único de texto
-      game.removeTickEvent("tick_disparo_" + self.identity().toString())
+      game.removeTickEvent(self)
     } catch e : Exception {
       
       // Evita problemas si el evento ya fue eliminado
