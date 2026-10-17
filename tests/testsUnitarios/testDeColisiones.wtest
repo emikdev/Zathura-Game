@@ -14,13 +14,14 @@ describe "Tests de Colisiones de Proyectiles" {
     game.clear()
     game.width(10)
     game.height(10)
-    gestorDisparos.initialize() 
   }
 
   test "Un disparo genera daño al impactar a un bando contrario" {
+    // Corrección: El mock debe responder al protocolo polimórfico de colisiones
     const enemigoFicticio = object {
       var property vida = 50
       method bando() = bandoEnemigo
+      method esProyectil() = false
       method recibirDano(cantidad) { vida -= cantidad }
     }
 
