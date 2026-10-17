@@ -1,9 +1,9 @@
 class Animador {
   
   const frames // Frames disponibles de animacion 
-  const velocidad // Determina velocidad de animacion
+  const velocidad = 1000 / frames.size() // Determina velocidad de animacion
   var frameActual = 0 // Puntero de frame actual 
-  var property seTerminoAnimacion = false // Flag de animacion activa
+  var property seTerminoAnimacion = true // Flag de animacion activa
 
   method frameActual(){ // Devuelve el frame actual de animacion
     
