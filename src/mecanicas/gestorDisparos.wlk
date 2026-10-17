@@ -17,13 +17,13 @@ class GestorDisparosBase {
 }
 
 // 1. El del jugador: Solo registra/libera, no le importan los límites numéricos
-class GestorDisparosJugador inherits GestorDisparosBase {
+object gestorJugador inherits GestorDisparosBase {
   // El límite del jugador se maneja por Cooldown (tiempo), aquí siempre puede
   override method puedeDisparar() = true
 }
 
 // 2. El de los enemigos: Controla la cantidad en pantalla y se ve afectado por la dificultad
-class GestorDisparosEnemigos inherits GestorDisparosBase {
+object gestorEnemigos inherits GestorDisparosBase {
   var property limiteMaximo = 5 // Base inicial
 
   override method puedeDisparar() {
@@ -35,7 +35,3 @@ class GestorDisparosEnemigos inherits GestorDisparosBase {
     limiteMaximo = (limiteMaximo * factor).truncate(0)
   }
 }
-
-// Instancias globales listas para usar (para mantener la compatibilidad con el resto del juego)
-object gestorJugador inherits GestorDisparosJugador {}
-object gestorEnemigos inherits GestorDisparosEnemigos {}
