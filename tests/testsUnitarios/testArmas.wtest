@@ -1,0 +1,53 @@
+import wollok.game.*
+import src.mecanicas.armas.*
+import src.mecanicas.disparo.*
+import src.mecanicas.animador.*
+import src.mecanicas.bandos.*
+import src.mecanicas.gestorDisparos.*
+// para ejecutar este test hayq eu añadir el property  al gesto de disparos -> const property disparosActivos = []
+describe "Tests Unitarios de la Clase Arma" {
+
+  method crearAnimador() {
+    return new Animador(frames = ["disparoCeleste-frame1.png", "disparoCeleste-frame2.png", "disparoCeleste-frame3.png"])
+  }
+
+  method initialize() {
+    game.clear()
+    game.width(10)
+    game.height(10)
+    
+    // CORRECCIÓN: Nos aseguramos de vaciar el gestor del jugador antes de iniciar el test
+    // para poder contar de forma exacta cuántas balas se registraron.
+    if (not gestorJugador.disparosActivos().isEmpty()) {
+      gestorJugador.disparosActivos().clear()
+    }
+  }
+
+  test "El arma crea y registra un disparo correctamente en el bando al gatillar" {
+    const jugadorMock = object {
+      method bando() = bandoJugador
+      method position() = game.at(5, 5)
+    }
+
+    const miArma = new Arma(
+      framesBala = ["f1.png"],
+      danoBala = 30,
+      velocidadBala = 8
+    )
+
+    // Al inicio, el gestor del jugador no debe tener disparos registrados
+    assert.equals(0, gestorJugador.cantidadActivos())
+
+    // Gatillamos el arma
+    miArma.disparar(jugadorMock)
+
+    // CORRECCIÓN: En vez de chequear el método del bando (que se bloquea por el cooldown),
+    // comprobamos físicamente que el gestor del jugador guardó la nueva bala en su lista.
+    assert.equals(1, gestorJugador.cantidadActivos())
+  }
+
+  test "Verificación de la disponibilidad inicial de munición infinita" {
+    const miArma = new Arma()
+    assert.that(miArma.hayMunicion())
+  }
+}
