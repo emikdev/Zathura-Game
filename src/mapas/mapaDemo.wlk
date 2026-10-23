@@ -53,13 +53,13 @@ object mapaDemo {
 
       if (not juegoTerminado) {
 
-        if (self.victoria()) {
+        if (self.derrota()) {
 
-          self.finalizar("¡VICTORIA! OLEADA INVASORA ELIMINADA")
+          self.finalizarDerrota()
 
-        } else if (self.derrota()) {
+        } else if (self.victoria()) {
 
-          self.finalizar("GAME OVER - HAS SIDO DESTRUIDO")
+          self.finalizarVictoria()
 
         }
 
@@ -79,14 +79,39 @@ object mapaDemo {
   // Condicion de derrota: la nave se queda sin vidas o los enemigos invaden la linea de la nave
   method derrota() {
 
-    return naveBasica.vidas() <= 0 or formacion.enemigosEnFormacion().any({ enemigo => enemigo.position().y() <= 1 })
+    return naveBasica.vidas() <= 0 or
+      formacion.enemigosEnFormacion().any({ enemigo => enemigo.position().y() <= 1 })
 
   }
 
-  // Finaliza la partida mostrando el mensaje correspondiente
-  method finalizar(mensaje) {
+  // Finaliza la partida mostrando el mensaje de victoria
+  method finalizarVictoria() {
 
     juegoTerminado = true
+
+    self.detenerMonitoreo()
+
+    cartelFinPartida.mostrar(
+      "¡VICTORIA!\n¡HAS DESTRUIDO A TODOS LOS INVASORES!"
+    )
+
+  }
+
+  // Finaliza la partida mostrando el mensaje de derrota
+  method finalizarDerrota() {
+
+    juegoTerminado = true
+
+    self.detenerMonitoreo()
+
+    cartelFinPartida.mostrar(
+      "GAME OVER\n¡HAS SIDO DESTRUIDO!"
+    )
+
+  }
+
+  // Detiene el monitoreo de la partida
+  method detenerMonitoreo() {
 
     try {
 
@@ -98,8 +123,6 @@ object mapaDemo {
 
     }
 
-    cartelFinPartida.mostrar(mensaje)
-
   }
 
 }
@@ -107,7 +130,7 @@ object mapaDemo {
 // Cartel visual de fin de partida
 object cartelFinPartida {
 
-  var property text = ""
+  var property text = "Final de la partida"
   var property position = game.at(12, 10)
 
   method mostrar(mensaje) {

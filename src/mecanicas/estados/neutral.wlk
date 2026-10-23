@@ -1,8 +1,15 @@
-import src.mecanicas.estados.estado.*
+import src.mecanicas.estados.estadoPersonaje.*
+import src.mecanicas.estados.disparando.*
+import src.mecanicas.estados.impactado.*
 
+class Neutral inherits EstadoPersonaje {
 
-object neutral inherits Estado {
+    override method disparar(){ 
+        personaje.cambiarEstado(new Disparando(personaje = personaje))
+    }
 
-  	override method frames(nave) = nave.framesBase() // trae los frames del estado neutral para poder correr su animacion, los trae del atributo de la nave
-	override method puedeDisparar() = true
+    override method recibirImpacto(){
+        personaje.cambiarEstado(new Impactado(personaje = personaje))
+    }
+
 }
