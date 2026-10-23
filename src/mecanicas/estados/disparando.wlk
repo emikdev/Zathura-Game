@@ -1,7 +1,10 @@
-import src.mecanicas.estados.estado.*
-import src.mecanicas.estados.neutral.*
-object disparando inherits Estado {
+import src.mecanicas.estados.estadoPersonaje.*
+class Disparando inherits EstadoPersonaje {
 
-  override method frames(nave) = nave.framesDisparo() //trae los frames del estado disparando para poder correr su animacion, los trae del atributo de la nave
-  override method alTerminar(nave) { nave.cambiarEstado(neutral) }
+    override method disparar(personaje) {
+      
+        personaje.armaActual().disparar(personaje)
+
+    }
+
 }
