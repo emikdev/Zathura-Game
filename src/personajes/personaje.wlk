@@ -1,5 +1,6 @@
 import src.mecanicas.estados.disparando.*
 import src.mecanicas.estados.impactado.*
+
 class Personaje{
 
     var property position

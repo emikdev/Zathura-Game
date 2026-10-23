@@ -4,10 +4,6 @@ import src.mecanicas.estados.impactado.*
 
 class Neutral inherits EstadoPersonaje {
 
-    method initialize(){
-        const animacion = personaje.animacionBase()
-    }
-
     override method disparar(){ 
         personaje.cambiarEstado(new Disparando(personaje = personaje))
     }
