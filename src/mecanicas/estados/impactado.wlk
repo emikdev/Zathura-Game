@@ -3,25 +3,33 @@ import src.mecanicas.estados.neutral.*
 
 class Impactado inherits EstadoPersonaje {
 
-    override method mover(personaje, direccion){ }
+    method initialize(){
+        const animacion = personaje.animacionImpacto()
+    }
 
-    override method perderVida(personaje){
+    override method mover(direccion){ }
+
+    method perderVida(){
 
         personaje.perderVida()
         game.removeVisual(personaje)
 
     }
 
-    method intentarReaparecer(personaje){
+    method intentarReaparecer(){
 
         if (personaje.vidas() > 0){ 
             
             personaje.position(game.at(0, (game.width()/2)))
-            personaje.cambiarEstado(new Neutral(animacion = personaje.animacionBase()))
+            self.cambiarANeutral()
             game.addVisual(personaje)
 
         }
 
+    }
+
+    override method cambiarANeutral(){
+        personaje.cambiarEstado(new Neutral(personaje = personaje))
     }
 
 }

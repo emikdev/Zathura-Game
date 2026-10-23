@@ -30,6 +30,12 @@ class Nave {
 
 	const bando = "jugador"
 
+	// Getter entrega el bando de la nave
+	method bando(){
+
+		return bando
+	
+	}
 
     // Getter que entrega la cantidad de vidas que tiene la nave
 	method vidas(){ 
@@ -87,7 +93,7 @@ class Nave {
 
 		if (frameActual < framesMuerte.size() - 1)/* Si aun hay frames en la lista*/{
 
-			game.schedule(150, {
+			game.schedule(1000, {
 
 				frameActual += 1 // Pasa al siguiente frame de la lista
 				self.animarMuerte() // Se llama nuevamente a si misma para seguir con la animacion
@@ -99,6 +105,8 @@ class Nave {
 		game.removeVisual(self) // Se remueve la visual
 		
 		if(vidas > 0){ //Verifica si tiene vidas para respawnear
+
+			estado = "neutral"
 
 			game.schedule(3000, { // Despues de 3 segundos respawneo de la nave
 

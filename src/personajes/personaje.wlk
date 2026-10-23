@@ -17,6 +17,14 @@ class Personaje{
         return animacionBase
     }
 
+    method animacionDisparo(){
+        return animacionDisparo
+    }
+
+    method aniamcionImpacto(){
+        return animacionImpacto
+    }
+
     method bando(){
         return bando
     }
@@ -30,16 +38,15 @@ class Personaje{
     }
 
     method mover(direccion){
-        estadoActual.mover(self, direccion)
+        estadoActual.mover(direccion)
     }
 
     method disparar(){
-        self.cambiarEstado(new Disparando(animacion = animacionDisparo))
         estadoActual.disparar()
     }
 
-    method recibirDano(){
-        self.cambiarEstado(new Impactado(animacion = animacionImpacto))
+    method recibirImpacto(){
+        estadoActual.recibirImpacto()
     }
 
     method perderVida(){

@@ -1,16 +1,17 @@
 import src.mecanicas.direcciones.*
 
 class EstadoPersonaje {
-  
-  	// lo que cambia en cada estado
-	const animacion
 
-	method mover(personaje, direccion){
+	const personaje
+
+	method mover(direccion){
 		personaje.position(direccion.siguiente(personaje.position())) 
 	}
 
-	method disparar(armaActual){ }
+	method cambiarANeutral(){ }
 
-	method perderVida(personaje){ }
+	method disparar(){ }
+
+	method recibirImpacto(){ }
 	    
 }
