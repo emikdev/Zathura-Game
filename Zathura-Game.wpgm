@@ -1,10 +1,11 @@
 import wollok.game.*
-import src.mapas.mapa.*
+import src.mapas.mapaDemo.*
+import src.mecanicas.menu.menuJuego.*
 
 program Zathura {
 
 	// Dimensiones del tablero en celdas
-	game.width(40)
+	game.width(20)
 	game.height(20)
 
 	// Tamano de cada celda en px
