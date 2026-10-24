@@ -1,6 +1,3 @@
-import src.mecanicas.estados.disparando.*
-import src.mecanicas.estados.impactado.*
-
 class Personaje{
 
     var property position
@@ -34,7 +31,8 @@ class Personaje{
         return estadoActual.imgenActual() 
     }
 
-    method cambiarEstado(nuevoEstado){
+    method cambiarEstado(nuevoEstado) {
+        estadoActual.finalizarAnimacion()
         estadoActual = nuevoEstado
     }
 
@@ -51,9 +49,7 @@ class Personaje{
     }
 
     method perderVida(){
-
         vidas -= 1
-
     }
 
     method iniciar()
