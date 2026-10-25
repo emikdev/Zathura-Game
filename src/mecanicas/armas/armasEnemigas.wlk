@@ -20,9 +20,9 @@ class ArmaCargadaEnemiga inherits ArmaEnemiga {
 
 const armaCargadaEnemiga = new ArmaCargadaEnemiga(
   framesBala = [
-    "disparoAmarillo_frame_1.png",
-    "disparoAmarillo_frame_2.png",
-    "disparoAmarillo_frame_3.png"
+    "disparoAmarilloEnemigo_frame_1.png",
+    "disparoAmarilloEnemigo_frame_2.png",
+    "disparoAmarilloEnemigo_frame_3.png"
   ],
   velocidadBala = 2,
   danoBala = 3,
@@ -47,9 +47,9 @@ class ArmaPesadaEnemiga inherits ArmaEnemiga {
 
 const armaPesadaEnemiga = new ArmaPesadaEnemiga(
   framesBala = [
-    "disparoVioleta_frame_1.png",
-    "disparoVioleta_frame_2.png",
-    "disparoVioleta_frame_3.png"
+    "disparoVioletaEnemigo_frame_1.png",
+    "disparoVioletaEnemigo_frame_2.png",
+    "disparoVioletaEnemigo_frame_3.png"
   ],
   velocidadBala = 1,
   danoBala = 3
