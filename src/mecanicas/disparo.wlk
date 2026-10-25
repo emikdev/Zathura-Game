@@ -6,14 +6,9 @@ class Disparo {
 
   const recursoDeAnimacion
   const dano
-  const velocidad
   const bando
   var position
-  var animacion
-  
-  method initialize() {
-    animacion = new Animacion(estado = self /* Polimorfismo: Se utiliza el disparo como estado */, recursoDeAnimacion = recursoDeAnimacion)
-  }
+  const animacion = new Animacion(estado = self, recursoDeAnimacion = recursoDeAnimacion)
 
   method esProyectil(){
     return true
@@ -63,16 +58,10 @@ class Disparo {
   }
   
   method destruir() {
-      // El bando sabe exactamente a qué gestor llamar internamente
+    // El bando sabe exactamente a qué gestor llamar internamente
     bando.liberar(self)
     animacion.detener()
     if (game.hasVisual(self)) game.removeVisual(self)
-    try {
-      // Removemos el evento usando el mismo ID único de texto
-      game.removeTickEvent(self)
-    } catch e : Exception {  
-      // Evita problemas si el evento ya fue eliminado
-    }
   }
 
 }

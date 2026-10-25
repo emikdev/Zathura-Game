@@ -5,7 +5,6 @@ class Arma {
 
     const recursoBala // recurso con frames y duracion de la bala
     const danoBala = 10
-    const velocidadBala = 5
 
   method disparar(personaje) {
 
@@ -14,7 +13,6 @@ class Arma {
             const nuevoDisparo = new Disparo(
                 recursoDeAnimacion = recursoBala,
                 dano = danoBala,
-                velocidad = velocidadBala,
                 bando = personaje.bando(),
                 position = personaje.position()
             )
