@@ -1,4 +1,4 @@
-import src.mecanicas.animaciones.recursosDeAnimacion.*
+import src.mecanicas.animaciones.recursos.recursosDeAnimacion.*
 
 // Los recursos de animacion son recursos que llama el tipo de animacion al instanciarse
 
