@@ -1,4 +1,5 @@
 class RecursosDeAnimacion{
+
     const frames
     const duracion
 
@@ -9,4 +10,5 @@ class RecursosDeAnimacion{
     method duracion(){
         return duracion
     }
+    
 }

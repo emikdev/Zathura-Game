@@ -1,34 +1,36 @@
-import game.*
+class Animacion {
 
-class Animacion{
+    const estado
+    const recursoDeAnimacion
+    var frameActual = 0
+    var activa = true
 
-    const estado // La animacion conoce el estado para poder cambiarlo
-    const frames // Frames de la animacion tomado de un recurso de animacion
-    const duracion // Duracion de la animacion tomado de un recurso de animacion
-    var frameActual = 0 // Puntero de la lista de frames
-
-    method initialize(){
-        self.animar() // Al instanciarse empieza la animacion
+    method initialize() {
+        self.animar()
     }
 
-    method frameActual(){
-        return frames.get(frameActual) // Devuelve frame actual de la animacion
+    method frameActual() = recursoDeAnimacion.frames().get(frameActual)
+
+    method animar() {
+        game.schedule(recursoDeAnimacion.duracion() / recursoDeAnimacion.frames().size(), {
+            if (activa) {
+                if (frameActual < recursoDeAnimacion.frames().size() - 1) {
+                    frameActual += 1
+                    self.animar()
+                } else {
+                    estado.terminoAnimacion()
+                }
+            }
+        })
     }
 
-    method animar(){
-        if(frameActual != frames.size() - 1){ // Verifica que frame actual no este en el final de la lista
-            game.schedule(duracion / frames.size(),{ // Cada X cantidad de tiempo ejecuta el closure
-                frameActual +=1 // Suma uno al puntero
-                self.animar() // Se llama recursivamente
-            })
-        }
-
-        self.alTerminar() // Al salit del bucle de animacion llama a terminar animacion
-
+    method reiniciar() {
+        frameActual = 0
+        self.animar()
     }
 
-    method alTerminar(){ // Cambia el estado 
-        estado.cambiarEstado() 
+    method detener() {
+        activa = false
     }
 
 }
