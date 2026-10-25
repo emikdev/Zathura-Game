@@ -1,6 +1,5 @@
 import wollok.game.*
-import src.mapas.mapaDemo.*
-import src.mecanicas.menu.menuJuego.*
+import src.mecanicas.menu.menu.*
 
 program Zathura {
 
