@@ -10,7 +10,6 @@ class Disparo {
   const bando
   var position
   var animacion
-  var activo = true
   
   method initialize() {
     animacion = new Animacion(estado = self /* Polimorfismo: Se utiliza el disparo como estado */, recursoDeAnimacion = recursoDeAnimacion)
@@ -34,8 +33,8 @@ class Disparo {
 
   // Mensaje necesario para el polimorfismo que usa animacion
   method terminoAnimacion() {
-      self.avanzar()
-      animacion.reiniciar()   // la bala loopea mientras este viva
+      self.avanzar()  // Se reproduce la aniamcion completa por celda
+      if (animacion.activa()) animacion.reiniciar()   // la bala loopea mientras este viva
   }
   
   method iniciar() {
@@ -55,7 +54,7 @@ class Disparo {
   method colisionarCon(objetivo) {
     // 1. Evitamos colisionar con otras balas usando 'not objetivo.esProyectil()
     // 2. Evitamos el fuego aliado comparando los objetos bando directamente
-    if (activo and not objetivo.esProyectil() and objetivo.bando() != bando) {
+    if (not objetivo.esProyectil() and objetivo.bando() != bando) {
 
       objetivo.recibirDano(dano)
       self.destruir()
@@ -64,12 +63,16 @@ class Disparo {
   }
   
   method destruir() {
-    if (activo) {
-        activo = false
-        bando.liberar(self)
-        animacion.detener()
-        if (game.hasVisual(self)) game.removeVisual(self)
+      // El bando sabe exactamente a qué gestor llamar internamente
+    bando.liberar(self)
+    animacion.detener()
+    if (game.hasVisual(self)) game.removeVisual(self)
+    try {
+      // Removemos el evento usando el mismo ID único de texto
+      game.removeTickEvent(self)
+    } catch e : Exception {  
+      // Evita problemas si el evento ya fue eliminado
     }
   }
-  
+
 }
