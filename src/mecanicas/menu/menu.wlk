@@ -53,14 +53,38 @@ method pantallaDificultad() {
     ],
     { opcion =>
       configuracion.dificultad(opcion.valor())
-      self.pantallaNave()
+      self.pantallaSkinsNave()
     }
   )
 }
 
-method pantallaNave() {
+method pantallaSkinsNave() {
   
-  
+    self.mostrar(
+      "Elegi tu nave",
+      [
+        new Aspecto(image = "naveRoja.png", position = game.center().left(3)),
+        new Aspecto(image = "naveAzul.png", position = game.center().right(2))
+      ],
+      { aspecto =>
+        naveBasica.image(aspecto.image()) // TODO: resolver esto, como settear en la nave la imagen elegida por el jugador.
+        self.pantallaCantidadJugadores()
+      }
+    )
 }
 
+method pantallaCantidadJugadores() {
+    self.mostrar(
+      "Cuantos jugadores?",
+      [
+        new Opcion(image = "Unjugador.png", valor = 1, position = game.center().left(3)),
+        new Opcion(image = "Dosjugadores.png", valor = 2, position = game.center().right(2))
+      ],
+      { opcion =>
+        configuracion.cantidadJugadores(opcion.valor())
+        game.clear()
+        mapaDemo.cargar()
+      }
+    )
+  }
 }
