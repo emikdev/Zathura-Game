@@ -1,4 +1,4 @@
-class RecursosDeAnimacion{
+class RecursoDeAnimacion{
 
     const frames
     const duracion

@@ -5,6 +5,11 @@ class Animacion {
     var frameActual = 0
     var activa = true
 
+    // Exposicion del atributo interno para garantizar funcionamiento de disparo.wlk
+    method activa(){
+        return activa
+    }
+
     method initialize() {
         self.animar()
     }
