@@ -22,7 +22,7 @@ class Personaje{
     var indiceArma = 0
 
     method initialize(){
-        self.cancelarFeedback()
+        self.cambiarEfecto(sinEfecto)
         self.restaurarSalud()
     }
 
@@ -79,6 +79,11 @@ class Personaje{
         indiceArma = slot - 1
     }
 
+    method descartarArma(arma) {
+        armasPersonaje.remove(arma)
+        indiceArma = 0
+    }
+
     method restarSalud(dano){ 
         salud = (salud - dano).max(0) 
     }
@@ -106,15 +111,6 @@ class Personaje{
     method cambiarEfecto(nuevoEfecto) {
         efectoVisual.detener()   // Corta el efecto anterior
         efectoVisual = nuevoEfecto
-    }
-
-    method terminoFeedback(){ 
-        efectoVisual = sinEfecto
-    }
-
-    method cancelarFeedback() {
-        efectoVisual.detener()
-        efectoVisual = sinEfecto
     }
 
     method esProyectil(){

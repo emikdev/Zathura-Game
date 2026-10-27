@@ -5,6 +5,7 @@ class Arma {
 
     const recursoBala // recurso con frames y duracion de la bala
     const danoBala = 10
+    var municion
 
   method disparar(personaje) {
 
@@ -20,15 +21,19 @@ class Arma {
       nuevoDisparo.iniciar()
       personaje.bando().registrar(nuevoDisparo)
       self.consumirMunicion()
+      if (not self.hayMunicion()) personaje.descartarArma(self)
 
     }
 
   }
 
   // POLIMORFISMO: Por defecto el arma base SIEMPRE tiene munición
-  method hayMunicion() = true
-  method consumirMunicion() {
-    // Método vacío intencionalmente para las armas infinitas
+  method hayMunicion(){
+    return municion > 0
+  }
+
+  method consumirMunicion(){
+    municion -= 1
   }
 
 }

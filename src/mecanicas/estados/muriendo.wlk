@@ -15,7 +15,7 @@ class Muriendo inherits EstadoPersonaje {
 
     override method terminoAnimacion() {
         game.removeVisual(personaje)
-        if (not personaje.tieneVidas()) {
+        if (personaje.tieneVidas()) {
             game.schedule(3000, { self.reaparecer() })
         } else {
             personaje.alQuedarseSinVidas()
