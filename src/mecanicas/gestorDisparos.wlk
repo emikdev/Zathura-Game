@@ -1,6 +1,6 @@
 class GestorDisparosBase {
   const disparosActivos = []
-
+  method disparosActivos () = disparosActivos
   method puedeDisparar()
 
   method registrarDisparo(disparo) {

@@ -1,75 +1,69 @@
 import wollok.game.*
 import src.mecanicas.direcciones.*
-import src.mecanicas.animador.*
-import src.mecanicas.gestorDisparos.*
+import src.mecanicas.animaciones.animacion.*
 
 class Disparo {
-  const property animacion
-  const property dano
-  const property velocidad
-  const property bando
-  var property position
-  const direccion = bando.direccionDisparo()
+
+  const recursoDeAnimacion
+  const dano
+  const bando
+  var position
+  const animacion = new Animacion(estado = self, recursoDeAnimacion = recursoDeAnimacion)
+
+  method dano(){
+    return dano
+  }
   
-  method esProyectil() = true
-  
-  method image() = animacion.imagenActual()
-  
-  // Actualiza el estado del disparo en cada tick
-  method actualizar() {
-    // Lógica directa: avanza el frame del animador en cada latido
-    const llegoAlFinal = animacion.avanzarFrame()
-    
-    // Cuando completa el recorrido de la lista de frames, avanza de celda física
-    if (llegoAlFinal) {
-      self.avanzar()
-      animacion.reiniciar()
-    }
+  method image(){
+    return animacion.frameActual()
+  }
+
+  method position(){
+    return position
+  }
+
+  method bando(){
+    return bando
+  }
+
+  // Mensaje necesario para el polimorfismo que usa animacion
+  method terminoAnimacion() {
+      self.avanzar()  // Se reproduce la aniamcion completa por celda
+      if (animacion.activa()) animacion.reiniciar()   // la bala loopea mientras este viva
   }
   
   method iniciar() {
     game.addVisual(self)
     game.onCollideDo(self, { objetivo => self.colisionarCon(objetivo) })
-    
-    
-    // El cálculo del tiempo ahora es puramente la velocidad de la animación por frame
-    const duracionCelda = 1000 / velocidad
-    const duracionFrame = duracionCelda / animacion.frames().size()
-    
-    // Usamos un ID de texto único para el onTick en Wollok
-    game.onTick(duracionFrame, self, { self.actualizar() })
   }
   
+  // Avanza el disparo de celda
   method avanzar() {
-    // Avanza el movimiento del disparo
     try {
-      position = direccion.siguiente(position)
+      position = bando.direccion().siguiente(position)
     } catch e : DomainException {
       self.destruir()
     }
   }
   
-  method colisionarCon(objetivo) {
-    // 1. Evitamos colisionar con otras balas usando 'not objetivo.esProyectil()'
-    // 2. Evitamos el fuego aliado comparando los objetos bando directamente
-    if ((objetivo.bando() != bando) and (not objetivo.esProyectil())) {
-      objetivo.recibirDano(dano)
-      self.destruir()
+ method colisionarCon(objetivo) {
+    if (objetivo.bando() != bando) { 
+      // Le pasamos el control al bando del objetivo
+      objetivo.bando().recibirImpacto(objetivo, self) 
     }
+  }
+
+  // Si un disparo es chocado por otro disparo enemigo, se ejecuta esto:
+  method recibirDano(daño, proyectilEnemigo) {
+    // Queda completamente VACÍO.
+    // Al no llamar a proyectilEnemigo.destruir(), ambos disparos continúan viaje.
   }
   
   method destruir() {
     // El bando sabe exactamente a qué gestor llamar internamente
     bando.liberar(self)
-    
+    animacion.detener()
     if (game.hasVisual(self)) game.removeVisual(self)
-    
-    try {
-      // Removemos el evento usando el mismo ID único de texto
-      game.removeTickEvent(self)
-    } catch e : Exception {
-      
-      // Evita problemas si el evento ya fue eliminado
-    }
   }
+
 }
