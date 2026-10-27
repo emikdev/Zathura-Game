@@ -1,6 +1,5 @@
 import src.mecanicas.estados.estadoPersonaje.*
 import src.mecanicas.estados.disparando.*
-import src.mecanicas.estados.impactado.*
 class Neutral inherits EstadoPersonaje {
 
     override method recursoAnimacion() = personaje.animacionBase()
@@ -10,13 +9,5 @@ class Neutral inherits EstadoPersonaje {
     }
 
     override method cambiarANeutral(){ }
-
-    override method disparar() {
-        personaje.cambiarEstado(new Disparando(personaje = personaje))
-    }
-
-    override method recibirImpacto() {
-        personaje.cambiarEstado(new Impactado(personaje = personaje))
-    }
 
 }

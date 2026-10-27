@@ -1,15 +1,30 @@
+import src.mecanicas.efectos.efectosPersonaje.*
 class Personaje{
 
     var property position
-    var property vidas
     var estadoActual
+
+    const posicionInicial
+    const saludMaxima
+    var salud
+    var vidas
 
     const animacionBase
     const animacionDisparo
+    const animacionMuerte
+
     const animacionImpacto
+    var efectoVisual
 
     const bando
-    const property armasPersonaje = []
+
+    const armasPersonaje
+    var indiceArma = 0
+
+    method initialize(){
+        self.cancelarFeedback()
+        self.restaurarSalud()
+    }
 
     method animacionBase(){
         return animacionBase
@@ -19,7 +34,11 @@ class Personaje{
         return animacionDisparo
     }
 
-    method aniamcionImpacto(){
+    method aniamcionMuerte(){
+        return animacionMuerte
+    }
+
+    method animacionImpacto(){
         return animacionImpacto
     }
 
@@ -27,8 +46,12 @@ class Personaje{
         return bando
     }
 
+    method posicionInicial(){
+        return posicionInicial
+    }
+
     method image(){
-        return estadoActual.imgenActual() 
+        return efectoVisual.imagen(estadoActual.imagenActual())
     }
 
     method cambiarEstado(nuevoEstado) {
@@ -44,14 +67,61 @@ class Personaje{
         estadoActual.disparar()
     }
 
-    method recibirImpacto(){
-        estadoActual.recibirImpacto()
+    method armaActual(){
+        return armasPersonaje.get(indiceArma)
+    }
+
+    method equiparSiguienteArma(){
+        indiceArma = (indiceArma + 1) % armasPersonaje.size()
+    }
+
+    method equiparArma(slot){
+        indiceArma = slot - 1
+    }
+
+    method restarSalud(dano){ 
+        salud = (salud - dano).max(0) 
+    }
+
+    method sinSalud(){
+        return salud <= 0
+    }
+
+    method restaurarSalud(){ 
+        salud = saludMaxima
     }
 
     method perderVida(){
         vidas -= 1
     }
 
-    method iniciar()
+    method tieneVidas(){
+        return  vidas > 0
+    }
+
+    method recibirDano(dano){
+        estadoActual.recibirImpacto(dano)
+    }
+
+    method cambiarEfecto(nuevoEfecto) {
+        efectoVisual.detener()   // Corta el efecto anterior
+        efectoVisual = nuevoEfecto
+    }
+
+    method terminoFeedback(){ 
+        efectoVisual = sinEfecto
+    }
+
+    method cancelarFeedback() {
+        efectoVisual.detener()
+        efectoVisual = sinEfecto
+    }
+
+    method esProyectil(){
+        return false
+    }
+
+    method iniciar(){ }
+    method alQuedarseSinVidas(){ }
 
 }
