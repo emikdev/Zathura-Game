@@ -7,7 +7,7 @@ import src.mecanicas.menu.configuracion.*
 
 object menu {
   method iniciar() {
-    self.pantallaPrincipal()
+    self.menuPrincipal()
   }
 
   // Arma una pantalla genérica: título + opciones + selector + teclas
@@ -30,7 +30,7 @@ object menu {
     keyboard.space().onPressDo({ seleccionador.selecciona() })
   }
 
-  method pantallaPrincipal() {
+  method menuPrincipal() {
     self.mostrar(
       "menuPrincipal.png",
       [
@@ -38,12 +38,12 @@ object menu {
         new Opcion(image = "salir.png", valor = "salir", position = game.center().right(-1).down(4))
       ],
       { opcion =>
-        if (opcion.valor() == "jugar") self.pantallaDificultad() else game.stop()
+        if (opcion.valor() == "jugar") self.menuDificultad() else game.stop()
       }
     )
   }
 
-method pantallaDificultad() {
+method menuDificultad() {
   self.mostrar(
     "Elegi la dificultad",
     [
@@ -53,12 +53,12 @@ method pantallaDificultad() {
     ],
     { opcion =>
       configuracion.dificultad(opcion.valor())
-      self.pantallaSkinsNave()
+      self.menuSkinsNave()
     }
   )
 }
 
-method pantallaSkinsNave() {
+method menuSkinsNave() {
   
     self.mostrar(
       "Elegi tu nave",
@@ -68,17 +68,17 @@ method pantallaSkinsNave() {
       ],
       { aspecto =>
         configuracion.skinNave(aspecto.image()) // TODO: resolver esto, como settear en la nave la imagen elegida por el jugador.
-        self.pantallaCantidadJugadores()
+        self.menuCantidadJugadores()
       }
     )
 }
 
-method pantallaCantidadJugadores() {
+method menuCantidadJugadores() {
     self.mostrar(
       "Cuantos jugadores?",
       [
-        new Opcion(image = "unjugador.png", valor = 1, position = game.center().left(3)),
-        new Opcion(image = "dosjugadores.png", valor = 2, position = game.center().right(2))
+        new Opcion(image = "unjugador.png", valor = 1, position = game.center().left(10).down(4)),
+        new Opcion(image = "dosjugadores.png", valor = 2, position = game.center().right(-1).down(4))
       ],
       { opcion =>
         configuracion.cantidadJugadores(opcion.valor()) // TODO: Implementar que se pueda jugar de a 2.
