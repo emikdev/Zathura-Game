@@ -63,11 +63,11 @@ method pantallaSkinsNave() {
     self.mostrar(
       "Elegi tu nave",
       [
-        new Aspecto(image = "naveRoja.png", position = game.center().left(3)),
-        new Aspecto(image = "naveAzul.png", position = game.center().right(2))
+        new Aspecto(image = "naveNautilus.png", position = game.center().left(8).down(4)),
+        new Aspecto(image = "batiNave.png", position = game.center().right(-1).down(4))
       ],
       { aspecto =>
-        naveBasica.image(aspecto.image()) // TODO: resolver esto, como settear en la nave la imagen elegida por el jugador.
+        configuracion.skinNave(aspecto.image()) // TODO: resolver esto, como settear en la nave la imagen elegida por el jugador.
         self.pantallaCantidadJugadores()
       }
     )
@@ -77,11 +77,11 @@ method pantallaCantidadJugadores() {
     self.mostrar(
       "Cuantos jugadores?",
       [
-        new Opcion(image = "Unjugador.png", valor = 1, position = game.center().left(3)),
-        new Opcion(image = "Dosjugadores.png", valor = 2, position = game.center().right(2))
+        new Opcion(image = "unjugador.png", valor = 1, position = game.center().left(3)),
+        new Opcion(image = "dosjugadores.png", valor = 2, position = game.center().right(2))
       ],
       { opcion =>
-        configuracion.cantidadJugadores(opcion.valor())
+        configuracion.cantidadJugadores(opcion.valor()) // TODO: Implementar que se pueda jugar de a 2.
         game.clear()
         mapaDemo.cargar()
       }
