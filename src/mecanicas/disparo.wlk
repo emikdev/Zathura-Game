@@ -52,12 +52,6 @@ class Disparo {
       objetivo.bando().recibirImpacto(objetivo, self) 
     }
   }
-
-  // Si un disparo es chocado por otro disparo enemigo, se ejecuta esto:
-  method recibirDano(daño, proyectilEnemigo) {
-    // Queda completamente VACÍO.
-    // Al no llamar a proyectilEnemigo.destruir(), ambos disparos continúan viaje.
-  }
   
   method destruir() {
     // El bando sabe exactamente a qué gestor llamar internamente
