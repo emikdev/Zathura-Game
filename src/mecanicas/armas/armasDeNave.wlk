@@ -1,44 +1,60 @@
 import src.mecanicas.armas.armas.*
-// Armas de la nave del jugador 
+import src.mecanicas.animaciones.animacion.*
+import src.mecanicas.animaciones.recursos.recursosDeAnimacion.*
+
+// Arma Básica del Jugador (Infinita, hereda directo de Arma)
+const armaBasica = new Arma(
+  dano = 2,
+  recursoBala = new RecursosDeAnimacion(
+    frames = ["ArmaBasica_frame_1.png"], 
+    duracion = 2
+  )
+)
+
 class ArmaLaser inherits Arma {
-  var property municion = 10 // Cantidad de balas iniciales para armas limitadas
+  var property municion = 10 // el valor siempre tiene que ser par 
 
-  // Verifica si le quedan balas en el cargador
   override method hayMunicion() = municion > 0
-
-  //Resta una bala cada vez que se efectúa un disparo exitoso
   override method consumirMunicion() {
-    municion = (municion - 1) // Evita que baje de cero
+    municion = (municion - 2).max(0) // Previene números negativos de forma segura
   }
-
+  override method recargar(cantidad) {
+    municion = municion + cantidad
+  }
 }
 
-class ArmaDePlasma inherits ArmaLaser{
-    
+class ArmaDePlasma inherits ArmaLaser {
+    override method consumirMunicion() {
+    municion = (municion - 4).max(0) // Previene números negativos de forma segura
+  }
 }
 
 // Instancias de armas listas para la nave
 
-// Arma Láser Estándar (Munición Limitada, daño medio)
+// Arma Láser Estándar
 const laserEstandar = new ArmaLaser(
-  framesBala = [
-    "ArmaLaser_frame_1.png",
-    "ArmaLaser_frame_2.png",
-    "ArmaLaser_frame_3.png"
-  ],
-  velocidadBala = 5,
-  danoBala = 5,
+  recursoBala = new RecursosDeAnimacion(
+    frames = [
+      "ArmaLaser_frame_1.png",
+      "ArmaLaser_frame_2.png",
+      "ArmaLaser_frame_3.png"
+    ],
+    duracion = 5 // Antes velocidadBala = 5
+  ),
+  dano = 5,      // Corregido danoBala -> dano
   municion = 30
 )
 
-// Cañón de Plasma Pesado (Pocas balas, gran daño, velocidad lenta)
+// Cañón de Plasma Pesado
 const cañonPlasma = new ArmaDePlasma(
-  framesBala = [
-    "ArmaDePlasma_frame_1.png",
-    "ArmaDePlasma_frame_2.png",
-    "ArmaDePlasma_frame_3.png"
-  ],
-  velocidadBala = 10,
-  danoBala = 10,
+  recursoBala = new RecursosDeAnimacion(
+    frames = [
+      "ArmaDePlasma_frame_1.png",
+      "ArmaDePlasma_frame_2.png",
+      "ArmaDePlasma_frame_3.png"
+    ],
+    duracion = 10 // Antes velocidadBala = 10
+  ),
+  dano = 10,      // Corregido danoBala -> dano
   municion = 10
 )

@@ -4,10 +4,11 @@ import src.mecanicas.animaciones.animacion.*
 
 class Disparo {
 
-  const recursoDeAnimacion
-  const dano
-  const bando
-  var position
+  const recursoDeAnimacion // recursos de animacion del disparo
+  const dano //  daño del arma que realiza el disparo
+  const bando //  bando del personaje que diapra
+  var position // posicion del personaje que dispara
+  
   const animacion = new Animacion(estado = self, recursoDeAnimacion = recursoDeAnimacion)
 
   method dano(){

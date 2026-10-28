@@ -1,17 +1,20 @@
 import src.mecanicas.armas.armas.*
-import src.mecanicas.animador.*
-// Armas Enemigas Basica (con municion infinita)
-class ArmaEnemiga inherits Arma {
-  //Todos los enemigos tienen balas infinitas por defecto
-  override method hayMunicion() = true
-  override method consumirMunicion() {} 
-}
+import src.mecanicas.animaciones.animacion.*
+import src.mecanicas.animaciones.recursos.recursosDeAnimacion.*
 
-// NUEVAS IMPLEMENTACIONES DE ARMAS ENEMIGAS
 
-// 1. Arma Cargada Enemiga (Usada por Mosca)
-class ArmaCargadaEnemiga inherits ArmaEnemiga {
-  var municion 
+// 1. Arma Enemiga Básica (Requiere pasarle un recurso de animación y daño)
+const armaEnemigaBasica = new Arma(
+  dano = 1,
+  recursoBala = new RecursosDeAnimacion(
+    frames = ["disparoBasicoEnemigo_frame_1.png"], 
+    duracion = 1
+  )
+) 
+
+// Arma Cargada Enemiga (Usada por Mosca)
+class ArmaCargadaEnemiga inherits Arma {
+  var property municion 
   override method hayMunicion() = municion > 0 
   override method consumirMunicion() {
     municion -= 1
@@ -19,52 +22,51 @@ class ArmaCargadaEnemiga inherits ArmaEnemiga {
 }
 
 const armaCargadaEnemiga = new ArmaCargadaEnemiga(
-  framesBala = [
-    "disparoAmarilloEnemigo_frame_1.png",
-    "disparoAmarilloEnemigo_frame_2.png",
-    "disparoAmarilloEnemigo_frame_3.png"
-  ],
-  velocidadBala = 2,
-  danoBala = 3,
+  recursoBala = new RecursosDeAnimacion(
+    frames = [
+      "disparoAmarilloEnemigo_frame_1.png",
+      "disparoAmarilloEnemigo_frame_2.png",
+      "disparoAmarilloEnemigo_frame_3.png"
+    ],
+    duracion = 3
+  ),
+  dano = 3,      
   municion = 10
 )
 
 // 2. Arma Pesada Enemiga (Usada por Heavy)
-class ArmaPesadaEnemiga inherits ArmaEnemiga {
-  var municion = 10
+class ArmaPesadaEnemiga inherits Arma {
+  var property municion = 10
 
-  method municion(){
-    return municion
-  } 
-
-  override method hayMunicion() {
-    return municion > 0
-  }
+  override method hayMunicion() = municion > 0
   override method consumirMunicion() {
     municion -= 1 
   } 
 }
 
 const armaPesadaEnemiga = new ArmaPesadaEnemiga(
-  framesBala = [
-    "disparoVioletaEnemigo_frame_1.png",
-    "disparoVioletaEnemigo_frame_2.png",
-    "disparoVioletaEnemigo_frame_3.png"
-  ],
-  velocidadBala = 1,
-  danoBala = 3
+  recursoBala = new RecursosDeAnimacion(
+    frames = [
+      "disparoVioletaEnemigo_frame_1.png",
+      "disparoVioletaEnemigo_frame_2.png",
+      "disparoVioletaEnemigo_frame_3.png"
+    ],
+    duracion = 1 
+  ),
+  dano = 3       
 )
 
 // 3. Arma Rápida Enemiga (Usada por Medusa y Sepia)
 class ArmaRapidaEnemiga inherits ArmaPesadaEnemiga {}
 
-
 const armaRapidaEnemiga = new ArmaRapidaEnemiga(
-  framesBala = [
-    "disparoAzulEnemigo_frame_1.png",
-    "disparoAzulEnemigo_frame_2.png",
-    "disparoAzulEnemigo_frame_3.png"
-  ],
-  velocidadBala = 4,
-  danoBala = 2
+  recursoBala = new RecursosDeAnimacion(
+    frames = [
+      "disparoAzulEnemigo_frame_1.png",
+      "disparoAzulEnemigo_frame_2.png",
+      "disparoAzulEnemigo_frame_3.png"
+    ],
+    duracion = 4 
+  ),
+  dano = 2       
 )
