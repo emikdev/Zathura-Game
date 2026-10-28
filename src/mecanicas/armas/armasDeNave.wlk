@@ -99,7 +99,11 @@ class TripleCanon inherits ArmasConMasProyectiles {
 const armaBasica = new Arma(
   dano = 2,
   recursoBala = new RecursosDeAnimacion(
-    frames = ["disparoCeleste-frame1.png","disparoCeleste-frame2.png","disparoCeleste-frame3.png"]
+    frames = [
+      "disparoCeleste_frame_1.png",
+      "disparoCeleste_frame_2.png",
+      "disparoCeleste_frame_3.png"
+      ],duracion= 500
   )
 )
 // Arma Láser Estándar
@@ -109,7 +113,7 @@ const laserEstandar = new ArmaLaser(
       "ArmaLaser_frame_1.png",
       "ArmaLaser_frame_2.png",
       "ArmaLaser_frame_3.png"
-    ]
+    ],duracion = 50
   ),
   dano = 5,      // Corregido danoBala -> dano
   municion = 30
@@ -122,7 +126,7 @@ const canonPlasma = new ArmaDePlasma(
       "ArmaDePlasma_frame_1.png",
       "ArmaDePlasma_frame_2.png",
       "ArmaDePlasma_frame_3.png"
-    ]
+    ],duracion= 500
   ),
   dano = 10,      // Corregido danoBala -> dano
   municion = 10
@@ -135,7 +139,8 @@ const miDobleCanon = new DobleCanon(
       "ArmaLaser_frame_1.png",
       "ArmaLaser_frame_2.png",
       "ArmaLaser_frame_3.png"
-    ]),
+    ],duracion= 500
+    ),
     municion = 20,              // Cantidad total de balas iniciales
     dano = 5                   // Daño por cada proyectil individual
 )
@@ -147,7 +152,8 @@ const miTripleCanon = new TripleCanon(
       "ArmaLaser_frame_1.png",
       "ArmaLaser_frame_2.png",
       "ArmaLaser_frame_3.png"
-    ]),
+    ],duracion= 500
+    ),
     municion = 15,              // Gasta de a 3, dura 5 ráfagas completas
     dano = 7                   // Daño por proyectil
 )
