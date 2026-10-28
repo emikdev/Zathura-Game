@@ -9,7 +9,15 @@ class Disparo {
   const bando //  bando del personaje que diapra
   var position // posicion del personaje que dispara
   
-  const animacion = new Animacion(estado = self, recursoDeAnimacion = recursoDeAnimacion)
+
+  
+  // Declaramos la variable sin asignación inmediata para evitar el error 'undefined'
+  var animacion 
+
+  method initialize() {
+    // Se instancia de forma segura una vez que 'recursoDeAnimacion' ya fue cargado
+    animacion = new Animacion(estado = self, recursoDeAnimacion = recursoDeAnimacion)
+  }
 
   method dano(){
     return dano
@@ -27,10 +35,9 @@ class Disparo {
     return bando
   }
 
-  // Mensaje necesario para el polimorfismo que usa animacion
   method terminoAnimacion() {
-      self.avanzar()  // Se reproduce la aniamcion completa por celda
-      if (animacion.activa()) animacion.reiniciar()   // la bala loopea mientras este viva
+      self.avanzar()  
+      if (animacion.activa()) animacion.reiniciar()   
   }
   
   method iniciar() {
@@ -41,13 +48,13 @@ class Disparo {
   // Avanza el disparo de celda
   method avanzar() {
     try {
-      position = bando.direccion().siguiente(position)
-    } catch e : DomainException {
+      position = bando.direccionDisparo().siguiente(position)
+    } catch e : DomainException { 
       self.destruir()
     }
   }
   
- method colisionarCon(objetivo) {
+  method colisionarCon(objetivo) {
     if (objetivo.bando() != bando) { 
       // Le pasamos el control al bando del objetivo
       objetivo.bando().recibirImpacto(objetivo, self) 
@@ -60,5 +67,4 @@ class Disparo {
     animacion.detener()
     if (game.hasVisual(self)) game.removeVisual(self)
   }
-
 }
