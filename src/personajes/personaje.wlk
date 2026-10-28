@@ -113,10 +113,6 @@ class Personaje{
         efectoVisual = nuevoEfecto
     }
 
-    method esProyectil(){
-        return false
-    }
-
     method iniciar(){ }
     method alQuedarseSinVidas(){ }
 
