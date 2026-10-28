@@ -9,7 +9,7 @@ class Arma {
 
   method disparar(personaje) {
 
-        if (self.hayMunicion() and personaje.bando().puedeDisparar()) {
+        if (personaje.bando().puedeDisparar()) {
 
             const nuevoDisparo = new Disparo(
                 recursoDeAnimacion = recursoBala,
@@ -21,8 +21,6 @@ class Arma {
       nuevoDisparo.iniciar()
       personaje.bando().registrar(nuevoDisparo)
       self.consumirMunicion()
-      if (not self.hayMunicion()) personaje.descartarArma(self)
-
     }
 
   }
