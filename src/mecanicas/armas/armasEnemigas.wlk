@@ -10,7 +10,7 @@ class ArmaEnemigaBasica inherits Arma {
 const armaEnemigaBasica = new ArmaEnemigaBasica(
   danoBala = 1,
   recursoBala = new RecursosDeAnimacion(
-    frames = ["disparoBasicoEnemigo_frame_1.png"]
+    frames = ["disparoBlanco_frame_2","disparoBlanco_frame_2","disparoBlanco_frame_2"]
   ),
   municion = 100
 ) 
@@ -26,9 +26,9 @@ class ArmaCargadaEnemiga inherits Arma {
 const armaCargadaEnemiga = new ArmaCargadaEnemiga(
   recursoBala = new RecursosDeAnimacion(
     frames = [
-      "disparoAmarilloEnemigo_frame_1.png",
-      "disparoAmarilloEnemigo_frame_2.png",
-      "disparoAmarilloEnemigo_frame_3.png"
+      "disparoAmarillo_frame_1.png",
+      "disparoAmarillo_frame_2.png",
+      "disparoAmarillo_frame_3.png"
     ]
   ),
   danoBala = 3,      
@@ -46,9 +46,9 @@ class ArmaPesadaEnemiga inherits Arma {
 const armaPesadaEnemiga = new ArmaPesadaEnemiga(
   recursoBala = new RecursosDeAnimacion(
     frames = [
-      "disparoVioletaEnemigo_frame_1.png",
-      "disparoVioletaEnemigo_frame_2.png",
-      "disparoVioletaEnemigo_frame_3.png"
+      "disparoVioleta_frame_1.png",
+      "disparoVioleta_frame_2.png",
+      "disparoVioleta_frame_3.png"
     ] 
   ),
   danoBala = 3,
@@ -61,9 +61,9 @@ class ArmaRapidaEnemiga inherits ArmaPesadaEnemiga {}
 const armaRapidaEnemiga = new ArmaRapidaEnemiga(
   recursoBala = new RecursosDeAnimacion(
     frames = [
-      "disparoAzulEnemigo_frame_1.png",
-      "disparoAzulEnemigo_frame_2.png",
-      "disparoAzulEnemigo_frame_3.png"
+      "disparoAzul_frame_1.png",
+      "disparoAzul_frame_2.png",
+      "disparoAzul_frame_3.png"
     ]
   ),
   danoBala = 2,

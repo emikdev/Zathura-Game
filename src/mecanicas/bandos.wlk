@@ -4,19 +4,9 @@ import src.mecanicas.direcciones.*
 class Bando {
   // clase abstracta para bandos
   method gestor()
-  
-  method recibirImpacto(objetivo, disparo) {
-    // Si el objetivo NO está en la lista de disparos activos de este bando, 
-    // significa que el disparo golpeó a un personaje real de este bando.
-    if (not self.gestor().disparosActivos().contains(objetivo)) {
-      objetivo.recibirDano(disparo.dano())
-      disparo.destruir()
-    }
-    // Si SÍ estaba en la lista, el 'if' no hace nada, logrando que se atraviesen.
-  }
 }
 
-object jugador inherits Bando {
+object jugador {
   const tiempoRecarga = 500
   var listoParaDisparar = true 
   // ajuste en la posicion del disparo
@@ -27,7 +17,6 @@ object jugador inherits Bando {
   // Usa su gestor específico
   method puedeDisparar() = listoParaDisparar and gestorJugador.puedeDisparar()
   
-  override method gestor() = gestorJugador
   
   method registrar(disparo) {
     gestorJugador.registrarDisparo(disparo)
@@ -44,13 +33,10 @@ object jugador inherits Bando {
   }
 }
 
-object enemigo inherits Bando {
+object enemigo {
   method direccionDisparo() = abajo
-  
-  override method gestor() = gestorEnemigos
-  
   // ajuste en la posicion del disparo
-  method ajustarPosicion(posicion) = posicion.up(1)
+  method ajustarPosicion(posicion) = posicion.down(1)
   
   // Usa su gestor específico
   method puedeDisparar() = gestorEnemigos.puedeDisparar()

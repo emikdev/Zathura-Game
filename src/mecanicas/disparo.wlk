@@ -49,17 +49,15 @@ class Disparo {
   method avanzar() {
     try {
       position = bando.direccionDisparo().siguiente(position)
-    } catch e : DomainException { 
+    } catch e : Exception { 
       self.destruir()
     }
   }
   
   method colisionarCon(objetivo) {
-    if (objetivo.bando() != bando) { 
-      // Le pasamos el control al bando del objetivo
-      objetivo.bando().recibirImpacto(objetivo, self) 
-    }
+    objetivo.recibirImpacto(self)
   }
+  method recibirImpacto(disparo) { }
   
   method destruir() {
     // El bando sabe exactamente a qué gestor llamar internamente
@@ -68,3 +66,11 @@ class Disparo {
     if (game.hasVisual(self)) game.removeVisual(self)
   }
 }
+
+//// Personaje
+// method recibirImpacto(disparo) {
+//   if (disparo.bando() != bando) {
+//     self.recibirDano(disparo.dano())
+//     disparo.destruir()
+//   }
+// }
