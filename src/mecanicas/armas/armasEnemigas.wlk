@@ -4,16 +4,19 @@ import src.mecanicas.animaciones.recursos.recursosDeAnimacion.*
 
 
 // 1. Arma Enemiga Básica (Requiere pasarle un recurso de animación y daño)
-const armaEnemigaBasica = new Arma(
-  dano = 1,
+class ArmaEnemigaBasica inherits Arma {
+  override method consumirMunicion() {}
+}
+const armaEnemigaBasica = new ArmaEnemigaBasica(
+  danoBala = 1,
   recursoBala = new RecursosDeAnimacion(
     frames = ["disparoBasicoEnemigo_frame_1.png"]
-  )
+  ),
+  municion = 100
 ) 
 
 // Arma Cargada Enemiga (Usada por Mosca)
 class ArmaCargadaEnemiga inherits Arma {
-  var property municion 
   override method hayMunicion() = municion > 0 
   override method consumirMunicion() {
     municion -= 1
@@ -28,14 +31,12 @@ const armaCargadaEnemiga = new ArmaCargadaEnemiga(
       "disparoAmarilloEnemigo_frame_3.png"
     ]
   ),
-  dano = 3,      
+  danoBala = 3,      
   municion = 10
 )
 
 // 2. Arma Pesada Enemiga (Usada por Heavy)
 class ArmaPesadaEnemiga inherits Arma {
-  var property municion = 10
-
   override method hayMunicion() = municion > 0
   override method consumirMunicion() {
     municion -= 1 
@@ -50,7 +51,8 @@ const armaPesadaEnemiga = new ArmaPesadaEnemiga(
       "disparoVioletaEnemigo_frame_3.png"
     ] 
   ),
-  dano = 3       
+  danoBala = 3,
+  municion= 10  
 )
 
 // 3. Arma Rápida Enemiga (Usada por Medusa y Sepia)
@@ -64,5 +66,6 @@ const armaRapidaEnemiga = new ArmaRapidaEnemiga(
       "disparoAzulEnemigo_frame_3.png"
     ]
   ),
-  dano = 2       
+  danoBala = 2,
+  municion = 20       
 )

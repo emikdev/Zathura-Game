@@ -5,17 +5,19 @@ import src.mecanicas.disparo.*
 import src.mecanicas.direcciones.*
 
 
+class ArmaBasica inherits Arma {
+  override method consumirMunicion(){}
+}
 
 class ArmaLaser inherits Arma {
-  var property municion = 10 // el valor siempre tiene que ser par 
 
   override method hayMunicion() = municion >= 2
   override method consumirMunicion() {
     municion = (municion - 2).max(0) // Previene números negativos de forma segura
   }
-  override method recargar(cantidad) {
-    municion = municion + cantidad
-  }
+  // override method recargar(cantidad) {
+  //   municion = municion + cantidad
+  // }
 }
 
 class ArmaDePlasma inherits ArmaLaser {
@@ -31,7 +33,7 @@ class ArmasConMasProyectiles inherits ArmaLaser {
   method generarProyectilEn(posicion, personaje) {
     const nuevoDisparo = new Disparo(
       recursoDeAnimacion = recursoBala,
-      dano = dano,
+      dano = danoBala,
       bando = personaje.bando(),
       position = posicion
     )
@@ -97,14 +99,14 @@ class TripleCanon inherits ArmasConMasProyectiles {
 // Instancias de armas listas para la nave
 // Arma Básica del Jugador (Infinita, hereda directo de Arma)
 const armaBasica = new Arma(
-  dano = 2,
+  danoBala = 2,
   recursoBala = new RecursosDeAnimacion(
     frames = [
       "disparoCeleste_frame_1.png",
       "disparoCeleste_frame_2.png",
       "disparoCeleste_frame_3.png"
       ],duracion= 500
-  )
+  ), municion = 100
 )
 // Arma Láser Estándar
 const laserEstandar = new ArmaLaser(
@@ -115,7 +117,7 @@ const laserEstandar = new ArmaLaser(
       "ArmaLaser_frame_3.png"
     ],duracion = 50
   ),
-  dano = 5,      // Corregido danoBala -> dano
+  danoBala = 5,      // Corregido danoBalaBala -> danoBala
   municion = 30
 )
 
@@ -128,7 +130,7 @@ const canonPlasma = new ArmaDePlasma(
       "ArmaDePlasma_frame_3.png"
     ],duracion= 500
   ),
-  dano = 10,      // Corregido danoBala -> dano
+  danoBala = 10,      // Corregido danoBalaBala -> danoBala
   municion = 10
 )
 
@@ -142,7 +144,7 @@ const miDobleCanon = new DobleCanon(
     ],duracion= 500
     ),
     municion = 20,              // Cantidad total de balas iniciales
-    dano = 5                   // Daño por cada proyectil individual
+    danoBala = 5                   // Daño por cada proyectil individual
 )
 
 // Instanciación del Triple Cañón
@@ -155,5 +157,5 @@ const miTripleCanon = new TripleCanon(
     ],duracion= 500
     ),
     municion = 15,              // Gasta de a 3, dura 5 ráfagas completas
-    dano = 7                   // Daño por proyectil
+    danoBala = 7                   // Daño por proyectil
 )
