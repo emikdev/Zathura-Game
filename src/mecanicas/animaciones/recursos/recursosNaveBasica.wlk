@@ -11,6 +11,5 @@ const animacionDisparo = new RecursoDeAnimacion(
 )
 
 const animacionMuerte = new RecursoDeAnimacion(
-    frames = ["muerteNave-frame1.png", "muerteNave-frame2.png", "muerteNave-frame3.png", "muerteNave-frame4.png", "muerteNave-frame5.png", "muerteNave-frame6.png", "muerteNave-frame7.png"],
-    duracion = 1000
+    frames = ["muerteNave-frame1.png", "muerteNave-frame2.png", "muerteNave-frame3.png", "muerteNave-frame4.png", "muerteNave-frame5.png", "muerteNave-frame6.png", "muerteNave-frame7.png"]
 )
