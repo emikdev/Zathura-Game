@@ -7,8 +7,7 @@ import src.mecanicas.animaciones.recursos.recursosDeAnimacion.*
 const armaEnemigaBasica = new Arma(
   dano = 1,
   recursoBala = new RecursosDeAnimacion(
-    frames = ["disparoBasicoEnemigo_frame_1.png"], 
-    duracion = 1
+    frames = ["disparoBasicoEnemigo_frame_1.png"]
   )
 ) 
 
@@ -27,8 +26,7 @@ const armaCargadaEnemiga = new ArmaCargadaEnemiga(
       "disparoAmarilloEnemigo_frame_1.png",
       "disparoAmarilloEnemigo_frame_2.png",
       "disparoAmarilloEnemigo_frame_3.png"
-    ],
-    duracion = 3
+    ]
   ),
   dano = 3,      
   municion = 10
@@ -50,8 +48,7 @@ const armaPesadaEnemiga = new ArmaPesadaEnemiga(
       "disparoVioletaEnemigo_frame_1.png",
       "disparoVioletaEnemigo_frame_2.png",
       "disparoVioletaEnemigo_frame_3.png"
-    ],
-    duracion = 1 
+    ] 
   ),
   dano = 3       
 )
@@ -65,8 +62,7 @@ const armaRapidaEnemiga = new ArmaRapidaEnemiga(
       "disparoAzulEnemigo_frame_1.png",
       "disparoAzulEnemigo_frame_2.png",
       "disparoAzulEnemigo_frame_3.png"
-    ],
-    duracion = 4 
+    ]
   ),
   dano = 2       
 )

@@ -1,7 +1,8 @@
 import src.mecanicas.gestorDisparos.*
 import src.mecanicas.direcciones.*
 
-class Bando { // clase abstracta para bandos
+class Bando {
+  // clase abstracta para bandos
   method gestor()
   
   method recibirImpacto(objetivo, disparo) {
@@ -15,35 +16,50 @@ class Bando { // clase abstracta para bandos
   }
 }
 
-
-object jugador inherits Bando{
-  const tiempoRecarga = 500 
-  var listoParaDisparar = true
-
-  method direccionDisparo() = arriba 
+object jugador inherits Bando {
+  const tiempoRecarga = 500
+  var listoParaDisparar = true 
+  // ajuste en la posicion del disparo
+  method ajustarPosicion(posicion) = posicion.up(1)
+  
+  method direccionDisparo() = arriba
   
   // Usa su gestor específico
   method puedeDisparar() = listoParaDisparar and gestorJugador.puedeDisparar()
-
+  
   override method gestor() = gestorJugador
-
-  method registrar(disparo) { 
+  
+  method registrar(disparo) {
     gestorJugador.registrarDisparo(disparo)
     self.iniciarCooldown()
   }
-  method liberar(disparo) { gestorJugador.liberarDisparo(disparo) }
+  
+  method liberar(disparo) {
+    gestorJugador.liberarDisparo(disparo)
+  }
+  
   method iniciarCooldown() {
     listoParaDisparar = false
     game.schedule(tiempoRecarga, { listoParaDisparar = true })
   }
-  
 }
 
-object enemigo inherits Bando{
-  method direccionDisparo() = abajo 
+object enemigo inherits Bando {
+  method direccionDisparo() = abajo
+  
   override method gestor() = gestorEnemigos
+  
+  // ajuste en la posicion del disparo
+  method ajustarPosicion(posicion) = posicion.up(1)
+  
   // Usa su gestor específico
   method puedeDisparar() = gestorEnemigos.puedeDisparar()
-  method registrar(disparo) { gestorEnemigos.registrarDisparo(disparo) }
-  method liberar(disparo)   { gestorEnemigos.liberarDisparo(disparo) }
+  
+  method registrar(disparo) {
+    gestorEnemigos.registrarDisparo(disparo)
+  }
+  
+  method liberar(disparo) {
+    gestorEnemigos.liberarDisparo(disparo)
+  }
 }

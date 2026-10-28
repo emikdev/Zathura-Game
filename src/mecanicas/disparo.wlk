@@ -28,7 +28,7 @@ class Disparo {
   }
 
   method position(){
-    return position
+    return self.bando().ajustarPosicion(position)
   }
 
   method bando(){
