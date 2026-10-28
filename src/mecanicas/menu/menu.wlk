@@ -4,6 +4,9 @@ import src.personajes.naves.clases.naveBasica.*
 import src.mapas.mapaDemo.*
 import src.mecanicas.menu.seleccionador.*
 import src.mecanicas.menu.configuracion.*
+import src.mecanicas.menu.tiposNave.*
+
+// falta importar la factory.
 
 object menu {
   method iniciar() {
@@ -53,38 +56,48 @@ method menuDificultad() {
     ],
     { opcion =>
       configuracion.dificultad(opcion.valor())
-      self.menuSkinsNave()
+      self.menuCantidadJugadores()
     }
   )
 }
 
-method menuSkinsNave() {
-  
-    self.mostrar(
-      "Elegi tu nave",
-      [
-        new Aspecto(image = "naveNautilus.png", position = game.center().left(8).down(4)),
-        new Aspecto(image = "batiNave.png", position = game.center().right(-1).down(4))
-      ],
-      { aspecto =>
-        configuracion.skinNave(aspecto.image()) // TODO: resolver esto, como settear en la nave la imagen elegida por el jugador.
-        self.menuCantidadJugadores()
-      }
-    )
-}
 
 method menuCantidadJugadores() {
     self.mostrar(
       "Cuantos jugadores?",
       [
         new Opcion(image = "unjugador.png", valor = 1, position = game.center().left(10).down(4)),
-        new Opcion(image = "dosjugadores.png", valor = 2, position = game.center().right(-1).down(4))
+        new Opcion(image = "dosJugadores.png" , valor = 1, position = game.center().right(-1).down(4))
       ],
       { opcion =>
         configuracion.cantidadJugadores(opcion.valor()) // TODO: Implementar que se pueda jugar de a 2.
+        self.menuUnJugador()
+      }
+    )
+  }
+
+  method menuUnJugador() {
+  
+    self.mostrar(
+      "Elegi tu nave",
+      [
+        new Opcion(image = "naveNautilus.png", valor = naveTanque, position = game.center().left(10).down(4)),
+        new Opcion(image = "batiNave.png",     valor = naveAtaque, position = game.center().down(4).left(5)),
+        new Opcion(image = "nave.png",         valor = nave,       position = game.center().right(0).down(4))
+      ],
+      { opcion =>
+        factory.crear(opcion.valor())   // contrato: factory.crear(tipoDeNaveElegida)
         game.clear()
         mapaDemo.cargar()
       }
     )
-  }
+}
+
+
+  method menuDosJugadores() {
+
+    self.menuUnJugador() // TO DO: implementar esto.
+
+}
+
 }
