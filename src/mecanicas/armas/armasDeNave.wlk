@@ -48,13 +48,13 @@ class DobleCanon inherits ArmasConMasProyectiles {
       const posCentro = personaje.position()
   
       // Bala 1: En la izquierda (si es posible)
-      if (izquierda.puedeAvanzar(posCentro)) self.generarProyectilEn(
+      self.generarProyectilEn(
           izquierda.siguiente(posCentro),
           personaje
         )
       
       // Bala 2: En la derecha (si es posible)
-      if (derecha.puedeAvanzar(posCentro)) self.generarProyectilEn(
+      self.generarProyectilEn(
           derecha.siguiente(posCentro),
           personaje
         )
