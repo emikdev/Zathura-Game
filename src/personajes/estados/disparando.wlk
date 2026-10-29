@@ -1,5 +1,5 @@
-import src.mecanicas.estados.estadoPersonaje.*
-import src.mecanicas.estados.neutral.*
+import src.personajes.estados.estadoPersonaje.*
+import src.personajes.estados.neutral.*
 
 class Disparando inherits EstadoPersonaje {
 
