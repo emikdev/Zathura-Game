@@ -5,7 +5,8 @@ class Disparando inherits EstadoPersonaje {
 
     override method initialize(){
         super()
-        personaje.armaActual().disparar(personaje)
+        personaje.arsenal().armaActual().disparar(personaje)
+        personaje.arsenal().verificarArmaActual()
     }
 
     override method recursoAnimacion() = personaje.animacionDisparo()
