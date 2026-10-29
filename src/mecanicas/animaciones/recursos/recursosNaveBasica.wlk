@@ -4,14 +4,12 @@ import src.mecanicas.animaciones.recursos.recursosDeAnimacion.*
 
 
 const animacionBase = new RecursosDeAnimacion(
-    frames = ["nave.png"],
-    duracion = 1000
+    frames = ["nave.png"]
 )
 
 
 const animacionDisparo = new RecursosDeAnimacion(
-    frames = ["naveDisparando-frame1.png", "naveDisparando-frame2.png"],
-    duracion = 1000
+    frames = ["naveDisparando-frame1.png", "naveDisparando-frame2.png"]
 )
 
 const animacionMuerte = new RecursosDeAnimacion(
