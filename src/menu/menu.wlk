@@ -55,30 +55,21 @@ method menuCantidadJugadores() {
         new Opcion(image = "dosJugadores.png" , valor = 2, position = game.center().right(-1).down(4))
       ],
       { opcion =>
-        configuracion.cantidadJugadores(opcion.valor()) // TODO: Implementar que se pueda jugar de a 2.
+        configuracion.cantidadJugadores(opcion.valor()) 
+        configuracion.tiposNaves().clear()
         if(opcion.valor() == 1 ) self.menuUnJugador() else self.menuDosJugadores()
       }
     )
   }
 
-method menuUnJugador() {
-  
-    self.mostrar(
-      "Elegi tu nave",
-      [
-        new Opcion(image = "naveNautilus.png", valor = naveTanque, position = game.center().left(10).down(4)),
-        new Opcion(image = "batiNave.png",     valor = naveAtaque, position = game.center().down(4).left(5)),
-        new Opcion(image = "nave.png",         valor = nave,       position = game.center().right(0).down(4))
-      ],
-      { opcion =>
-        factory.crear(opcion.valor())   // contrato: factory.crear(tipoDeNaveElegida)
-        self.menuDificultadUnJugador()
-      }
-    )
-}
+  method menuUnJugador() {
+    self.elegirNave("Elegi tu nave", { tipoNaveP1 =>
+      configuracion.tiposNaves().add(tipoNaveP1)
+      self.menuDificultad()
+    })
+  }
 
-
-method menuDificultadUnJugador() {
+method menuDificultad() {
   self.mostrar(
     "Elegi la dificultad",
     [
@@ -88,43 +79,45 @@ method menuDificultadUnJugador() {
     ],
     { opcion =>
       configuracion.dificultad(opcion.valor())
-      game.clear()
-      mapaDemo.cargar()
-    }
-  )
-}
-
-method menuDificultadDosJugadores() {
-  self.mostrar(
-    "Elegi la dificultad",
-    [
-      new Opcion(image = "easy.png", valor = 1, position = game.center().left(10).down(4)),
-      new Opcion(image = "normal.png", valor = 2, position = game.center().down(4).left(5)),
-      new Opcion(image = "hard.png", valor = 3, position = game.center().right(0).down(4))
-    ],
-    { opcion =>
-      configuracion.dificultad(opcion.valor())
-      game.clear()
-      mapaDemo.cargar()
+      self.empezar()
     }
   )
 }
 
   method menuDosJugadores() {
+    self.elegirNave("Jugador 1: elegi tu nave", { tipoNaveP1 =>
+      configuracion.tiposNaves().add(tipoNaveP1)
 
-    self.mostrar("Elegi la nave del jugador 1 y luego la del jugador 2", 
+      self.elegirNave("Jugador 2: elegi tu nave", { tipoNaveP2 =>
+        factory.crear(tipoNaveP2)
+
+        configuracion.dificultad(3)   // en 2 jugadores la dificultad siempre es difcil
+        self.empezar()
+      })
+    })
+  }
+
+  method elegirNave(titulo, alElegir) {
     
+      self.mostrar(titulo, self.opcionesNave(), {opcion => alElegir.apply(opcion.valor())})
+  }
+
+  method opcionesNave() =     
       [ 
-        new Opcion(image = "naveNautilus.png", valor = naveTanque, position = game.center().left(10).down(4)),
-        new Opcion(image = "batiNave.png",     valor = naveAtaque, position = game.center().down(4).left(5)),
+        new Opcion(image = "naveTanque.png", valor = naveTanque, position = game.center().left(10).down(4)),
+        new Opcion(image = "naveAtaque.png",     valor = naveAtaque, position = game.center().down(4).left(5)),
         new Opcion(image = "nave.png",         valor = nave,       position = game.center().right(0).down(4))
-      ],
-      { opcion =>
-        factory.crear(opcion.valor())   // contrato: factory.crear(tipoDeNaveElegida)
-        self.menuDificultadDosJugadores()
-      }
-    )
+        ]
+
+  method empezar() {
+      game.clear()
+      nivel.cargar()
+  }
 }
 
+  object factory{
 
-}
+    method crear(tipoDeNave) {
+      
+    }
+  }
