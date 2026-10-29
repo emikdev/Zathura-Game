@@ -1,4 +1,5 @@
 import src.personajes.efectos.efectosPersonaje.*
+import src.personajes.estados.neutral.*
 class Personaje{
 
     var property position
@@ -25,8 +26,10 @@ class Personaje{
     }
 
     method initialize(){
-        self.cambiarEfecto(sinEfecto)
-        self.restaurarSalud()
+        estadoActual = new Neutral(personaje = self)
+        efectoVisual = sinEfecto
+        salud = saludMaxima
+        position = posicionInicial
     }
 
     method animacionBase(){
