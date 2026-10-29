@@ -1,11 +1,6 @@
 import src.mecanicas.gestorDisparos.*
 import src.mecanicas.direcciones.*
 
-class Bando {
-  // clase abstracta para bandos
-  method gestor()
-}
-
 object jugador {
   const tiempoRecarga = 500
   var listoParaDisparar = true 
