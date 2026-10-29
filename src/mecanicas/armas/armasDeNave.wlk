@@ -39,12 +39,13 @@ class ArmasConMasProyectiles inherits ArmaLaser {
     )
     nuevoDisparo.iniciar()
     personaje.bando().registrar(nuevoDisparo)
+    if (not self.hayMunicion()) personaje.descartarArma(self)
   }
 }
 
 class DobleCanon inherits ArmasConMasProyectiles {
   override method disparar(personaje) {
-    if (self.hayMunicion() and personaje.bando().puedeDisparar()) {
+    if (personaje.bando().puedeDisparar()) {
       const posCentro = personaje.position()
   
       // Bala 1: En la izquierda (si es posible)
@@ -72,7 +73,7 @@ class DobleCanon inherits ArmasConMasProyectiles {
 
 class TripleCanon inherits ArmasConMasProyectiles {
   override method disparar(personaje) {
-    if (self.hayMunicion() and personaje.bando().puedeDisparar()) {
+    if (personaje.bando().puedeDisparar()) {
       const posCentro = personaje.position()
       
       // 1. Centro
