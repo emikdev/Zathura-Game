@@ -21,9 +21,11 @@ object jugador {
   method liberar(disparo) {
     gestorJugador.liberarDisparo(disparo)
   }
-  method puedeColisonarCon(objeto){
-    return self != objeto
+
+  method puedeColisionarCon(otroBando) {
+    return self != otroBando
   }
+  
   method iniciarCooldown() {
     listoParaDisparar = false
     game.schedule(tiempoRecarga, { listoParaDisparar = true })
@@ -42,8 +44,8 @@ object enemigo {
     gestorEnemigos.registrarDisparo(disparo)
   }
 
-  method puedeColisonarCon(objeto){
-    return self != objeto
+  method puedeColisionarCon(otroBando) {
+    return self != otroBando
   }
 
   method liberar(disparo) {
