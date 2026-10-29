@@ -18,8 +18,11 @@ class Personaje{
 
     const bando
 
-    const armasPersonaje
-    var indiceArma = 0
+    const arsenal
+
+    method arsenal(){
+        return arsenal
+    }
 
     method initialize(){
         self.cambiarEfecto(sinEfecto)
@@ -65,23 +68,6 @@ class Personaje{
 
     method disparar(){
         estadoActual.disparar()
-    }
-
-    method armaActual(){
-        return armasPersonaje.get(indiceArma)
-    }
-
-    method equiparSiguienteArma(){
-        indiceArma = (indiceArma + 1) % armasPersonaje.size()
-    }
-
-    method equiparArma(slot){
-        indiceArma = slot - 1
-    }
-
-    method descartarArma(arma) {
-        armasPersonaje.remove(arma)
-        indiceArma = 0
     }
 
     method restarSalud(dano){ 

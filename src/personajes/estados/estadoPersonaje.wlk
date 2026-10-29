@@ -54,7 +54,7 @@ class EstadoPersonaje {
 	}
 
 	method siguienteArma(){ 
-		personaje.equiparSiguienteArma()
+		personaje.arsenal().equiparSiguienteArma()
 	}
 
 	method seleccionarArma(slot){
