@@ -15,7 +15,7 @@ class Arsenal{
     }
 
     method equiparArma(seleccionarSlot){ // Seleccion un slot del arsenal
-        armaActual = seleccionarSlot
+        armaActual = seleccionarSlot.min(arsenal.size() - 1) // Evita que se desfase indice armaActual
     }
 
     method verificarArmaActual(){ // Revisa si el arma actual tiene municion, sino tiene la descarta y vuelve al primer arma
