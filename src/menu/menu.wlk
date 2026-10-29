@@ -97,6 +97,20 @@ method menuDificultad() {
     })
   }
 
+  method menuGameOver (){
+
+      self.mostrar(
+      "menuGameOver.png",
+      [
+        new Opcion(image = "volverAJugar.png", valor = "volver a jugar", position = game.center().left(10).down(4)),
+        new Opcion(image = "salir.png", valor = "salir", position = game.center().right(-1).down(4))
+      ],
+      { opcion =>
+        if (opcion.valor() == "Volver a jugar") self.menuPrincipal() else game.stop()
+      }
+    )
+  }
+
   method elegirNave(titulo, alElegir) {
     
       self.mostrar(titulo, self.opcionesNave(), {opcion => alElegir.apply(opcion.valor())})
@@ -114,10 +128,3 @@ method menuDificultad() {
       nivel.cargar()
   }
 }
-
-  object factory{
-
-    method crear(tipoDeNave) {
-      
-    }
-  }
