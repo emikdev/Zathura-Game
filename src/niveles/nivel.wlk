@@ -1,10 +1,13 @@
+import src.niveles.gestorDeNivel.gestorDeNiveles
+
 import wollok.game.*
 
 class Nivel{
 
     const formaciones // lista de formaciones pre diseñadas
+    const gestorDeNivel = gestorDeNiveles // Conoce su gestor ya que lo llama para terminar el nivel
     
-    method initialize(){
+    method cargar(){
 
         self.formacionActual().iniciar() // Se carga la formacion actual de la lista de formaciones
 
@@ -16,7 +19,7 @@ class Nivel{
 
     }
 
-    method siguienteFormacion(){ // Remueve la formacion actual de la lista
+    method removerFormacion(){ // Remueve la primera formacion de la lista 
 
         formaciones.remove(self.formacionActual())
 
@@ -24,10 +27,12 @@ class Nivel{
 
 
     method llamarSiguienteFormacionSiSePuede(){
-        self.siguienteFormacion()
-        if(self.haySiguienteFormacion()){
-            self.formacionActual().iniciar()
+        self.removerFormacion() 
+        if(not self.haySiguienteFormacion()){  // Si no hay siguiente formacion da por finalizado el nivel
+            self.nivelTerminado()
         }
+        self.formacionActual().iniciar()
+        
     }
 
     method haySiguienteFormacion(){ // Verifica que formaciones no este vacia
@@ -39,12 +44,12 @@ class Nivel{
     method enemigosGanaron(){ // Si la formacion llego a y = 0 el juego termina
 
         if(self.formacionActual().enemigosEnFormacion().any({ enemigo => enemigo.position().y() == 0 })){
-            self.nivelTerminado()
+            gestorDeNivel.gameOver()
         }
 
     }
 
-    method nivelTerminado(){}
-
-
+    method nivelTerminado(){ // Nivel terminado llama a gestorNivel.terminarNivel()
+        gestorDeNivel.terminarNivel()
+    }
 }
