@@ -21,6 +21,8 @@ class Arma {
       nuevoDisparo.iniciar()
       personaje.bando().registrar(nuevoDisparo)
       self.consumirMunicion()
+      if (not self.hayMunicion()) personaje.descartarArma(self)
+
     }
 
   }

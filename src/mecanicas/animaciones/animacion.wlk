@@ -1,5 +1,4 @@
 class Animacion {
-
     const estado
     const recursoDeAnimacion
     var frameActual = 0
@@ -13,9 +12,7 @@ class Animacion {
     method initialize() {
         self.animar()
     }
-
     method frameActual() = recursoDeAnimacion.frames().get(frameActual)
-
     method animar() {
         game.schedule(recursoDeAnimacion.duracion() / recursoDeAnimacion.frames().size(), {
             if (activa) {
@@ -28,14 +25,11 @@ class Animacion {
             }
         })
     }
-
     method reiniciar() {
         frameActual = 0
         self.animar()
     }
-
     method detener() {
         activa = false
     }
-
 }
