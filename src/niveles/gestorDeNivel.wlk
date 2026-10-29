@@ -3,25 +3,13 @@ import game.*
 object gestorDeNiveles{
 
     const niveles = []
-    const naves = []
-
+    
     method initialize(){ // Al iniciar carga el primer nivel de la lista
         self.nivelActual().cargar()
     }
 
     method agregarNiveles(nuevosNiveles){ // Agrega los niveles
         niveles.addAll(nuevosNiveles)
-    }
-
-    method agregarNave(nave){ // Agrega las naves 
-        naves.addAll(nave)
-    }
-
-    method naveSinVidas(nave){ // Es llamado por nave en metodo alQuedarseSinVida() 
-        nave.remove(nave) 
-        if(naves.isEmpty()){ // Cuando la lista de naves queda vacia se llama a gameOVer
-            self.gameOver()
-        }
     }
 
     method nivelActual(){ // Devuelve el nivel de la primera posicion de la lista
