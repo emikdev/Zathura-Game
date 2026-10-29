@@ -22,7 +22,7 @@ object menu {
       alSeleccionar = alSeleccionar
     )
 
-    game.addVisual(new Cartel(text = titulo, position = game.center().up(10)))
+    game.addVisual(new Cartel(image = titulo, position = game.center().up(10)))
     opciones.forEach({ opcion => game.addVisual(opcion) })
     game.addVisual(seleccionador)
 
@@ -49,7 +49,7 @@ object menu {
   
 method menuCantidadJugadores() {
     self.mostrar(
-      "Cuantos jugadores?",
+      "Cuantosjugadores.png",
       [
         new Opcion(image = "unjugador.png", valor = 1, position = game.center().left(10).down(4)),
         new Opcion(image = "dosJugadores.png" , valor = 2, position = game.center().right(-1).down(4))
@@ -63,7 +63,7 @@ method menuCantidadJugadores() {
   }
 
   method menuUnJugador() {
-    self.elegirNave("Elegi tu nave", { tipoNaveP1 =>
+    self.elegirNave("elegiTuNave.png", { tipoNaveP1 =>
       configuracion.tiposNaves().add(tipoNaveP1)
       self.menuDificultad()
     })
@@ -71,7 +71,7 @@ method menuCantidadJugadores() {
 
 method menuDificultad() {
   self.mostrar(
-    "Elegi la dificultad",
+    "elegiLaDificultad.png",
     [
       new Opcion(image = "easy.png", valor = 1, position = game.center().left(10).down(4)),
       new Opcion(image = "normal.png", valor = 2, position = game.center().down(4).left(5)),
@@ -85,10 +85,10 @@ method menuDificultad() {
 }
 
   method menuDosJugadores() {
-    self.elegirNave("Jugador 1: elegi tu nave", { tipoNaveP1 =>
+    self.elegirNave("jugador1ElegiTuNave.png", { tipoNaveP1 =>
       configuracion.tiposNaves().add(tipoNaveP1)
 
-      self.elegirNave("Jugador 2: elegi tu nave", { tipoNaveP2 =>
+      self.elegirNave("jugador2ElegiTuNave.png", { tipoNaveP2 =>
         factory.crear(tipoNaveP2)
 
         configuracion.dificultad(3)   // en 2 jugadores la dificultad siempre es difcil
@@ -105,6 +105,19 @@ method menuDificultad() {
         new Opcion(image = "volverAJugar.png", valor = "volver a jugar", position = game.center().left(10).down(4)),
         new Opcion(image = "salir.png", valor = "salir", position = game.center().right(-1).down(4))
       ],
+      { opcion =>
+        if (opcion.valor() == "Volver a jugar") self.menuPrincipal() else game.stop()
+      }
+    )
+  }
+
+  method menuVictoria() {
+    self.mostrar("ganaste.png",
+      [
+        new Opcion(image = "volverAJugar.png", valor = "volver a jugar", position = game.center().left(10).down(4)),
+        new Opcion(image = "salir.png", valor = "salir", position = game.center().right(-1).down(4))
+      ],
+      
       { opcion =>
         if (opcion.valor() == "Volver a jugar") self.menuPrincipal() else game.stop()
       }

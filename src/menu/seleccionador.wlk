@@ -22,7 +22,7 @@ class Aspecto {
 }
 
 class Cartel {
-    const property text
+    const property image
     const property position
 }
 
