@@ -39,7 +39,6 @@ class ArmasConMasProyectiles inherits ArmaLaser {
     )
     nuevoDisparo.iniciar()
     personaje.bando().registrar(nuevoDisparo)
-    if (not self.hayMunicion()) personaje.descartarArma(self)
   }
 }
 
