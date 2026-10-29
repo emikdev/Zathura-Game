@@ -44,7 +44,7 @@ class ArmasConMasProyectiles inherits ArmaLaser {
 
 class DobleCanon inherits ArmasConMasProyectiles {
   override method disparar(personaje) {
-    if (self.hayMunicion() and personaje.bando().puedeDisparar()) {
+    if (personaje.bando().puedeDisparar()) {
       const posCentro = personaje.position()
   
       // Bala 1: En la izquierda (si es posible)
@@ -60,6 +60,8 @@ class DobleCanon inherits ArmasConMasProyectiles {
         )
       
       self.consumirMunicion()
+      if (not self.hayMunicion()) personaje.descartarArma(self)
+
     }
   }
   
@@ -72,7 +74,7 @@ class DobleCanon inherits ArmasConMasProyectiles {
 
 class TripleCanon inherits ArmasConMasProyectiles {
   override method disparar(personaje) {
-    if (self.hayMunicion() and personaje.bando().puedeDisparar()) {
+    if (personaje.bando().puedeDisparar()) {
       const posCentro = personaje.position()
       
       // 1. Centro
@@ -85,6 +87,8 @@ class TripleCanon inherits ArmasConMasProyectiles {
       self.generarProyectilEn(izquierda.siguiente(posCentro), personaje)
       
       self.consumirMunicion()
+      if (not self.hayMunicion()) personaje.descartarArma(self)
+
     }
   }
   
@@ -98,7 +102,7 @@ class TripleCanon inherits ArmasConMasProyectiles {
 // Arma Básica del Jugador (Infinita, hereda directo de Arma)
 const armaBasica = new Arma(
   danoBala = 2,
-  recursoBala = new RecursosDeAnimacion(
+  recursoBala = new RecursoDeAnimacion(
     frames = [
       "disparoCeleste_frame_1.png",
       "disparoCeleste_frame_2.png",
@@ -111,7 +115,7 @@ const armaBasica = new Arma(
 
 // Arma Láser Estándar
 const laserEstandar = new ArmaLaser(
-  recursoBala = new RecursosDeAnimacion(
+  recursoBala = new RecursoDeAnimacion(
     frames = [
       "ArmaLaser_frame_1.png",
       "ArmaLaser_frame_2.png",
@@ -120,13 +124,12 @@ const laserEstandar = new ArmaLaser(
     duracion = 100
   ),
   danoBala = 5,
-  // Corregido danoBalaBala -> danoBala
   municion = 30
 )
 
 // Cañón de Plasma Pesado
 const canonPlasma = new ArmaDePlasma(
-  recursoBala = new RecursosDeAnimacion(
+  recursoBala = new RecursoDeAnimacion(
     frames = [
       "ArmaDePlasma_frame_1.png",
       "ArmaDePlasma_frame_2.png",
@@ -135,13 +138,12 @@ const canonPlasma = new ArmaDePlasma(
     duracion = 500
   ),
   danoBala = 10,
-  // Corregido danoBalaBala -> danoBala
   municion = 10
 )
 
 // Instanciación del Doble Cañón
 const miDobleCanon = new DobleCanon(
-  recursoBala = new RecursosDeAnimacion(
+  recursoBala = new RecursoDeAnimacion(
     frames = [
       "ArmaLaser_frame_1.png",
       "ArmaLaser_frame_2.png",
@@ -156,7 +158,7 @@ const miDobleCanon = new DobleCanon(
 
 // Instanciación del Triple Cañón
 const miTripleCanon = new TripleCanon(
-  recursoBala = new RecursosDeAnimacion(
+  recursoBala = new RecursoDeAnimacion(
     frames = [
       "ArmaLaser_frame_1.png",
       "ArmaLaser_frame_2.png",

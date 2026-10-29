@@ -42,7 +42,7 @@ class Disparo {
   
   method iniciar() {
     game.addVisual(self)
-    game.onCollideDo(self, { objetivo => self.colisionarCon(objetivo) })
+    game.onCollideDo(self, { objetivo => objetivo.colisionaCon(self) })
   }
   
   // Avanza el disparo de celda
@@ -54,10 +54,7 @@ class Disparo {
     }
   }
   
-  method colisionarCon(objetivo) {
-    objetivo.recibirImpacto(self)
-  }
-  method recibirImpacto(disparo) { }
+  method colisionarCon(objetivo) {}
   
   method destruir() {
     // El bando sabe exactamente a qué gestor llamar internamente
@@ -68,8 +65,8 @@ class Disparo {
 }
 
 //// Personaje
-// method recibirImpacto(disparo) {
-//   if (disparo.bando() != bando) {
+// method colisionaCon(disparo) {
+//   if (bando.puedeColisonarCon(disparo)) {
 //     self.recibirDano(disparo.dano())
 //     disparo.destruir()
 //   }

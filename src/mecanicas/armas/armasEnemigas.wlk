@@ -9,22 +9,17 @@ class ArmaEnemigaBasica inherits Arma {
 }
 const armaEnemigaBasica = new ArmaEnemigaBasica(
   danoBala = 1,
-  recursoBala = new RecursosDeAnimacion(
+  recursoBala = new RecursoDeAnimacion(
     frames = ["disparoBlanco_frame_2","disparoBlanco_frame_2","disparoBlanco_frame_2"]
   ),
   municion = 100
 ) 
 
 // Arma Cargada Enemiga (Usada por Mosca)
-class ArmaCargadaEnemiga inherits Arma {
-  override method hayMunicion() = municion > 0 
-  override method consumirMunicion() {
-    municion -= 1
-  } 
-}
+class ArmaCargadaEnemiga inherits Arma {}// hay que configurar que tata municion gasta o gasta lo mismo que arma
 
 const armaCargadaEnemiga = new ArmaCargadaEnemiga(
-  recursoBala = new RecursosDeAnimacion(
+  recursoBala = new RecursoDeAnimacion(
     frames = [
       "disparoAmarillo_frame_1.png",
       "disparoAmarillo_frame_2.png",
@@ -36,15 +31,10 @@ const armaCargadaEnemiga = new ArmaCargadaEnemiga(
 )
 
 // 2. Arma Pesada Enemiga (Usada por Heavy)
-class ArmaPesadaEnemiga inherits Arma {
-  override method hayMunicion() = municion > 0
-  override method consumirMunicion() {
-    municion -= 1 
-  } 
-}
+class ArmaPesadaEnemiga inherits Arma {}// hay que configurar que tata municion gasta o gasta lo mismo que arma
 
 const armaPesadaEnemiga = new ArmaPesadaEnemiga(
-  recursoBala = new RecursosDeAnimacion(
+  recursoBala = new RecursoDeAnimacion(
     frames = [
       "disparoVioleta_frame_1.png",
       "disparoVioleta_frame_2.png",
@@ -56,10 +46,10 @@ const armaPesadaEnemiga = new ArmaPesadaEnemiga(
 )
 
 // 3. Arma Rápida Enemiga (Usada por Medusa y Sepia)
-class ArmaRapidaEnemiga inherits ArmaPesadaEnemiga {}
+class ArmaRapidaEnemiga inherits ArmaPesadaEnemiga {}// hay que configurar que tata municion gasta o gasta lo mismo que arma
 
 const armaRapidaEnemiga = new ArmaRapidaEnemiga(
-  recursoBala = new RecursosDeAnimacion(
+  recursoBala = new RecursoDeAnimacion(
     frames = [
       "disparoAzul_frame_1.png",
       "disparoAzul_frame_2.png",
