@@ -1,12 +1,12 @@
 import src.mecanicas.estados.estadoPersonaje.*
-import src.mecanicas.estados.impactado.*
 import src.mecanicas.estados.neutral.*
 
 class Disparando inherits EstadoPersonaje {
 
     override method initialize(){
         super()
-        personaje.armaActual().disparar(personaje)
+        personaje.arsenal().armaActual().disparar(personaje)
+        personaje.arsenal().verificarArmaActual()
     }
 
     override method recursoAnimacion() = personaje.animacionDisparo()
@@ -14,15 +14,7 @@ class Disparando inherits EstadoPersonaje {
     override method terminoAnimacion() {
         self.cambiarANeutral()
     }
-
-    override method cambiarANeutral(){
-        personaje.cambiarEstado(new Neutral(personaje = personaje))
-    }
-
+    
     override method disparar(){ }
-
-    override method recibirImpacto(){
-        personaje.cambiarEstado(new Impactado(personaje = personaje))
-    }
 
 }
