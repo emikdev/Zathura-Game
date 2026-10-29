@@ -1,5 +1,5 @@
 class Arsenal{
-    const arsenal
+    const armas
     var armaActual = 0
 
     method armaActual(){ // Devuelve el arma actual
