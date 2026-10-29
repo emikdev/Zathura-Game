@@ -1,6 +1,5 @@
 import wollok.game.*
 import src.mapas.mapaDemo.*
-import src.mecanicas.menu.menuJuego.*
 
 program Zathura {
 
@@ -18,7 +17,7 @@ program Zathura {
 	game.boardGround("fondo1Galaga.gif")
 
 	// Cargar el nivel de la demo
-	menu.iniciar()
+	mapaDemo.cargar()
 
 	// Inicializador del juego
 	game.start()
