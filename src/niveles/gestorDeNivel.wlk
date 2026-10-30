@@ -4,7 +4,7 @@ object gestorDeNiveles{
 
     const niveles = []
     
-    method initialize(){ // Al iniciar carga el primer nivel de la lista
+    method iniciar(){ // Al iniciar carga el primer nivel de la lista
         self.nivelActual().cargar()
     }
 
