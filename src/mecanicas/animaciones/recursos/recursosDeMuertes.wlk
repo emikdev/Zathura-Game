@@ -29,3 +29,18 @@ const animacionMuerteRojo = new RecursoDeAnimacion(
     frames = ["muerteRojo-frame1.png", "muerteRojo-frame2.png", "muerteRojo-frame3.png", "muerteRojo-frame4.png", "muerteRojo-frame5.png"]
     
 )
+
+// Nave Impacto
+const animacionNaveAtaqueMuerte = new RecursoDeAnimacion(
+    frames = ["naveAtaqueMuerteFrame-1.png", "naveAtaqueMuerteFrame-1.png"]
+)
+
+// Nave Estandar
+const animacionNaveEstandarMuerte = new RecursoDeAnimacion(
+    frames = ["muerteNave-frame1.png", "muerteNave-frame2.png", "muerteNave-frame3.png", "muerteNave-frame4.png", "muerteNave-frame5.png", "muerteNave-frame6.png", "muerteNave-frame7.png"]
+)
+
+// Nave Tanque
+const animacionNaveTanqueMuerte = new RecursoDeAnimacion(
+    frames = ["naveTankMuerteFrame-1.png", "naveTankMuerteFrame-1.png"]
+)
