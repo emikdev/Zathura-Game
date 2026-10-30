@@ -1,4 +1,4 @@
-import gestor.*
+import gestorPersonajes.*
 import src.niveles.gestorDeNivel.gestorDeNiveles
 
 object gestorJugador inherits Gestor{

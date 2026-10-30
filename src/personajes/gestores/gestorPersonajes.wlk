@@ -1,4 +1,4 @@
-class Gestor{
+class GestorPersonaje{
 
     method puedeDisparar() = true
 
