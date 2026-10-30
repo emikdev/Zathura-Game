@@ -5,10 +5,12 @@ class Seleccionador {
     const property image = "spot.png"
     const property opciones
     const alSeleccionar
+    const alturaFlecha
+    const anchoFlecha
     var indice = 0
 
     method seleccionado() = opciones.get(indice)
-    method position() = self.seleccionado().position().up(4)
+    method position() = self.seleccionado().position().up(alturaFlecha).left(anchoFlecha)
 
     method siguiente() { indice = (indice + 1) % opciones.size() }
     method anterior() { indice = (indice - 1 + opciones.size()) % opciones.size() }

@@ -2,7 +2,7 @@
   import wollok.game.*
   import src.menu.seleccionador.*
   import src.menu.configuracion.*
-  import src.menu.tiposNave.*
+  import src.menu.tiposNaves.*
 
   // falta importar el archivo de los niveles
 
@@ -11,16 +11,21 @@
       self.menuPrincipal()
     }
 
-    // Arma una pantalla genérica: título + opciones + selector + teclas
     method mostrar(titulo, opciones, alSeleccionar) {
+    self.mostrar(titulo, opciones, alSeleccionar, 4, 0)
+  }
+    // Arma una pantalla genérica: título + opciones + selector + teclas
+    method mostrar(titulo, opciones, alSeleccionar,alturaFlecha,anchoFlecha) {
       game.clear()
 
       const seleccionador = new Seleccionador(
         opciones = opciones,
-        alSeleccionar = alSeleccionar
+        alSeleccionar = alSeleccionar,
+        alturaFlecha = alturaFlecha,
+        anchoFlecha = anchoFlecha
       )
 
-      game.addVisual(new Cartel(image = titulo, position = game.center().up(10)))
+      game.addVisual(new Cartel(image = titulo, position = game.center().up(6).left(6)))
       opciones.forEach({ opcion => game.addVisual(opcion) })
       game.addVisual(seleccionador)
 
@@ -33,7 +38,7 @@
 
     method menuPrincipal() {
       self.mostrar(
-        "menuPrincipal.png".position().center().up(5),
+        "menuPrincipal.png",
         [
           new Opcion(image = "jugar.png", valor = "jugar", position = game.center().left(10).down(4)),
           new Opcion(image = "salir.png", valor = "salir", position = game.center().right(-1).down(4))
@@ -47,9 +52,9 @@
     
   method menuCantidadJugadores() {
       self.mostrar(
-        "cuantosJugadores.png".position().center().up(5),
+        "cuantosJugadores.png",
         [
-          new Opcion(image = "unjugador.png", valor = 1, position = game.center().left(10).down(4)),
+          new Opcion(image = "unJugador.png", valor = 1, position = game.center().left(10).down(4)),
           new Opcion(image = "dosJugadores.png" , valor = 2, position = game.center().right(-1).down(4))
         ],
         { opcion =>
@@ -61,7 +66,7 @@
     }
 
     method menuUnJugador() {
-      self.elegirNave("elegiTuNave.png".position().center().up(5), { tipoNaveP1 =>
+      self.elegirNave("elegiTuNave.png", { tipoNaveP1 =>
         configuracion.tiposNaves().add(tipoNaveP1)
         self.menuDificultad()
       })
@@ -69,7 +74,7 @@
 
   method menuDificultad() {
     self.mostrar(
-      "elegiLaDificultad.png".position().center().up(5),
+      "elegiLaDificultad.png",
       [
         new Opcion(image = "easy.png", valor = 1, position = game.center().left(10).down(4)),
         new Opcion(image = "normal.png", valor = 2, position = game.center().down(4).left(5)),
@@ -83,10 +88,10 @@
   }
 
     method menuDosJugadores() {
-      self.elegirNave("jugador1ElegiTuNave.png".position().center().up(5), { tipoNaveP1 =>
+      self.elegirNave("jugador1ElegiTuNave.png", { tipoNaveP1 =>
         configuracion.tiposNaves().add(tipoNaveP1)
 
-        self.elegirNave("jugador2ElegiTuNave.png".position().center().up(5), { tipoNaveP2 =>
+        self.elegirNave("jugador2ElegiTuNave.png", { tipoNaveP2 =>
           configuracion.tiposNaves().add(tipoNaveP2)
 
           configuracion.dificultad(3)   // en 2 jugadores la dificultad siempre es difcil
@@ -106,7 +111,7 @@
     }
 
     method menuInicial(titulo) {
-      self.mostrar(titulo.position().center().up(5),
+      self.mostrar(titulo,
     [
       new Opcion(image = "volverAJugar.png", valor = "volver", position = game.center().left(10).down(4)),
       new Opcion(image = "salir.png",        valor = "salir",  position = game.center().right(-1).down(4))
@@ -119,18 +124,21 @@
 
     method elegirNave(titulo, alElegir) {
       
-        self.mostrar(titulo, self.opcionesNave(), {opcion => alElegir.apply(opcion.valor())})
+        self.mostrar(titulo, self.opcionesNave(), {opcion => alElegir.apply(opcion.valor())} , 9 , 2)
     }
 
-    method opcionesNave() =     
-        [ 
-          new Opcion(image = "naveTanque.png", valor = naveTanque, position = game.center().left(10).down(4)),
-          new Opcion(image = "naveAtaque.png",     valor = naveAtaque, position = game.center().down(4).left(5)),
-          new Opcion(image = "nave.png",         valor = nave,       position = game.center().right(0).down(4))
-          ]
+    method opcionesNave() {
+  return [
+    new Opcion(image = "naveTanqueMenu.png", valor = naveTanque, position = game.center().left(10).down(7)),
+    new Opcion(image = "naveNormalMenu.png",       valor = nave,       position = game.center().down(7).left(3) ),
+    new Opcion(image = "naveDeAtaqueMenu.png", valor = naveAtaque, position = game.center().right(3).down(7))
+  ]
+}
 
     method empezar() {
         game.clear()
         nivel.cargar()
     }
+
   }
+
