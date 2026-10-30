@@ -1,18 +1,21 @@
+import src.mecanicas.animaciones.recursos.recursosNaves.*
+import src.mecanicas.animaciones.recursos.recursosProyectiles.*
+import src.mecanicas.animaciones.recursos.recursosDeMuertes.*
+import src.mecanicas.arsenal.*
+
 object naveTanque {
   
   method hp() = 200
 
   method vidas() = 5
 
-  method framesBase()  = ["naveTankFrame-1.png","naveTankFrame-2.png"]
+  method framesBase()  = animacionNaveTanqueBase
 
-  method framesDisparo() = ["naveTankDisparoFrame-1.png","naveTankDisparoFrame-2.png"]
+  method framesDisparo() = animacionNaveTanqueDisparo
 
-  method framesMuerte() = ["naveTankMuerteFrame-1.png","naveTankMuerteFrame-1.png"]
+  method framesMuerte() = animacionNaveTanqueMuerte
 
-  method framesImpacto() = ["naveTankImpactoFrame-1.png","naveTankImpactoFrame-2.png"]
-
-  method arsenal() = [armaNormal()]
+  method arsenal() = new Arsenal(aramas =[armaNormal()])
 }
 object naveAtaque {
 
@@ -20,15 +23,13 @@ object naveAtaque {
 
   method vidas() = 2
 
-  method framesBase()  = ["naveAtaqueFrame-1.png","naveAtaqueFrame-2.png"]
+  method framesBase()  = animacionNaveAtaqueBase
 
-  method framesDisparo()  = ["naveAtaqueDisparandoFrame-1.png","naveAtaqueDisparandoFrame-2.png"]
+  method framesDisparo()  = animacionNaveAtaqueDisparo
 
-  method framesMuerte() = ["naveAtaqueMuerteFrame-1.png","naveAtaqueMuerteFrame-1.png"]
+  method framesMuerte() = animacionNaveAtaqueMuerte
 
-  method framesImpacto() = ["naveAtaqueImpactoFrame-1.png","naveAtaqueImpactoFrame-1.png"]
-
-  method arsenal() = [armaNormal(), armaRapida(), armaPesada()]
+  method arsenal() = new Arsenal(aramas =[armaNormal(), armaRapida(), armaPesada()])
 
 }
 
@@ -38,14 +39,12 @@ object nave {
 
   method vidas() = 3
 
-  method framesBase()  = ["naveFrame-1.png","naveFrame-2.png"]
+  method framesBase()  = animacionNaveEstandarBase
 
-  method framesDisparo() = ["naveDisparoFrame-1.png","naveDisparoFrame-2.png"]
+  method framesDisparo() = animacionNaveEstandarDisparo
 
-  method framesMuerte() = ["naveMuerteFrame-1.png","naveMuerteFrame-1.png"]
+  method framesMuerte() = animacionNaveEstandarMuerte
 
-  method framesImpacto() = ["naveImpactoFrame-1.png","naveImpactoFrame-2.png"]
-
-  method arsenal() = [armaNormal(), armaPesada()]
+  method arsenal() = new Arsenal(aramas = [armaNormal(), armaPesada()])
   
 }
