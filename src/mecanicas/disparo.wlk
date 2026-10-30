@@ -1,5 +1,5 @@
 import wollok.game.*
-import src.mecanicas.direcciones.*
+import src.mecanicas.direcciones.direcciones.*
 import src.mecanicas.animaciones.animacion.*
 
 class Disparo {

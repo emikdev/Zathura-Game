@@ -1,4 +1,4 @@
-import src.mecanicas.direcciones.*
+import src.mecanicas.direcciones.direcciones.*
 import src.mecanicas.animaciones.animacion.*
 import src.personajes.estados.neutral.*
 import src.personajes.estados.disparando.*

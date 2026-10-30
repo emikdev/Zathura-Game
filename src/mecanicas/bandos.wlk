@@ -1,5 +1,5 @@
 import src.mecanicas.gestorDisparos.*
-import src.mecanicas.direcciones.*
+import src.mecanicas.direcciones.direcciones.*
 
 object bandoJugador {
   const tiempoRecarga = 500 

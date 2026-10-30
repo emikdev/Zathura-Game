@@ -1,6 +1,6 @@
 import wollok.game.*
 
-import src.mecanicas.direcciones.*
+import src.mecanicas.direcciones.direcciones.*
 
 
 // Representa una formacion de enemigos
