@@ -1,54 +1,40 @@
 import src.mecanicas.gestorDisparos.*
 import src.mecanicas.direcciones.*
 
-object jugador {
-  const tiempoRecarga = 500
-  var listoParaDisparar = true 
-  // ajuste en la posicion del disparo
-  method ajustarPosicion(posicion) = posicion.up(1)
+class Bando {
+  // Método abstracto: cada bando debe definir cuál es su gestor específico
+  method gestor()
+
+  // Dirección y ajuste: definidos por cada bando
+  method direccionDisparo()
+  method ajustarPosicion(posicion)
+
+  // Lógica compartida: se resuelve de forma genérica usando el gestor polimórfico
+  method puedeDisparar() = self.gestor().puedeDisparar()
   
-  method direccionDisparo() = arriba
-  
-  // Usa su gestor específico
-  method puedeDisparar() = listoParaDisparar and gestorJugador.puedeDisparar()
-  
-  
-  method registrar(disparo) {
-    gestorJugador.registrarDisparo(disparo)
-    self.iniciarCooldown()
+  method registrar(disparo) { 
+    self.gestor().registrarDisparo(disparo) 
   }
   
-  method liberar(disparo) {
-    gestorJugador.liberarDisparo(disparo)
+  method liberar(disparo) { 
+    self.gestor().liberarDisparo(disparo) 
   }
 
+  // Lógica compartida de colisiones
   method puedeColisionarCon(otroBando) {
     return self != otroBando
-  }
-  
-  method iniciarCooldown() {
-    listoParaDisparar = false
-    game.schedule(tiempoRecarga, { listoParaDisparar = true })
   }
 }
 
-object enemigo {
-  method direccionDisparo() = abajo
-  // ajuste en la posicion del disparo
-  method ajustarPosicion(posicion) = posicion.down(1)
-  
-  // Usa su gestor específico
-  method puedeDisparar() = gestorEnemigos.puedeDisparar()
-  
-  method registrar(disparo) {
-    gestorEnemigos.registrarDisparo(disparo)
-  }
+object jugador inherits Bando {
+  // Atributos de recarga nativos del jugador
+  override method gestor() = gestorJugador
+  override method direccionDisparo() = arriba
+  override method ajustarPosicion(posicion) = posicion.up(1)
+}
 
-  method puedeColisionarCon(otroBando) {
-    return self != otroBando
-  }
-
-  method liberar(disparo) {
-    gestorEnemigos.liberarDisparo(disparo)
-  }
+object enemigo inherits Bando {
+  override method gestor() = gestorEnemigos
+  override method direccionDisparo() = abajo
+  override method ajustarPosicion(posicion) = posicion.down(1)
 }

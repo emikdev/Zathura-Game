@@ -7,6 +7,9 @@ import src.mecanicas.animaciones.recursos.recursosDeAnimacion.*
 class ArmaEnemigaBasica inherits Arma {
   override method consumirMunicion() {}
 }
+
+// intanciacion de armas
+// Arma Basica Enemiga
 const armaEnemigaBasica = new ArmaEnemigaBasica(
   danoBala = 1,
   recursoBala = new RecursoDeAnimacion(
@@ -16,9 +19,7 @@ const armaEnemigaBasica = new ArmaEnemigaBasica(
 ) 
 
 // Arma Cargada Enemiga (Usada por Mosca)
-class ArmaCargadaEnemiga inherits Arma {}// hay que configurar que tata municion gasta o gasta lo mismo que arma
-
-const armaCargadaEnemiga = new ArmaCargadaEnemiga(
+const armaCargadaEnemiga = new ArmaEnemigaBasica(
   recursoBala = new RecursoDeAnimacion(
     frames = [
       "disparoAmarillo_frame_1.png",
@@ -31,9 +32,7 @@ const armaCargadaEnemiga = new ArmaCargadaEnemiga(
 )
 
 // 2. Arma Pesada Enemiga (Usada por Heavy)
-class ArmaPesadaEnemiga inherits Arma {}// hay que configurar que tata municion gasta o gasta lo mismo que arma
-
-const armaPesadaEnemiga = new ArmaPesadaEnemiga(
+const armaPesadaEnemiga = new ArmaEnemigaBasica(
   recursoBala = new RecursoDeAnimacion(
     frames = [
       "disparoVioleta_frame_1.png",
@@ -46,9 +45,7 @@ const armaPesadaEnemiga = new ArmaPesadaEnemiga(
 )
 
 // 3. Arma Rápida Enemiga (Usada por Medusa y Sepia)
-class ArmaRapidaEnemiga inherits ArmaPesadaEnemiga {}// hay que configurar que tata municion gasta o gasta lo mismo que arma
-
-const armaRapidaEnemiga = new ArmaRapidaEnemiga(
+const armaRapidaEnemiga = new ArmaEnemigaBasica(
   recursoBala = new RecursoDeAnimacion(
     frames = [
       "disparoAzul_frame_1.png",

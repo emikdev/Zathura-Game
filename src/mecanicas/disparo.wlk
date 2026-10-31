@@ -4,20 +4,10 @@ import src.mecanicas.animaciones.animacion.*
 
 class Disparo {
 
-  const recursoDeAnimacion // recursos de animacion del disparo
+  const animacion // animacion del disparo
   const dano //  daño del arma que realiza el disparo
   const bando //  bando del personaje que diapra
   var position // posicion del personaje que dispara
-  
-
-  
-  // Declaramos la variable sin asignación inmediata para evitar el error 'undefined'
-  var animacion 
-
-  method initialize() {
-    // Se instancia de forma segura una vez que 'recursoDeAnimacion' ya fue cargado
-    animacion = new Animacion(estado = self, recursoDeAnimacion = recursoDeAnimacion)
-  }
 
   method dano(){
     return dano
