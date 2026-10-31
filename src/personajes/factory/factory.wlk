@@ -4,32 +4,19 @@ import src.personajes.enemigo.*
 import src.personajes.nave.*
 import src.personajes.efectos.efectosPersonaje.*
 
-// Factory encargada de crear y configurar enemigos
+// Factory encargada de crear personajes a partir de su tipo
 object factory {
 
-    method crearEnemigo(tipo, formacion, posicion) = new Enemigo(
-        formacion = formacion,
-        posicionInicial = posicion,
-        saludMaxima = tipo.hp(),
-        vidas = tipo.vidas(),
-        animacionBase = tipo.framesBase(),
-        animacionDisparo = tipo.framesDisparo(),
-        animacionMuerte = tipo.framesMuerte(),
-        animacionImpacto = tipo.framesImpacto(),
+    method crearEnemigo(tipoPersonaje, formacion, posicion) = new Enemigo(
+        tipoPersonaje = tipoPersonaje,
         bando = bandoEnemigo,
-        arsenal = tipo.arsenal(),
-        comportamientoAtaque = tipo.comportamientoAtaque()
+        formacion = formacion,
+        posicionInicial = posicion
     )
 
-    method crearNave(tipo, posicion) = new NaveJugador(
-        posicionInicial = posicion,
-        saludMaxima = tipo.hp(),
-        vidas = tipo.vidas(),
-        animacionBase = tipo.framesBase(),
-        animacionDisparo = tipo.framesDisparo(),
-        animacionMuerte = tipo.framesMuerte(),
-        animacionImpacto = tipo.framesImpacto(),
+    method crearNave(tipoPersonaje, posicion) = new NaveJugador(
+        tipoPersonaje = tipoPersonaje,
         bando = bandoJugador,
-        arsenal = tipo.arsenal()
+        posicionInicial = posicion
     )
 }

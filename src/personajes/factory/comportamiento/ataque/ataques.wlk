@@ -1,12 +1,11 @@
-import src.personajes.factory.comportamiento.enemigos.disparo.*
-import src.personajes.factory.comportamiento.enemigos.disparoConArma.*
-import src.personajes.factory.comportamiento.enemigos.inmolacion.*
-import src.personajes.factory.comportamiento.enemigos.conProbabilidad.*
-import src.personajes.factory.comportamiento.enemigos.alternativas.*
+import src.personajes.factory.comportamiento.ataque.disparo.*
+import src.personajes.factory.comportamiento.ataque.disparoConArma.*
+import src.personajes.factory.comportamiento.ataque.inmolacion.*
+import src.personajes.factory.comportamiento.ataque.conProbabilidad.*
+import src.personajes.factory.comportamiento.ataque.alternativas.*
 
-// Catálogo de comportamientos de ataque.
-// Cada método devuelve instancias NUEVAS, así cada personaje tiene las suyas.
-// Uso en un tipo de enemigo: method comportamientoAtaque() = ataques.probabilistico(20)
+/* Catálogo de comportamientos de ataque. Cada método devuelve instancias NUEVAS, así cada personaje tiene las suyas.
+ Uso en un tipo de enemigo: method comportamientoAtaque() = ataques.probabilistico(20) */
 object ataques {
 
   // Dispara con el arma equipada, con cierta probabilidad
