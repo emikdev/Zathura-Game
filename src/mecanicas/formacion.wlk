@@ -1,115 +1,78 @@
 import wollok.game.*
-
 import src.mecanicas.direcciones.*
 
-
-// Representa una formacion de enemigos
+// Grupo de enemigos que se mueve en bloque y ataca desde la primera línea.
 class Formacion {
 
-  // Enemigos que pertenecen a la formacion
-  var property enemigos = []
+  const nivel // referencia al nivel al que pertenece
+  const intervalo // ms entre cada paso de la formación
+  const enemigos = []
+  var direccion = derecha // direccion actual en la que se esta moviendo la formacion
 
-  // Direccion horizontal actual
-  var property direccion = derecha
+  method agregar(enemigo) {
+    enemigos.add(enemigo)
+  }
 
-  // Cantidad de celdas que completa la formacion por segundo.
-  var property velocidad = 1
+  // Reloj
 
-  // Indica si la formacion continua activa
-  var activa = false
-
-  // Iniciar ciclo de vida de la formacion
   method iniciar() {
-
-    activa = true
-
-    self.iniciarCiclo()
-
+    game.onTick(intervalo, self.nombreTick(), { self.paso() })
   }
 
-  // Enemigos que siguen activos en la formacion
-  method enemigosEnFormacion() {
-
-    return enemigos.filter({ enemigo => enemigo.estaEnFormacion() })
-
+  method detener() {
+    game.removeTickEvent(self.nombreTick())
   }
 
-  // Implementacion del ciclo de movimiento
-
-  method iniciarCiclo() {
-
-    const enemigosActivos = self.enemigosEnFormacion()
-
-    // Si no quedan enemigos participando, la formacion termina.
-    if (enemigosActivos.isEmpty()) {
-
-      activa = false
-
-
-    }
-
-    // Mayor velocidad = menor duracion del ciclo.
-    const duracionCiclo = 1000 / velocidad
-
-    // Cada enemigo comienza su propia animacion.
-    enemigosActivos.forEach({ enemigo => enemigo.animarBase(duracionCiclo)})
-
-    // Esperamos a que todos hayan completado
-    // su animacion antes de mover la formacion.
-    game.schedule(duracionCiclo, {
-
-      if (activa) {
-
-        self.moverFormacion()
-
-      }
-
-    })
-
+  method nombreTick(){
+    return  "formacion" + self.identity()
   }
 
-  // Movimiento de la formacion
+  // Un paso del reloj: primero avanza, después ataca.
+  method paso() {
+    self.mover()
+    self.atacar()
+  }
 
-  method moverFormacion() {
+  // Movimiento
 
-    const enemigosActivos = self.enemigosEnFormacion()
-
-    // Primero verificamos que TODOS puedan avanzar.
-    const todosPuedenAvanzar = enemigosActivos.all({ enemigo => direccion.puedeAvanzar(enemigo.position()) })
-
-    // Joaquin: propongo sacar el try y utilizar el all para que en el primero que no pueda avanzar devuelva false, sin seguir mirando los demas.
-    // De esta forma es mas corto y no tiene dependencias
-    if (todosPuedenAvanzar) {
-
-      // Si todos pueden avanzar, ahora movemos a todos.
-      enemigosActivos.forEach({ enemigo => enemigo.mover(direccion) })
-
+  method mover() {
+    if (self.todosPuedenAvanzar()) {
+      enemigos.forEach({ enemigo => enemigo.mover(direccion) })
     } else {
-
-      // Si uno solo llego al borde, baja toda la formacion y cambia de direccion.
-      self.bajarFormacion()
-      self.cambiarDireccion()
-
+      enemigos.forEach({ enemigo => enemigo.mover(abajo) })
+      direccion = direccion.opuesta()
     }
-
-    // Llama nuevamente al ciclo para continuar
-    self.iniciarCiclo()
-
   }
 
-  // Bajar la formacion al llegar a un borde
-  method bajarFormacion() {
-
-    const enemigosActivos = self.enemigosEnFormacion()
-    enemigosActivos.forEach({ enemigo => enemigo.mover(abajo) })
-
+  method todosPuedenAvanzar() {
+    return enemigos.all({ enemigo => direccion.puedeAvanzar(enemigo.position()) })
   }
 
-  // Cambiar de direccion la formacion
-  method cambiarDireccion() {
+  // Ataque
 
-    direccion = direccion.opuesta()
+  method atacar() {
+    self.enemigosEnPrimeraLinea().forEach({ enemigo => enemigo.intentarAtacar() })
+  }
 
+  method enemigosEnPrimeraLinea() {
+    return enemigos.filter({ enemigo => self.estaAlFrente(enemigo) })
+  }
+
+  method estaAlFrente(enemigo) {
+    return not enemigos.any({ otro =>
+      otro.position().x() == enemigo.position().x() &&
+      otro.position().y() < enemigo.position().y()
+    })
+  }
+
+  // Fin de la vida de un enemigo
+
+  method quitar(enemigo) {
+    enemigos.remove(enemigo)
+    if (enemigos.isEmpty()) {
+      self.detener()
+      nivel.llamarSiguienteFormacionSiSePuede()
+    }
   }
 
 }
