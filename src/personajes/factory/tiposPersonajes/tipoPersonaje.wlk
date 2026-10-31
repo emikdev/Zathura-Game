@@ -1,19 +1,42 @@
-import src.mecanicas.bandos.*
-
-// Define qué datos de configuración responde cualquier tipo de personaje.
-// El personaje le pregunta a su tipo; los valores por defecto cubren lo común.
+// Datos de configuración de un tipo de personaje.
 class TipoPersonaje {
 
-  method hp() = 1
-  method vidas() = 1
+    const saludMaxima
+    const vidas
 
-  method framesBase()
-  method framesMuerte()
-  // TODO: reemplazar cuando existan los recursos de disparo e impacto
-  method framesDisparo() = self.framesBase()
-  method framesImpacto() = self.framesBase()
+    const arsenalInicial
 
-  method bando()
-  method arsenal()
+    const animacionBase
+    const animacionDisparo
+    const animacionImpacto
+    const animacionMuerte
+
+    method saludMaxima() {
+        return saludMaxima
+    }
+
+    method vidas() {
+        return vidas
+    }
+
+    method arsenalInicial() {
+        return arsenalInicial
+    }
+
+    method animacionBase() {
+        return animacionBase
+    }
+
+    method animacionDisparo() {
+        return animacionDisparo
+    }
+
+    method animacionImpacto() {
+        return animacionImpacto
+    }
+
+    method animacionMuerte() {
+        return animacionMuerte
+    }
 
 }
