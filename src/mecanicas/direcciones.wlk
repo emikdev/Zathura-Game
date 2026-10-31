@@ -2,91 +2,64 @@ import wollok.game.*
 
 // Objeto representativo del tablero de Wollok-Game
 object tablero {
-    
-    // Getter que valida que la posicion dada este dentro del tablero
     method validarDentro(position) {
-
-        if (not self.dentro(position) /* Si 'self.dentro(position) es true no entra ya que esta negado' */ ) {
-
-            self.error(position.toString() + " no está dentro del tablero ") // Mensaje de error que corta la ejecucion del bloque donde fue llamado
-
+        if (not self.dentro(position)) {
+            // Este self.error corta la ejecución drásticamente si se fuerza una posición inválida
+            self.error(position.toString() + " no está dentro del tablero ")
         }
-
     }
 
-    // Getter que valida que la posicion dad este dentro del tablero
     method dentro(position) {
-
-        return position.x().between(0, game.width() -1) and position.y().between(0, game.height() -1 ) // Valida que la posicion este en coordenadas validas
-
+        return position.x().between(0, game.width() - 1) 
+           and position.y().between(0, game.height() - 1)
     }
-
 }
 
-// Objeto representativo de la direccion arriba
-object arriba {
+// Clase base para unificar el comportamiento de todas las direcciones
+class Direccion {
+    // Método abstracto: cada dirección calcula su celda vecina a distancia 1
+    method calcularSiguiente(position)
 
+    /*
+       Antes, llamar a siguiente() obligaba a usar un bloque 'try-catch' afuera porque explotaba con self.error().
+       Ahora, el método primero valida defensivamente con 'puedeAvanzar()'. Si el camino es seguro, avanza;
+       si se intenta forzar un movimiento fuera de los límites, recién ahí dispara el error de resguardo.
+    */
     method siguiente(position) {
-
-        const nueva = position.up(1) // Guarda la posicion de la celda a la qe se desea moverse.
-        tablero.validarDentro(nueva) // Valida que la celda a la que se desea moverse este dentro del tablero, si da error corta ejecucion del bloque.
-        return nueva // Retorna la nueva posicion a la que se desea moverse.
-
+        if (self.puedeAvanzar(position)) {
+            return self.calcularSiguiente(position)
+        } else {
+            // Resguardo de seguridad: si se invoca incorrectamente, corta la ejecución
+            tablero.validarDentro(self.calcularSiguiente(position))
+            return position
+        }
     }
 
-    method puedeAvanzar(position) = tablero.dentro(position.up(1))
-
-    method opuesta() = abajo
-
-}
-
-// Objeto representativo de la direccion abajo
-object abajo {
+    // Método seguro que devuelve un Booleano (true/false) sin romper el programa ni exigir try-catch
+    method puedeAvanzar(position) {
+        return tablero.dentro(self.calcularSiguiente(position))
+    }
     
-    method siguiente(position) {
-
-        const nueva = position.down(1) // Guarda la posicion de la celda a la qe se desea moverse.
-        tablero.validarDentro(nueva) // Valida que la celda a la que se desea moverse este dentro del tablero, si da error corta ejecucion del bloque.
-        return nueva // Retorna la nueva posicion a la que se desea moverse.
-
-    }
-
-    method puedeAvanzar(position) = tablero.dentro(position.down(1))
-
-    method opuesta() = arriba
-
+    method opuesta()
 }
 
-// Objeto representativo de la direccion derecha
-object derecha {
-
-    method siguiente(position) {
-
-        const nueva = position.right(1) // Guarda la posicion de la celda a la qe se desea moverse.
-        tablero.validarDentro(nueva) // Valida que la celda a la que se desea moverse este dentro del tablero, si da error corta ejecucion del bloque.
-        return nueva // Retorna la nueva posicion a la que se desea moverse.
-
-    }
-
-    method puedeAvanzar(position) = tablero.dentro(position.right(1))
-
-    method opuesta() = izquierda
-
+// Objetos representativos de las direcciones heredando de la base
+object arriba inherits Direccion {
+    override method calcularSiguiente(position) = position.up(1)
+    override method opuesta() = abajo
 }
 
-// Objeto representativo de la direccion izquierda
-object izquierda{
+object abajo inherits Direccion {
+    override method calcularSiguiente(position) = position.down(1)
+    override method opuesta() = arriba
+}
 
-    method siguiente(position) {
+object derecha inherits Direccion {
+    override method calcularSiguiente(position) = position.right(1)
+    override method opuesta() = izquierda
+}
 
-        const nueva = position.left(1) // Guarda la posicion de la celda a la qe se desea moverse.
-        tablero.validarDentro(nueva) // Valida que la celda a la que se desea moverse este dentro del tablero, si da error corta ejecucion del bloque.
-        return nueva // Retorna la nueva posicion a la que se desea moverse.
-        
-    }
-
-    method puedeAvanzar(position) = tablero.dentro(position.left(1))
-
-    method opuesta() = derecha
-
+object izquierda inherits Direccion {
+    override method calcularSiguiente(position) = position.left(1)
+    override method opuesta() = derecha
 }
