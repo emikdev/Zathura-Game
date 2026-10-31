@@ -1,12 +1,11 @@
-import gestorPersonajes.*
 import src.niveles.gestorDeNivel.gestorDeNiveles
 
-object gestorJugador inherits Gestor{
-
+object gestorNaves {
+  
     const naves = [] // Naves que son usadas por el gestor
 
-    method agregarNaves(navesAgregadas){ // Agrega naves al gestor
-        naves.addAll(naves)
+    method agregarNave(navesAgregadas){ // Agrega naves al gestor
+        naves.add(naves)
     }
 
     method eliminarNaveSinVidas(naveEliminada){ // Elimina la nave pasada por parametro de la lista de naves
