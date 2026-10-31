@@ -37,9 +37,11 @@ class Disparo {
   
   // Avanza el disparo de celda
   method avanzar() {
-    try {
-      position = bando.direccionDisparo().siguiente(position)
-    } catch e : Exception { 
+    const direccion = bando.direccionDisparo()
+    
+    if (direccion.puedeAvanzar(position)) {
+      position = direccion.siguiente(position)
+    } else { 
       self.destruir()
     }
   }
