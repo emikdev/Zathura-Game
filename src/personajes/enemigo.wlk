@@ -10,6 +10,10 @@ class Enemigo inherits Personaje {
         game.onTick(500, "ataque" + self.identity(), { comportamientoAtaque.intentarAtacar(self) })
     }
 
+    method intentarAtacar() {
+        comportamientoAtaque.actuar(self)
+    }
+
     override method alQuedarseSinVidas() {
         formacion.quitar(self)
         game.removeTickEvent("ataque" + self.identity())
