@@ -3,23 +3,17 @@ import src.personajes.estados.neutral.*
 class Personaje{
 
     var property position
-    var estadoActual
-
     const posicionInicial
-    const saludMaxima
+
     var salud
     var vidas
 
-    const animacionBase
-    const animacionDisparo
-    const animacionMuerte
-
-    const animacionImpacto
-    var efectoVisual
-
+    const tipoPersonaje
     const bando
+    const arsenal = []
 
-    const arsenal
+    var estadoActual
+    var efectoVisual
 
     method arsenal(){
         return arsenal
@@ -28,24 +22,26 @@ class Personaje{
     method initialize(){
         estadoActual = new Neutral(personaje = self)
         efectoVisual = sinEfecto
-        salud = saludMaxima
+        salud = tipoPersonaje.saludMaxima()
+        vidas = tipoPersonaje.vidas()
         position = posicionInicial
+        arsenal.agregarArmasIniciales(tipoPersonaje.arsenalInicial())
     }
 
     method animacionBase(){
-        return animacionBase
+        return tipoPersonaje.animacionBase()
     }
 
     method animacionDisparo(){
-        return animacionDisparo
+      return tipoPersonaje.animacionDisparo()
     }
 
-    method aniamcionMuerte(){
-        return animacionMuerte
+    method animacionMuerte(){
+      return tipoPersonaje.animacionMuerte()
     }
 
     method animacionImpacto(){
-        return animacionImpacto
+        return tipoPersonaje.animacionImpacto()
     }
 
     method bando(){
@@ -82,7 +78,7 @@ class Personaje{
     }
 
     method restaurarSalud(){ 
-        salud = saludMaxima
+        salud = tipoPersonaje.saludMaxima()
     }
 
     method perderVida(){
