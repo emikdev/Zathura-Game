@@ -1,6 +1,6 @@
 import game.*
 
-object gestorDeNiveles{
+object gestorNiveles{
 
     const niveles = []
     
@@ -8,8 +8,8 @@ object gestorDeNiveles{
         self.nivelActual().cargar()
     }
 
-    method agregarNiveles(nuevosNiveles){ // Agrega los niveles
-        niveles.addAll(nuevosNiveles)
+    method agregarNivel(nuevoNivel){ // Agrega los niveles
+        niveles.add(nuevoNivel)
     }
 
     method nivelActual(){ // Devuelve el nivel de la primera posicion de la lista

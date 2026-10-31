@@ -1,9 +1,15 @@
 import src.personajes.personaje.*
+import src.mecanicas.gestores.gestorNaves.*
 
 class NaveJugador inherits Personaje {
 
+    override method initialize(){
+        super()
+        gestorNaves.agregarNave(self)
+    }
+
     override method alQuedarseSinVidas() {
-        // game over
+        gestorNaves.eliminarNaveSinVidas(self)
     }
 
 }
