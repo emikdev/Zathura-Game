@@ -1,5 +1,5 @@
 import src.personajes.personaje.*
-import src.personajes.gestorNaves.*
+import src.mecanicas.gestores.gestorNaves.*
 
 class NaveJugador inherits Personaje {
 

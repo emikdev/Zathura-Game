@@ -1,4 +1,4 @@
-import src.mecanicas.gestorDisparos.*
+import src.mecanicas.gestores.gestorDisparos.*
 import src.mecanicas.direcciones.*
 
 object bandoJugador {
