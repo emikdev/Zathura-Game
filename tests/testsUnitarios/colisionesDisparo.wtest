@@ -1,0 +1,137 @@
+import src.mecanicas.disparo.*
+import src.mecanicas.bandos.*
+import wollok.game.*
+
+describe "Tests de Colisiones de Disparos" {
+
+  // 1. Mocks de animación pasivos para evitar hilos de fondo en los tests
+  const animacionMock = object {
+    method frameActual() = "bala.png"
+    method activa() = false
+    method reiniciar() {}
+    method detener() {}
+  }
+
+  // 2. Mocks de Personajes con bandos reales para simular los impactos
+  const naveJugadorMock = object {
+    var property vidas = 3
+    method bando() = jugador
+    method posicion() = game.at(2, 2)
+    method position() = game.at(2, 2)
+    
+    method recibirDano(cantidad) {
+      vidas -= 1
+    }
+    
+    method colisionaCon(disparo) {
+      if (self.bando().puedeColisionarCon(disparo.bando())) {
+        self.recibirDano(disparo.dano())
+        disparo.destruir()
+      }
+    }
+  }
+
+  const naveEnemigaMock = object {
+    var property vidas = 3
+    method bando() = enemigo
+    method posicion() = game.at(2, 2)
+    method position() = game.at(2, 2)
+    
+    method recibirDano(cantidad) {
+      vidas -= 1
+    }
+    
+    method colisionaCon(disparo) {
+      if (self.bando().puedeColisionarCon(disparo.bando())) {
+        self.recibirDano(disparo.dano())
+        disparo.destruir()
+      }
+    }
+  }
+
+  // 3. Inicialización del entorno ficticio
+  method initialize() {
+    game.width(15)
+    game.height(15)
+    // Nos aseguramos de agregar los personajes al entorno de colisiones virtual
+    game.addVisual(naveJugadorMock)
+    game.addVisual(naveEnemigaMock)
+  }
+
+  // ESCENARIOS DE PRUEBA
+  test "Disparo del jugador impacta y daña a una nave enemiga" {
+    const disparoAliado = new Disparo(
+      animacion = animacionMock,
+      dano = 1,
+      bando = jugador,
+      position = game.at(2, 2)
+    )
+    game.addVisual(disparoAliado)
+
+    // Simulamos el evento de colisión nativo de Wollok Game
+    naveEnemigaMock.colisionaCon(disparoAliado)
+
+    // Verificaciones: El enemigo debió perder una vida y el disparo debió destruirse
+    assert.equals(2, naveEnemigaMock.vidas())
+    assert.notThat(game.hasVisual(disparoAliado))
+  }
+
+  test "Disparo del jugador NO daña a una nave aliada (Fuego Aliado protegido)" {
+    const disparoAliado = new Disparo(
+      animacion = animacionMock,
+      dano = 1,
+      bando = jugador,
+      position = game.at(2, 2)
+    )
+    game.addVisual(disparoAliado)
+
+    // Simulamos la colisión contra un aliado del mismo bando
+    naveJugadorMock.colisionaCon(disparoAliado)
+
+    // Verificaciones: El jugador mantiene sus vidas intactas y el disparo sigue vivo
+    assert.equals(3, naveJugadorMock.vidas())
+    assert.that(game.hasVisual(disparoAliado))
+  }
+
+  test "Disparo enemigo impacta y daña a la nave del jugador" {
+    const disparoEnemigo = new Disparo(
+      animacion = animacionMock,
+      dano = 1,
+      bando = enemigo,
+      position = game.at(2, 2)
+    )
+    game.addVisual(disparoEnemigo)
+
+    // Simulamos que el proyectil enemigo choca con el jugador
+    naveJugadorMock.colisionaCon(disparoEnemigo)
+
+    // Verificaciones
+    assert.equals(2, naveJugadorMock.vidas())
+    assert.notThat(game.hasVisual(disparoEnemigo))
+  }
+
+  test "Dos disparos de bandos opuestos se ignoran polimórficamente en el aire" {
+    const disparoAliado = new Disparo(
+      animacion = animacionMock,
+      dano = 1,
+      bando = jugador,
+      position = game.at(2, 2)
+    )
+    const disparoEnemigo = new Disparo(
+      animacion = animacionMock,
+      dano = 1,
+      bando = enemigo,
+      position = game.at(2, 2)
+    )
+    game.addVisual(disparoAliado)
+    game.addVisual(disparoEnemigo)
+
+    // Chocan dos balas entre sí en el mapa
+    disparoAliado.colisionaCon(disparoEnemigo)
+
+    // Verificación: Al ejecutar el método vacío 'colisionaCon' en Disparo, 
+    // se atraviesan de largo y ambos visuales se mantienen en el tablero.
+    assert.that(game.hasVisual(disparoAliado))
+    assert.that(game.hasVisual(disparoEnemigo))
+  }
+}

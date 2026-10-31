@@ -5,7 +5,7 @@ class Arma {
 
     const recursoBala // recurso con frames y duracion de la bala
     const danoBala = 10 // daño base de la bala
-    var municion
+    var property municion
     const  animacion = new Animacion(estado = self, recursoDeAnimacion = recursoBala)
 
   method danoDisparo() { // metodo que describe el daño de la bala (para que despues las armas que consumen más municion agan mas daño)
@@ -38,5 +38,5 @@ class Arma {
   method consumirMunicion(){
     municion -= 1
   }
-  
+
 }

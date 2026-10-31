@@ -1,13 +1,15 @@
 import wollok.game.*
 import src.mecanicas.disparo.*
-import src.mecanicas.animador.*
 import src.mecanicas.bandos.*
 import src.mecanicas.gestorDisparos.*
 
 describe "Tests del Gestor de Disparos - Jerarquía Polimórfica" {
 
-  method crearAnimador() {
-    return new Animador(frames = ["disparoCeleste-frame1.png", "disparoCeleste-frame2.png", "disparoCeleste-frame3.png"])
+  const animacionMock = object {
+    method frameActual() = "disparo.png"
+    method activa() = false
+    method reiniciar() {}
+    method detener() {}
   }
 
   method initialize() {
@@ -15,16 +17,18 @@ describe "Tests del Gestor de Disparos - Jerarquía Polimórfica" {
     game.width(10)
     game.height(10)
     
-    // Vaciamos los gestores antes de cada test para asegurar un entorno limpio
+    gestorEnemigos.disparosActivos().clear()
+    gestorJugador.disparosActivos().clear()
+    
     gestorEnemigos.limiteMaximo(5)
   }
 
   test "El gestor de enemigos respeta su límite máximo numérico (tope = 5)" {
-    const disparo1 = new Disparo(animacion = self.crearAnimador(), dano = 10, velocidad = 5, bando = bandoEnemigo, position = game.at(1,1))
-    const disparo2 = new Disparo(animacion = self.crearAnimador(), dano = 10, velocidad = 5, bando = bandoEnemigo, position = game.at(1,2))
-    const disparo3 = new Disparo(animacion = self.crearAnimador(), dano = 10, velocidad = 5, bando = bandoEnemigo, position = game.at(1,3))
-    const disparo4 = new Disparo(animacion = self.crearAnimador(), dano = 10, velocidad = 5, bando = bandoEnemigo, position = game.at(1,4))
-    const disparo5 = new Disparo(animacion = self.crearAnimador(), dano = 10, velocidad = 5, bando = bandoEnemigo, position = game.at(1,5))
+    const disparo1 = new Disparo(animacion = animacionMock, dano = 10, bando = enemigo, position = game.at(1,1))
+    const disparo2 = new Disparo(animacion = animacionMock, dano = 10, bando = enemigo, position = game.at(1,2))
+    const disparo3 = new Disparo(animacion = animacionMock, dano = 10, bando = enemigo, position = game.at(1,3))
+    const disparo4 = new Disparo(animacion = animacionMock, dano = 10, bando = enemigo, position = game.at(1,4))
+    const disparo5 = new Disparo(animacion = animacionMock, dano = 10, bando = enemigo, position = game.at(1,5))
     
     gestorEnemigos.registrarDisparo(disparo1)
     gestorEnemigos.registrarDisparo(disparo2)
@@ -32,12 +36,40 @@ describe "Tests del Gestor de Disparos - Jerarquía Polimórfica" {
     gestorEnemigos.registrarDisparo(disparo4)
     gestorEnemigos.registrarDisparo(disparo5)
 
-    // Corrección: Ahora se le consulta directo al gestor de enemigos dedicado
     assert.notThat(gestorEnemigos.puedeDisparar())
   }
 
   test "El gestor del jugador no se ve afectado por límites numéricos" {
-    // Corrección: El gestor del jugador hereda un comportamiento siempre abierto
     assert.that(gestorJugador.puedeDisparar())
+  }
+
+  // TEST: ACCESO Y VALIDACIÓN DE EXISTENCIA DE UN PROYECTIL
+  test "Se puede verificar la existencia y acceder a un disparo específico dentro del gestor" {
+    const miDisparo = new Disparo(
+      animacion = animacionMock, 
+      dano = 5, 
+      bando = jugador, 
+      position = game.at(3, 3)
+    )
+    
+    const otroDisparo = new Disparo(
+      animacion = animacionMock, 
+      dano = 5, 
+      bando = jugador, 
+      position = game.at(4, 4)
+    )
+
+    // Registramos solo el primer proyectil
+    gestorJugador.registrarDisparo(miDisparo)
+
+    // 1. Verificamos que el gestor efectivamente contenga el disparo específico
+    assert.that(gestorJugador.disparosActivos().contains(miDisparo))
+
+    // 2. Verificamos que otro disparo no registrado no figure en la lista
+    assert.notThat(gestorJugador.disparosActivos().contains(otroDisparo))
+
+    // 3. Probamos el acceso directo buscando el objeto que coincida con una propiedad específica
+    const disparoEncontrado = gestorJugador.disparosActivos().find({ disparo => disparo == miDisparo })
+    assert.equals(miDisparo, disparoEncontrado)
   }
 }
