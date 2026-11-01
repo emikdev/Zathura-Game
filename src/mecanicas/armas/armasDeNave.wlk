@@ -13,11 +13,6 @@ class ArmaLaser inherits Arma {
   // classe a utilizar para armas que gastas municion de manera dinamica
   method municionConsumida() = 2
 
-  // cuanta municion gasta el arma (mas gasta mas potencia)
-  // override method danoDisparo(){ // daño que realiza el disapro segun la municion consumida
-  //   return super() * self.municionConsumida()
-  // }
-
   override method hayMunicion() = municion >= self.municionConsumida()
   // metodo dinamico que observa si hay municion 
   
