@@ -1,5 +1,5 @@
-import src.mecanicas.estados.estadoPersonaje.*
-import src.mecanicas.estados.disparando.*
+import src.personajes.estados.estadoPersonaje.*
+import src.personajes.estados.disparando.*
 class Neutral inherits EstadoPersonaje {
 
     override method recursoAnimacion() = personaje.animacionBase()

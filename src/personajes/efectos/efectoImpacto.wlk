@@ -1,4 +1,4 @@
-import src.mecanicas.efectos.efectosPersonaje.*
+import src.personajes.efectos.efectosPersonaje.*
 class EfectoImpacto inherits EfectoVisual {
 
     override method initialize() {

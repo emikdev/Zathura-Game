@@ -1,9 +1,9 @@
 import src.mecanicas.direcciones.*
 import src.mecanicas.animaciones.animacion.*
-import src.mecanicas.estados.neutral.*
-import src.mecanicas.estados.disparando.*
-import src.mecanicas.estados.muriendo.*
-import src.mecanicas.efectos.efectoImpacto.*
+import src.personajes.estados.neutral.*
+import src.personajes.estados.disparando.*
+import src.personajes.estados.muriendo.*
+import src.personajes.efectos.efectoImpacto.*
 
 class EstadoPersonaje {
 
