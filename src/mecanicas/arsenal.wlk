@@ -6,16 +6,16 @@ class Arsenal{
         return armas.get(armaActual)
     }
 
-    method agregarAlArmas(nuevaArma){ // Agrega un arma al armas
+    method agregarAlArma(nuevaArma){ // Agrega un arma al armas
         armas.add(nuevaArma)
     }
     
-    method equiparSiguienteArma(){ // Devuelve el siguiente arma en armas, si llega al final vuelve al primer arma
-        armaActual = (armaActual + 1) % armas.size()
+    method agregarArmasIniciales(listaDeArmas){
+        listaDeArmas.forEach{ arma => armas.add(arma) }
     }
 
-    method equiparArma(seleccionarSlot){ // Seleccion un slot del armas
-        armaActual = seleccionarSlot.min(armas.size() - 1) // Evita que se desfase indice armaActual
+    method equiparSiguienteArma(){ // Devuelve el siguiente arma en armas, si llega al final vuelve al primer arma
+        armaActual = (armaActual + 1) % armas.size()
     }
 
     method verificarArmaActual(){ // Revisa si el arma actual tiene municion, sino tiene la descarta y vuelve al primer arma
