@@ -1,7 +1,7 @@
 import wollok.game.*
 import src.mecanicas.disparo.*
 import src.mecanicas.bandos.*
-import src.mecanicas.gestorDisparos.*
+import src.mecanicas.gestores.gestorDisparos.*
 
 describe "Tests del Gestor de Disparos - Jerarquía Polimórfica" {
 

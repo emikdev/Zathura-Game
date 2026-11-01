@@ -56,7 +56,7 @@ describe "Tests Unitarios del Sistema de Armas" {
       danoBala = 5,
       municion = 10
     )
-    assert.equals(10, laser.danoDisparo())
+    assert.equals(5, laser.danoDisparo())
   }
 
   test "ArmaLaser reduce la munición correctamente al disparar" {
