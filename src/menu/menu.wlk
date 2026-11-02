@@ -2,7 +2,7 @@
   import wollok.game.*
   import src.menu.seleccionador.*
   import src.menu.configuracion.*
-  import src.menu.tiposNaves.*
+  import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
 
   // falta importar el archivo de los niveles
 
@@ -22,18 +22,14 @@
         opciones = opciones,
         alSeleccionar = alSeleccionar,
         alturaFlecha = alturaFlecha,
-        anchoFlecha = anchoFlecha
+        anchoFlecha = anchoFlecha              
       )
 
       game.addVisual(new Cartel(image = titulo, position = game.center().up(6).left(6)))
       opciones.forEach({ opcion => game.addVisual(opcion) })
       game.addVisual(seleccionador)
 
-      keyboard.left().onPressDo({ seleccionador.anterior() })
-      keyboard.right().onPressDo({ seleccionador.siguiente() })
-      keyboard.a().onPressDo({ seleccionador.anterior() })
-      keyboard.d().onPressDo({ seleccionador.siguiente() })
-      keyboard.space().onPressDo({ seleccionador.selecciona() })
+      seleccionador.controles()
     }
 
     method menuPrincipal() {
@@ -81,7 +77,7 @@
         new Opcion(image = "hard.png", valor = 3, position = game.center().right(0).down(4))
       ],
       { opcion =>
-        configuracion.dificultad(opcion.valor())
+        configuracion.dificultadElegida(opcion.valor())
         self.empezar()
       }
     )
@@ -94,11 +90,12 @@
         self.elegirNave("jugador2ElegiTuNave.png", { tipoNaveP2 =>
           configuracion.tiposNaves().add(tipoNaveP2)
 
-          configuracion.dificultad(3)   // en 2 jugadores la dificultad siempre es difcil
-          self.empezar()
+        self.menuDificultad()
         })
       })
     }
+
+
 
     method menuGameOver (){
 
