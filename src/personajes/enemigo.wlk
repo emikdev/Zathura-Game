@@ -1,5 +1,5 @@
 import src.personajes.personaje.*
-import src.mecanicas.formacion.*
+import src.niveles.formacion.*
 
 class Enemigo inherits Personaje {
   

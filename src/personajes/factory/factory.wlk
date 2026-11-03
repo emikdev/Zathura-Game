@@ -9,14 +9,14 @@ object factory {
 
     method crearEnemigo(tipoPersonaje, formacion, posicion) = new Enemigo(
         tipoPersonaje = tipoPersonaje,
-        bando = bandoEnemigo,
+        bando = enemigo,
         formacion = formacion,
         posicionInicial = posicion
     )
 
     method crearNave(tipoPersonaje, posicion) = new NaveJugador(
         tipoPersonaje = tipoPersonaje,
-        bando = bandoJugador,
+        bando = jugador,
         posicionInicial = posicion
     )
 }

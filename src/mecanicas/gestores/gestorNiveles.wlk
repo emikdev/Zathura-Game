@@ -1,46 +1,49 @@
-import game.*
+import wollok.game.*
+import src.niveles.niveles.*
+import src.mecanicas.gestores.generadorOvnis.*
+import src.mecanicas.gestores.gestorNaves.*
+import src.menu.menu.*
 
-object gestorNiveles{
+object gestorNiveles {
 
-    const niveles = []
-    
-    method iniciar(){ // Al iniciar carga el primer nivel de la lista
+    const niveles = [nivelUno]
+
+    method iniciar() { // Arranca el generador de ovnis y carga el primer nivel
+        generadorOvnis.iniciar()
         self.nivelActual().cargar()
+        gestorNaves.iniciar()
     }
 
-    method agregarNivel(nuevoNivel){ // Agrega los niveles
-        niveles.add(nuevoNivel)
-    }
-
-    method nivelActual(){ // Devuelve el nivel de la primera posicion de la lista
+    method nivelActual() { // Primer nivel de la lista
         return niveles.first()
     }
 
-    method removerNivelActual(){ // Remueve el nivel de la primera posicion de la lista
-        niveles.remove({self.nivelActual()})
+    method removerNivelActual() {
+        niveles.remove(self.nivelActual())
     }
 
-    method terminarNivel(){ // Metodo llamado por nivel
+    method haySiguienteNivel() { // Quedan niveles después de sacar el actual
+        return not niveles.isEmpty()
+    }
 
-        self.removerNivelActual() 
-    
-        if(not self.haySiguienteNivel()){ // Si no hay siguiente nivel gana
-            // Ganar
+    method terminarNivel() { // Método llamado por nivel
+        self.removerNivelActual()
+
+        if (self.haySiguienteNivel()) {
+            // TODO: Cartel de pasar a siguiente nivel
+            game.schedule(5000, { self.nivelActual().cargar() })
+        } else {
+            self.ganar()
         }
-
-        // TODO: Cartel de pasar a siguiente nivel 
-        game.schedule(5000, { // Si hay siguiente nivel se carga tras 5 segundos
-            
-            self.nivelActual().cargar()    
-        })
-        
     }
 
-    method haySiguienteNivel(){ // Devuelve si hay siguiente nivel
-        return niveles.isEmpty()
+    method ganar() {
+        generadorOvnis.detener()
+        menu.menuVictoria()
     }
 
-    method gameOver(){ 
-        // Termina el juego en derrota 
+    method gameOver() {
+        generadorOvnis.detener()
+        menu.menuGameOver()
     }
 }

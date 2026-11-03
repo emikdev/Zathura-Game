@@ -3,9 +3,9 @@ import src.mecanicas.animaciones.recursos.recursosDeAnimacion.*
 // Recursos de las armas enemigas
 const armaEnemigaBasicaRecursos = new RecursoDeAnimacion(
   frames = [
-    "disparoBlanco_frame_2",
-    "disparoBlanco_frame_2",
-    "disparoBlanco_frame_2"
+    "disparoBlanco_frame_1.png",
+    "disparoBlanco_frame_2.png",
+    "disparoBlanco_frame_3.png"
   ]
 )
 

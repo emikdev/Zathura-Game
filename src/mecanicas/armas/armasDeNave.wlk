@@ -37,7 +37,7 @@ class ArmasConMasProyectiles inherits ArmaLaser {
   method generarProyectilEn(posicion, personaje) {
 
     const nuevoDisparo = new Disparo(
-      animacion = animacion,
+      recursoAnimacion = recursoBala,
       dano = self.danoDisparo(),
       bando = personaje.bando(),
       position = posicion

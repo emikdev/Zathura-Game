@@ -11,7 +11,7 @@ class Controles {
         teclaIzquierda.onPressDo({ nave.mover(izquierda) })
         teclaDerecha.onPressDo({ nave.mover(derecha) })
         teclaDisparo.onPressDo({ nave.disparar() })
-        teclaSiguienteArma.onPressDo({ nave.estado().siguienteArma() })
+        teclaSiguienteArma.onPressDo({ nave.siguienteArma() })
     }
 }
 
