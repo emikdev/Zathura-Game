@@ -3,6 +3,7 @@
   import src.menu.seleccionador.*
   import src.menu.configuracion.*
   import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
+  import src.mecanicas.gestores.gestorNiveles.*
 
   // falta importar el archivo de los niveles
 
@@ -127,14 +128,15 @@
     method opcionesNave() {
   return [
     new Opcion(image = "naveTanqueMenu.png", valor = naveTanque, position = game.center().left(10).down(7)),
-    new Opcion(image = "naveNormalMenu.png",       valor = nave,       position = game.center().down(7).left(3) ),
+    new Opcion(image = "naveNormalMenu.png",       valor = naveNormal,       position = game.center().down(7).left(3) ),
     new Opcion(image = "naveDeAtaqueMenu.png", valor = naveAtaque, position = game.center().right(3).down(7))
   ]
 }
 
     method empezar() {
         game.clear()
-        nivel.cargar()
+        // Se inicia el gestor de niveles
+	      gestorNiveles.iniciar()
     }
 
   }

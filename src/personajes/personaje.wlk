@@ -11,7 +11,8 @@ class Personaje{
 
     const tipoPersonaje
     const bando
-    const arsenal = []
+    
+    var arsenal
 
     var estadoActual
     var efectoVisual
@@ -26,7 +27,7 @@ class Personaje{
         salud = tipoPersonaje.saludMaxima()
         vidas = tipoPersonaje.vidas()
         position = posicionInicial
-        arsenal.agregarArmasIniciales(tipoPersonaje.arsenalInicial())
+        arsenal = tipoPersonaje.arsenalInicial()
     }
 
     method animacionBase(){
@@ -70,6 +71,10 @@ class Personaje{
         estadoActual.disparar()
     }
 
+    method siguienteArma(){
+        estadoActual.siguienteArma()
+    }
+
     method restarSalud(dano){ 
         salud = (salud - dano).max(0) 
     }
@@ -90,8 +95,11 @@ class Personaje{
         return  vidas > 0
     }
 
-    method recibirDano(dano){
-        estadoActual.recibirImpacto(dano)
+    method colisionaCon(disparo) {
+        if (bando.puedeColisionarCon(disparo.bando())) {
+            estadoActual.recibirImpacto(disparo.dano())
+            disparo.destruir()
+        }
     }
 
     method cambiarEfecto(nuevoEfecto) {
