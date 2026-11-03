@@ -1,4 +1,5 @@
 import wollok.game.*
+import src.menu.menu.*
 
 program Zathura {
 
@@ -14,6 +15,9 @@ program Zathura {
 
 	// Se define la imagen de fondo
 	game.boardGround("fondo1Galaga.gif")
+
+	// Se carga el menu
+	menu.iniciar()	
 
 	// Inicializador del juego
 	game.start()

@@ -11,7 +11,8 @@ class Personaje{
 
     const tipoPersonaje
     const bando
-    const arsenal = []
+    
+    var arsenal
 
     var estadoActual
     var efectoVisual
@@ -26,7 +27,7 @@ class Personaje{
         salud = tipoPersonaje.saludMaxima()
         vidas = tipoPersonaje.vidas()
         position = posicionInicial
-        arsenal.agregarArmasIniciales(tipoPersonaje.arsenalInicial())
+        arsenal = tipoPersonaje.arsenalInicial()
     }
 
     method animacionBase(){

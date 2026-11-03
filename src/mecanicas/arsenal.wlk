@@ -1,5 +1,5 @@
 class Arsenal{
-    const armas
+    const armas = []
     var armaActual = 0
 
     method armaActual(){ // Devuelve el arma actual
@@ -8,10 +8,6 @@ class Arsenal{
 
     method agregarAlArma(nuevaArma){ // Agrega un arma al armas
         armas.add(nuevaArma)
-    }
-    
-    method agregarArmasIniciales(listaDeArmas){
-        listaDeArmas.forEach{ arma => armas.add(arma) }
     }
 
     method equiparSiguienteArma(){ // Devuelve el siguiente arma en armas, si llega al final vuelve al primer arma
