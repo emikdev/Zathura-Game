@@ -95,8 +95,11 @@ class Personaje{
         return  vidas > 0
     }
 
-    method recibirDano(dano){
-        estadoActual.recibirImpacto(dano)
+    method colisionaCon(disparo) {
+        if (bando.puedeColisionarCon(disparo.bando())) {
+            estadoActual.recibirImpacto(disparo.dano())
+            disparo.destruir()
+        }
     }
 
     method cambiarEfecto(nuevoEfecto) {

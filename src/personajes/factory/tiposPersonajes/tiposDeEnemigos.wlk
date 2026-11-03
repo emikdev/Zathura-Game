@@ -29,7 +29,7 @@ const alien = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoAlien,
     animacionImpacto = animacionImpactoAlien,
     animacionMuerte = animacionMuerteAlien,
-    comportamientoAtaque = ataques.probabilistico(20)
+    comportamientoAtaque = ataques.probabilistico(10)
 )
 
 const calamar = new TipoPersonajeEnemigo(
@@ -40,7 +40,7 @@ const calamar = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoCalamar,
     animacionImpacto = animacionImpactoCalamar,
     animacionMuerte = animacionMuerteCalamar,
-    comportamientoAtaque = ataques.probabilistico(20)
+    comportamientoAtaque = ataques.probabilistico(10)
 )
 
 const pulpo = new TipoPersonajeEnemigo(
@@ -51,7 +51,7 @@ const pulpo = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoPulpo,
     animacionImpacto = animacionImpactoPulpo,
     animacionMuerte = animacionMuertePulpo,
-    comportamientoAtaque = ataques.probabilistico(40)
+    comportamientoAtaque = ataques.probabilistico(10)
 )
 
 const kamikaze = new TipoPersonajeEnemigo(

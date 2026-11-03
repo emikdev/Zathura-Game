@@ -6,7 +6,7 @@ class Bando {
   method gestor()
 
   // Dirección y ajuste: definidos por cada bando
-  method direccionDisparo()
+  method direccionDeDisparo()
   method ajustarPosicion(posicion)
 
   // Lógica compartida: se resuelve de forma genérica usando el gestor polimórfico
@@ -29,12 +29,12 @@ class Bando {
 object jugador inherits Bando {
   // Atributos de recarga nativos del jugador
   override method gestor() = gestorJugador
-  override method direccionDisparo() = arriba
+  override method direccionDeDisparo() = arriba
   override method ajustarPosicion(posicion) = posicion.up(1)
 }
 
 object enemigo inherits Bando {
   override method gestor() = gestorEnemigos
-  override method direccionDisparo() = abajo
+  override method direccionDeDisparo() = abajo
   override method ajustarPosicion(posicion) = posicion.down(1)
 }
