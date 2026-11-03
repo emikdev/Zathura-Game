@@ -13,8 +13,7 @@ object gestorNaves {
 
     method agregarNave(nuevaNave){ // Agrega naves al gestor
         naves.add(nuevaNave)
-        controles.first().asignarA(nuevaNave)
-        controles.remove(controles.first())
+        controles.get(naves.size() - 1).asignarA(nuevaNave)
     }
 
     method eliminarNaveSinVidas(naveEliminada){ // Elimina la nave pasada por parametro de la lista de naves
