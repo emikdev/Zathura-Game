@@ -1,0 +1,75 @@
+import wollok.game.*
+import src.mecanicas.disparo.*
+import src.mecanicas.bandos.*
+import src.mecanicas.gestores.gestorDisparos.*
+
+describe "Tests del Gestor de Disparos - Jerarquía Polimórfica" {
+
+  const animacionMock = object {
+    method frameActual() = "disparo.png"
+    method activa() = false
+    method reiniciar() {}
+    method detener() {}
+  }
+
+  method initialize() {
+    game.clear()
+    game.width(10)
+    game.height(10)
+    
+    gestorEnemigos.disparosActivos().clear()
+    gestorJugador.disparosActivos().clear()
+    
+    gestorEnemigos.limiteMaximo(5)
+  }
+
+  test "El gestor de enemigos respeta su límite máximo numérico (tope = 5)" {
+    const disparo1 = new Disparo(animacion = animacionMock, dano = 10, bando = enemigo, position = game.at(1,1))
+    const disparo2 = new Disparo(animacion = animacionMock, dano = 10, bando = enemigo, position = game.at(1,2))
+    const disparo3 = new Disparo(animacion = animacionMock, dano = 10, bando = enemigo, position = game.at(1,3))
+    const disparo4 = new Disparo(animacion = animacionMock, dano = 10, bando = enemigo, position = game.at(1,4))
+    const disparo5 = new Disparo(animacion = animacionMock, dano = 10, bando = enemigo, position = game.at(1,5))
+    
+    gestorEnemigos.registrarDisparo(disparo1)
+    gestorEnemigos.registrarDisparo(disparo2)
+    gestorEnemigos.registrarDisparo(disparo3)
+    gestorEnemigos.registrarDisparo(disparo4)
+    gestorEnemigos.registrarDisparo(disparo5)
+
+    assert.notThat(gestorEnemigos.puedeDisparar())
+  }
+
+  test "El gestor del jugador no se ve afectado por límites numéricos" {
+    assert.that(gestorJugador.puedeDisparar())
+  }
+
+  // TEST: ACCESO Y VALIDACIÓN DE EXISTENCIA DE UN PROYECTIL
+  test "Se puede verificar la existencia y acceder a un disparo específico dentro del gestor" {
+    const miDisparo = new Disparo(
+      animacion = animacionMock, 
+      dano = 5, 
+      bando = jugador, 
+      position = game.at(3, 3)
+    )
+    
+    const otroDisparo = new Disparo(
+      animacion = animacionMock, 
+      dano = 5, 
+      bando = jugador, 
+      position = game.at(4, 4)
+    )
+
+    // Registramos solo el primer proyectil
+    gestorJugador.registrarDisparo(miDisparo)
+
+    // 1. Verificamos que el gestor efectivamente contenga el disparo específico
+    assert.that(gestorJugador.disparosActivos().contains(miDisparo))
+
+    // 2. Verificamos que otro disparo no registrado no figure en la lista
+    assert.notThat(gestorJugador.disparosActivos().contains(otroDisparo))
+
+    // 3. Probamos el acceso directo buscando el objeto que coincida con una propiedad específica
+    const disparoEncontrado = gestorJugador.disparosActivos().find({ disparo => disparo == miDisparo })
+    assert.equals(miDisparo, disparoEncontrado)
+  }
+}

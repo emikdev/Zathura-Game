@@ -1,10 +1,10 @@
 import wollok.game.*
-import src.mapas.mapaDemo.*
+import src.menu.menu.*
 
 program Zathura {
 
 	// Dimensiones del tablero en celdas
-	game.width(40)
+	game.width(20)
 	game.height(20)
 
 	// Tamano de cada celda en px
@@ -14,10 +14,10 @@ program Zathura {
 	game.title("Zathura Game")
 
 	// Se define la imagen de fondo
-	game.boardGround("fondo1Galaga.gif")
+	game.boardGround("fondo.png")
 
-	// Cargar el nivel de la demo
-	mapaDemo.cargar()
+	// Se carga el menu
+	menu.iniciar()	
 
 	// Inicializador del juego
 	game.start()
