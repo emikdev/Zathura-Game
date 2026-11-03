@@ -1,3 +1,4 @@
+import src.mecanicas.gestores.gestorNiveles.*
 import wollok.game.*
 import src.mecanicas.direcciones.*
 
@@ -31,6 +32,13 @@ class Formacion {
   method paso() {
     self.mover()
     self.atacar()
+    self.enemigosGanaron()
+  }
+  
+  method enemigosGanaron(){ 
+    if(enemigos.any({ enemigo => enemigo.position().y() == 0 })){
+      gestorNiveles.gameOver()
+    }
   }
 
   // Movimiento
@@ -76,3 +84,5 @@ class Formacion {
   }
 
 }
+
+  
