@@ -46,6 +46,10 @@ class Personaje{
         return tipoPersonaje.animacionImpacto()
     }
 
+    method estado(){
+        return estadoActual
+    }
+
     method bando(){
         return bando
     }
