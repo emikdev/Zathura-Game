@@ -1,10 +1,8 @@
 import wollok.game.*
-import src.mecanicas.direcciones.*
 
-// Mueve a un personaje en línea recta hasta el otro borde.
+// Mueve a un enemigo en línea recta hasta el otro borde.
 class Travesia {
 
-  const nivel
   const intervalo
   const direccion
   var personaje = []
@@ -21,7 +19,7 @@ class Travesia {
     game.removeTickEvent(self.nombreTick())
   }
 
-  method nombreTick() {
+  method nombreTick(){
     return "travesia" + self.identity()
   }
 
@@ -33,17 +31,14 @@ class Travesia {
     }
   }
 
-  // Llegó al otro lado sin que lo maten
   method cruzoElTablero() {
     self.detener()
     personaje.retirar()
-    nivel.travesiaTerminada(self)
   }
 
   // Lo llama el enemigo al quedarse sin vidas (mismo mensaje que a una formación)
-  method quitar(unPersonaje) {
+  method quitar(unEnemigo) {
     self.detener()
-    nivel.travesiaTerminada(self)
   }
 
 }
