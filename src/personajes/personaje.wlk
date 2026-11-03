@@ -1,3 +1,4 @@
+import src.mecanicas.animaciones.animacion.*
 import src.personajes.efectos.efectosPersonaje.*
 import src.personajes.estados.neutral.*
 class Personaje{
@@ -96,6 +97,12 @@ class Personaje{
     method cambiarEfecto(nuevoEfecto) {
         efectoVisual.detener()   // Corta el efecto anterior
         efectoVisual = nuevoEfecto
+    }
+
+    method retirar() {
+        game.removeVisual(self)
+        estadoActual.finalizarAnimacion()
+        efectoVisual.detener()
     }
 
     method iniciar(){ }
