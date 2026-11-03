@@ -1,6 +1,8 @@
 import wollok.game.*
 import src.niveles.niveles.*
 import src.mecanicas.gestores.generadorOvnis.*
+import src.mecanicas.gestores.gestorNaves.*
+import src.menu.menu.*
 
 object gestorNiveles {
 
@@ -9,6 +11,7 @@ object gestorNiveles {
     method iniciar() { // Arranca el generador de ovnis y carga el primer nivel
         generadorOvnis.iniciar()
         self.nivelActual().cargar()
+        gestorNaves.iniciar()
     }
 
     method nivelActual() { // Primer nivel de la lista
@@ -36,11 +39,11 @@ object gestorNiveles {
 
     method ganar() {
         generadorOvnis.detener()
-        // TODO: pantalla de victoria
+        menu.menuVictoria()
     }
 
     method gameOver() {
         generadorOvnis.detener()
-        // TODO: pantalla de derrota
+        menu.menuGameOver()
     }
 }

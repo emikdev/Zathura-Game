@@ -71,6 +71,10 @@ class Personaje{
         estadoActual.disparar()
     }
 
+    method siguienteArma(){
+        estadoActual.siguienteArma()
+    }
+
     method restarSalud(dano){ 
         salud = (salud - dano).max(0) 
     }
