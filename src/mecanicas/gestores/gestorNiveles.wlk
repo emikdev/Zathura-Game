@@ -11,10 +11,6 @@ object gestorNiveles {
         self.nivelActual().cargar()
     }
 
-    method agregarNivel(nuevoNivel) {
-        niveles.add(nuevoNivel)
-    }
-
     method nivelActual() { // Primer nivel de la lista
         return niveles.first()
     }
