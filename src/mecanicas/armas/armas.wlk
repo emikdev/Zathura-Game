@@ -4,16 +4,21 @@ import src.mecanicas.animaciones.animacion.*
 class Arma {
 
     const recursoBala // recurso con frames y duracion de la bala
-    const danoBala = 10
-    var municion
+    const danoBala = 10 // daño base de la bala
+    var property municion
+    const  animacion = new Animacion(estado = self, recursoDeAnimacion = recursoBala)
+
+  method danoDisparo() { // metodo que describe el daño de la bala (para que despues las armas que consumen más municion agan mas daño)
+      return danoBala
+  }
 
   method disparar(personaje) {
 
         if (personaje.bando().puedeDisparar()) {
 
             const nuevoDisparo = new Disparo(
-                recursoDeAnimacion = recursoBala,
-                dano = danoBala,
+                animacion = animacion,
+                dano = self.danoDisparo(),
                 bando = personaje.bando(),
                 position = personaje.position()
             )
