@@ -13,6 +13,6 @@ object configuracion {
   }
 
 
-  method listaDeNaves() = tiposNaves.map({ tipo => factory.crearNave(tipo)})
+  method listaDeNaves() = tiposNaves.map({ tipo => factory.crearNave(tipo,game.at(game.width()/2, 0))})
 
 }
