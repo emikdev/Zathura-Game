@@ -1,20 +1,24 @@
 import gestorNiveles.*
 import src.mecanicas.controles.*
+import src.menu.configuracion.*
 import wollok.game.*
 
 object gestorNaves {
   
-    const naves = [] // Naves que son usadas por el gestor
+    const naves = configuracion.listaDeNaves()
     const controles = [controlesNave1, controlesNave2]
 
     method iniciar(){
-        naves.forEach({ n => n.iniciar()})
+        (0 .. naves.size() - 1).forEach({ i => 
+            const control = controles.get(i)
+            const nave = naves.get(i)
+            
+            control.asignarA(nave)
+            nave.iniciar()
+        })
+
     }
 
-    method agregarNave(nuevaNave){ // Agrega naves al gestor
-        naves.add(nuevaNave)
-        controles.get(naves.size() - 1).asignarA(nuevaNave)
-    }
 
     method eliminarNaveSinVidas(naveEliminada){ // Elimina la nave pasada por parametro de la lista de naves
         naves.remove(naveEliminada)
