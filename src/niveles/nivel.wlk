@@ -1,50 +1,37 @@
 import src.mecanicas.gestores.gestorNiveles.*
 
-import wollok.game.*
+class Nivel {
 
-class Nivel{
+    const oleadas // lista de oleadas pre diseñadas
 
-    const formaciones // lista de formaciones pre diseñadas
-    
-    method initialize(){
-        gestorNiveles.agregarNivel(self)
+    method cargar() { // Arranca la oleada actual
+        self.oleadaActual().iniciar(self)
     }
 
-    method cargar(){
-
-        self.formacionActual().iniciar() // Se carga la formacion actual de la lista de formaciones
-
+    method oleadaActual() { // La oleada actual siempre es la primera de la lista
+        return oleadas.first()
     }
 
-    method formacionActual(){ // La formacion actual siempre es la primera de la lista
-
-        return formaciones.first() 
-
+    method removerOleadaActual() {
+        oleadas.remove(self.oleadaActual())
     }
 
-    method removerFormacion(){ // Remueve la primera formacion de la lista 
-
-        formaciones.remove(self.formacionActual())
-
+    method hayOleadasPendientes() {
+        return not oleadas.isEmpty()
     }
 
-
-    method llamarSiguienteFormacionSiSePuede(){
-        self.removerFormacion() 
-        if(not self.haySiguienteFormacion()){  // Si no hay siguiente formacion da por finalizado el nivel
+    // Lo llama la formación cuando se queda sin enemigos
+    method formacionVacia() {
+        self.removerOleadaActual()
+        if (self.hayOleadasPendientes()) {
+            self.cargar()
+        } else {
             self.nivelTerminado()
         }
-        self.formacionActual().iniciar()
-        
     }
 
-    method haySiguienteFormacion(){ // Verifica que formaciones no este vacia
-
-        return not formaciones.isEmpty()
-    
-    }
-
-    method nivelTerminado(){ // Nivel terminado llama a gestorNivel.terminarNivel()
+    method nivelTerminado() {
         gestorNiveles.terminarNivel()
     }
+
 }
