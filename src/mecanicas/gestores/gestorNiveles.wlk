@@ -1,9 +1,10 @@
 import wollok.game.*
+import src.niveles.niveles.*
 import src.mecanicas.gestores.generadorOvnis.*
 
 object gestorNiveles {
 
-    const niveles = []
+    const niveles = [nivelUno]
 
     method iniciar() { // Arranca el generador de ovnis y carga el primer nivel
         generadorOvnis.iniciar()

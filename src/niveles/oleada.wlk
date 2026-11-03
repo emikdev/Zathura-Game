@@ -25,8 +25,21 @@ class Oleada {
 // Ayuda para no escribir cada enemigo a mano
 object disposiciones {
 
+  const anchoTablero = game.width()
+  const altoTablero = game.height()
+
   method fila(tipo, y, desdeX, cantidad, separacion) {
     return (0..cantidad - 1).map({ i => [tipo, game.at(desdeX + i * separacion, y)] })
   }
+
+  // Fila centrada horizontalmente en el tablero
+  method filaCentrada(tipo, y, cantidad, separacion) {
+    const ancho = (cantidad - 1) * separacion + 1   // celdas que ocupa la fila
+    const desdeX = (anchoTablero - ancho).div(2)    // margen a cada lado
+    return self.fila(tipo, y, desdeX, cantidad, separacion)
+  }
+
+  // 0 = fila de arriba de todo, 1 = la siguiente, etc.
+  method alturaDesdeArriba(n) = altoTablero - 1 - n
 
 }
