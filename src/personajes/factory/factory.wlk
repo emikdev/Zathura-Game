@@ -2,7 +2,6 @@ import wollok.game.*
 import src.mecanicas.bandos.*
 import src.personajes.enemigo.*
 import src.personajes.nave.*
-import src.personajes.efectos.efectosPersonaje.*
 
 // Factory encargada de crear personajes a partir de su tipo
 object factory {
