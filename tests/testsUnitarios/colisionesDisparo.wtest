@@ -6,10 +6,16 @@ describe "Tests de Colisiones de Disparos" {
 
   // 1. Mocks de animación pasivos para evitar hilos de fondo en los tests
   const animacionMock = object {
-    method frameActual() = "bala.png"
-    method activa() = false
-    method reiniciar() {}
-    method detener() {}
+    const frames = ["frame1.png", "frame2.png"]
+    const duracion = 1000
+
+    method frames(){
+        return frames
+    }
+
+    method duracion(){
+        return duracion
+    }
   }
 
   // 2. Mocks de Personajes con bandos reales para simular los impactos
@@ -61,7 +67,7 @@ describe "Tests de Colisiones de Disparos" {
   // ESCENARIOS DE PRUEBA
   test "Disparo del jugador impacta y daña a una nave enemiga" {
     const disparoAliado = new Disparo(
-      animacion = animacionMock,
+      recursoAnimacion = animacionMock,
       dano = 1,
       bando = jugador,
       position = game.at(2, 2)
@@ -78,7 +84,7 @@ describe "Tests de Colisiones de Disparos" {
 
   test "Disparo del jugador NO daña a una nave aliada (Fuego Aliado protegido)" {
     const disparoAliado = new Disparo(
-      animacion = animacionMock,
+      recursoAnimacion = animacionMock,
       dano = 1,
       bando = jugador,
       position = game.at(2, 2)
@@ -95,7 +101,7 @@ describe "Tests de Colisiones de Disparos" {
 
   test "Disparo enemigo impacta y daña a la nave del jugador" {
     const disparoEnemigo = new Disparo(
-      animacion = animacionMock,
+      recursoAnimacion = animacionMock,
       dano = 1,
       bando = enemigo,
       position = game.at(2, 2)
@@ -112,13 +118,13 @@ describe "Tests de Colisiones de Disparos" {
 
   test "Dos disparos de bandos opuestos se ignoran polimórficamente en el aire" {
     const disparoAliado = new Disparo(
-      animacion = animacionMock,
+      recursoAnimacion = animacionMock,
       dano = 1,
       bando = jugador,
       position = game.at(2, 2)
     )
     const disparoEnemigo = new Disparo(
-      animacion = animacionMock,
+      recursoAnimacion = animacionMock,
       dano = 1,
       bando = enemigo,
       position = game.at(2, 2)

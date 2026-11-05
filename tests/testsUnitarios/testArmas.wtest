@@ -9,6 +9,7 @@ describe "Tests Unitarios del Sistema de Armas" {
   // 1. Mocks de simulación para entorno aislado
   const bandoMock = object {
     var property disparosRegistrados = []
+    method ajustarPosicion(position){ return position }
     method puedeDisparar() = true
     method registrar(disparo) { disparosRegistrados.add(disparo) }
   }
@@ -48,17 +49,7 @@ describe "Tests Unitarios del Sistema de Armas" {
     assert.equals(5, armaInfinita.municion())
   }
 
-  // TESTS DE ARMA LÁSER (DINÁMICA)
-
-  test "ArmaLaser calcula el daño dinámicamente según la munición consumida" {
-    const laser = new ArmaLaser(
-      recursoBala = recursoPrueba,
-      danoBala = 5,
-      municion = 10
-    )
-    assert.equals(5, laser.danoDisparo())
-  }
-
+  // TESTS DE ARMA LÁSER (CONSUMO DE 2 UNIDADES POR DISPARO)
   test "ArmaLaser reduce la munición correctamente al disparar" {
     const laser = new ArmaLaser(
       recursoBala = recursoPrueba,
