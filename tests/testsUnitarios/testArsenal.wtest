@@ -1,0 +1,56 @@
+import src.mecanicas.arsenal.*
+
+describe "Tests del arsenal" {
+    const armaConBala = object {
+        method hayMunicion() = true
+    }
+
+    const armaVacia = object {
+        method hayMunicion() = false
+    }
+
+    const arsenal = new Arsenal()
+
+    test "Se agrega armas al arsenal, se verifica que inicia vacio"{
+        assert.throwsException({arsenal.armaActual()}) // Inicialmente esta vacia
+
+        arsenal.agregarAArmas(armaConBala)
+        assert.equals(armaConBala, arsenal.armaActual())
+
+    }
+
+    test "Se verifica funcionamiento de siguiente arma"{
+        arsenal.agregarAArmas(armaConBala)
+        arsenal.agregarAArmas(armaVacia)
+
+        assert.equals(armaConBala, arsenal.armaActual())
+
+        arsenal.equiparSiguienteArma()
+
+        assert.equals(armaVacia, arsenal.armaActual())
+
+        arsenal.equiparSiguienteArma()
+
+        assert.equals(armaConBala, arsenal.armaActual())
+
+    }
+
+    test "Se verifica funcion de eliminar armas sin municion"{
+        arsenal.agregarAArmas(armaConBala)
+        arsenal.agregarAArmas(armaVacia)
+
+        arsenal.verificarArmaActual()
+
+        assert.equals(armaConBala, arsenal.armaActual()) // Al tener balas no deberia eliminarse
+
+        arsenal.equiparSiguienteArma()
+
+        assert.equals(armaVacia, arsenal.armaActual()) 
+
+        arsenal.verificarArmaActual()
+
+        assert.equals(armaConBala, arsenal.armaActual()) // Al eliminarse el arma vacia debe volver a la posicion 0 correspondiente a 
+                                                         // el arma con balas
+    }
+
+}
