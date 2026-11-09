@@ -6,7 +6,7 @@ class Arsenal{
         return armas.get(armaActual)
     }
 
-    method agregarAlArma(nuevaArma){ // Agrega un arma al armas
+    method agregarAArmas(nuevaArma){ // Agrega un arma a armas
         armas.add(nuevaArma)
     }
 
@@ -16,7 +16,7 @@ class Arsenal{
 
     method verificarArmaActual(){ // Revisa si el arma actual tiene municion, sino tiene la descarta y vuelve al primer arma
         if (not self.armaActual().hayMunicion()){
-            armas.remove(armaActual)
+            armas.remove(self.armaActual())
             armaActual = 0 
         }
     }
