@@ -1,0 +1,72 @@
+import src.mecanicas.gestores.gestorNiveles.*
+import src.niveles.nivel.*
+
+describe "Tests de nivel" {
+
+    const gestorNivelMock = object {
+
+        var property nivelTerminado = false
+
+        method terminarNivel(){
+            nivelTerminado = true
+        }
+    }
+
+    const oleadaUnoMock = object {
+        var property iniciada = false 
+
+        method iniciar(nivel){
+            iniciada = true
+        }
+    }
+
+    const oleadaDosMock = object {
+        var property iniciada = false
+
+        method iniciar(nivel){
+            iniciada = true
+        }
+    }
+
+
+    test "Test de carga de nivel"{
+        const nivelTest = new Nivel(oleadas = [oleadaUnoMock, oleadaDosMock])
+
+        // Ambas oleadas empiezan sin iniciar
+        assert.notThat(oleadaUnoMock.iniciada())
+        assert.notThat(oleadaDosMock.iniciada())
+
+
+        nivelTest.cargar()
+
+        // Al hacer el nivelTest.cargar() deberia inicarse solo la oleada uno 
+        assert.that(oleadaUnoMock.iniciada())
+        assert.notThat(oleadaDosMock.iniciada())
+    
+        
+    }
+
+    test "Prueba de de formacionVacia(), remueve la oleada actual y llama a la siguiente"{
+
+        const nivelTest = new Nivel(oleadas = [oleadaUnoMock, oleadaDosMock])
+
+        assert.notThat(oleadaDosMock.iniciada())
+
+        nivelTest.formacionVacia()
+
+        assert.that(oleadaDosMock.iniciada())
+
+    }
+
+    test "Prueba de de finalizacion de nivel"{
+        const nivelTest = new Nivel(oleadas = [oleadaUnoMock])
+
+        assert.notThat(gestorNivelMock.nivelTerminado())
+
+        nivelTest.formacionVacia()
+
+        assert.notThat(nivelTest.hayOleadasPendientes())
+
+        // Despues de eso se llama al gestor de niveles en terminarNivel()
+    }
+}
