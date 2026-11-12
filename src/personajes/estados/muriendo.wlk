@@ -1,11 +1,13 @@
 import wollok.game.*
 import src.personajes.estados.estadoPersonaje.*
+import src.personajes.efectos.efectosPersonaje.*   // para sinEfecto
 import src.personajes.estados.neutral.*
 
 class Muriendo inherits EstadoPersonaje {
 
     override method initialize() {
         super()
+        personaje.cambiarEfecto(sinEfecto)   // la muerte cancela cualquier efecto activo
         personaje.perderVida()
     }
 
