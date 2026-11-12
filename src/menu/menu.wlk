@@ -4,7 +4,8 @@
   import src.menu.configuracion.*
   import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
   import src.mecanicas.gestores.gestorNiveles.*
-
+  import src.menu.musicaMenu.*
+  import src.menu.efectos.*
   // falta importar el archivo de los niveles
 
   object menu {
@@ -31,6 +32,7 @@
       game.addVisual(seleccionador)
 
       seleccionador.controles()
+      musicaMenu.iniciar()
     }
 
     method menuPrincipal() {
@@ -135,8 +137,10 @@
 
     method empezar() {
         game.clear()
+        musicaMenu.detener()
         // Se inicia el gestor de niveles
 	      gestorNiveles.iniciar()
+
     }
 
   }
