@@ -72,6 +72,9 @@ object fabricaDePruebas {
     )
   }
 
+  /* configura el tablero y agrega el visual porque los estados lo necesitan: Muriendo hace game.removeVisual y game.addVisual,
+   y los tests de salida y reaparición preguntan game.hasVisual(...).*/
+
   method prepararTablero(personaje) {
     game.width(20)
     game.height(20)

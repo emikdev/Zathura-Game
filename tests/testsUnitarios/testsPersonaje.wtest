@@ -27,7 +27,7 @@ describe "Personaje: creación y ciclo de vida" {
   }
 
   // Salud
-
+  
   test "con daño menor a su salud máxima no queda sin salud" {
     personaje.restarSalud(fabricaDePruebas.saludMaxima() - 1)
 
@@ -82,6 +82,8 @@ describe "Personaje: creación y ciclo de vida" {
   }
 }
 
+// Colisiones
+
 describe "Personaje: colisiones con disparos" {
 
   const armaMock = new ArmaMock()
@@ -100,7 +102,7 @@ describe "Personaje: colisiones con disparos" {
     personaje.colisionaCon(disparoEnemigoLeve)
 
     assert.equals("impacto.png", personaje.image())
-    assert.notThat(personaje.sinSalud())
+    assert.notThat(personaje.sinSalud()) // Como el dano es leve no lo deja sin salud/lo mata.
   }
 
   test "un disparo de otro bando se destruye al impactar" {
@@ -112,7 +114,7 @@ describe "Personaje: colisiones con disparos" {
   test "un disparo del mismo bando lo atraviesa sin dañarlo ni destruirse" {
     personaje.colisionaCon(disparoAliado)
 
-    assert.equals("base.png", personaje.image())
+    assert.equals("base.png", personaje.image()) // No reacciona al impacto, es decir, no recibe dano ni muestra efecto visual.
     assert.notThat(disparoAliado.fueDestruido())
   }
 
