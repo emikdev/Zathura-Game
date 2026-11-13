@@ -48,14 +48,6 @@
       )
     }
 
-    method menuReglas() {
-      game.clear()      
-      musicaMenu.iniciar()
-      game.boardGround("reglas2.png")
-      keyboard.space().onPressDo({self.menuPrincipal() efectos.reproducir("choose.mp3")})
-
-    }
-
     method menuEntreNiveles() {
         game.clear()
         musicaMenu.iniciar()
