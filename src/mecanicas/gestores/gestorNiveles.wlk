@@ -30,7 +30,10 @@ object gestorNiveles {
         self.removerNivelActual()
 
         if (self.haySiguienteNivel()) {
-            // TODO: Cartel de pasar a siguiente nivel
+            menu.menuEntreNiveles() 
+            // TODO: Hablar de como va a funcionar esto, para mi (Joaquin) deberia accionarse el siguiente nivel apartir de que el jugador de al espacio una vez terminado el nivel
+            // yo en los menus tengo un metodo que se llama empezar y ese llama a gestorNiveles.iniciar() en iniciar podrias modificarlo para que inicie el nivel que sigue de los que
+            // hay en la lista
             game.schedule(5000, { self.nivelActual().cargar() })
         } else {
             self.ganar()

@@ -56,7 +56,7 @@
 
     }
 
-    method entreNiveles() {
+    method menuEntreNiveles() {
         game.clear()
         musicaMenu.iniciar()
         game.boardGround("entreNiveles.png")
