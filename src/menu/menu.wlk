@@ -9,7 +9,7 @@
 
   object menu {
     method iniciar() {
-      self.menuPrincipal()
+      self.menuReglas()
     }
 
     method mostrar(titulo, opciones, alSeleccionar) {
@@ -34,6 +34,8 @@
     }
 
     method menuPrincipal() {
+
+      game.boardGround("fondo.png")
       self.mostrar(
         "menuPrincipal.png",
         [
@@ -44,6 +46,14 @@
           if (opcion.valor() == "jugar") self.menuCantidadJugadores() else game.stop()
         }
       )
+    }
+
+    method menuReglas() {
+      game.clear()      
+      //musicaMenu.iniciar()
+      
+      keyboard.space().onPressDo({self.menuPrincipal() })//efectos.reproducir("choose.mp3")
+
     }
 
     
