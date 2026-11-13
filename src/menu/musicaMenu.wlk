@@ -22,7 +22,7 @@ class SonidoAmbiente {
 object apagada {
   method iniciar(sonidoAmbiente) {
     const sonido = sonidoAmbiente.sonidoNuevo()
-    game.schedule(500, { sonido.play() })
+    sonido.play()
     sonidoAmbiente.estado(new Sonando(sonido = sonido))
   }
 
@@ -35,11 +35,17 @@ class Sonando {
   method iniciar(sonidoAmbiente) {}
 
   method detener(sonidoAmbiente) {
-    sonido.stop()
+    if (sonido.played()){
+      sonido.stop()  
+    }
     sonidoAmbiente.estado(apagada)
   }
 }
 
 object musicaMenu inherits SonidoAmbiente(archivo = "musicaFondoMenu.mp3") {}
 
-//object musicaInGame inherits SonidoAmbiente(archivo = "musicaInGame.mp3") {}
+object musicaInGame inherits SonidoAmbiente(archivo = "inGame.mp3") {}
+
+object musicaGameOver inherits SonidoAmbiente(archivo = "gameOver.mp3") {}
+
+object musicaVictoria inherits SonidoAmbiente(archivo = "victoria.mp3") {}

@@ -1,3 +1,4 @@
+import src.menu.musicaMenu.*
 import wollok.game.*
 import src.niveles.niveles.*
 import src.mecanicas.gestores.generadorOvnis.*
@@ -38,11 +39,14 @@ object gestorNiveles {
     }
 
     method ganar() {
+        musicaInGame.detener()
+        musicaVictoria.iniciar()
         generadorOvnis.detener()
         menu.menuVictoria()
     }
 
     method gameOver() {
+        musicaInGame.detener()
         generadorOvnis.detener()
         menu.menuGameOver()
     }

@@ -32,10 +32,11 @@
       game.addVisual(seleccionador)
 
       seleccionador.controles()
-      musicaMenu.iniciar()
     }
 
     method menuPrincipal() {
+      musicaMenu.iniciar()
+
       self.mostrar(
         "menuPrincipal.png",
         [
@@ -101,12 +102,14 @@
 
 
     method menuGameOver (){
-
+      musicaMenu.detener()
       self.menuInicial("perdiste.png")
-
+      efectos.reproducir("fail.mp3")
     }
 
     method menuVictoria() {
+      musicaMenu.detener()
+      musicaVictoria.iniciar()
       self.menuInicial("ganaste.png")
     }
 
@@ -117,10 +120,16 @@
       new Opcion(image = "salir.png",        valor = "salir",  position = game.center().right(-1).down(4))
     ],
     { opcion =>
-      if (opcion.valor() == "volver") self.menuPrincipal() else game.stop()
+      if (opcion.valor() == "volver"){ 
+
+        musicaVictoria.detener()
+        self.menuPrincipal() 
+      }else{ 
+          game.stop()
+      }
     }
   )
-    }
+}
 
     method elegirNave(titulo, alElegir) {
       
@@ -140,7 +149,7 @@
         musicaMenu.detener()
         // Se inicia el gestor de niveles
 	      gestorNiveles.iniciar()
-
+        musicaInGame.iniciar()
     }
 
   }
