@@ -56,6 +56,13 @@
 
     }
 
+    method menuEntreNiveles() {
+      game.clear()
+      musicaMenu.iniciar()
+      game.boardGround("entreNiveles.png")
+      keyboard.space().onPressDo({self.empezar() efectos.reproducir("choose.mp3")})
+    }
+
     
   method menuCantidadJugadores() {
       self.mostrar(
