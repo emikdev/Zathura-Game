@@ -12,10 +12,7 @@ program Zathura {
 
 	// Titulo del juego
 	game.title("Zathura Game")
-
-	// Se inicia el primer fondo.
-	game.boardGround("reglas2.png")
-
+	
 	// Se carga el menu
 	menu.iniciar()	
 
