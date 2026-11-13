@@ -50,9 +50,9 @@
 
     method menuReglas() {
       game.clear()      
-      //musicaMenu.iniciar()
-      
-      keyboard.space().onPressDo({self.menuPrincipal() })//efectos.reproducir("choose.mp3")
+      musicaMenu.iniciar()
+      game.boardGround("reglas2.png")
+      keyboard.space().onPressDo({self.menuPrincipal() efectos.reproducir("choose.mp3")})
 
     }
 
