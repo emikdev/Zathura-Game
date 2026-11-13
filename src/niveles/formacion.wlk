@@ -79,7 +79,7 @@ class Formacion {
     enemigos.remove(enemigo)
     if (enemigos.isEmpty()) {
       self.detener()
-      nivel.llamarSiguienteFormacionSiSePuede()
+      nivel.formacionVacia()
     }
   }
 
