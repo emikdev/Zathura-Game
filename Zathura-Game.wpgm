@@ -12,7 +12,9 @@ program Zathura {
 
 	// Titulo del juego
 	game.title("Zathura Game")
-	
+
+	// saco el inicio del fondo de aca, ya que segun el menu que haya cambiara.
+
 	// Se carga el menu
 	menu.iniciar()	
 
