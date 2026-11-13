@@ -46,6 +46,4 @@ object musicaMenu inherits SonidoAmbiente(archivo = "musicaFondoMenu.mp3") {}
 
 object musicaInGame inherits SonidoAmbiente(archivo = "inGame.mp3") {}
 
-object musicaGameOver inherits SonidoAmbiente(archivo = "gameOver.mp3") {}
-
 object musicaVictoria inherits SonidoAmbiente(archivo = "victoria.mp3") {}
