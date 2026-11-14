@@ -13,7 +13,8 @@ object gestorPuntaje {
     method reiniciar() { puntos = 0 } 
 
     method mostrar() {
-        const score = new Cartel (image = "score.png", position = game.at(5,game.height() -1) )
+        const score = new Cartel (image = "score.png", position = game.at(18,game.height() -1) )
+        game.addVisual(score)
         game.addVisual(mil)
         game.addVisual(centena)
         game.addVisual(decena)
