@@ -10,7 +10,7 @@
 
   object menu {
     method iniciar() {
-      self.menuPrincipal()
+      self.menuReglas()
     }
 
     method mostrar(titulo, opciones, alSeleccionar) {
@@ -35,6 +35,8 @@
     }
 
     method menuPrincipal() {
+
+      game.boardGround("fondo.png")
       musicaMenu.iniciar()
 
       self.mostrar(
@@ -47,6 +49,28 @@
           if (opcion.valor() == "jugar") self.menuCantidadJugadores() else game.stop()
         }
       )
+    }
+
+    method menuReglas() {
+      game.clear()      
+      musicaMenu.iniciar()
+      game.boardGround("reglas2.png")
+      keyboard.space().onPressDo({self.menuSistemaPuntajes() efectos.reproducir("choose.mp3")})
+
+    }
+
+    method menuSistemaPuntajes() {
+      game.clear()
+      musicaMenu.iniciar()
+      game.boardGround("sistemaPuntajes.png")
+      keyboard.space().onPressDo({self.menuPrincipal() efectos.reproducir("choose.mp3")})
+    }
+
+    method menuEntreNiveles() {
+      game.clear()
+      musicaMenu.iniciar()
+      game.boardGround("entreNiveles.png")
+      keyboard.space().onPressDo({self.empezar() efectos.reproducir("choose.mp3")})
     }
 
     
