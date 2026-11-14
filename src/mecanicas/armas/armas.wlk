@@ -1,4 +1,4 @@
-import src.menu.efectos.*
+import src.sonidos.sonido.*
 import src.mecanicas.disparo.*
 
 class Arma {
@@ -23,7 +23,7 @@ class Arma {
             )
 
             nuevoDisparo.iniciar()
-            efectos.reproducir("disparo.mp3")
+            sonido.reproducir("disparo.mp3")
             personaje.bando().registrar(nuevoDisparo)
             self.consumirMunicion()
         }

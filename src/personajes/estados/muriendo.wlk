@@ -1,4 +1,4 @@
-import src.menu.efectos.*
+import src.sonidos.sonido.*
 import wollok.game.*
 import src.personajes.estados.estadoPersonaje.*
 import src.personajes.estados.neutral.*
@@ -17,11 +17,11 @@ class Muriendo inherits EstadoPersonaje {
     override method terminoAnimacion() {
         game.removeVisual(personaje)
         if (personaje.tieneVidas()) {
-            efectos.reproducir("pierdeVida.mp3")
+            sonido.reproducir("pierdeVida.mp3")
             game.schedule(3000, { self.reaparecer() })
 
         } else {
-            efectos.reproducir("muerteDefinitiva.mp3")
+            sonido.reproducir("muerteDefinitiva.mp3")
             personaje.alQuedarseSinVidas()
         }
     }

@@ -1,5 +1,5 @@
 
-object efectos {
+object sonido {
     
     method reproducir(archivo) {
         const sonido = game.sound(archivo)

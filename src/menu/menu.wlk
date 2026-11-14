@@ -4,8 +4,8 @@
   import src.menu.configuracion.*
   import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
   import src.mecanicas.gestores.gestorNiveles.*
-  import src.menu.musicaMenu.*
-  import src.menu.efectos.*
+  import src.sonidos.musicaMenu.*
+  import src.sonidos.sonido.*
   // falta importar el archivo de los niveles
 
   object menu {
@@ -104,7 +104,7 @@
     method menuGameOver (){
       musicaMenu.detener()
       self.menuInicial("perdiste.png")
-      efectos.reproducir("fail.mp3")
+      sonido.reproducir("fail.mp3")
     }
 
     method menuVictoria() {

@@ -1,5 +1,5 @@
 import wollok.game.*
-import src.menu.efectos.*
+import src.sonidos.sonido.*
 class Seleccionador {
     const property image = "spot.png"
     const property opciones
@@ -18,11 +18,11 @@ class Seleccionador {
 
     method controles() {
     
-      keyboard.left().onPressDo({ self.anterior() efectos.reproducir("opciones.mp3")})
-      keyboard.right().onPressDo({ self.siguiente()efectos.reproducir("opciones.mp3")})
-      keyboard.a().onPressDo({ self.anterior() efectos.reproducir("opciones.mp3")})
-      keyboard.d().onPressDo({ self.siguiente() efectos.reproducir("opciones.mp3")})
-      keyboard.space().onPressDo({ self.selecciona() efectos.reproducir("choose.mp3")})
+      keyboard.left().onPressDo({ self.anterior() sonido.reproducir("opciones.mp3")})
+      keyboard.right().onPressDo({ self.siguiente()sonido.reproducir("opciones.mp3")})
+      keyboard.a().onPressDo({ self.anterior() sonido.reproducir("opciones.mp3")})
+      keyboard.d().onPressDo({ self.siguiente() sonido.reproducir("opciones.mp3")})
+      keyboard.space().onPressDo({ self.selecciona() sonido.reproducir("choose.mp3")})
     }
 }
 

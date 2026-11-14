@@ -1,4 +1,4 @@
-import src.menu.musicaMenu.*
+import src.sonidos.musicaMenu.*
 import wollok.game.*
 import src.niveles.niveles.*
 import src.mecanicas.gestores.generadorOvnis.*
