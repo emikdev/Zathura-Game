@@ -3,7 +3,7 @@ import src.mecanicas.disparo.*
 class Arma {
 
     const recursoBala // recurso con frames y duracion de la bala
-    const danoBala = 10 // daño base de la bala
+    const property danoBala = 10 // daño base de la bala
     var property municion
 
     method danoDisparo() { // daño de la bala (para que después las armas que consumen más munición hagan más daño)
