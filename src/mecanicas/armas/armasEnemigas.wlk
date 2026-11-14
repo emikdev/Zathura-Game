@@ -1,10 +1,13 @@
 import src.mecanicas.armas.armas.*
 import src.mecanicas.animaciones.recursos.recursosArmas.*
+import src.menu.configuracion.*
 
 
 // 1. Arma Enemiga Básica (Requiere pasarle un recurso de animación y daño)
 class ArmaEnemigaBasica inherits Arma {
   override method consumirMunicion() {}
+
+  override method danoDisparo() = super() * configuracion.dificultadElegida()
 }
 
 // intanciacion de armas
@@ -13,6 +16,7 @@ const armaEnemigaBasica = new ArmaEnemigaBasica(
   danoBala = 1,
   recursoBala = armaEnemigaBasicaRecursos,
   municion = 100
+  
 ) 
 
 // Arma Cargada Enemiga (Usada por Mosca)
