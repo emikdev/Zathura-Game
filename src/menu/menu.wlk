@@ -4,7 +4,8 @@
   import src.menu.configuracion.*
   import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
   import src.mecanicas.gestores.gestorNiveles.*
-
+  import src.sonidos.musicaMenu.*
+  import src.sonidos.sonido.*
   // falta importar el archivo de los niveles
 
   object menu {
@@ -36,6 +37,8 @@
     method menuPrincipal() {
 
       game.boardGround("fondo.png")
+      musicaMenu.iniciar()
+
       self.mostrar(
         "menuPrincipal.png",
         [
@@ -123,12 +126,14 @@
 
 
     method menuGameOver (){
-
+      musicaMenu.detener()
       self.menuInicial("perdiste.png")
-
+      sonido.reproducir("fail.mp3")
     }
 
     method menuVictoria() {
+      musicaMenu.detener()
+      musicaVictoria.iniciar()
       self.menuInicial("ganaste.png")
     }
 
@@ -139,10 +144,16 @@
       new Opcion(image = "salir.png",        valor = "salir",  position = game.center().right(-1).down(4))
     ],
     { opcion =>
-      if (opcion.valor() == "volver") self.menuPrincipal() else game.stop()
+      if (opcion.valor() == "volver"){ 
+
+        musicaVictoria.detener()
+        self.menuPrincipal() 
+      }else{ 
+          game.stop()
+      }
     }
   )
-    }
+}
 
     method elegirNave(titulo, alElegir) {
       
@@ -159,8 +170,10 @@
 
     method empezar() {
         game.clear()
+        musicaMenu.detener()
         // Se inicia el gestor de niveles
 	      gestorNiveles.iniciar()
+        musicaInGame.iniciar()
     }
 
   }
