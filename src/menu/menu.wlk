@@ -55,7 +55,7 @@
       game.clear()      
       musicaMenu.iniciar()
       game.boardGround("reglas2.png")
-      keyboard.space().onPressDo({self.menuSistemaPuntajes() efectos.reproducir("choose.mp3")})
+      keyboard.space().onPressDo({self.menuSistemaPuntajes() sonido.reproducir("choose.mp3")})
 
     }
 
@@ -63,14 +63,14 @@
       game.clear()
       musicaMenu.iniciar()
       game.boardGround("sistemaPuntajes.png")
-      keyboard.space().onPressDo({self.menuPrincipal() efectos.reproducir("choose.mp3")})
+      keyboard.space().onPressDo({self.menuPrincipal() sonido.reproducir("choose.mp3")})
     }
 
     method menuEntreNiveles() {
       game.clear()
-      musicaMenu.iniciar()
+      sonido.reproducir("levelPassed.mp3")
       game.boardGround("entreNiveles.png")
-      keyboard.space().onPressDo({self.empezar() efectos.reproducir("choose.mp3")})
+      keyboard.space().onPressDo({self.empezar() sonido.reproducir("choose.mp3")})
     }
 
     
