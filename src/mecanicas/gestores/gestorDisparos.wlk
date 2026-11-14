@@ -26,10 +26,10 @@ object gestorJugador inherits GestorDisparosBase {
 // 2. El de los enemigos: Controla la cantidad en pantalla y se ve afectado por la dificultad
 object gestorEnemigos inherits GestorDisparosBase {
 
+  override method puedeDisparar() = self.cantidadActivos() < self.limiteMaximo()
+
   const limiteMaximo = 5 // Base inicial
 
   method limiteMaximo() = limiteMaximo * configuracion.dificultadElegida()
-
-  override method puedeDisparar() = self.cantidadActivos() < self.limiteMaximo()
 
 }
