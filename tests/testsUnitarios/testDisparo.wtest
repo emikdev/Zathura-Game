@@ -1,0 +1,110 @@
+import wollok.game.*
+import src.mecanicas.disparo.*
+import src.mecanicas.bandos.*
+import src.mecanicas.gestores.gestorDisparos.*
+import tests.mocks.mocksPersonaje.*
+
+describe "Disparo: posición, avance y destrucción" {
+
+  const recurso = new RecursoMock(frame = "bala.png")
+  const disparoJugador = new Disparo(recursoAnimacion = recurso, dano = 1, bando = jugador, position = game.at(5, 5))
+  const disparoEnemigo = new Disparo(recursoAnimacion = recurso, dano = 1, bando = enemigo, position = game.at(5, 5))
+  const disparoJugadorEnElTecho = new Disparo(recursoAnimacion = recurso, dano = 1, bando = jugador, position = game.at(5, 19))
+  const disparoEnemigoEnElPiso = new Disparo(recursoAnimacion = recurso, dano = 1, bando = enemigo, position = game.at(5, 0))
+
+  method initialize() {
+    game.width(20)
+    game.height(20)
+  }
+
+  test "nace exactamente en la posición que se le indica (el ajuste lo hace quien lo crea)" {
+    assert.equals(game.at(5, 5), disparoJugador.position())
+    assert.equals(game.at(5, 5), disparoEnemigo.position())
+  }
+
+  test "el disparo del jugador sube una celda por avance" {
+    disparoJugador.avanzar()
+
+    assert.equals(game.at(5, 6), disparoJugador.position())
+  }
+
+  test "el disparo enemigo baja una celda por avance" {
+    disparoEnemigo.avanzar()
+
+    assert.equals(game.at(5, 4), disparoEnemigo.position())
+  }
+
+  test "al terminar su animación avanza una celda" {
+    disparoJugador.terminoAnimacion()
+
+    assert.equals(game.at(5, 6), disparoJugador.position())
+  }
+
+  test "al llegar al borde superior del tablero se destruye" {
+    game.addVisual(disparoJugadorEnElTecho)
+
+    disparoJugadorEnElTecho.avanzar()
+
+    assert.notThat(game.hasVisual(disparoJugadorEnElTecho))
+  }
+
+  test "al llegar al borde inferior del tablero se destruye" {
+    game.addVisual(disparoEnemigoEnElPiso)
+
+    disparoEnemigoEnElPiso.avanzar()
+
+    assert.notThat(game.hasVisual(disparoEnemigoEnElPiso))
+  }
+
+  test "al destruirse sale del tablero" {
+    game.addVisual(disparoJugador)
+
+    disparoJugador.destruir()
+
+    assert.notThat(game.hasVisual(disparoJugador))
+  }
+
+  test "al destruirse libera su lugar en el gestor de su bando" {
+    gestorJugador.registrarDisparo(disparoJugador)
+
+    disparoJugador.destruir()
+
+    assert.equals(0, gestorJugador.cantidadActivos())
+  }
+
+  test "al destruirse un disparo enemigo se puede volver a disparar si estaba en el tope" {
+    gestorEnemigos.registrarDisparo(disparoEnemigo)
+    (gestorEnemigos.limiteMaximo() - 1).times({ i => gestorEnemigos.registrarDisparo(new DisparoMock(bando = enemigo, dano = 1)) })
+    assert.notThat(gestorEnemigos.puedeDisparar())
+
+    disparoEnemigo.destruir()
+
+    assert.that(gestorEnemigos.puedeDisparar())
+  }
+
+  test "al iniciarse queda en el tablero" {
+    disparoJugador.iniciar()
+
+    assert.that(game.hasVisual(disparoJugador))
+  }
+
+  test "en la última fila sigue vivo y se destruye recién al intentar salir del tablero" {
+    const disparoCerca = new Disparo(recursoAnimacion = recurso, dano = 1, bando = jugador, position = game.at(5, 18))
+    game.addVisual(disparoCerca)
+
+    disparoCerca.avanzar()          // llega a la última fila (5, 19)
+    assert.equals(game.at(5, 19), disparoCerca.position())
+    assert.that(game.hasVisual(disparoCerca))
+
+    disparoCerca.avanzar()          // ya no hay celda arriba
+    assert.notThat(game.hasVisual(disparoCerca))
+  }
+
+  test "al terminar su animación en el borde se destruye" {
+    game.addVisual(disparoJugadorEnElTecho)
+
+    disparoJugadorEnElTecho.terminoAnimacion()
+
+    assert.notThat(game.hasVisual(disparoJugadorEnElTecho))
+  }
+}

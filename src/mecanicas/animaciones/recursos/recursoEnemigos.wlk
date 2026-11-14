@@ -99,22 +99,22 @@ const animacionMuerteMedusa = new RecursoDeAnimacion(frames = ["muerteMorado-fra
 // Cangrejos
 
     /* Animaciones Cangrejo Amarillo */
-const animacionBaseCangrejoAmarillo = new RecursoDeAnimacion(frames = ["cangrejoAmarillo-frame1.png", "cangrejoAmarillo-frame2.png"])
-const animacionDisparoCangrejoAmarillo = new RecursoDeAnimacion(frames = ["cangrejoAmarilloDisparando.png"])
-const animacionImpactoCangrejoAmarillo = new RecursoDeAnimacion(frames = ["cangrejoAmarilloImpactado-frame1.png", "cangrejoAmarilloImpactado-frame2.png", "cangrejoAmarilloImpactado-frame3.png", "cangrejoAmarilloImpactado-frame4.png"])
-const animacionMuerteCangrejoAmarillo = new RecursoDeAnimacion(frames = ["muerteAmarillo-frame1.png", "muerteAmarillo-frame2.png", "muerteAmarillo-frame3.png", "muerteAmarillo-frame4.png", "muerteAmarillo-frame5.png", "muerteAmarillo-frame6.png", "muerteAmarillo-frame7.png"])
+const animacionBaseCangrejoAmarillo = new RecursoDeAnimacion(frames = ["cangrejoAmarillo-frame1.png", "cangrejoAmarillo-frame2.png"], duracion = 250)
+const animacionDisparoCangrejoAmarillo = new RecursoDeAnimacion(frames = ["cangrejoAmarilloDisparando.png"], duracion = 250)
+const animacionImpactoCangrejoAmarillo = new RecursoDeAnimacion(frames = ["cangrejoAmarilloImpactado-frame1.png", "cangrejoAmarilloImpactado-frame2.png", "cangrejoAmarilloImpactado-frame3.png", "cangrejoAmarilloImpactado-frame4.png"], duracion = 250)
+const animacionMuerteCangrejoAmarillo = new RecursoDeAnimacion(frames = ["muerteAmarillo-frame1.png", "muerteAmarillo-frame2.png", "muerteAmarillo-frame3.png", "muerteAmarillo-frame4.png", "muerteAmarillo-frame5.png", "muerteAmarillo-frame6.png", "muerteAmarillo-frame7.png"], duracion = 250)
 
     /* Animaciones Cangrejo Azul */
-const animacionBaseCangrejoAzul = new RecursoDeAnimacion(frames = ["cangrejoAzul-frame1.png", "cangrejoAzul-frame2.png"])
-const animacionDisparoCangrejoAzul = new RecursoDeAnimacion(frames = ["cangrejoAzulDisparando.png"])
-const animacionImpactoCangrejoAzul = new RecursoDeAnimacion(frames = ["cangrejoAzulImpacto-frame1.png", "cangrejoAzulImpacto-frame2.png", "cangrejoAzulImpacto-frame3.png", "cangrejoAzulImpacto-frame4.png"])
-const animacionMuerteCangrejoAzul = new RecursoDeAnimacion(frames = ["muerteAzul-frame1.png", "muerteAzul-frame2.png", "muerteAzul-frame3.png", "muerteAzul-frame4.png", "muerteAzul-frame5.png", "muerteAzul-frame6.png.png", "muerteAzul-frame7.png"])
+const animacionBaseCangrejoAzul = new RecursoDeAnimacion(frames = ["cangrejoAzul-frame1.png", "cangrejoAzul-frame2.png"], duracion = 250)
+const animacionDisparoCangrejoAzul = new RecursoDeAnimacion(frames = ["cangrejoAzulDisparando.png"], duracion = 250)
+const animacionImpactoCangrejoAzul = new RecursoDeAnimacion(frames = ["cangrejoAzulImpacto-frame1.png", "cangrejoAzulImpacto-frame2.png", "cangrejoAzulImpacto-frame3.png", "cangrejoAzulImpacto-frame4.png"], duracion = 250)
+const animacionMuerteCangrejoAzul = new RecursoDeAnimacion(frames = ["muerteAzul-frame1.png", "muerteAzul-frame2.png", "muerteAzul-frame3.png", "muerteAzul-frame4.png", "muerteAzul-frame5.png", "muerteAzul-frame6.png.png", "muerteAzul-frame7.png"], duracion = 250)
 
     /* Animaciones Cangrejo Rojo */
-const animacionBaseCangrejoRojo = new RecursoDeAnimacion(frames = ["cangrejoRojo-frame1.png", "cangrejoRojo-frame2.png"])
-const animacionDisparoCangrejoRojo = new RecursoDeAnimacion(frames = ["cangrejoRojoDisparando.png"])
-const animacionImpactoCangrejoRojo = new RecursoDeAnimacion(frames = ["cangrejoRojoImpacto-frame1.png", "cangrejoRojoImpacto-frame2.png", "cangrejoRojoImpacto-frame3.png", "cangrejoRojoImpacto-frame4.png"])
-const animacionMuerteCangrejoRojo = new RecursoDeAnimacion(frames = ["muerteRojo-frame1.png", "muerteRojo-frame2.png", "muerteRojo-frame3.png", "muerteRojo-frame4.png", "muerteRojo-frame5.png", "muerteRojo-frame6.png", "muerteRojo-frame7.png"])
+const animacionBaseCangrejoRojo = new RecursoDeAnimacion(frames = ["cangrejoRojo-frame1.png", "cangrejoRojo-frame2.png"], duracion = 250)
+const animacionDisparoCangrejoRojo = new RecursoDeAnimacion(frames = ["cangrejoRojoDisparando.png"], duracion = 250)
+const animacionImpactoCangrejoRojo = new RecursoDeAnimacion(frames = ["cangrejoRojoImpacto-frame1.png", "cangrejoRojoImpacto-frame2.png", "cangrejoRojoImpacto-frame3.png", "cangrejoRojoImpacto-frame4.png"], duracion = 250)
+const animacionMuerteCangrejoRojo = new RecursoDeAnimacion(frames = ["muerteRojo-frame1.png", "muerteRojo-frame2.png", "muerteRojo-frame3.png", "muerteRojo-frame4.png", "muerteRojo-frame5.png", "muerteRojo-frame6.png", "muerteRojo-frame7.png"], duracion = 250)
 
 
 // Ovnis

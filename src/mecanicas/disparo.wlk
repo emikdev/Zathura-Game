@@ -11,7 +11,6 @@ class Disparo {
   var animacion
 
   method initialize() {
-    position = bando.ajustarPosicion(position)   // se ajusta UNA sola vez
     animacion = new Animacion(estado = self, recursoDeAnimacion = recursoAnimacion)
   }
 
