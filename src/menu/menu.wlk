@@ -68,7 +68,7 @@
 
     method menuEntreNiveles() {
       game.clear()
-      musicaMenu.iniciar()
+      sonido.reproducir("levelPassed.mp3")
       game.boardGround("entreNiveles.png")
       keyboard.space().onPressDo({self.empezar() sonido.reproducir("choose.mp3")})
     }
