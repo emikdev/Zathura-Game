@@ -10,6 +10,7 @@ import src.mecanicas.arsenal.*
 class TipoPersonajeEnemigo inherits TipoPersonaje {
 
     const comportamientoAtaque
+    const puntosQueOtorga = 50
 
     method comportamientoAtaque() {
         return comportamientoAtaque
@@ -29,7 +30,8 @@ const alien = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoAlien,
     animacionImpacto = animacionImpactoAlien,
     animacionMuerte = animacionMuerteAlien,
-    comportamientoAtaque = ataques.probabilistico(10)
+    comportamientoAtaque = ataques.probabilistico(10),
+    puntosQueOtorga = 25
 )
 
 const calamar = new TipoPersonajeEnemigo(
@@ -40,7 +42,8 @@ const calamar = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoCalamar,
     animacionImpacto = animacionImpactoCalamar,
     animacionMuerte = animacionMuerteCalamar,
-    comportamientoAtaque = ataques.probabilistico(10)
+    comportamientoAtaque = ataques.probabilistico(10),
+    puntosQueOtorga = 25
 )
 
 const pulpo = new TipoPersonajeEnemigo(
@@ -51,7 +54,8 @@ const pulpo = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoPulpo,
     animacionImpacto = animacionImpactoPulpo,
     animacionMuerte = animacionMuertePulpo,
-    comportamientoAtaque = ataques.probabilistico(10)
+    comportamientoAtaque = ataques.probabilistico(10),
+    puntosQueOtorga = 25
 )
 
 const kamikaze = new TipoPersonajeEnemigo(
@@ -97,7 +101,8 @@ const alienHeavy = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoAlienHeavy,
     animacionImpacto = animacionImpactoAlienHeavy,
     animacionMuerte = animacionMuerteAlienHeavy,
-    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1)
+    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1),
+    puntosQueOtorga = 100
 )
 
 const calamarHeavy = new TipoPersonajeEnemigo(
@@ -108,7 +113,8 @@ const calamarHeavy = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoCalamarHeavy,
     animacionImpacto = animacionImpactoCalamarHeavy,
     animacionMuerte = animacionMuerteCalamarHeavy,
-    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1)
+    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1),
+    puntosQueOtorga = 100
 )
 
 const pulpoHeavy = new TipoPersonajeEnemigo(
@@ -119,7 +125,8 @@ const pulpoHeavy = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoPulpoHeavy,
     animacionImpacto = animacionImpactoPulpoHeavy,
     animacionMuerte = animacionMuertePulpoHeavy,
-    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1)
+    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1),
+    puntosQueOtorga = 100
 )
 
 /* Especiales */
@@ -191,7 +198,8 @@ const cangrejoAmarillo = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoCangrejoAmarillo,
     animacionImpacto = animacionImpactoCangrejoAmarillo,
     animacionMuerte = animacionMuerteCangrejoAmarillo,
-    comportamientoAtaque = ataques.probabilistico(75)
+    comportamientoAtaque = ataques.probabilistico(75),
+    puntosQueOtorga = 500
 )
 
 const cangrejoAzul = new TipoPersonajeEnemigo(
@@ -202,7 +210,8 @@ const cangrejoAzul = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoCangrejoAzul,
     animacionImpacto = animacionImpactoCangrejoAzul,
     animacionMuerte = animacionMuerteCangrejoAzul,
-    comportamientoAtaque = ataques.probabilistico(80)
+    comportamientoAtaque = ataques.probabilistico(80),
+    puntosQueOtorga = 500
 )
 
 const cangrejoRojo = new TipoPersonajeEnemigo(
@@ -213,7 +222,8 @@ const cangrejoRojo = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoCangrejoRojo,
     animacionImpacto = animacionImpactoCangrejoRojo,
     animacionMuerte = animacionMuerteCangrejoRojo,
-    comportamientoAtaque = ataques.probabilistico(80)
+    comportamientoAtaque = ataques.probabilistico(80),
+    puntosQueOtorga = 500
 )
 
 /* Ovnis */
@@ -227,5 +237,6 @@ const ovni = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoOvniClasico,
     animacionImpacto = animacionImpactoOvniClasico,
     animacionMuerte = animacionMuerteOvniClasico,
-    comportamientoAtaque = ningunaAccion
+    comportamientoAtaque = ningunaAccion,
+    puntosQueOtorga = 500
 )
