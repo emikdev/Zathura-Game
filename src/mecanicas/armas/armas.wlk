@@ -1,3 +1,4 @@
+import src.sonidos.sonido.*
 import src.mecanicas.disparo.*
 
 class Arma {
