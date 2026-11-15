@@ -17,3 +17,7 @@ const bufoDobleCanonRecursos = new RecursoDeAnimacion(
 const bufoTripleCanonRecursos = new RecursoDeAnimacion(
     frames = ["buf_ArmaTriple.png"]
 )
+
+const bufoVidaRecursos = new RecursoDeAnimacion(
+    frames = [ "bufo_vida.png" ]
+)

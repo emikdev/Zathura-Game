@@ -95,6 +95,10 @@ class Personaje{
         vidas -= 1
     }
 
+    method ganarVida() {
+        vidas += 1
+    }
+
     method tieneVidas(){
         return  vidas > 0
     }

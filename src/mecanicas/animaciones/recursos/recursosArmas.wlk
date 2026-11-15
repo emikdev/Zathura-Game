@@ -40,7 +40,7 @@ const armaDePlasmaRecursos = new RecursoDeAnimacion(
       "ArmaDePlasma_frame_2.png",
       "ArmaDePlasma_frame_3.png"
     ],
-    duracion = 500
+    duracion = 100
   )
   
  const armaLaserRecursos = new RecursoDeAnimacion(
@@ -49,7 +49,7 @@ const armaDePlasmaRecursos = new RecursoDeAnimacion(
       "ArmaLaser_frame_2.png",
       "ArmaLaser_frame_3.png"
     ],
-    duracion = 500
+    duracion = 50
   )
 
  const armaBasicaRecursos = new RecursoDeAnimacion(

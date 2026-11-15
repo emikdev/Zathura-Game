@@ -13,8 +13,7 @@ class Enemigo inherits Personaje {
     override method alQuedarseSinVidas() {
         formacion.quitar(self)
         // Intentamos soltar un bufo con la probabilidad definida en el tipo de enemigo
-        gestorBufos.intentarSoltarBufoEn(position)
-    }
+        tipoPersonaje.soltarBufoAlMorir(position)    }
 
     
 

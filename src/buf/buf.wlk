@@ -3,15 +3,14 @@ import src.mecanicas.direcciones.*
 import src.mecanicas.gestores.gestorNaves.*
 import src.mecanicas.gestores.gestorBufos.*
 
-class BufoArma {
+// Clase base abstracta: maneja la caída, colisión y ciclo de vida en pantalla
+class Bufo {
     var property position
     const recursoAnimacion
-    const fabricaArma 
 
     const velocidadCaida = 350
     const nombreEventoCaida = "caidaBufo_" + self.identity().toString()
 
-    // Wollok Game llama a este método para dibujar el objeto en pantalla
     method image() {
         return recursoAnimacion.frames().first()
     }
@@ -27,6 +26,7 @@ class BufoArma {
         game.onCollideDo(self, { otroObjeto =>
             if (gestorNaves.esNaveJugador(otroObjeto)) {
                 self.aplicarA(otroObjeto)
+                self.desaparecer()
             }
         })
     }
@@ -39,11 +39,8 @@ class BufoArma {
         }
     }
 
-    method aplicarA(nave) {
-        const nuevaArma = fabricaArma.apply()
-        nave.arsenal().agregarAlArma(nuevaArma)
-        self.desaparecer()
-    }
+    // Método abstracto: cada bufo define su propio efecto
+    method aplicarA(nave)
 
     method desaparecer() {
         game.removeTickEvent(nombreEventoCaida)
@@ -51,5 +48,24 @@ class BufoArma {
             game.removeVisual(self)
         }
         gestorBufos.quitar(self)
+    }
+    
+    method colisionaCon(objeto) {} // metodo vacío para que no haga nada al colisionar con un objeto que no sea la nave
+}
+
+// Bufo que agrega un arma al arsenal
+class BufoArma inherits Bufo {
+    const fabricaArma
+
+    override method aplicarA(nave) {
+        const nuevaArma = fabricaArma.apply()
+        nave.arsenal().agregarAlArma(nuevaArma)
+    }
+}
+
+// Bufo que suma 1 vida a la nave que lo agarra
+class BufoVida inherits Bufo {
+    override method aplicarA(nave) {
+        nave.ganarVida()
     }
 }

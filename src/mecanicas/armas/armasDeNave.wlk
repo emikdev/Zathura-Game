@@ -117,15 +117,13 @@ const canonPlasma = new ArmaDePlasma(
 // Instanciación del Doble Cañón
 const miDobleCanon = new DobleCanon(
   recursoBala = armaLaserRecursos,
-  municion = 20,
-  // Cantidad total de balas iniciales
+  municion = 6, // Gasta de a 2, dura 3 ráfagas completas
   danoBala = 5 // Daño por cada proyectil individual
 )
 
 // Instanciación del Triple Cañón
 const miTripleCanon = new TripleCanon(
   recursoBala = armaLaserRecursos,
-  municion = 15,
-  // Gasta de a 3, dura 5 ráfagas completas
+  municion = 9, // Gasta de a 3, dura 3 ráfagas completas
   danoBala = 7 // Daño por proyectil
 )
