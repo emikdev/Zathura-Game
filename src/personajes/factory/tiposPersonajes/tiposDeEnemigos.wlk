@@ -10,6 +10,7 @@ import src.mecanicas.arsenal.*
 class TipoPersonajeEnemigo inherits TipoPersonaje {
 
     const comportamientoAtaque
+    const property probabilidadBufo = 10 // Por defecto, 10% para todos
 
     method comportamientoAtaque() {
         return comportamientoAtaque
@@ -227,5 +228,6 @@ const ovni = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoOvniClasico,
     animacionImpacto = animacionImpactoOvniClasico,
     animacionMuerte = animacionMuerteOvniClasico,
-    comportamientoAtaque = ningunaAccion
+    comportamientoAtaque = ningunaAccion,
+    probabilidadBufo = 100 // El ovni SIEMPRE suelta un bufo al morir
 )
