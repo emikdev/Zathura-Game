@@ -1,4 +1,5 @@
 import src.personajes.factory.factory.*
+import src.mecanicas.direcciones.*
 object configuracion {
   
   var property dificultadElegida = 1
@@ -13,6 +14,6 @@ object configuracion {
   }
 
 
-  method naves() = tiposNaves.map({ tipo => factory.crearNave(tipo , game.at(1, 0)) } )
+  method naves() = tiposNaves.map({ tipo => factory.crearNave(tipo , game.at(1, tablero.filaMinima())) } )
 
 }
