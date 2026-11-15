@@ -1,6 +1,7 @@
 import src.mecanicas.armas.clasesDeArmas.armaBasica.*
 import src.mecanicas.armas.clasesDeArmas.armasMultiples.*
 import src.mecanicas.animaciones.recursos.recursosArmas.*
+import src.menu.configuracion.*
 
 // Los cañones enemigos tienen munición de sobra: el arsenal descarta las armas
 // sin munición y un enemigo nunca debe quedarse sin armas.
