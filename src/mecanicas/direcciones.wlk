@@ -1,49 +1,50 @@
 import wollok.game.*
 
-// Objeto representativo del tablero de Wollok-Game
+// Zona jugable del tablero. El contorno (primera y última fila y columna)
+// queda reservado para el HUD: ni personajes ni disparos pueden entrar ahí.
 object tablero {
-    method validarDentro(position) {
-        if (not self.dentro(position)) {
-            // Este self.error corta la ejecución drásticamente si se fuerza una posición inválida
-            self.error(position.toString() + " no está dentro del tablero ")
-        }
-    }
+
+    const margen = 1
+
+    method columnaMinima() = margen
+    method columnaMaxima() = game.width() - 1 - margen
+    method filaMinima() = margen
+    method filaMaxima() = game.height() - 1 - margen
 
     method dentro(position) {
-        return position.x().between(0, game.width() - 1) 
-           and position.y().between(0, game.height() - 1)
+        return position.x().between(self.columnaMinima(), self.columnaMaxima())
+           and position.y().between(self.filaMinima(), self.filaMaxima())
+    }
+
+    // Resguardo: corta la ejecución si se fuerza una posición fuera de la zona jugable
+    method validarDentro(position) {
+        if (not self.dentro(position)) {
+            self.error(position.toString() + " está fuera de la zona jugable")
+        }
     }
 }
 
 // Clase base para unificar el comportamiento de todas las direcciones
 class Direccion {
-    // Método abstracto: cada dirección calcula su celda vecina a distancia 1
+
+    // Cada dirección calcula su celda vecina a distancia 1
     method calcularSiguiente(position)
 
-    /*
-       Antes, llamar a siguiente() obligaba a usar un bloque 'try-catch' afuera porque explotaba con self.error().
-       Ahora, el método primero valida defensivamente con 'puedeAvanzar()'. Si el camino es seguro, avanza;
-       si se intenta forzar un movimiento fuera de los límites, recién ahí dispara el error de resguardo.
-    */
-    method siguiente(position) {
-        if (self.puedeAvanzar(position)) {
-            return self.calcularSiguiente(position)
-        } else {
-            // Resguardo de seguridad: si se invoca incorrectamente, corta la ejecución
-            tablero.validarDentro(self.calcularSiguiente(position))
-            return position
-        }
-    }
+    method opuesta()
 
-    // Método seguro que devuelve un Booleano (true/false) sin romper el programa ni exigir try-catch
+    // Consulta segura: no rompe ni exige try-catch
     method puedeAvanzar(position) {
         return tablero.dentro(self.calcularSiguiente(position))
     }
-    
-    method opuesta()
+
+    // Solo usar si puedeAvanzar(): si el destino cae fuera de la zona jugable, corta con error
+    method siguiente(position) {
+        const destino = self.calcularSiguiente(position)
+        tablero.validarDentro(destino)
+        return destino
+    }
 }
 
-// Objetos representativos de las direcciones heredando de la base
 object arriba inherits Direccion {
     override method calcularSiguiente(position) = position.up(1)
     override method opuesta() = abajo
