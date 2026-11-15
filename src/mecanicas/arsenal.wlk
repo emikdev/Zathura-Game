@@ -6,7 +6,7 @@ class Arsenal{
         return armas.get(armaActual)
     }
 
-    method agregarAArmas(nuevaArma){ // Agrega un arma a armas
+    method agregarEnArmas(nuevaArma){ // Agrega un arma a armas
         armas.add(nuevaArma)
     }
 

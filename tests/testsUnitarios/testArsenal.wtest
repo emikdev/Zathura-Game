@@ -27,7 +27,7 @@ describe "tests de arsenal" {
 
     test "Agrega armaEspecial2 a armas"{
 
-        arsenalTest.agregarAArmas(armaEspecial2)
+        arsenalTest.agregarEnArmas(armaEspecial2)
         arsenalTest.equiparSiguienteArma()
         arsenalTest.equiparSiguienteArma()
 
@@ -39,25 +39,28 @@ describe "tests de arsenal" {
     test "Descarte de arma sin municion"{
         arsenalTest.equiparSiguienteArma()
 
-        arsenalTest.verificarArmaActual()
         assert.equals(armaEspecial1, arsenalTest.armaActual())
         
         arsenalTest.armaActual().disparar()
         arsenalTest.verificarArmaActual()
 
-        assert.equals(armaBasica, arsenalTest.armaActual())
+        /* 
+
+            Al descartarse el armaEspecial1 por falta de municion, 
+            el arma actual se situa sobre el armaBasica ya que ante
+            cualquier descarte el puntero vuelve a la posicion inicial.
+
+        */
+
+        assert.equals(armaBasica, arsenalTest.armaActual()) 
 
     }
 
-    test "Dispara arma basica y se verifica que no se descarte"{
-
-        arsenalTest.armaActual().disparar()
+    test "No se eliminan armas con municion"{
+        arsenalTest.equiparSiguienteArma()
+        assert.that(arsenalTest.armaActual().hayMunicion())
         arsenalTest.verificarArmaActual()
-
-        assert.equals(armaBasica, arsenalTest.armaActual())
-
+        assert.equals(armaEspecial1, arsenalTest.armaActual())
     }
-
-    
 
 }
