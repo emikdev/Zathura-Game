@@ -89,11 +89,11 @@ describe "Disparo: posición, avance y destrucción" {
   }
 
   test "en la última fila sigue vivo y se destruye recién al intentar salir del tablero" {
-    const disparoCerca = new Disparo(recursoAnimacion = recurso, dano = 1, bando = jugador, position = game.at(5, 18))
+    const disparoCerca = new Disparo(recursoAnimacion = recurso, dano = 1, bando = jugador, position = game.at(5, 17))
     game.addVisual(disparoCerca)
 
-    disparoCerca.avanzar()          // llega a la última fila (5, 19)
-    assert.equals(game.at(5, 19), disparoCerca.position())
+    disparoCerca.avanzar() // llega a la última fila (5, 18)
+    assert.equals(game.at(5, 18), disparoCerca.position()) // La fila 18 es la ultima fila por que la 19 no es jugable por el HUD/Score
     assert.that(game.hasVisual(disparoCerca))
 
     disparoCerca.avanzar()          // ya no hay celda arriba
