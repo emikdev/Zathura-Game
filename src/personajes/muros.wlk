@@ -1,27 +1,22 @@
-import src.mecanicas.bandos.*
-
-class Muros{
+import src.mecanicas.gestores.gestorDeMuros.*
+class Muro{
     
-    var salud
-    var vidas = 6
-    const bando
+    var vidas
+    const position
 
+    method position(){
+        return position
+    }
+    
     method image(){
         return "muro-frame" + vidas.max(0) + ".png"
     }
 
     method colisionarCon(disparo){
-        if (disparo.bando() != jugador) {
-            self.recibirImpacto(disparo)
-            disparo.destruir()
-        }
-    }
-
-    method recibirImpacto(disparo){
-        salud -= disparo.dano()
-        if(salud < 1){
-            self.perderVida()
-        }
+     
+        self.perderVida()
+        disparo.destruir()
+    
     }
 
     method perderVida(){
@@ -32,6 +27,6 @@ class Muros{
     }
 
     method alQuedarseSinVidas(){
-        bando.gestor().muroDestruido(self)
+        gestorMuros.muroDestruido(self)
     }
 }
