@@ -37,6 +37,7 @@ class Formacion {
   
   method enemigosGanaron() {
     if (enemigos.any({ enemigo => not abajo.puedeAvanzar(enemigo.position()) })) {
+      self.detener()
       gestorNiveles.gameOver()
     }
   }
