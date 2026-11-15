@@ -27,7 +27,7 @@ describe "tests de arsenal" {
 
     test "Agrega armaEspecial2 a armas"{
 
-        arsenalTest.agregarEnArmas(armaEspecial2)
+        arsenalTest.agregarArma(armaEspecial2)
         arsenalTest.equiparSiguienteArma()
         arsenalTest.equiparSiguienteArma()
 
