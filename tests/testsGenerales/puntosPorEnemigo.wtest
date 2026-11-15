@@ -1,0 +1,92 @@
+import wollok.game.*
+import src.mecanicas.gestores.gestorDePuntos.*
+import src.personajes.factory.factory.*
+import src.personajes.factory.tiposPersonajes.tiposDeEnemigos.*
+
+describe "Tests de puntos otorgados por los enemigos" {
+
+  // Mock de formación: solo registra a quién le pidieron quitar
+  const formacionMock = object {
+    const property quitados = []
+    method quitar(enemigo) { quitados.add(enemigo) }
+  }
+
+  method initialize() {
+    game.clear()
+    game.width(20)
+    game.height(20)
+    gestorPuntaje.reiniciar()
+    formacionMock.quitados().clear()
+  }
+
+  // VALORES DE CADA TIPO DE ENEMIGO
+
+  test "Los enemigos normales otorgan 25 puntos" {
+    assert.equals(25, alien.puntosQueOtorga())
+    assert.equals(25, calamar.puntosQueOtorga())
+    assert.equals(25, pulpo.puntosQueOtorga())
+  }
+
+  test "Los enemigos heavy otorgan 100 puntos" {
+    assert.equals(100, alienHeavy.puntosQueOtorga())
+    assert.equals(100, calamarHeavy.puntosQueOtorga())
+    assert.equals(100, pulpoHeavy.puntosQueOtorga())
+  }
+
+  test "Los cangrejos y el ovni otorgan 500 puntos" {
+    assert.equals(500, cangrejoAmarillo.puntosQueOtorga())
+    assert.equals(500, cangrejoAzul.puntosQueOtorga())
+    assert.equals(500, cangrejoRojo.puntosQueOtorga())
+    assert.equals(500, ovni.puntosQueOtorga())
+  }
+
+  test "Los enemigos Especiales otorgan 50 puntos" {
+
+    assert.equals(50, kamikaze.puntosQueOtorga())
+    assert.equals(50, mosca.puntosQueOtorga())
+    assert.equals(50, abeja.puntosQueOtorga())
+    assert.equals(50, medusa.puntosQueOtorga())
+    assert.equals(50, calamarAmarillo.puntosQueOtorga())
+    assert.equals(50, alienAzul.puntosQueOtorga())
+    assert.equals(50, pulpoRojo.puntosQueOtorga())
+    assert.equals(50, sepia.puntosQueOtorga())
+    
+  }
+
+  // SUMA DE PUNTOS AL MORIR
+
+  test "Crear un enemigo no otorga puntos todavía" {
+    factory.crearEnemigo(alien, formacionMock, game.at(1, 10))
+
+    assert.equals(0, gestorPuntaje.puntos())
+  }
+
+  test "Al quedarse sin vidas, el enemigo suma los puntos de su tipo" {
+    const enemigoAlien = factory.crearEnemigo(alien, formacionMock, game.at(1, 10))
+
+    enemigoAlien.alQuedarseSinVidas()
+
+    assert.equals(25, gestorPuntaje.puntos())
+  }
+
+  test "Cada tipo suma su propio valor al morir el heavy suma 100" {
+    const enemigoHeavy = factory.crearEnemigo(alienHeavy, formacionMock, game.at(1, 10))
+
+    enemigoHeavy.alQuedarseSinVidas()
+
+    assert.equals(100, gestorPuntaje.puntos())
+  }
+
+  test "Matar varios enemigos acumula los puntos de todos" {
+    const enemigoAlien = factory.crearEnemigo(alien, formacionMock, game.at(1, 10))
+    const enemigoHeavy = factory.crearEnemigo(alienHeavy, formacionMock, game.at(2, 10))
+    const enemigoOvni = factory.crearEnemigo(ovni, formacionMock, game.at(3, 10))
+
+    enemigoAlien.alQuedarseSinVidas()
+    enemigoHeavy.alQuedarseSinVidas()
+    enemigoOvni.alQuedarseSinVidas()
+
+    assert.equals(625, gestorPuntaje.puntos())
+  }
+
+}
