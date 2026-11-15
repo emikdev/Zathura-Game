@@ -1,26 +1,19 @@
 import wollok.game.*
 
-// Zona jugable del tablero. El contorno (primera y última fila y columna)
-// queda reservado para el HUD: ni personajes ni disparos pueden entrar ahí.
+// Zona jugable del tablero. La primera y la última fila quedan reservadas para el HUD:
+// ni personajes ni disparos pueden entrar ahí. Las columnas son todas jugables.
 object tablero {
 
-    const margen = 1
+    const filasDeHud = 1 // Cantidad de filas que ocupa el HUD/Score
 
-    method columnaMinima() = margen
-    method columnaMaxima() = game.width() - 1 - margen
-    method filaMinima() = margen
-    method filaMaxima() = game.height() - 1 - margen
+    method columnaMinima() = 0
+    method columnaMaxima() = game.width() - 1
+    method filaMinima() = filasDeHud
+    method filaMaxima() = game.height() - 1 - filasDeHud
 
     method dentro(position) {
         return position.x().between(self.columnaMinima(), self.columnaMaxima())
            and position.y().between(self.filaMinima(), self.filaMaxima())
-    }
-
-    // Resguardo: corta la ejecución si se fuerza una posición fuera de la zona jugable
-    method validarDentro(position) {
-        if (not self.dentro(position)) {
-            self.error(position.toString() + " está fuera de la zona jugable")
-        }
     }
 }
 
@@ -32,16 +25,19 @@ class Direccion {
 
     method opuesta()
 
-    // Consulta segura: no rompe ni exige try-catch
+    // Consulta: ¿existe la celda vecina dentro de la zona jugable?
     method puedeAvanzar(position) {
         return tablero.dentro(self.calcularSiguiente(position))
     }
 
-    // Solo usar si puedeAvanzar(): si el destino cae fuera de la zona jugable, corta con error
+    /* Si la celda vecina no existe, la posición no cambia (sin errores):
+    quien se mueve no necesita preguntar antes si puede */
     method siguiente(position) {
-        const destino = self.calcularSiguiente(position)
-        tablero.validarDentro(destino)
-        return destino
+        if (self.puedeAvanzar(position)) {
+            return self.calcularSiguiente(position)
+        } else {
+            return position
+        }
     }
 }
 
