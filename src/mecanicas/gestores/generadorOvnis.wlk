@@ -29,7 +29,7 @@ object generadorOvnis {
     const x = if (haciaDerecha) 0 else game.width() - 1
 
     const travesia = new Travesia(intervalo = 250, direccion = direccion)
-    const ovniClasico = factory.crearEnemigo(ovni, travesia, game.at(x, game.height() - 1))
+    const ovniClasico = factory.crearEnemigo(ovni, travesia, game.at(x, game.height() - 2 /* Evita que aparezca en el hud */))
     travesia.agregar(ovniClasico)
     game.addVisual(ovniClasico)
     travesia.iniciar()
