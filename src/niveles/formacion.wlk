@@ -31,8 +31,8 @@ class Formacion {
   // Un paso del reloj: primero avanza, después ataca.
   method paso() {
     self.mover()
-    self.atacar()
     self.enemigosGanaron()
+    self.atacar()
   }
   
   method enemigosGanaron(){ 
@@ -84,5 +84,3 @@ class Formacion {
   }
 
 }
-
-  

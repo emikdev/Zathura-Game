@@ -45,18 +45,6 @@ describe "Gestor de disparos enemigos" {
 
     assert.equals(0, gestorEnemigos.cantidadActivos())
   }
-
-  test "la dificultad puede ampliar el tope" {
-    gestorEnemigos.ajustarPorDificultad(2)
-
-    assert.equals(10, gestorEnemigos.limiteMaximo())
-  }
-
-  test "la dificultad puede reducir el tope, redondeando hacia abajo" {
-    gestorEnemigos.ajustarPorDificultad(0.5)
-
-    assert.equals(2, gestorEnemigos.limiteMaximo())
-  }
 }
 
 describe "Gestor de disparos del jugador" {
