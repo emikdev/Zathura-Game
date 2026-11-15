@@ -16,6 +16,10 @@ class TipoPersonajeEnemigo inherits TipoPersonaje {
         return comportamientoAtaque
     }
 
+    method puntosQueOtorga() {
+        return puntosQueOtorga
+    }
+
 }
 
     /* MUY IMPORTANTE: Convención de los slots del arsenal: 0 = arma normal, 1 = arma pesada */
