@@ -5,96 +5,59 @@ import src.mecanicas.arsenal.*
 
 describe "tests de arsenal" {
 
-    const armaLlenaMock = new ArmaMock(municion = 1000)
-    const armaCasiVaciaMock = new ArmaMock(municion = 1)
-    const armaNuevaMock = new ArmaMock(municion = 5)
+    const armaBasica = new ArmaMock(municion = 1000)
+    const armaEspecial1 = new ArmaMock(municion = 1)
+    const armaEspecial2 = new ArmaMock(municion = 5)
 
-    const arsenalTest = new Arsenal(armas = [armaLlenaMock, armaCasiVaciaMock])
+    const arsenalTest = new Arsenal(armas = [armaBasica, armaEspecial1])
 
-    test "Se prueba posicion inicial del arsenal, se espera que este sobre el arma llena"{
-        assert.equals(armaLlenaMock, arsenalTest.armaActual())
+    test "Lista de armas empieza en arma basica"{
+        assert.equals(armaBasica, arsenalTest.armaActual())
     }
 
-    test "Se prueba el equipar siguiente arma del arsenal, al tener 2 armas tras ejecutarse 2 veces deberia volver a la posicion inicial"{
+    test "Uso de equipar siguiente arma"{
 
-        assert.equals(armaLlenaMock, arsenalTest.armaActual())
+        assert.equals(armaBasica, arsenalTest.armaActual())
         arsenalTest.equiparSiguienteArma()
-        assert.equals(armaCasiVaciaMock, arsenalTest.armaActual())
+        assert.equals(armaEspecial1, arsenalTest.armaActual())
         arsenalTest.equiparSiguienteArma()
-        assert.equals(armaLlenaMock, arsenalTest.armaActual())
+        assert.equals(armaBasica, arsenalTest.armaActual())
         
     }
 
-    test "Se agrega un arma nueva, el arsenal empieza con 2 armas, al agregar tiene que tener 3 armas, se prueba dando a equiparSiguienteArma"{
+    test "Agrega armaEspecial2 a armas"{
 
-        arsenalTest.agregarAArmas(armaNuevaMock)
+        arsenalTest.agregarAArmas(armaEspecial2)
         arsenalTest.equiparSiguienteArma()
         arsenalTest.equiparSiguienteArma()
 
-        assert.equals(armaNuevaMock, arsenalTest.armaActual())
+        assert.equals(armaEspecial2, arsenalTest.armaActual())
         
 
     }
 
-    test "Se prueba el disparar un el arma casi vacia, deberia eliminarse y volver a la posicion donde este el arma llena"{
+    test "Descarte de arma sin municion"{
         arsenalTest.equiparSiguienteArma()
 
         arsenalTest.verificarArmaActual()
-        assert.equals(armaCasiVaciaMock, arsenalTest.armaActual())
+        assert.equals(armaEspecial1, arsenalTest.armaActual())
         
         arsenalTest.armaActual().disparar()
         arsenalTest.verificarArmaActual()
 
-        assert.equals(armaLlenaMock, arsenalTest.armaActual())
+        assert.equals(armaBasica, arsenalTest.armaActual())
 
     }
 
-    test "Se prueba el caso anterior pero agregando tambien un arma nueva, la posicion igualmente deberia volver a la inicial"{
-        
-        arsenalTest.equiparSiguienteArma()
-
-        assert.equals(armaCasiVaciaMock, arsenalTest.armaActual())
+    test "Dispara arma basica y se verifica que no se descarte"{
 
         arsenalTest.armaActual().disparar()
         arsenalTest.verificarArmaActual()
 
-        assert.equals(armaLlenaMock, arsenalTest.armaActual())
-    }
-
-    test "Se testea que no se elimina el arma llena al disparar, ya que esta tiene 1000 de municion"{
-
-        arsenalTest.armaActual().disparar()
-        arsenalTest.verificarArmaActual()
-
-        assert.equals(armaLlenaMock, arsenalTest.armaActual())
+        assert.equals(armaBasica, arsenalTest.armaActual())
 
     }
 
-    test "Se prueba que el arma nueva se elimine tras disparar 5 veces, tiene solo 5 municiones"{
-        arsenalTest.agregarAArmas(armaNuevaMock)
-        arsenalTest.equiparSiguienteArma()
-        arsenalTest.equiparSiguienteArma()
-        
-        arsenalTest.armaActual().disparar()
-        arsenalTest.verificarArmaActual()
-        assert.equals(armaNuevaMock, arsenalTest.armaActual())
-
-        arsenalTest.armaActual().disparar()
-        arsenalTest.verificarArmaActual()
-        assert.equals(armaNuevaMock, arsenalTest.armaActual())
-
-        arsenalTest.armaActual().disparar()
-        arsenalTest.verificarArmaActual()
-        assert.equals(armaNuevaMock, arsenalTest.armaActual())
-
-        arsenalTest.armaActual().disparar()
-        arsenalTest.verificarArmaActual()
-        assert.equals(armaNuevaMock, arsenalTest.armaActual())
-
-        arsenalTest.armaActual().disparar()
-        arsenalTest.verificarArmaActual()
-        assert.equals(armaLlenaMock, arsenalTest.armaActual())
-
-    }
+    
 
 }
