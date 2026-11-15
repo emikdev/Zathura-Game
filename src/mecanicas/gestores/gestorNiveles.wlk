@@ -4,6 +4,8 @@ import src.niveles.niveles.*
 import src.mecanicas.gestores.generadorOvnis.*
 import src.mecanicas.gestores.gestorNaves.*
 import src.menu.menu.*
+import gestorDeMuros.*
+
 
 object gestorNiveles {
 
@@ -35,7 +37,11 @@ object gestorNiveles {
             menu.menuEntreNiveles()
             // TODO: hacer que el method iniciar corra el nivel que sigue, si se puede, si no habra que refactorizar para que corra, pero yo creo que se puede correr el nivel
             // que sigue simplemente con una lista, cada vez que se corre uno lo borra y el iniciar() corra el primer nivel que hay.
-            game.schedule(5000, { self.nivelActual().cargar() })
+            game.schedule(5000, { 
+                self.nivelActual().cargar()
+                gestorMuros.iniciar() 
+
+            })
         } else {
             self.ganar()
         }
