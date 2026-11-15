@@ -1,0 +1,65 @@
+import tests.mocks.mocksArsenal.*
+import src.mecanicas.arsenal.*
+
+
+describe "tests de arsenal" {
+
+    const armaBasica = new ArmaMock(municion = 1000)
+    const armaEspecial1 = new ArmaMock(municion = 1)
+    const armaEspecial2 = new ArmaMock(municion = 5)
+
+    const arsenalTest = new Arsenal(armas = [armaBasica, armaEspecial1])
+
+    test "Lista de armas empieza en arma basica"{
+        assert.equals(armaBasica, arsenalTest.armaActual())
+    }
+
+    test "Uso de equipar siguiente arma"{
+
+        assert.equals(armaBasica, arsenalTest.armaActual())
+        arsenalTest.equiparSiguienteArma()
+        assert.equals(armaEspecial1, arsenalTest.armaActual())
+        arsenalTest.equiparSiguienteArma()
+        assert.equals(armaBasica, arsenalTest.armaActual())
+        
+    }
+
+    test "Agrega armaEspecial2 a armas"{
+
+        arsenalTest.agregarArma(armaEspecial2)
+        arsenalTest.equiparSiguienteArma()
+        arsenalTest.equiparSiguienteArma()
+
+        assert.equals(armaEspecial2, arsenalTest.armaActual())
+        
+
+    }
+
+    test "Descarte de arma sin municion"{
+        arsenalTest.equiparSiguienteArma()
+
+        assert.equals(armaEspecial1, arsenalTest.armaActual())
+        
+        arsenalTest.armaActual().disparar()
+        arsenalTest.verificarArmaActual()
+
+        /* 
+
+            Al descartarse el armaEspecial1 por falta de municion, 
+            el arma actual se situa sobre el armaBasica ya que ante
+            cualquier descarte el puntero vuelve a la posicion inicial.
+
+        */
+
+        assert.equals(armaBasica, arsenalTest.armaActual()) 
+
+    }
+
+    test "No se eliminan armas con municion"{
+        arsenalTest.equiparSiguienteArma()
+        assert.that(arsenalTest.armaActual().hayMunicion())
+        arsenalTest.verificarArmaActual()
+        assert.equals(armaEspecial1, arsenalTest.armaActual())
+    }
+
+}
