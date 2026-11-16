@@ -8,7 +8,7 @@ const tiposDeBufos = [
       position = pos,
       recursoAnimacion = bufoLaserRecursos,
       fabricaArma = { new ArmaLaser(
-          recursoBala = armaLaserRecursos,
+          recursoBala = armaLaserNave,
           danoBala = 5,
           municion = 30
         ) }
@@ -18,7 +18,7 @@ const tiposDeBufos = [
       position = pos,
       recursoAnimacion = bufoPlasmaRecursos,
       fabricaArma = { new ArmaDePlasma(
-          recursoBala = armaDePlasmaRecursos,
+          recursoBala = armaDePlasmaNave,
           danoBala = 10,
           municion = 10
         ) }
@@ -28,17 +28,17 @@ const tiposDeBufos = [
       position = pos,
       recursoAnimacion = bufoDobleCanonRecursos,
       fabricaArma = { new DobleCanon(
-          recursoBala = armaLaserRecursos,
+          recursoBala = armaLaserNave,
           danoBala = 5,
           municion = 20
         ) }
     ) },
-    
+
   { pos => new BufoArma(
       position = pos,
       recursoAnimacion = bufoTripleCanonRecursos,
       fabricaArma = { new TripleCanon(
-          recursoBala = armaLaserRecursos,
+          recursoBala = armaLaserNave,
           danoBala = 7,
           municion = 15
         ) }

@@ -17,7 +17,7 @@ const armaLaserNave = new RecursoDeAnimacion(
     "ArmaLaser_frame_2.png",
     "ArmaLaser_frame_3.png"
   ],
-  duracion = 500
+  duracion = 20
 )
 
 const armaDePlasmaNave = new RecursoDeAnimacion(
@@ -26,7 +26,7 @@ const armaDePlasmaNave = new RecursoDeAnimacion(
     "ArmaDePlasma_frame_2.png",
     "ArmaDePlasma_frame_3.png"
   ],
-  duracion = 500
+  duracion = 100
 )
 
 // Armas Enemigas
@@ -63,25 +63,6 @@ const armaEnemigaRoja = new RecursoDeAnimacion(
     "disparoRojo_frame_3.png"
   ]
 )
-
-// Recursos de las armas de la nave
-const armaDePlasmaRecursos = new RecursoDeAnimacion(
-    frames = [
-      "ArmaDePlasma_frame_1.png",
-      "ArmaDePlasma_frame_2.png",
-      "ArmaDePlasma_frame_3.png"
-    ],
-    duracion = 100
-  )
-  
- const armaLaserRecursos = new RecursoDeAnimacion(
-    frames = [
-      "ArmaLaser_frame_1.png",
-      "ArmaLaser_frame_2.png",
-      "ArmaLaser_frame_3.png"
-    ],
-    duracion = 50
-  )
 
 const armaEnemigaMorada = new RecursoDeAnimacion(
   frames = [

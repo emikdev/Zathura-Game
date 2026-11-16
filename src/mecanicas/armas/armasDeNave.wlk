@@ -96,34 +96,34 @@ class TripleCanon inherits ArmasConMasProyectiles {
 // Arma Básica del Jugador (Infinita, hereda directo de Arma)
 const armaBasica = new Arma(
   danoBala = 2,
-  recursoBala = armaBasicaRecursos,
+  recursoBala = armaBasicaNave,
   municion = 100
 )
 
 // Arma Láser Estándar
 const laserEstandar = new ArmaLaser(
-  recursoBala = armaLaserRecursos,
+  recursoBala = armaLaserNave,
   danoBala = 5,
   municion = 30
 )
 
 // Cañón de Plasma Pesado
 const canonPlasma = new ArmaDePlasma(
-  recursoBala = armaDePlasmaRecursos,
+  recursoBala = armaDePlasmaNave,
   danoBala = 10,
   municion = 10
 )
 
 // Instanciación del Doble Cañón
 const miDobleCanon = new DobleCanon(
-  recursoBala = armaLaserRecursos,
+  recursoBala = armaLaserNave,
   municion = 6, // Gasta de a 2, dura 3 ráfagas completas
   danoBala = 5 // Daño por cada proyectil individual
 )
 
 // Instanciación del Triple Cañón
 const miTripleCanon = new TripleCanon(
-  recursoBala = armaLaserRecursos,
+  recursoBala = armaLaserNave,
   municion = 9, // Gasta de a 3, dura 3 ráfagas completas
   danoBala = 7 // Daño por proyectil
 )
