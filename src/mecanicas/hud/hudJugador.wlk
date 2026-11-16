@@ -8,7 +8,7 @@ object hud {
     method iniciar(naves) { 
 
         // Posiciones base se crea dentro de iniciar ya que de otro modo toma los valores default de width o height
-        const posicionesBase = [game.at(0, 0), game.at(game.width() - 4, 0)] 
+        const posicionesBase = [game.at(0, 0), game.at(game.width() - 5, 0)] 
 
 
         naves.size().times({ n => 
