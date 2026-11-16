@@ -29,7 +29,7 @@ class TipoPersonajeEnemigo inherits TipoPersonaje {
 const alien = new TipoPersonajeEnemigo(
     saludMaxima = 1,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica]), // FALTA: Arma Basica
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica]),
     animacionBase = animacionBaseAlien,
     animacionDisparo = animacionDisparoAlien,
     animacionImpacto = animacionImpactoAlien,
@@ -41,7 +41,7 @@ const alien = new TipoPersonajeEnemigo(
 const calamar = new TipoPersonajeEnemigo(
     saludMaxima = 1,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica]), // FALTA: Arma Basica
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica]),
     animacionBase = animacionBaseCalamar,
     animacionDisparo = animacionDisparoCalamar,
     animacionImpacto = animacionImpactoCalamar,
@@ -53,7 +53,7 @@ const calamar = new TipoPersonajeEnemigo(
 const pulpo = new TipoPersonajeEnemigo(
     saludMaxima = 1,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica]), // FALTA: Arma Basica
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica]),
     animacionBase = animacionBasePulpo,
     animacionDisparo = animacionDisparoPulpo,
     animacionImpacto = animacionImpactoPulpo,
@@ -77,7 +77,7 @@ const kamikaze = new TipoPersonajeEnemigo(
 const mosca = new TipoPersonajeEnemigo(
     saludMaxima = 1,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaEnemigaBasica]), // FALTA: Arma Basica y arma Especial
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaPesadaEnemiga]),
     animacionBase = animacionBaseMosca,
     animacionDisparo = animacionDisparoMosca,
     animacionImpacto = animacionImpactoMosca,
@@ -89,19 +89,55 @@ const mosca = new TipoPersonajeEnemigo(
 const abeja = new TipoPersonajeEnemigo(
     saludMaxima = 1,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica]), // FALTA: Arma Basica
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasicaAmarilla]),
     animacionBase = animacionBaseAbeja,
     animacionDisparo = animacionDisparoAbeja,
     animacionImpacto = animacionImpactoAbeja,
     animacionMuerte = animacionMuerteAbeja,
     comportamientoAtaque = ataques.conInmolacion(10, 20),
     puntosQueOtorga = 50
+    comportamientoAtaque = ataques.conInmolacion(10, 20)
+)
+
+/* Heavys */
+
+const alienHeavy = new TipoPersonajeEnemigo(
+    saludMaxima = 3,
+    vidas = 1,
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaPesadaEnemiga]),
+    animacionBase = animacionBaseAlienHeavy,
+    animacionDisparo = animacionDisparoAlienHeavy,
+    animacionImpacto = animacionImpactoAlienHeavy,
+    animacionMuerte = animacionMuerteAlienHeavy,
+    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1)
+)
+
+const calamarHeavy = new TipoPersonajeEnemigo(
+    saludMaxima = 3,
+    vidas = 1,
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaPesadaEnemiga]),
+    animacionBase = animacionBaseCalamarHeavy,
+    animacionDisparo = animacionDisparoCalamarHeavy,
+    animacionImpacto = animacionImpactoCalamarHeavy,
+    animacionMuerte = animacionMuerteCalamarHeavy,
+    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1)
+)
+
+const pulpoHeavy = new TipoPersonajeEnemigo(
+    saludMaxima = 3,
+    vidas = 1,
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaPesadaEnemiga]),
+    animacionBase = animacionBasePulpoHeavy,
+    animacionDisparo = animacionDisparoPulpoHeavy,
+    animacionImpacto = animacionImpactoPulpoHeavy,
+    animacionMuerte = animacionMuertePulpoHeavy,
+    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1)
 )
 
 const medusa = new TipoPersonajeEnemigo(
     saludMaxima = 1,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica]), // FALTA: Arma Rapida
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasicaMorada]),
     animacionBase = animacionBaseMedusa,
     animacionDisparo = animacionDisparoMedusa,
     animacionImpacto = animacionImpactoMedusa,
@@ -113,7 +149,7 @@ const medusa = new TipoPersonajeEnemigo(
 const sepia = new TipoPersonajeEnemigo(
     saludMaxima = 1,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica]), // FALTA: Arma Rapida
+    arsenalInicial = new Arsenal (armas = [armaRapidaEnemiga]),
     animacionBase = animacionBaseSepia,
     animacionDisparo = animacionDisparoSepia,
     animacionImpacto = animacionImpactoSepia,
@@ -127,7 +163,7 @@ const sepia = new TipoPersonajeEnemigo(
 const calamarAmarillo = new TipoPersonajeEnemigo(
     saludMaxima = 2,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica]), // FALTA: Arma Basica
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasicaAmarilla]),
     animacionBase = animacionBaseCalamarAmarillo,
     animacionDisparo = animacionDisparoCalamarAmarillo,
     animacionImpacto = animacionImpactoCalamarAmarillo,
@@ -139,7 +175,7 @@ const calamarAmarillo = new TipoPersonajeEnemigo(
 const alienAzul = new TipoPersonajeEnemigo(
     saludMaxima = 2,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica]), // FALTA: Arma Basica
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasicaAzul]),
     animacionBase = animacionBaseAlienAzul,
     animacionDisparo = animacionDisparoAlienAzul,
     animacionImpacto = animacionImpactoAlienAzul,
@@ -151,7 +187,7 @@ const alienAzul = new TipoPersonajeEnemigo(
 const pulpoRojo = new TipoPersonajeEnemigo(
     saludMaxima = 2,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica]), // FALTA: Arma Basica
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasicaRoja]),
     animacionBase = animacionBasePulpoRojo,
     animacionDisparo = animacionDisparoPulpoRojo,
     animacionImpacto = animacionImpactoPulpoRojo,
@@ -203,7 +239,7 @@ const pulpoHeavy = new TipoPersonajeEnemigo(
 const cangrejoAmarillo = new TipoPersonajeEnemigo(
     saludMaxima = 10,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica]), // FALTA: Arma disparo triple
+    arsenalInicial = new Arsenal (armas = [armaTripleAmarilla]),
     animacionBase = animacionBaseCangrejoAmarillo,
     animacionDisparo = animacionDisparoCangrejoAmarillo,
     animacionImpacto = animacionImpactoCangrejoAmarillo,
@@ -215,7 +251,7 @@ const cangrejoAmarillo = new TipoPersonajeEnemigo(
 const cangrejoAzul = new TipoPersonajeEnemigo(
     saludMaxima = 15,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica]), // FALTA: Arma disparo triple
+    arsenalInicial = new Arsenal (armas = [armaTripleAzul]),
     animacionBase = animacionBaseCangrejoAzul,
     animacionDisparo = animacionDisparoCangrejoAzul,
     animacionImpacto = animacionImpactoCangrejoAzul,
@@ -227,7 +263,7 @@ const cangrejoAzul = new TipoPersonajeEnemigo(
 const cangrejoRojo = new TipoPersonajeEnemigo(
     saludMaxima = 20,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica]), // FALTA: Arma disparo triple
+    arsenalInicial = new Arsenal (armas = [armaTripleRoja]),
     animacionBase = animacionBaseCangrejoRojo,
     animacionDisparo = animacionDisparoCangrejoRojo,
     animacionImpacto = animacionImpactoCangrejoRojo,
@@ -238,7 +274,6 @@ const cangrejoRojo = new TipoPersonajeEnemigo(
 
 /* Ovnis */
 
-// FALTA: definir cómo se comporta el ovni. No ataca y casi seguro no pertenece a una formación.
 const ovni = new TipoPersonajeEnemigo(
     saludMaxima = 1,
     vidas = 1,

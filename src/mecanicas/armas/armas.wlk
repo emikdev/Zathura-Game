@@ -4,33 +4,34 @@ import src.mecanicas.disparo.*
 class Arma {
 
     const recursoBala // recurso con frames y duracion de la bala
-    const danoBala = 10 // daño base de la bala
+    const danoBala // daño base de la bala
     var property municion
 
-    method danoDisparo() { // daño de la bala (para que después las armas que consumen más munición hagan más daño)
+    method danoDisparo() {
         return danoBala
     }
 
     method disparar(personaje) {
-
         if (personaje.bando().puedeDisparar()) {
-
-            const nuevoDisparo = new Disparo(
-                recursoAnimacion = recursoBala,
-                dano = self.danoDisparo(),
-                bando = personaje.bando(),
-                position = personaje.position()
-            )
-
-            nuevoDisparo.iniciar()
-            sonido.reproducir("disparo.mp3")
-            personaje.bando().registrar(nuevoDisparo)
+            self.generarProyectilEn(personaje.position(), personaje)
             self.consumirMunicion()
         }
-
     }
 
-    // POLIMORFISMO: Por defecto el arma base SIEMPRE tiene munición
+    // Instancia y registra UNA bala en la posición dada
+    method generarProyectilEn(posicion, personaje) {
+        const nuevoDisparo = new Disparo(
+            recursoAnimacion = recursoBala,
+            dano = self.danoDisparo(),
+            bando = personaje.bando(),
+            position = personaje.bando().ajustarPosicion(posicion) // Se ajusta la posicion en la que se crea la bala
+        )
+
+        nuevoDisparo.iniciar()
+        personaje.bando().registrar(nuevoDisparo)
+    }
+
+    // Por defecto el arma base tiene munición mientras le quede alguna
     method hayMunicion() {
         return municion > 0
     }
