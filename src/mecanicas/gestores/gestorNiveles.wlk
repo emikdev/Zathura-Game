@@ -16,7 +16,7 @@ object gestorNiveles {
 
     method iniciar() { // Arranca el generador de ovnis y carga el primer nivel
         generadorOvnis.iniciar()
-        self.nivelActual().cargar()
+        self.nivelActual().iniciar()
         gestorNaves.iniciar()
     }
 

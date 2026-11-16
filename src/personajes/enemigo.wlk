@@ -17,4 +17,9 @@ class Enemigo inherits Personaje {
         gestorPuntaje.sumar(tipoPersonaje.puntosQueOtorga())
     }
 
+    override method colisionaConMuro(muro) {
+        muro.destruirse()
+        self.morir()
+    }
+
 }

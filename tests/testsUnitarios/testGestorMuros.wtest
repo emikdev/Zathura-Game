@@ -1,0 +1,71 @@
+import wollok.game.*
+import src.mecanicas.gestores.gestorDeMuros.*
+
+describe "Gestor de muros" {
+
+  method initialize() {
+    game.width(20)
+    game.height(20)
+  }
+
+  test "iniciar crea muros y los agrega todos al tablero" {
+    gestorMuros.iniciar(1)
+
+    assert.that(gestorMuros.cantidadActivos() > 0)
+    assert.equals(gestorMuros.cantidadActivos(), game.allVisuals().size())
+  }
+
+  test "iniciar dos veces no duplica los muros" {
+    gestorMuros.iniciar(1)
+    const cantidad = gestorMuros.cantidadActivos()
+
+    gestorMuros.iniciar(1)
+
+    assert.equals(cantidad, gestorMuros.cantidadActivos())
+    assert.equals(cantidad, game.allVisuals().size())
+  }
+
+  test "un muro destruido sale del gestor y del tablero" {
+    gestorMuros.iniciar(1)
+    const cantidad = gestorMuros.cantidadActivos()
+    const muro = game.allVisuals().first()
+
+    gestorMuros.muroDestruido(muro)
+
+    assert.equals(cantidad - 1, gestorMuros.cantidadActivos())
+    assert.notThat(game.hasVisual(muro))
+  }
+
+  test "los muros restantes siguen en el tablero" {
+    gestorMuros.iniciar(1)
+    const cantidad = gestorMuros.cantidadActivos()
+
+    gestorMuros.muroDestruido(game.allVisuals().first())
+
+    assert.equals(cantidad - 1, game.allVisuals().size())
+  }
+
+  test "detener retira todos los muros" {
+    gestorMuros.iniciar(1)
+
+    gestorMuros.detener()
+
+    assert.equals(0, gestorMuros.cantidadActivos())
+    assert.that(game.allVisuals().isEmpty())
+  }
+
+  test "detener sin muros no falla" {
+    assert.doesNotThrowException({ gestorMuros.detener() })
+  }
+
+  test "una dificultad más alta hace nacer los muros más destruidos" {
+    gestorMuros.iniciar(1)
+    const imagenFacil = game.allVisuals().first().image()
+    gestorMuros.detener()
+
+    gestorMuros.iniciar(4)
+    const imagenDificil = game.allVisuals().first().image()
+
+    assert.notEquals(imagenFacil, imagenDificil)
+  }
+}
