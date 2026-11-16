@@ -25,9 +25,9 @@ object gestorBufos {
         return (5000 + extraPorDificultad + extraPorJugadores).min(20000)
     }
 
-    method generarBufoAleatorio() {
-        const xAleatoria = 0.randomUpTo(game.width()).truncate(0)
-        const posInicial = game.at(xAleatoria, game.height() - 1)
+      method generarBufoAleatorio() {
+        const xAleatoria = tablero.columnaMinima().randomUpTo(tablero.columnaMaxima() + 1).truncate(0)
+        const posInicial = game.at(xAleatoria, tablero.filaMaxima())
         self.generarBufoEn(posInicial)
     }
 

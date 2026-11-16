@@ -11,7 +11,7 @@ class ArmaBasica inherits Arma {
 
 class ArmaLaser inherits Arma {
   // classe a utilizar para armas que gastas municion de manera dinamica
-  method municionConsumida() = 2
+  override method municionConsumida() = 2
 
   override method hayMunicion() = municion >= self.municionConsumida()
   // metodo dinamico que observa si hay municion 
@@ -29,26 +29,7 @@ class ArmaDePlasma inherits ArmaLaser {
 
 }
 
-class ArmasConMasProyectiles inherits ArmaLaser {
-
-  override method danoDisparo() = danoBala
-  
-  // Este método solo se encarga de instanciar y registrar UNA bala en una posición dada
-  method generarProyectilEn(posicion, personaje) {
-
-    const nuevoDisparo = new Disparo(
-      recursoAnimacion = recursoBala,
-      dano = self.danoDisparo(),
-      bando = personaje.bando(),
-      position = posicion
-    )
-
-    nuevoDisparo.iniciar()
-    personaje.bando().registrar(nuevoDisparo)
-  }
-}
-
-class DobleCanon inherits ArmasConMasProyectiles {
+class DobleCanon inherits Arma {
 
   override method municionConsumida() = 2
   
@@ -68,7 +49,7 @@ class DobleCanon inherits ArmasConMasProyectiles {
   }
 }
 
-class TripleCanon inherits ArmasConMasProyectiles {
+class TripleCanon inherits Arma {
 
   override method municionConsumida() = 3
   

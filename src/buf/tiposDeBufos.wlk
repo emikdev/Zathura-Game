@@ -42,5 +42,10 @@ const tiposDeBufos = [
           danoBala = 7,
           municion = 15
         ) }
+    ) },
+
+  { pos => new BufoVida(
+      position = pos,
+      recursoAnimacion = bufoVidaRecursos
     ) }
 ]
