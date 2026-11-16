@@ -23,8 +23,13 @@ object generadorOvnis {
     }
   }
 
+  // Sortea el lado por el que aparece y delega el lanzamiento
   method lanzar() {
-    const haciaDerecha = 0.randomUpTo(2) < 1
+    self.lanzarDesde(0.randomUpTo(2) < 1)
+  }
+
+  // Lanzamiento determinista: recibe el lado y devuelve el ovni creado
+  method lanzarDesde(haciaDerecha) {
     const direccion = if (haciaDerecha) derecha else izquierda
     const x = if (haciaDerecha) 0 else game.width() - 1
 
@@ -33,6 +38,7 @@ object generadorOvnis {
     travesia.agregar(ovniClasico)
     game.addVisual(ovniClasico)
     travesia.iniciar()
+    return ovniClasico
   }
 
 }
