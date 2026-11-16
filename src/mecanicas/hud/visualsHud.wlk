@@ -27,6 +27,10 @@ class Numeros inherits VisualHud{
     override method image() = "numero_" + self.numeros() + ".png"
 }
 
+class Centena inherits Numeros{
+    override method numeros() = nave.municionActual().div(100).rem(10)
+}
+
 class Decena inherits Numeros{
     override method numeros() = nave.municionActual().div(10).rem(10)
 }
