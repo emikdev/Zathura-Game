@@ -18,7 +18,7 @@ object hud {
 
             const visualVida = new VisualVida(nave = nave, posicion = posicion)
             const visualArma = new VisualArma(nave = nave, posicion = posicion.right(1))
-            const centenaMunicion = new Centena(nave= nave, posicion = posicion.rigth(2))
+            const centenaMunicion = new Centena(nave= nave, posicion = posicion.right(2))
             const decenaMunicion = new Decena(nave = nave, posicion = posicion.right(3))
             const unidadMunicion = new Unidad(nave = nave, posicion = posicion.right(4))
 
