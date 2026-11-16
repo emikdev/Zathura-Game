@@ -2,22 +2,13 @@ import src.mecanicas.animaciones.recursos.recursosDeAnimacion.*
 
 // Armas de las Naves (Jugador)
 
-const armaBasicaNave = new RecursoDeAnimacion(
-  frames = [
-    "disparoCeleste_frame_1.png",
-    "disparoCeleste_frame_2.png",
-    "disparoCeleste_frame_3.png"
-  ],
-  duracion = 500
-)
-
 const armaLaserNave = new RecursoDeAnimacion(
   frames = [
     "ArmaLaser_frame_1.png",
     "ArmaLaser_frame_2.png",
     "ArmaLaser_frame_3.png"
   ],
-  duracion = 500
+  duracion = 150 // Muy rápido: 1 frame cada 50 ms (avanza 1 celda cada 150 ms)
 )
 
 const armaDePlasmaNave = new RecursoDeAnimacion(
@@ -26,7 +17,16 @@ const armaDePlasmaNave = new RecursoDeAnimacion(
     "ArmaDePlasma_frame_2.png",
     "ArmaDePlasma_frame_3.png"
   ],
-  duracion = 500
+  duracion = 300 // Velocidad media: 1 frame cada 100 ms (avanza 1 celda cada 300 ms)
+)
+
+const armaBasicaNave = new RecursoDeAnimacion(
+  frames = [
+    "disparoCeleste_frame_1.png",
+    "disparoCeleste_frame_2.png",
+    "disparoCeleste_frame_3.png"
+  ],
+  duracion = 450 // Velocidad estándar: 1 frame cada 150 ms (avanza 1 celda cada 450 ms)
 )
 
 // Armas Enemigas

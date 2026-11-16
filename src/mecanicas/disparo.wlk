@@ -1,6 +1,6 @@
 import wollok.game.*
 import src.mecanicas.direcciones.*
-import src.mecanicas.animaciones.animacion.*
+import src.mecanicas.animaciones.animacionCompartida.* 
 
 class Disparo {
 
@@ -11,7 +11,7 @@ class Disparo {
   var animacion
 
   method initialize() {
-    animacion = new Animacion(estado = self, recursoDeAnimacion = recursoAnimacion)
+    animacion = new AnimacionCompartida(estado = self, recursoDeAnimacion = recursoAnimacion)
   }
 
   method dano() {
