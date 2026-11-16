@@ -1,11 +1,15 @@
-  import src.mecanicas.direcciones.*
-  import wollok.game.*
-  import src.menu.seleccionador.*
-  import src.menu.configuracion.*
-  import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
-  import src.mecanicas.gestores.gestorNiveles.*
-  import src.sonidos.musicaMenu.*
-  import src.sonidos.sonido.*
+import src.mecanicas.gestores.gestorDisparos.*
+import src.mecanicas.gestores.gestorDePuntos.*
+import src.mecanicas.direcciones.*
+import wollok.game.*
+import src.menu.seleccionador.*
+import src.menu.configuracion.*
+import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
+import src.mecanicas.gestores.gestorNiveles.*
+import src.sonidos.musicaMenu.*
+import src.sonidos.sonido.*
+
+
   // falta importar el archivo de los niveles
 
   object menu {
@@ -173,6 +177,9 @@
         musicaMenu.detener()
         // Se inicia el gestor de niveles
 	      gestorNiveles.iniciar()
+        gestorPuntaje.reiniciar()
+        gestorPuntaje.mostrar()
+        gestorNiveles.mostrar()
         musicaInGame.iniciar()
     }
 

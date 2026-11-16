@@ -2,6 +2,7 @@ import wollok.game.*
 import src.mecanicas.direcciones.*
 import src.mecanicas.animaciones.animacion.*
 
+
 class Disparo {
 
   const recursoAnimacion // frames y duración de la bala; la Animacion la crea el propio disparo
@@ -51,7 +52,8 @@ class Disparo {
     }
   }
 
-  method colisionaCon(objetivo) {}
+  method colisionaCon(objetivo){ }
+  method colisionaConMuro(muro){ }
 
   method destruir() {
     // El bando sabe exactamente a qué gestor llamar internamente

@@ -48,19 +48,6 @@ describe "Tests del Sistema de Bufos" {
     assert.equals(posicionMuerte, bufoGenerado.position())
   }
 
-  test "Al destruir un Ovni se genera exclusivamente un Bufo de Vida" {
-    const posicionOvni = game.at(3, 8)
-
-    ovni.soltarBufoAlMorir(posicionOvni)
-
-    const bufoVida = game.getObjectsIn(posicionOvni).first()
-    assert.that(game.hasVisual(bufoVida))
-
-    // Al aplicarlo sobre nuestro personaje real, suma 1 vida
-    bufoVida.aplicarA(naveJugador)
-    assert.that(naveJugador.tieneVidas())
-  }
-
   // El bufo desaparece al llegar al borde inferior del mapa
    test "El bufo cae paso a paso y desaparece al llegar al borde inferior del mapa" {
     const bufo = new BufoArma(

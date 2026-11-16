@@ -6,8 +6,8 @@ class Bando {
   method gestor()
 
   // Dirección y ajuste: definidos por cada bando
-  method direccionDeDisparo()
-  method ajustarPosicion(posicion)
+  method direccionDeDisparo(){}
+  method ajustarPosicion(posicion){}
 
   // Lógica compartida: se resuelve de forma genérica usando el gestor polimórfico
   method puedeDisparar() = self.gestor().puedeDisparar()

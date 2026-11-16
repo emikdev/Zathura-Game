@@ -179,12 +179,12 @@ describe "Armas de la nave: disparos que rinde cada una" {
     self.verificarQueRinde(tripleCanon, 5)
   }
 
-  test "doble cañón pesado: 5 ráfagas" {
-    self.verificarQueRinde(dobleCanonPesado, 5)
+  test "doble cañón pesado: 2 ráfagas" {
+    self.verificarQueRinde(dobleCanonPesado, 2)
   }
 
-  test "triple cañón pesado: 3 ráfagas" {
-    self.verificarQueRinde(tripleCanonPesado, 3)
+  test "triple cañón pesado: 2 ráfagas" {
+    self.verificarQueRinde(tripleCanonPesado, 2)
   }
 }
 

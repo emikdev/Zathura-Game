@@ -1,0 +1,187 @@
+import wollok.game.*
+import src.mecanicas.gestores.gestorDePuntos.*
+
+describe "Tests del Gestor de Puntaje" {
+
+  method initialize() {
+    game.clear()
+    game.width(20)
+    game.height(10)
+    gestorPuntaje.reiniciar()
+  }
+
+  // ACUMULACION DE PUNTOS
+
+  test "Después de reiniciar el puntaje vale 0" {
+    gestorPuntaje.sumar(150)
+    gestorPuntaje.reiniciar()
+
+    assert.equals(0, gestorPuntaje.puntos())
+  }
+
+  test "Sumar puntos incrementa el puntaje en esa cantidad" {
+    gestorPuntaje.sumar(25)
+
+    assert.equals(25, gestorPuntaje.puntos())
+  }
+
+  test "Las sumas sucesivas se acumulan" {
+    gestorPuntaje.sumar(25)
+    gestorPuntaje.sumar(100)
+    gestorPuntaje.sumar(500)
+
+    assert.equals(625, gestorPuntaje.puntos())
+  }
+
+  test "Después de reiniciar se puede volver a acumular desde cero" {
+    gestorPuntaje.sumar(500)
+    gestorPuntaje.reiniciar()
+    gestorPuntaje.sumar(25)
+
+    assert.equals(25, gestorPuntaje.puntos())
+  }
+
+  // DIGITOS DEL MARCADOR
+
+  test "Con 0 puntos todos los dígitos valen 0" {
+    assert.equals(0, mil.numero())
+    assert.equals(0, centena.numero())
+    assert.equals(0, decena.numero())
+    assert.equals(0, unidad.numero())
+  }
+
+  test "Cada dígito toma la cifra que le corresponde (1234)" {
+    gestorPuntaje.sumar(1234)
+
+    assert.equals(1, mil.numero())
+    assert.equals(2, centena.numero())
+    assert.equals(3, decena.numero())
+    assert.equals(4, unidad.numero())
+  }
+
+  test "Un puntaje de una sola cifra solo usa la unidad" {
+    gestorPuntaje.sumar(7)
+
+    assert.equals(0, mil.numero())
+    assert.equals(0, centena.numero())
+    assert.equals(0, decena.numero())
+    assert.equals(7, unidad.numero())
+  }
+
+  test "Un puntaje con ceros intermedios muestra los ceros (1005)" {
+    gestorPuntaje.sumar(1005)
+
+    assert.equals(1, mil.numero())
+    assert.equals(0, centena.numero())
+    assert.equals(0, decena.numero())
+    assert.equals(5, unidad.numero())
+  }
+
+  test "Ningún dígito supera 9 aunque el puntaje sea alto (9999)" {
+    gestorPuntaje.sumar(9999)
+
+    assert.equals(9, mil.numero())
+    assert.equals(9, centena.numero())
+    assert.equals(9, decena.numero())
+    assert.equals(9, unidad.numero())
+  }
+
+  test " el marcador solo tiene 4 dígitos, con 10000 vuelve a 0000" {
+    gestorPuntaje.sumar(10000)
+
+    assert.equals(0, mil.numero())
+    assert.equals(0, centena.numero())
+    assert.equals(0, decena.numero())
+    assert.equals(0, unidad.numero())
+    assert.equals(10000, gestorPuntaje.puntos())
+  }
+
+  test "Los dígitos se actualizan solos cuando cambia el puntaje" {
+    gestorPuntaje.sumar(7)
+    assert.equals(7, unidad.numero())
+    assert.equals(0, decena.numero())
+
+    gestorPuntaje.sumar(5)  // 12
+    assert.equals(2, unidad.numero())
+    assert.equals(1, decena.numero())
+  }
+
+  test "Al reiniciar los dígitos vuelven a 0" {
+    gestorPuntaje.sumar(1234)
+    gestorPuntaje.reiniciar()
+
+    assert.equals(0, mil.numero())
+    assert.equals(0, centena.numero())
+    assert.equals(0, decena.numero())
+    assert.equals(0, unidad.numero())
+  }
+
+  // IMAGEN DE CADA DIGITO
+
+  test "La imagen del dígito corresponde a su valor actual" {
+    gestorPuntaje.sumar(1234)
+
+    assert.equals("numero_1.png", mil.image())
+    assert.equals("numero_2.png", centena.image())
+    assert.equals("numero_3.png", decena.image())
+    assert.equals("numero_4.png", unidad.image())
+  }
+
+  test "La imagen cambia cuando cambia el puntaje" {
+    assert.equals("numero_0.png", unidad.image())
+
+    gestorPuntaje.sumar(9)
+
+    assert.equals("numero_9.png", unidad.image())
+  }
+
+  // POSICION DE LOS DIGITOS
+
+  test "Los dígitos están en la fila superior del tablero" {
+    const filaSuperior = game.height() - 1
+
+    assert.equals(filaSuperior, mil.position().y())
+    assert.equals(filaSuperior, centena.position().y())
+    assert.equals(filaSuperior, decena.position().y())
+    assert.equals(filaSuperior, unidad.position().y())
+  }
+
+  test "Los dígitos se ordenan de izquierda a derecha: mil, centena, decena, unidad" {
+    assert.equals(16, mil.position().x())
+    assert.equals(17, centena.position().x())
+    assert.equals(18, decena.position().x())
+    assert.equals(19, unidad.position().x())
+  }
+
+  // MOSTRAR EN PANTALLA
+
+  test "Mostrar agrega los cuatro dígitos al juego" {
+    gestorPuntaje.mostrar()
+
+    assert.that(game.allVisuals().contains(mil))
+    assert.that(game.allVisuals().contains(centena))
+    assert.that(game.allVisuals().contains(decena))
+    assert.that(game.allVisuals().contains(unidad))
+  }
+
+  test "Mostrar agrega además el cartel de score (5 visuales en total)" {
+    gestorPuntaje.mostrar()
+
+    assert.equals(5, game.allVisuals().size())
+  }
+
+  test "Reiniciar el puntaje no quita los dígitos de la pantalla" {
+    gestorPuntaje.mostrar()
+    gestorPuntaje.reiniciar()
+
+    assert.equals(5, game.allVisuals().size())
+  }
+
+  test "Los dígitos mostrados reflejan el puntaje sin volver a llamar a mostrar" {
+    gestorPuntaje.mostrar()
+    gestorPuntaje.sumar(42)
+
+    assert.equals("numero_4.png", decena.image())
+    assert.equals("numero_2.png", unidad.image())
+  }
+}

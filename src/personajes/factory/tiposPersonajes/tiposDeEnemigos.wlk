@@ -11,7 +11,8 @@ import src.mecanicas.gestores.gestorBufos.*
 class TipoPersonajeEnemigo inherits TipoPersonaje {
 
     const comportamientoAtaque
-    const property probabilidadBufo = 15 // Por defecto 15% para los enemigos comunes
+    const property probabilidadBufo = 15 // Por defecto 15% para los enemigos 
+    const puntosQueOtorga
 
     method comportamientoAtaque() {
         return comportamientoAtaque
@@ -20,6 +21,10 @@ class TipoPersonajeEnemigo inherits TipoPersonaje {
     // Cada enemigo intenta soltar un bufo de arma usando SU propia probabilidad
     method soltarBufoAlMorir(posicion) {
         gestorBufos.intentarSoltarBufoEn(posicion, probabilidadBufo)
+    }
+
+    method puntosQueOtorga() {
+        return puntosQueOtorga
     }
 }
 
@@ -35,7 +40,8 @@ const alien = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoAlien,
     animacionImpacto = animacionImpactoAlien,
     animacionMuerte = animacionMuerteAlien,
-    comportamientoAtaque = ataques.probabilistico(10)
+    comportamientoAtaque = ataques.probabilistico(10),
+    puntosQueOtorga = 25
 )
 
 const calamar = new TipoPersonajeEnemigo(
@@ -46,7 +52,8 @@ const calamar = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoCalamar,
     animacionImpacto = animacionImpactoCalamar,
     animacionMuerte = animacionMuerteCalamar,
-    comportamientoAtaque = ataques.probabilistico(10)
+    comportamientoAtaque = ataques.probabilistico(10),
+    puntosQueOtorga = 25
 )
 
 const pulpo = new TipoPersonajeEnemigo(
@@ -57,9 +64,11 @@ const pulpo = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoPulpo,
     animacionImpacto = animacionImpactoPulpo,
     animacionMuerte = animacionMuertePulpo,
-    comportamientoAtaque = ataques.probabilistico(10)
+    comportamientoAtaque = ataques.probabilistico(10),
+    puntosQueOtorga = 25
 )
 
+/* Especiales */
 const kamikaze = new TipoPersonajeEnemigo(
     saludMaxima = 3,
     vidas = 1,
@@ -68,7 +77,8 @@ const kamikaze = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoKamikaze, // No dispara, pero Personaje la pide
     animacionImpacto = animacionImpactoKamikaze,
     animacionMuerte = animacionMuerteKamikaze,
-    comportamientoAtaque = ataques.soloInmolacion(40)
+    comportamientoAtaque = ataques.soloInmolacion(40),
+    puntosQueOtorga = 50
 )
 
 const mosca = new TipoPersonajeEnemigo(
@@ -79,7 +89,8 @@ const mosca = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoMosca,
     animacionImpacto = animacionImpactoMosca,
     animacionMuerte = animacionMuerteMosca,
-    comportamientoAtaque = ataques.conCarga(60, 50, 0, 1)
+    comportamientoAtaque = ataques.conCarga(60, 50, 0, 1),
+    puntosQueOtorga = 50
 )
 
 const abeja = new TipoPersonajeEnemigo(
@@ -90,45 +101,10 @@ const abeja = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoAbeja,
     animacionImpacto = animacionImpactoAbeja,
     animacionMuerte = animacionMuerteAbeja,
-    comportamientoAtaque = ataques.conInmolacion(10, 20)
+    comportamientoAtaque = ataques.conInmolacion(10, 20),
+    puntosQueOtorga = 50
+
 )
-
-/* Heavys */
-
-const alienHeavy = new TipoPersonajeEnemigo(
-    saludMaxima = 3,
-    vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaPesadaEnemiga]),
-    animacionBase = animacionBaseAlienHeavy,
-    animacionDisparo = animacionDisparoAlienHeavy,
-    animacionImpacto = animacionImpactoAlienHeavy,
-    animacionMuerte = animacionMuerteAlienHeavy,
-    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1)
-)
-
-const calamarHeavy = new TipoPersonajeEnemigo(
-    saludMaxima = 3,
-    vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaPesadaEnemiga]),
-    animacionBase = animacionBaseCalamarHeavy,
-    animacionDisparo = animacionDisparoCalamarHeavy,
-    animacionImpacto = animacionImpactoCalamarHeavy,
-    animacionMuerte = animacionMuerteCalamarHeavy,
-    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1)
-)
-
-const pulpoHeavy = new TipoPersonajeEnemigo(
-    saludMaxima = 3,
-    vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaPesadaEnemiga]),
-    animacionBase = animacionBasePulpoHeavy,
-    animacionDisparo = animacionDisparoPulpoHeavy,
-    animacionImpacto = animacionImpactoPulpoHeavy,
-    animacionMuerte = animacionMuertePulpoHeavy,
-    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1)
-)
-
-/* Especiales */
 
 const medusa = new TipoPersonajeEnemigo(
     saludMaxima = 1,
@@ -138,7 +114,8 @@ const medusa = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoMedusa,
     animacionImpacto = animacionImpactoMedusa,
     animacionMuerte = animacionMuerteMedusa,
-    comportamientoAtaque = ataques.probabilistico(40)
+    comportamientoAtaque = ataques.probabilistico(40),
+    puntosQueOtorga = 50
 )
 
 const sepia = new TipoPersonajeEnemigo(
@@ -149,10 +126,11 @@ const sepia = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoSepia,
     animacionImpacto = animacionImpactoSepia,
     animacionMuerte = animacionMuerteSepia,
-    comportamientoAtaque = ataques.probabilistico(40)
+    comportamientoAtaque = ataques.probabilistico(40),
+    puntosQueOtorga = 50
 )
 
-/* Retro */
+/* Especiales Retro */
 
 const calamarAmarillo = new TipoPersonajeEnemigo(
     saludMaxima = 2,
@@ -162,7 +140,8 @@ const calamarAmarillo = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoCalamarAmarillo,
     animacionImpacto = animacionImpactoCalamarAmarillo,
     animacionMuerte = animacionMuerteCalamarAmarillo,
-    comportamientoAtaque = ataques.probabilistico(30)
+    comportamientoAtaque = ataques.probabilistico(30),
+    puntosQueOtorga = 50
 )
 
 const alienAzul = new TipoPersonajeEnemigo(
@@ -173,7 +152,8 @@ const alienAzul = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoAlienAzul,
     animacionImpacto = animacionImpactoAlienAzul,
     animacionMuerte = animacionMuerteAlienAzul,
-    comportamientoAtaque = ataques.probabilistico(20)
+    comportamientoAtaque = ataques.probabilistico(20),
+    puntosQueOtorga = 50
 )
 
 const pulpoRojo = new TipoPersonajeEnemigo(
@@ -184,7 +164,46 @@ const pulpoRojo = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoPulpoRojo,
     animacionImpacto = animacionImpactoPulpoRojo,
     animacionMuerte = animacionMuertePulpoRojo,
-    comportamientoAtaque = ataques.probabilistico(20)
+    comportamientoAtaque = ataques.probabilistico(20),
+    puntosQueOtorga = 50
+)
+
+/* Heavys */
+
+const alienHeavy = new TipoPersonajeEnemigo(
+    saludMaxima = 3,
+    vidas = 1,
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaEnemigaBasica]), // FALTA: Arma Basica y pesada
+    animacionBase = animacionBaseAlienHeavy,
+    animacionDisparo = animacionDisparoAlienHeavy,
+    animacionImpacto = animacionImpactoAlienHeavy,
+    animacionMuerte = animacionMuerteAlienHeavy,
+    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1),
+    puntosQueOtorga = 100
+)
+
+const calamarHeavy = new TipoPersonajeEnemigo(
+    saludMaxima = 3,
+    vidas = 1,
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaEnemigaBasica]), // FALTA: Arma Basica y pesada
+    animacionBase = animacionBaseCalamarHeavy,
+    animacionDisparo = animacionDisparoCalamarHeavy,
+    animacionImpacto = animacionImpactoCalamarHeavy,
+    animacionMuerte = animacionMuerteCalamarHeavy,
+    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1),
+    puntosQueOtorga = 100
+)
+
+const pulpoHeavy = new TipoPersonajeEnemigo(
+    saludMaxima = 3,
+    vidas = 1,
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaEnemigaBasica]), // FALTA: Arma Basica y pesada
+    animacionBase = animacionBasePulpoHeavy,
+    animacionDisparo = animacionDisparoPulpoHeavy,
+    animacionImpacto = animacionImpactoPulpoHeavy,
+    animacionMuerte = animacionMuertePulpoHeavy,
+    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1),
+    puntosQueOtorga = 100
 )
 
 /* Cangrejos */
@@ -197,7 +216,8 @@ const cangrejoAmarillo = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoCangrejoAmarillo,
     animacionImpacto = animacionImpactoCangrejoAmarillo,
     animacionMuerte = animacionMuerteCangrejoAmarillo,
-    comportamientoAtaque = ataques.probabilistico(75)
+    comportamientoAtaque = ataques.probabilistico(75),
+    puntosQueOtorga = 500
 )
 
 const cangrejoAzul = new TipoPersonajeEnemigo(
@@ -208,7 +228,8 @@ const cangrejoAzul = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoCangrejoAzul,
     animacionImpacto = animacionImpactoCangrejoAzul,
     animacionMuerte = animacionMuerteCangrejoAzul,
-    comportamientoAtaque = ataques.probabilistico(80)
+    comportamientoAtaque = ataques.probabilistico(80),
+    puntosQueOtorga = 500
 )
 
 const cangrejoRojo = new TipoPersonajeEnemigo(
@@ -219,7 +240,8 @@ const cangrejoRojo = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoCangrejoRojo,
     animacionImpacto = animacionImpactoCangrejoRojo,
     animacionMuerte = animacionMuerteCangrejoRojo,
-    comportamientoAtaque = ataques.probabilistico(80)
+    comportamientoAtaque = ataques.probabilistico(80),
+    puntosQueOtorga = 500
 )
 
 /* Ovnis */
@@ -233,5 +255,6 @@ const ovni = new TipoPersonajeEnemigo(
     animacionImpacto = animacionImpactoOvniClasico,
     animacionMuerte = animacionMuerteOvniClasico,
     comportamientoAtaque = ningunaAccion,
-    probabilidadBufo = 100 // El ovni SIEMPRE suelta un bufo al morir
+    probabilidadBufo = 100, // El ovni SIEMPRE suelta un bufo al morir
+    puntosQueOtorga = 500
 )

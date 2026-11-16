@@ -125,7 +125,12 @@ class Personaje{
         efectoVisual.detener()
     }
 
+    method morir() {
+        estadoActual.recibirImpacto(salud)
+    }
+
     method iniciar(){ }
     method alQuedarseSinVidas(){ }
+    method colisionaConMuro(muro){ }
 
 }

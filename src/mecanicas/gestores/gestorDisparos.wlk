@@ -30,6 +30,6 @@ object gestorEnemigos inherits GestorDisparosBase {
 
   const limiteMaximo = 5 // Base inicial
 
-  method limiteMaximo() = limiteMaximo * configuracion.dificultadElegida()
+  method limiteMaximo() = limiteMaximo * configuracion.dificultad()
 
 }
