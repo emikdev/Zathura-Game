@@ -1,3 +1,4 @@
+import tests.mocks.mocksArmas.*
 import wollok.game.*
 import src.mecanicas.direcciones.*
 import src.mecanicas.gestores.gestorNaves.*
@@ -67,5 +68,19 @@ class BufoArma inherits Bufo {
 class BufoVida inherits Bufo {
     override method aplicarA(nave) {
         nave.ganarVida()
+    }
+}
+
+// Bufo que activa el escudo del jugador por 10 segundos
+class BufoEscudo inherits Bufo {
+    override method aplicarA(nave) {
+        gestorBufos.activarEscudoTemporal(10000)
+    }
+}
+
+// Bufo que congela los disparos enemigos por 5 segundos
+class BufoBloqueo inherits Bufo {
+    override method aplicarA(nave) {
+        gestorBufos.activarBloqueoTemporal(5000)
     }
 }

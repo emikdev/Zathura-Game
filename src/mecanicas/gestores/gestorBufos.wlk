@@ -3,10 +3,39 @@ import src.menu.configuracion.*
 import src.buf.buf.*
 import src.buf.tiposDeBufos.*
 import src.mecanicas.animaciones.recursos.recursosBufos.*
+// import src.mecanicas.direcciones.* // Importá las direcciones para poder generar bufos en posiciones aleatorias
+import src.mecanicas.bandos.* // Importá jugador y enemigo
 
 object gestorBufos {
     const bufosActivos = []
 
+    // Dentro de object gestorBufos:
+    var idEscudo = 0
+    var idBloqueo = 0
+
+    method activarEscudoTemporal(duracionMs) {
+        idEscudo += 1
+        const idActual = idEscudo
+        jugador.activarEscudo()
+
+        game.schedule(duracionMs, {
+            if (idEscudo == idActual) {
+                jugador.desactivarEscudo()
+            }
+        })
+    }
+
+    method activarBloqueoTemporal(duracionMs) {
+        idBloqueo += 1
+        const idActual = idBloqueo
+        enemigo.activarBloqueo()
+
+        game.schedule(duracionMs, {
+            if (idBloqueo == idActual) {
+                enemigo.desactivarBloqueo()
+            }
+        })
+    }
     /*
     // Generación automática por tiempo (Desactivada - Descomentar para usar)
 
@@ -94,6 +123,10 @@ object gestorBufos {
             activo = false
         }
         */
+        idEscudo += 1
+        idBloqueo += 1
+        jugador.desactivarEscudo()
+        enemigo.desactivarBloqueo()
         bufosActivos.copy().forEach({ bufo => bufo.desaparecer() })
     }
 }

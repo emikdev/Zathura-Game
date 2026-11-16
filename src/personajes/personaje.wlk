@@ -105,9 +105,13 @@ class Personaje{
 
     method colisionaCon(disparo) {
         if (bando.puedeColisionarCon(disparo.bando())) {
-            estadoActual.recibirImpacto(disparo.dano())
+            self.recibirImpactoDe(disparo) // Esta para evitar repetir logia en nave al evaluar si tiene el escudo activo
             disparo.destruir()
         }
+    }
+
+    method recibirImpactoDe(disparo) {
+        estadoActual.recibirImpacto(disparo.dano())
     }
 
     method cambiarEfecto(nuevoEfecto) {

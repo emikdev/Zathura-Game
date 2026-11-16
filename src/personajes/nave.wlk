@@ -12,4 +12,9 @@ class NaveJugador inherits Personaje {
         gestorNaves.eliminarNaveSinVidas(self)
     }
 
+    override method recibirImpactoDe(disparo) {
+        if (!bando.escudoActivo()) { // verifica si el escudo esta activo antes de recibir el impacto
+            super(disparo)
+        }
+    }
 }

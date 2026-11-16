@@ -1,7 +1,5 @@
 import src.mecanicas.animaciones.recursos.recursosDeAnimacion.*
-import src.mecanicas.animaciones.recursos.recursosArmas.*
 
-// Cada bufo toma automáticamente el primer frame del recurso de su arma
 const bufoLaserRecursos = new RecursoDeAnimacion(
     frames = ["buf_ArmaLaser.png"]
 )
@@ -19,5 +17,13 @@ const bufoTripleCanonRecursos = new RecursoDeAnimacion(
 )
 
 const bufoVidaRecursos = new RecursoDeAnimacion(
-    frames = [ "bufo_vida.png" ]
+    frames = ["bufo_vida.png"]
+)
+
+const bufoEscudoRecursos = new RecursoDeAnimacion(
+    frames = ["buf_Escudo.png"] // Reemplazá por el nombre exacto de tu archivo .png
+)
+
+const bufoBloqueoRecursos = new RecursoDeAnimacion(
+    frames = ["buf_Bloqueo.png"] // Reemplazá por el nombre exacto de tu archivo .png
 )

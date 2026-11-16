@@ -30,7 +30,7 @@ const tiposDeBufos = [
       fabricaArma = { new DobleCanon(
           recursoBala = armaLaserNave,
           danoBala = 5,
-          municion = 20
+          municion = 4 // 2 rafagas
         ) }
     ) },
 
@@ -40,12 +40,22 @@ const tiposDeBufos = [
       fabricaArma = { new TripleCanon(
           recursoBala = armaLaserNave,
           danoBala = 7,
-          municion = 15
+          municion = 6 // 2 rafagas
         ) }
     ) },
 
   { pos => new BufoVida(
       position = pos,
       recursoAnimacion = bufoVidaRecursos
+    ) },
+
+  { pos => new BufoEscudo(
+      position = pos,
+      recursoAnimacion = bufoEscudoRecursos
+    ) },
+
+  { pos => new BufoBloqueo(
+      position = pos,
+      recursoAnimacion = bufoBloqueoRecursos
     ) }
 ]

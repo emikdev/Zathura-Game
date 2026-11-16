@@ -22,11 +22,16 @@ class Bando {
 
   // Lógica compartida de colisiones
   method puedeColisionarCon(otroBando) {
-    return self != otroBando
+    return self != otroBando 
   }
 }
 
 object jugador inherits Bando {
+  var escudo = false
+  method activarEscudo() { escudo = true }
+  method desactivarEscudo() { escudo = false }
+  method escudoActivo() { return escudo }
+
   // Atributos de recarga nativos del jugador
   override method gestor() = gestorJugador
   override method direccionDeDisparo() = arriba
@@ -34,7 +39,14 @@ object jugador inherits Bando {
 }
 
 object enemigo inherits Bando {
+  var bloqueo = false
+  method activarBloqueo() { bloqueo = true }
+  method desactivarBloqueo() { bloqueo = false }
+  method estaBloqueado() { return bloqueo }
+
   override method gestor() = gestorEnemigos
   override method direccionDeDisparo() = abajo
   override method ajustarPosicion(posicion) = posicion.down(1)
+
+  override method puedeDisparar() = super() && !self.estaBloqueado() // 
 }
