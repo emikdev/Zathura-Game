@@ -10,7 +10,7 @@ import src.mecanicas.arsenal.*
 class TipoPersonajeEnemigo inherits TipoPersonaje {
 
     const comportamientoAtaque
-    const puntosQueOtorga = 50
+    const puntosQueOtorga
 
     method comportamientoAtaque() {
         return comportamientoAtaque
@@ -70,7 +70,8 @@ const kamikaze = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoKamikaze, // No dispara, pero Personaje la pide
     animacionImpacto = animacionImpactoKamikaze,
     animacionMuerte = animacionMuerteKamikaze,
-    comportamientoAtaque = ataques.soloInmolacion(40)
+    comportamientoAtaque = ataques.soloInmolacion(40),
+    puntosQueOtorga = 50
 )
 
 const mosca = new TipoPersonajeEnemigo(
@@ -81,7 +82,8 @@ const mosca = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoMosca,
     animacionImpacto = animacionImpactoMosca,
     animacionMuerte = animacionMuerteMosca,
-    comportamientoAtaque = ataques.conCarga(60, 50, 0, 1)
+    comportamientoAtaque = ataques.conCarga(60, 50, 0, 1),
+    puntosQueOtorga = 50
 )
 
 const abeja = new TipoPersonajeEnemigo(
@@ -92,7 +94,8 @@ const abeja = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoAbeja,
     animacionImpacto = animacionImpactoAbeja,
     animacionMuerte = animacionMuerteAbeja,
-    comportamientoAtaque = ataques.conInmolacion(10, 20)
+    comportamientoAtaque = ataques.conInmolacion(10, 20),
+    puntosQueOtorga = 50
 )
 
 const medusa = new TipoPersonajeEnemigo(
@@ -103,7 +106,8 @@ const medusa = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoMedusa,
     animacionImpacto = animacionImpactoMedusa,
     animacionMuerte = animacionMuerteMedusa,
-    comportamientoAtaque = ataques.probabilistico(40)
+    comportamientoAtaque = ataques.probabilistico(40),
+    puntosQueOtorga = 50
 )
 
 const sepia = new TipoPersonajeEnemigo(
@@ -114,7 +118,8 @@ const sepia = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoSepia,
     animacionImpacto = animacionImpactoSepia,
     animacionMuerte = animacionMuerteSepia,
-    comportamientoAtaque = ataques.probabilistico(40)
+    comportamientoAtaque = ataques.probabilistico(40),
+    puntosQueOtorga = 50
 )
 
 /* Especiales Retro */
@@ -127,7 +132,8 @@ const calamarAmarillo = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoCalamarAmarillo,
     animacionImpacto = animacionImpactoCalamarAmarillo,
     animacionMuerte = animacionMuerteCalamarAmarillo,
-    comportamientoAtaque = ataques.probabilistico(30)
+    comportamientoAtaque = ataques.probabilistico(30),
+    puntosQueOtorga = 50
 )
 
 const alienAzul = new TipoPersonajeEnemigo(
@@ -138,7 +144,8 @@ const alienAzul = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoAlienAzul,
     animacionImpacto = animacionImpactoAlienAzul,
     animacionMuerte = animacionMuerteAlienAzul,
-    comportamientoAtaque = ataques.probabilistico(20)
+    comportamientoAtaque = ataques.probabilistico(20),
+    puntosQueOtorga = 50
 )
 
 const pulpoRojo = new TipoPersonajeEnemigo(
@@ -149,7 +156,8 @@ const pulpoRojo = new TipoPersonajeEnemigo(
     animacionDisparo = animacionDisparoPulpoRojo,
     animacionImpacto = animacionImpactoPulpoRojo,
     animacionMuerte = animacionMuertePulpoRojo,
-    comportamientoAtaque = ataques.probabilistico(20)
+    comportamientoAtaque = ataques.probabilistico(20),
+    puntosQueOtorga = 50
 )
 
 /* Heavys */
