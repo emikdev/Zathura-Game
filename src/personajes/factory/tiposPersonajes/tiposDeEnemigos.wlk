@@ -61,6 +61,7 @@ const pulpo = new TipoPersonajeEnemigo(
     comportamientoAtaque = ataques.probabilistico(10),
     puntosQueOtorga = 25
 )
+
 /* Especiales */
 const kamikaze = new TipoPersonajeEnemigo(
     saludMaxima = 3,
@@ -96,42 +97,7 @@ const abeja = new TipoPersonajeEnemigo(
     animacionMuerte = animacionMuerteAbeja,
     comportamientoAtaque = ataques.conInmolacion(10, 20),
     puntosQueOtorga = 50
-    comportamientoAtaque = ataques.conInmolacion(10, 20)
-)
 
-/* Heavys */
-
-const alienHeavy = new TipoPersonajeEnemigo(
-    saludMaxima = 3,
-    vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaPesadaEnemiga]),
-    animacionBase = animacionBaseAlienHeavy,
-    animacionDisparo = animacionDisparoAlienHeavy,
-    animacionImpacto = animacionImpactoAlienHeavy,
-    animacionMuerte = animacionMuerteAlienHeavy,
-    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1)
-)
-
-const calamarHeavy = new TipoPersonajeEnemigo(
-    saludMaxima = 3,
-    vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaPesadaEnemiga]),
-    animacionBase = animacionBaseCalamarHeavy,
-    animacionDisparo = animacionDisparoCalamarHeavy,
-    animacionImpacto = animacionImpactoCalamarHeavy,
-    animacionMuerte = animacionMuerteCalamarHeavy,
-    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1)
-)
-
-const pulpoHeavy = new TipoPersonajeEnemigo(
-    saludMaxima = 3,
-    vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaPesadaEnemiga]),
-    animacionBase = animacionBasePulpoHeavy,
-    animacionDisparo = animacionDisparoPulpoHeavy,
-    animacionImpacto = animacionImpactoPulpoHeavy,
-    animacionMuerte = animacionMuertePulpoHeavy,
-    comportamientoAtaque = ataques.conCarga(15, 30, 0, 1)
 )
 
 const medusa = new TipoPersonajeEnemigo(
