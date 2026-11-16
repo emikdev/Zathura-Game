@@ -13,8 +13,8 @@ class Enemigo inherits Personaje {
     }
 
     override method alQuedarseSinVidas() {
-        gestorPuntaje.sumar(tipoPersonaje.puntosQueOtorga())
         formacion.quitar(self)
+        gestorPuntaje.sumar(tipoPersonaje.puntosQueOtorga())
     }
 
 }
