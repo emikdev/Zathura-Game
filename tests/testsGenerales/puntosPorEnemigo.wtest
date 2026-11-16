@@ -2,14 +2,9 @@ import wollok.game.*
 import src.mecanicas.gestores.gestorDePuntos.*
 import src.personajes.factory.factory.*
 import src.personajes.factory.tiposPersonajes.tiposDeEnemigos.*
+import tests.mocks.mocksPuntosPorEnemigo.*
 
 describe "Tests de puntos otorgados por los enemigos" {
-
-  // Mock de formación: solo registra a quién le pidieron quitar
-  const formacionMock = object {
-    const property quitados = []
-    method quitar(enemigo) { quitados.add(enemigo) }
-  }
 
   method initialize() {
     game.clear()
@@ -55,13 +50,23 @@ describe "Tests de puntos otorgados por los enemigos" {
 
   // SUMA DE PUNTOS AL MORIR
 
-  test "Crear un enemigo no otorga puntos todavía" {
-    factory.crearEnemigo(alien, formacionMock, game.at(1, 10))
+  test "Al quedarse sin vidas, el enemigo suma los puntos de su tipo" {
+    const enemigoAlien = factory.crearEnemigo(alien, formacionMock, game.at(1, 10))
 
-    assert.equals(0, gestorPuntaje.puntos())
+    enemigoAlien.alQuedarseSinVidas()
+
+    assert.equals(25, gestorPuntaje.puntos())
   }
 
-  test "Al quedarse sin vidas, el enemigo suma los puntos de su tipo" {
+  test "Cada tipo suma su propio valor al morir, los especiales suman 50" {
+    const enemigoAlien = factory.crearEnemigo(abeja, formacionMock, game.at(1, 10))
+
+    enemigoAlien.alQuedarseSinVidas()
+
+    assert.equals(50, gestorPuntaje.puntos())
+  }
+
+  test "Al quedarse sin vidas" {
     const enemigoAlien = factory.crearEnemigo(alien, formacionMock, game.at(1, 10))
 
     enemigoAlien.alQuedarseSinVidas()
