@@ -2,7 +2,7 @@ import wollok.game.*
 import src.mecanicas.bandos.*
 import src.personajes.enemigo.*
 import src.personajes.nave.*
-import src.personajes.muros.*
+import src.muros.muros.*
 
 // Factory encargada de crear personajes a partir de su tipo
 object factory {
@@ -21,8 +21,8 @@ object factory {
     )
 
     method crearMuro(dificultad, position) = new Muro(
-        vidas = 6 - dificultad, 
+        impactosIniciales = dificultad,
         position = position
     )
-    
+        
 }

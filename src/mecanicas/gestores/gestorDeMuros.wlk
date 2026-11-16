@@ -1,18 +1,29 @@
 import wollok.game.*
 import src.personajes.factory.factory.*
 
-object gestorMuros{
-    // , game.at(game.center(), 4), game.at(17, 4)
+object gestorMuros {
+
     var muros = []
-    const posiciones = [game.at(2, 4)]
-    method iniciar(){
-        muros = posiciones.map({p => factory.crearMuro(0, p)})
-        muros.forEach({m => game.addVisual(m)})
+    const posiciones = [game.at(2, 3), game.at(7, 3), game.at(12, 3), game.at(17, 3)]
+
+    method iniciar(dificultad) {
+        self.detener()   // por si quedaron muros de un nivel anterior
+        muros = posiciones.map({ p => factory.crearMuro(dificultad, p) })
+        muros.forEach({ m => m.iniciar() })   // el muro se agrega al tablero y registra su colisión
     }
 
-    method muroDestruido(muro){
-        game.removeVisual(muro)
-        // Ejecutar sonido, tambien podriamos bajar el puntaje
+    method muroDestruido(muro) {
+        muros.remove(muro)
+        muro.retirar()
+        // Ejecutar sonido
     }
+
+    // Retira todos los muros que sigan en pie (fin de nivel)
+    method detener() {
+        muros.forEach({ m => m.retirar() })
+        muros.clear()
+    }
+
+    method cantidadActivos() = muros.size()
 
 }

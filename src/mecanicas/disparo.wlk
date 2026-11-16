@@ -52,7 +52,8 @@ class Disparo {
     }
   }
 
-  method colisionaCon(objetivo) {}
+  method colisionaCon(objetivo){ }
+  method colisionaConMuro(muro){ }
 
   method destruir() {
     // El bando sabe exactamente a qué gestor llamar internamente

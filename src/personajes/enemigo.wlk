@@ -13,4 +13,9 @@ class Enemigo inherits Personaje {
         formacion.quitar(self)
     }
 
+    override method colisionaConMuro(muro) {
+        muro.destruirse()
+        self.morir()
+    }
+
 }
