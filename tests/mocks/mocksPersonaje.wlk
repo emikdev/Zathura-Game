@@ -31,7 +31,7 @@ class ArsenalMock {
   var verificaciones = 0
 
   method armaActual() = arma
-  method agregarAlArma(nuevaArma) { armasAgregadas.add(nuevaArma) }
+  method agregarArma(nuevaArma) { armasAgregadas.add(nuevaArma) }
   method armasAgregadas() = armasAgregadas
   method equiparSiguienteArma() { cambiosDeArma += 1 }
   method verificarArmaActual() { verificaciones += 1 }
