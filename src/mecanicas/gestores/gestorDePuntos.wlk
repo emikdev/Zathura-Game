@@ -13,7 +13,7 @@ object gestorPuntaje {
     method reiniciar() { puntos = 0 } 
 
     method mostrar() {
-        const score = new Cartel (image = "score.png", position = game.at(18,game.height() -1) )
+        const score = new Cartel (image = "scorePrueba.png", position = game.at(13,game.height() -1) )
         game.addVisual(score)
         game.addVisual(mil)
         game.addVisual(centena)
@@ -29,7 +29,7 @@ class Numero {
 }
 
 object mil inherits Numero {
-    override method position() = game.at(0, game.height() - 1)
+    override method position() = game.at(16, game.height() - 1)
     override method numero() = gestorPuntaje.puntos().div(1000).rem(10)
 }
 
