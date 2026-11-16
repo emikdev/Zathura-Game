@@ -59,7 +59,7 @@ class BufoArma inherits Bufo {
 
     override method aplicarA(nave) {
         const nuevaArma = fabricaArma.apply()
-        nave.arsenal().agregarAlArma(nuevaArma)
+        nave.arsenal().agregarArma(nuevaArma)
     }
 }
 
