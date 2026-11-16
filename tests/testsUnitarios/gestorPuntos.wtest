@@ -147,10 +147,10 @@ describe "Tests del Gestor de Puntaje" {
   }
 
   test "Los dígitos se ordenan de izquierda a derecha: mil, centena, decena, unidad" {
-    assert.equals(0, mil.position().x())
-    assert.equals(1, centena.position().x())
-    assert.equals(2, decena.position().x())
-    assert.equals(3, unidad.position().x())
+    assert.equals(16, mil.position().x())
+    assert.equals(17, centena.position().x())
+    assert.equals(18, decena.position().x())
+    assert.equals(19, unidad.position().x())
   }
 
   // MOSTRAR EN PANTALLA
