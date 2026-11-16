@@ -1,0 +1,106 @@
+import wollok.game.*
+import src.mecanicas.direcciones.*
+
+describe "Zona jugable del tablero" {
+
+  method initialize() {
+    game.width(20)
+    game.height(20)
+  }
+
+  test "las columnas son todas jugables y la primera y la última fila quedan para el HUD" {
+    assert.equals(0, tablero.columnaMinima())
+    assert.equals(19, tablero.columnaMaxima())
+    assert.equals(1, tablero.filaMinima())
+    assert.equals(18, tablero.filaMaxima())
+  }
+
+  test "las cuatro esquinas de la zona jugable están dentro" {
+    assert.that(tablero.dentro(game.at(0, 1)))
+    assert.that(tablero.dentro(game.at(19, 1)))
+    assert.that(tablero.dentro(game.at(0, 18)))
+    assert.that(tablero.dentro(game.at(19, 18)))
+  }
+
+  test "la primera y la última fila están fuera (HUD)" {
+    assert.notThat(tablero.dentro(game.at(5, 0)))
+    assert.notThat(tablero.dentro(game.at(5, 19)))
+  }
+
+  test "las posiciones fuera del tablero también están fuera" {
+    assert.notThat(tablero.dentro(game.at(-1, 5)))
+    assert.notThat(tablero.dentro(game.at(20, 5)))
+    assert.notThat(tablero.dentro(game.at(5, 20)))
+  }
+
+  test "la zona jugable se adapta al tamaño del tablero" {
+    game.width(10)
+    game.height(12)
+
+    assert.equals(9, tablero.columnaMaxima())
+    assert.equals(10, tablero.filaMaxima())
+  }
+}
+
+describe "Direcciones" {
+
+  method initialize() {
+    game.width(20)
+    game.height(20)
+  }
+
+  test "cada dirección avanza una celda hacia su lado" {
+    assert.equals(game.at(5, 6), arriba.siguiente(game.at(5, 5)))
+    assert.equals(game.at(5, 4), abajo.siguiente(game.at(5, 5)))
+    assert.equals(game.at(6, 5), derecha.siguiente(game.at(5, 5)))
+    assert.equals(game.at(4, 5), izquierda.siguiente(game.at(5, 5)))
+  }
+
+  test "cada dirección tiene su opuesta" {
+    assert.equals(abajo, arriba.opuesta())
+    assert.equals(arriba, abajo.opuesta())
+    assert.equals(izquierda, derecha.opuesta())
+    assert.equals(derecha, izquierda.opuesta())
+  }
+
+  test "se puede avanzar hasta la última celda de cada lado" {
+    assert.that(arriba.puedeAvanzar(game.at(5, 17)))
+    assert.that(abajo.puedeAvanzar(game.at(5, 2)))
+    assert.that(derecha.puedeAvanzar(game.at(18, 5)))
+    assert.that(izquierda.puedeAvanzar(game.at(1, 5)))
+  }
+
+  test "no se puede avanzar hacia el HUD ni fuera del tablero" {
+    assert.notThat(arriba.puedeAvanzar(game.at(5, 18)))
+    assert.notThat(abajo.puedeAvanzar(game.at(5, 1)))
+    assert.notThat(derecha.puedeAvanzar(game.at(19, 5)))
+    assert.notThat(izquierda.puedeAvanzar(game.at(0, 5)))
+  }
+
+  test "la primera y la última columna son jugables: se puede llegar a ellas" {
+    assert.equals(game.at(19, 5), derecha.siguiente(game.at(18, 5)))
+    assert.equals(game.at(0, 5), izquierda.siguiente(game.at(1, 5)))
+  }
+
+  test "las filas del HUD no son alcanzables: se puede llegar hasta la 18 y hasta la 1" {
+    assert.equals(game.at(5, 18), arriba.siguiente(game.at(5, 17)))
+    assert.equals(game.at(5, 1), abajo.siguiente(game.at(5, 2)))
+  }
+
+  test "si la celda vecina no existe, siguiente devuelve la misma posición sin error" {
+    assert.equals(game.at(5, 18), arriba.siguiente(game.at(5, 18)))
+    assert.equals(game.at(5, 1), abajo.siguiente(game.at(5, 1)))
+    assert.equals(game.at(19, 5), derecha.siguiente(game.at(19, 5)))
+    assert.equals(game.at(0, 5), izquierda.siguiente(game.at(0, 5)))
+  }
+
+  test "pedir moverse contra un límite varias veces no lo saca de la zona" {
+    var posicion = game.at(19, 18)
+    5.times({ i =>
+      posicion = derecha.siguiente(posicion)
+      posicion = arriba.siguiente(posicion)
+    })
+
+    assert.equals(game.at(19, 18), posicion)
+  }
+}

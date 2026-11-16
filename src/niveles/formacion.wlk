@@ -31,12 +31,13 @@ class Formacion {
   // Un paso del reloj: primero avanza, después ataca.
   method paso() {
     self.mover()
-    self.atacar()
     self.enemigosGanaron()
+    self.atacar()
   }
   
-  method enemigosGanaron(){ 
-    if(enemigos.any({ enemigo => enemigo.position().y() == 0 })){
+  method enemigosGanaron() {
+    if (enemigos.any({ enemigo => not abajo.puedeAvanzar(enemigo.position()) })) {
+      self.detener()
       gestorNiveles.gameOver()
     }
   }
@@ -84,5 +85,3 @@ class Formacion {
   }
 
 }
-
-  

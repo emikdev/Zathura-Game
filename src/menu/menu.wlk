@@ -1,3 +1,5 @@
+import src.mecanicas.gestores.gestorDisparos.*
+import src.mecanicas.gestores.gestorDePuntos.*
   import src.mecanicas.direcciones.*
   import wollok.game.*
   import src.menu.seleccionador.*
@@ -173,6 +175,8 @@
         musicaMenu.detener()
         // Se inicia el gestor de niveles
 	      gestorNiveles.iniciar()
+        gestorPuntaje.reiniciar()
+        gestorPuntaje.mostrar()
         musicaInGame.iniciar()
     }
 

@@ -1,6 +1,6 @@
 import src.mecanicas.animaciones.recursos.recursosNaves.*
 import src.personajes.factory.tiposPersonajes.tipoPersonaje.*
-import src.mecanicas.armas.armasDeNave.*
+import src.mecanicas.armas.armasNave.*
 import src.mecanicas.arsenal.*
 
     /* MUY IMPORTANTE: Convención de los slots del arsenal: 0 = arma normal */

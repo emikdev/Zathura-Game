@@ -1,75 +1,57 @@
 import wollok.game.*
-import src.mecanicas.disparo.*
 import src.mecanicas.bandos.*
 import src.mecanicas.gestores.gestorDisparos.*
+import tests.mocks.mocksPersonaje.*
 
-describe "Tests del Gestor de Disparos - Jerarquía Polimórfica" {
+describe "Gestor de disparos enemigos" {
 
-  const animacionMock = object {
-    method frameActual() = "disparo.png"
-    method activa() = false
-    method reiniciar() {}
-    method detener() {}
+  const unDisparo = new DisparoMock(bando = enemigo, dano = 1)
+
+  method registrarEnemigos(cantidad) {
+    cantidad.times({ i => gestorEnemigos.registrarDisparo(new DisparoMock(bando = enemigo, dano = 1)) })
   }
 
-  method initialize() {
-    game.clear()
-    game.width(10)
-    game.height(10)
-    
-    gestorEnemigos.disparosActivos().clear()
-    gestorJugador.disparosActivos().clear()
-    
-    gestorEnemigos.limiteMaximo(5)
+  test "con un lugar libre todavía puede disparar" {
+    self.registrarEnemigos(gestorEnemigos.limiteMaximo() - 1)
+
+    assert.that(gestorEnemigos.puedeDisparar())
   }
 
-  test "El gestor de enemigos respeta su límite máximo numérico (tope = 5)" {
-    const disparo1 = new Disparo(animacion = animacionMock, dano = 10, bando = enemigo, position = game.at(1,1))
-    const disparo2 = new Disparo(animacion = animacionMock, dano = 10, bando = enemigo, position = game.at(1,2))
-    const disparo3 = new Disparo(animacion = animacionMock, dano = 10, bando = enemigo, position = game.at(1,3))
-    const disparo4 = new Disparo(animacion = animacionMock, dano = 10, bando = enemigo, position = game.at(1,4))
-    const disparo5 = new Disparo(animacion = animacionMock, dano = 10, bando = enemigo, position = game.at(1,5))
-    
-    gestorEnemigos.registrarDisparo(disparo1)
-    gestorEnemigos.registrarDisparo(disparo2)
-    gestorEnemigos.registrarDisparo(disparo3)
-    gestorEnemigos.registrarDisparo(disparo4)
-    gestorEnemigos.registrarDisparo(disparo5)
+  test "al llegar a su tope no puede disparar" {
+    self.registrarEnemigos(gestorEnemigos.limiteMaximo())
 
     assert.notThat(gestorEnemigos.puedeDisparar())
   }
 
-  test "El gestor del jugador no se ve afectado por límites numéricos" {
-    assert.that(gestorJugador.puedeDisparar())
+  test "al liberar un disparo vuelve a poder disparar" {
+    gestorEnemigos.registrarDisparo(unDisparo)
+    self.registrarEnemigos(gestorEnemigos.limiteMaximo() - 1)
+    assert.notThat(gestorEnemigos.puedeDisparar())
+
+    gestorEnemigos.liberarDisparo(unDisparo)
+
+    assert.that(gestorEnemigos.puedeDisparar())
   }
 
-  // TEST: ACCESO Y VALIDACIÓN DE EXISTENCIA DE UN PROYECTIL
-  test "Se puede verificar la existencia y acceder a un disparo específico dentro del gestor" {
-    const miDisparo = new Disparo(
-      animacion = animacionMock, 
-      dano = 5, 
-      bando = jugador, 
-      position = game.at(3, 3)
-    )
-    
-    const otroDisparo = new Disparo(
-      animacion = animacionMock, 
-      dano = 5, 
-      bando = jugador, 
-      position = game.at(4, 4)
-    )
+  test "registrar dos veces el mismo disparo no ocupa dos lugares" {
+    gestorEnemigos.registrarDisparo(unDisparo)
+    gestorEnemigos.registrarDisparo(unDisparo)
 
-    // Registramos solo el primer proyectil
-    gestorJugador.registrarDisparo(miDisparo)
+    assert.equals(1, gestorEnemigos.cantidadActivos())
+  }
 
-    // 1. Verificamos que el gestor efectivamente contenga el disparo específico
-    assert.that(gestorJugador.disparosActivos().contains(miDisparo))
+  test "liberar un disparo que no estaba registrado no cambia nada" {
+    gestorEnemigos.liberarDisparo(unDisparo)
 
-    // 2. Verificamos que otro disparo no registrado no figure en la lista
-    assert.notThat(gestorJugador.disparosActivos().contains(otroDisparo))
+    assert.equals(0, gestorEnemigos.cantidadActivos())
+  }
+}
 
-    // 3. Probamos el acceso directo buscando el objeto que coincida con una propiedad específica
-    const disparoEncontrado = gestorJugador.disparosActivos().find({ disparo => disparo == miDisparo })
-    assert.equals(miDisparo, disparoEncontrado)
+describe "Gestor de disparos del jugador" {
+
+  test "no tiene tope: puede disparar aunque haya muchos disparos activos" {
+    20.times({ i => gestorJugador.registrarDisparo(new DisparoMock(bando = jugador, dano = 1)) })
+
+    assert.that(gestorJugador.puedeDisparar())
   }
 }
