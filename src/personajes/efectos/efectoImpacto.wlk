@@ -1,9 +1,10 @@
 import src.personajes.efectos.efectosPersonaje.*
+import src.sonidos.sonido.*
 class EfectoImpacto inherits EfectoVisual {
 
     override method initialize() {
         super()
-        game.sound("impacto.wav").play() // Sonido correspondiente al efecto
+        sonido.reproducir("impacto.mp3") // Sonido correspondiente al efecto
     }
 
     override method recursoAnimacion() = personaje.animacionImpacto()

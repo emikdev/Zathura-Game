@@ -1,3 +1,4 @@
+import src.menu.configuracion.*
 class GestorDisparosBase {
   const disparosActivos = []
   method disparosActivos () = disparosActivos
@@ -24,14 +25,11 @@ object gestorJugador inherits GestorDisparosBase {
 
 // 2. El de los enemigos: Controla la cantidad en pantalla y se ve afectado por la dificultad
 object gestorEnemigos inherits GestorDisparosBase {
-  var property limiteMaximo = 5 // Base inicial
 
-  override method puedeDisparar() {
-    return self.cantidadActivos() < limiteMaximo
-  }
+  override method puedeDisparar() = self.cantidadActivos() < self.limiteMaximo()
 
-  // Cumple con el requerimiento de cómo le afecta la dificultad
-  method ajustarPorDificultad(factor) {
-    limiteMaximo = (limiteMaximo * factor).truncate(0)
-  }
+  const limiteMaximo = 5 // Base inicial
+
+  method limiteMaximo() = limiteMaximo * configuracion.dificultad()
+
 }

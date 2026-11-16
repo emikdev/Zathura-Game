@@ -1,15 +1,20 @@
-  import src.mecanicas.direcciones.*
-  import wollok.game.*
-  import src.menu.seleccionador.*
-  import src.menu.configuracion.*
-  import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
-  import src.mecanicas.gestores.gestorNiveles.*
+import src.mecanicas.gestores.gestorDisparos.*
+import src.mecanicas.gestores.gestorDePuntos.*
+import src.mecanicas.direcciones.*
+import wollok.game.*
+import src.menu.seleccionador.*
+import src.menu.configuracion.*
+import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
+import src.mecanicas.gestores.gestorNiveles.*
+import src.sonidos.musicaMenu.*
+import src.sonidos.sonido.*
+
 
   // falta importar el archivo de los niveles
 
   object menu {
     method iniciar() {
-      self.menuPrincipal()
+      self.menuReglas()
     }
 
     method mostrar(titulo, opciones, alSeleccionar) {
@@ -34,6 +39,10 @@
     }
 
     method menuPrincipal() {
+
+      game.boardGround("fondo.png")
+      musicaMenu.iniciar()
+
       self.mostrar(
         "menuPrincipal.png",
         [
@@ -44,6 +53,28 @@
           if (opcion.valor() == "jugar") self.menuCantidadJugadores() else game.stop()
         }
       )
+    }
+
+    method menuReglas() {
+      game.clear()      
+      musicaMenu.iniciar()
+      game.boardGround("reglas2.png")
+      keyboard.space().onPressDo({self.menuSistemaPuntajes() sonido.reproducir("choose.mp3")})
+
+    }
+
+    method menuSistemaPuntajes() {
+      game.clear()
+      musicaMenu.iniciar()
+      game.boardGround("sistemaPuntajes.png")
+      keyboard.space().onPressDo({self.menuPrincipal() sonido.reproducir("choose.mp3")})
+    }
+
+    method menuEntreNiveles() {
+      game.clear()
+      sonido.reproducir("levelPassed.mp3")
+      game.boardGround("entreNiveles.png")
+      keyboard.space().onPressDo({self.empezar() sonido.reproducir("choose.mp3")})
     }
 
     
@@ -99,12 +130,14 @@
 
 
     method menuGameOver (){
-
+      musicaMenu.detener()
       self.menuInicial("perdiste.png")
-
+      sonido.reproducir("fail.mp3")
     }
 
     method menuVictoria() {
+      musicaMenu.detener()
+      musicaVictoria.iniciar()
       self.menuInicial("ganaste.png")
     }
 
@@ -115,10 +148,16 @@
       new Opcion(image = "salir.png",        valor = "salir",  position = game.center().right(-1).down(4))
     ],
     { opcion =>
-      if (opcion.valor() == "volver") self.menuPrincipal() else game.stop()
+      if (opcion.valor() == "volver"){ 
+
+        musicaVictoria.detener()
+        self.menuPrincipal() 
+      }else{ 
+          game.stop()
+      }
     }
   )
-    }
+}
 
     method elegirNave(titulo, alElegir) {
       
@@ -135,8 +174,13 @@
 
     method empezar() {
         game.clear()
+        musicaMenu.detener()
         // Se inicia el gestor de niveles
 	      gestorNiveles.iniciar()
+        gestorPuntaje.reiniciar()
+        gestorPuntaje.mostrar()
+        gestorNiveles.mostrar()
+        musicaInGame.iniciar()
     }
 
   }

@@ -1,4 +1,5 @@
 import src.personajes.factory.factory.*
+import src.mecanicas.direcciones.*
 object configuracion {
   
   var property dificultadElegida = 1
@@ -9,10 +10,10 @@ object configuracion {
           
            // como configuracion es quien tiene los datos necesarios para calcular la dificultad lo calcula el mismo objeto.
 
-      return dificultadElegida + cantidadJugadores
+      return dificultadElegida + cantidadJugadores - 1
   }
 
 
-  method naves() = tiposNaves.map({ tipo => factory.crearNave(tipo , game.at(1, 0)) } )
+  method naves() = tiposNaves.map({ tipo => factory.crearNave(tipo , game.at(1, tablero.filaMinima())) } )
 
 }

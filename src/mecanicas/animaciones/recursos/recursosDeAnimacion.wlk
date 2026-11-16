@@ -1,7 +1,7 @@
 class RecursoDeAnimacion{
 
     const frames
-    const duracion = 1000
+    const duracion = 500
 
     method frames(){
         return frames

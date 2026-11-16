@@ -1,6 +1,7 @@
 import wollok.game.*
 import src.mecanicas.direcciones.*
 import src.mecanicas.animaciones.animacion.*
+import sonidos.sonido.*
 
 class Disparo {
 
@@ -11,7 +12,6 @@ class Disparo {
   var animacion
 
   method initialize() {
-    position = bando.ajustarPosicion(position)   // se ajusta UNA sola vez
     animacion = new Animacion(estado = self, recursoDeAnimacion = recursoAnimacion)
   }
 
@@ -38,6 +38,7 @@ class Disparo {
 
   method iniciar() {
     game.addVisual(self)
+    sonido.reproducir("disparo2.mp3")
     game.onCollideDo(self, { objetivo => objetivo.colisionaCon(self) })
   }
 
@@ -52,7 +53,8 @@ class Disparo {
     }
   }
 
-  method colisionaCon(objetivo) {}
+  method colisionaCon(objetivo){ }
+  method colisionaConMuro(muro){ }
 
   method destruir() {
     // El bando sabe exactamente a qué gestor llamar internamente
