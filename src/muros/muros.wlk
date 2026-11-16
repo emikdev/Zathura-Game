@@ -12,7 +12,7 @@ class Muro {
   const impactosIniciales = 0 // cuántos frames "destruido" tiene al nacer (según la dificultad)
 
   var estadoActual
-
+  
   method initialize() {
     estadoActual = new EnPie(muro = self)
   }

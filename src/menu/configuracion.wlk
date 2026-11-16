@@ -9,7 +9,7 @@ object configuracion {
           
            // como configuracion es quien tiene los datos necesarios para calcular la dificultad lo calcula el mismo objeto.
 
-      return dificultadElegida + cantidadJugadores
+      return dificultadElegida + cantidadJugadores - 1
   }
 
 
