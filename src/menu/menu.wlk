@@ -37,7 +37,7 @@ import src.sonidos.sonido.*
 
       seleccionador.controles()
     }
-
+    
     method menuPrincipal() {
 
       game.boardGround("fondo.png")
@@ -46,20 +46,36 @@ import src.sonidos.sonido.*
       self.mostrar(
         "menuPrincipal.png",
         [
-          new Opcion(image = "jugar.png", valor = "jugar", position = game.center().left(10).down(4)),
-          new Opcion(image = "salir.png", valor = "salir", position = game.center().right(-1).down(4))
+          new Opcion(image = "demo.png", valor = "demo", position = game.center().left(10).down(4)),
+          new Opcion(image = "jugar.png", valor = "jugar", position = game.center().left(6).down(4)),
+          new Opcion(image = "salir.png", valor = "salir", position = game.center().right(1).down(4))
         ],
         { opcion =>
-          if (opcion.valor() == "jugar") self.menuCantidadJugadores() else game.stop()
+          if (opcion.valor() ==  "jugar"){
+            self.menuCantidadJugadores() 
+          }if(opcion.valor()=="demo"){
+            gestorNiveles.iniciarDemo()
+          }
+
+          else game.stop()
+          
         }
       )
+    }
+
+    method menuControles() {
+      game.clear()      
+      musicaMenu.iniciar()
+      game.boardGround("controles.png")
+      keyboard.space().onPressDo({self.menuSistemaPuntajes() sonido.reproducir("choose.mp3")})
+
     }
 
     method menuReglas() {
       game.clear()      
       musicaMenu.iniciar()
       game.boardGround("reglas2.png")
-      keyboard.space().onPressDo({self.menuSistemaPuntajes() sonido.reproducir("choose.mp3")})
+      keyboard.space().onPressDo({self.menuControles() sonido.reproducir("choose.mp3")})
 
     }
 

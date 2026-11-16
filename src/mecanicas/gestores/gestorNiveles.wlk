@@ -5,12 +5,47 @@ import src.mecanicas.gestores.generadorOvnis.*
 import src.mecanicas.gestores.gestorNaves.*
 import src.menu.menu.*
 import src.menu.seleccionador.*
+import src.menu.configuracion.*
+import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
+import src.mecanicas.gestores.gestorDePuntos.*
+
 
 
 object gestorNiveles {
 
-    const niveles = [nivelUno]
-    var contadorDeNiveles = 1
+    method configuracionDemo(){ // hardcodeo de el nivel de demostracion.
+
+        
+        configuracion.dificultadElegida(1)
+        configuracion.tiposNaves().addAll([naveNormal,naveTanque])
+        configuracion.cantidadJugadores(2)
+
+        self.contadorDeNiveles(0)
+        
+        niveles = [nivelDemo]
+        
+        
+    }
+
+    method iniciarDemo(){
+
+        self.configuracionDemo()
+
+        game.clear()
+        musicaMenu.detener()
+        // Se inicia el gestor de niveles
+        gestorPuntaje.reiniciar()
+        gestorPuntaje.mostrar()
+        gestorNaves.iniciar()
+        self.mostrar()
+        musicaInGame.iniciar()
+        self.nivelActual().iniciar()
+        
+    }
+
+
+    var niveles = [nivelUno]
+    var property contadorDeNiveles = 1
 
     method contadorDeNiveles() = contadorDeNiveles // getter de puntos
 
@@ -67,11 +102,6 @@ method terminarNivel() { // Método llamado por nivel
 
 }
 
-    class Numero {
-    method position()
-    method numero()
-    method image() = "numero_" + self.numero().toString() + ".png"
-}
 
     object contador inherits Numero {
     override method position() = game.at(2, game.height() - 1)
