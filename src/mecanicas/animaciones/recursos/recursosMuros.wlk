@@ -2,12 +2,12 @@ import recursosDeAnimacion.*
 
 const muroFramesBase = new RecursoDeAnimacion(
     frames = [
+        "muro-frame0.png",
         "muro-frame1.png", 
         "muro-frame2.png", 
         "muro-frame3.png", 
         "muro-frame4.png", 
-        "muro-frame5.png", 
-        "muro-frame6.png"
+        "muro-frame5.png"
     ]
 )
 
