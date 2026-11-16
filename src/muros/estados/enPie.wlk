@@ -17,6 +17,11 @@ class EnPie inherits EstadoMuro {
     animacion.avanzar()
   }
 
+  override method colisionaCon(disparo) {
+    self.recibirImpacto()
+    disparo.destruir()
+  }
+
   // Choque con un enemigo: se destruye sin pasar por los frames intermedios
   override method destruirse() {
     self.pasarADestruyendose()

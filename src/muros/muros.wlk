@@ -40,8 +40,7 @@ class Muro {
 
   // Lo llama el disparo (su onCollideDo): cualquier bando daña al muro
   method colisionaCon(disparo) {
-    self.recibirImpacto()
-    disparo.destruir()
+    estadoActual.colisionaCon(disparo)
   }
 
   method recibirImpacto() {
@@ -51,6 +50,12 @@ class Muro {
   // Choque con un enemigo
   method destruirse() {
     estadoActual.destruirse()
+  }
+
+  // Lo saca del tablero y corta su animación (se usa al destruirse o al terminar el nivel)
+  method retirar() {
+    estadoActual.finalizarAnimacion()
+    if (game.hasVisual(self)) game.removeVisual(self)
   }
 
 }

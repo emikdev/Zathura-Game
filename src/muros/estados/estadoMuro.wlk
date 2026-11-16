@@ -11,6 +11,7 @@ class EstadoMuro {
 
   method crearAnimacion()
   method recibirImpacto()
+  method colisionaCon(disparo)
   method destruirse()
   method terminoAnimacion()
 
