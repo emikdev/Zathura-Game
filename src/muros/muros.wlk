@@ -18,7 +18,6 @@ class Muro {
   }
 
   method animacionBase() = animacionBase
-
   method animacionMuerte() = animacionMuerte
 
   // Nunca nace destruido del todo: como mucho queda a un impacto de caer

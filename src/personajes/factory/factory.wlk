@@ -21,7 +21,7 @@ object factory {
     )
 
     method crearMuro(dificultad, position) = new Muro(
-        impactosIniciales = dificultad,
+        impactosIniciales = (dificultad - 1).max(0),
         position = position
     )
         
