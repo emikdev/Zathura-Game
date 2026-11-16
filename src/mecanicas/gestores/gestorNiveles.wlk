@@ -13,37 +13,7 @@ import src.mecanicas.gestores.gestorDePuntos.*
 
 object gestorNiveles {
 
-    method configuracionDemo(){ // hardcodeo de el nivel de demostracion.
-
-        
-        configuracion.dificultadElegida(1)
-        configuracion.tiposNaves().addAll([naveNormal,naveTanque])
-        configuracion.cantidadJugadores(2)
-
-        self.contadorDeNiveles(0)
-        
-        niveles = [nivelDemo]
-        
-        
-    }
-
-    method iniciarDemo(){
-
-        self.configuracionDemo()
-
-        game.clear()
-        musicaMenu.detener()
-        // Se inicia el gestor de niveles
-        gestorPuntaje.reiniciar()
-        gestorPuntaje.mostrar()
-        gestorNaves.iniciar()
-        self.mostrar()
-        musicaInGame.iniciar()
-        self.nivelActual().iniciar()
-        
-    }
-
-
+    
     var niveles = [nivelUno]
     var property contadorDeNiveles = 1
 
@@ -98,6 +68,37 @@ method terminarNivel() { // Método llamado por nivel
         const level = new Cartel (image = "lvl.png", position = game.at(0,game.height() -1) )
         game.addVisual(level)
         game.addVisual(contador)
+    }
+
+
+    method configuracionDemo(){ // hardcodeo de el nivel de demostracion.
+
+        
+        configuracion.dificultadElegida(1)
+        configuracion.tiposNaves().addAll([naveNormal,naveTanque])
+        configuracion.cantidadJugadores(2)
+
+        self.contadorDeNiveles(0)
+        
+        niveles = [nivelDemo]
+        
+        
+    }
+
+    method iniciarDemo(){
+
+        self.configuracionDemo()
+
+        game.clear()
+        musicaMenu.detener()
+        // Se inicia el gestor de niveles
+        gestorPuntaje.reiniciar()
+        gestorPuntaje.mostrar()
+        gestorNaves.iniciar()
+        self.mostrar()
+        musicaInGame.iniciar()
+        self.nivelActual().iniciar()
+        
     }
 
 }
