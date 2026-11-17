@@ -1,7 +1,9 @@
 import src.menu.configuracion.*
+
 class GestorDisparosBase {
   const disparosActivos = []
-  method disparosActivos () = disparosActivos
+
+  method disparosActivos() = disparosActivos
   method puedeDisparar()
 
   method registrarDisparo(disparo) {
@@ -13,23 +15,24 @@ class GestorDisparosBase {
   method liberarDisparo(disparo) {
     disparosActivos.remove(disparo)
   }
-  
+
   method cantidadActivos() = disparosActivos.size()
+
+  // Destruye todas las balas en vuelo y vacía la lista
+  method limpiar() {
+    disparosActivos.copy().forEach({ disparo => disparo.destruir() })
+    disparosActivos.clear()
+  }
 }
 
-// 1. El del jugador: Solo registra/libera, no le importan los límites numéricos
 object gestorJugador inherits GestorDisparosBase {
-  // El límite del jugador se maneja por Cooldown (tiempo), aquí siempre puede
   override method puedeDisparar() = true
 }
 
-// 2. El de los enemigos: Controla la cantidad en pantalla y se ve afectado por la dificultad
 object gestorEnemigos inherits GestorDisparosBase {
+  const limiteMaximo = 5
 
   override method puedeDisparar() = self.cantidadActivos() < self.limiteMaximo()
 
-  const limiteMaximo = 5 // Base inicial
-
   method limiteMaximo() = limiteMaximo * configuracion.dificultad()
-
 }

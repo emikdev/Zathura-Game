@@ -1,40 +1,53 @@
-import wollok.game.*
-class Animacion {
+import src.mecanicas.gestores.gestorAnimaciones.*
 
+class Animacion {
   const estado
   const recursoDeAnimacion
   var frameActual = 0
+  var tiempoAcumulado = 0
   var activa = true
-  
-  // Exposicion del atributo interno para garantizar funcionamiento de disparo.wlk
+
   method activa() = activa
-  
+
   method initialize() {
-    self.animar()
+    gestorDeAnimaciones.registrar(self)
   }
-  
+
   method frameActual() = recursoDeAnimacion.frames().get(frameActual)
-  
-  method animar() {
-    game.schedule(
-      recursoDeAnimacion.duracion() / recursoDeAnimacion.frames().size(),
-      { if (activa) {
-          if (frameActual < (recursoDeAnimacion.frames().size() - 1)) {
-            frameActual += 1
-            self.animar()
-          } else {
-            estado.terminoAnimacion()
-          }
-        } }
-    )
+
+  method avanzarTiempo(ms) {
+    if (activa) {
+      tiempoAcumulado += ms
+      self.procesarFrames()
+    }
   }
-  
+
+  method procesarFrames() {
+    const tiempoPorFrame = recursoDeAnimacion.tiempoPorFrame()
+    if (activa && tiempoAcumulado >= tiempoPorFrame) {
+      tiempoAcumulado -= tiempoPorFrame
+      self.siguienteFrame()
+      self.procesarFrames()
+    }
+  }
+
+  method siguienteFrame() {
+    if (frameActual < (recursoDeAnimacion.frames().size() - 1)) {
+      frameActual += 1
+    } else {
+      estado.terminoAnimacion()
+    }
+  }
+
   method reiniciar() {
     frameActual = 0
-    self.animar()
+    tiempoAcumulado = 0
+    activa = true
+    gestorDeAnimaciones.registrar(self)
   }
-  
+
   method detener() {
     activa = false
+    gestorDeAnimaciones.desregistrar(self)
   }
 }

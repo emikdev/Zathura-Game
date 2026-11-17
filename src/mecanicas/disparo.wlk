@@ -2,63 +2,74 @@ import wollok.game.*
 import src.mecanicas.direcciones.*
 import src.mecanicas.animaciones.animacion.*
 
-
 class Disparo {
 
-  const recursoAnimacion // frames y duración de la bala; la Animacion la crea el propio disparo
-  const dano             // daño del arma que realiza el disparo
-  const bando            // bando del personaje que dispara
-  var position           // posición del personaje que dispara
+  const recursoAnimacion
+  const dano
+  const bando
+  var position
   var animacion
+  var destruido = false
 
   method initialize() {
     animacion = new Animacion(estado = self, recursoDeAnimacion = recursoAnimacion)
   }
 
-  method dano() {
-    return dano
-  }
-
-  method image() {
-    return animacion.frameActual()
-  }
-
-  method position() {
-    return position
-  }
-
-  method bando() {
-    return bando
-  }
+  method dano() = dano
+  method image() = animacion.frameActual()
+  method position() = position
+  method bando() = bando
 
   method terminoAnimacion() {
-    self.avanzar()
-    if (animacion.activa()) animacion.reiniciar()
+    if (animacion.activa()) {
+      animacion.reiniciar()
+    }
   }
 
   method iniciar() {
     game.addVisual(self)
-    game.onCollideDo(self, { objetivo => objetivo.colisionaCon(self) })
+    self.verificarColisiones()
+    if (!destruido) {
+      game.onTick(recursoAnimacion.duracion(), self.nombreEventoTick(), {
+        self.avanzar()
+      })
+    }
   }
 
-  // Avanza el disparo de celda
+  method nombreEventoTick() {
+    return "movimientoDisparo_" + self.identity()
+  }
+
   method avanzar() {
     const direccion = bando.direccionDeDisparo()
 
     if (direccion.puedeAvanzar(position)) {
-      position = bando.direccionDeDisparo().siguiente(position)
+      position = direccion.siguiente(position)
+      self.verificarColisiones()
     } else {
       self.destruir()
     }
   }
 
-  method colisionaCon(objetivo){ }
-  method colisionaConMuro(muro){ }
+  // Revisa colisiones solo en la celda actual sin dejar listeners en memoria
+  method verificarColisiones() {
+    game.getObjectsIn(position).copy().forEach({ objetivo =>
+      if (objetivo != self && !destruido) {
+        objetivo.colisionaCon(self)
+      }
+    })
+  }
+
+  method colisionaCon(objetivo) { }
+  method colisionaConMuro(muro) { }
 
   method destruir() {
-    // El bando sabe exactamente a qué gestor llamar internamente
-    bando.liberar(self)
-    animacion.detener()
-    if (game.hasVisual(self)) game.removeVisual(self)
+    if (!destruido) {
+      destruido = true
+      game.removeTickEvent(self.nombreEventoTick())
+      bando.liberar(self)
+      animacion.detener()
+      if (game.hasVisual(self)) game.removeVisual(self)
+    }
   }
 }
