@@ -16,14 +16,22 @@ const bufoTripleCanonRecursos = new RecursoDeAnimacion(
     frames = ["armaLaserTripleNaveHUD.png"]
 )
 
+const bufoDobleCanonPesadoRecursos = new RecursoDeAnimacion(
+    frames = ["armaPlasmaDobleNaveHUD.png"]
+)
+
+const bufoTripleCanonPesadoRecursos = new RecursoDeAnimacion(
+    frames = ["armaPlasmaTripleNaveHUD.png"]
+)
+
 const bufoVidaRecursos = new RecursoDeAnimacion(
     frames = ["vida-frame0.png"]
 )
 
 const bufoEscudoRecursos = new RecursoDeAnimacion(
-    frames = ["buf_Escudo.png"] // Reemplazá por el nombre exacto de tu archivo .png
+    frames = ["buf_Escudo.png"]
 )
 
 const bufoBloqueoRecursos = new RecursoDeAnimacion(
-    frames = ["buf_Bloqueo.png"] // Reemplazá por el nombre exacto de tu archivo .png
+    frames = ["buf_Bloqueo.png"]
 )

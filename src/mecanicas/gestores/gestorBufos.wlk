@@ -83,7 +83,7 @@ object gestorBufos {
         return (probabilidadBase - penalizacionDificultad - penalizacionJugadores).max(5)
     }
 
-    // Genera un bufo de arma aleatorio en la posición dada
+    // Genera un bufo de aleatorio en la posición dada
     method generarBufoEn(posicion) {
         const creadorElegido = tiposDeBufos.anyOne()
         const nuevoBufo = creadorElegido.apply(posicion)
@@ -95,15 +95,6 @@ object gestorBufos {
         if (0.randomUpTo(100) < self.probabilidadDropActual(probabilidadBase)) {
             self.generarBufoEn(posicion)
         }
-    }
-
-    // Método exclusivo para soltar el bufo de vida al destruir un ovni
-    method generarBufoVidaEn(posicion) {
-        const nuevoBufo = new BufoVida(
-            position = posicion,
-            recursoAnimacion = bufoVidaRecursos
-        )
-        nuevoBufo.iniciar()
     }
 
     method registrar(bufo) {
