@@ -1,34 +1,56 @@
-import src.niveles.oleada.*
 import src.niveles.nivel.*
+import src.niveles.disposicion.*
 import src.personajes.factory.tiposPersonajes.tiposDeEnemigos.*
 
-const nivelDemo = new Nivel(oleadas = [
-  new Oleada(
-    intervalo = 800,
-    disposicion =
-      disposiciones.fila(pulpo,           disposiciones.alturaDesdeArriba(1), 2, 1, 1) +
-      disposiciones.fila(calamar,         disposiciones.alturaDesdeArriba(1), 4, 1, 1) +
-      disposiciones.fila(alien,           disposiciones.alturaDesdeArriba(1), 6, 1, 1) +
-      disposiciones.fila(sepia,           disposiciones.alturaDesdeArriba(1), 8, 1, 1) +
-      disposiciones.fila(abeja,           disposiciones.alturaDesdeArriba(1), 10, 1, 1) +
-      disposiciones.fila(kamikaze,        disposiciones.alturaDesdeArriba(1), 12, 1, 1) +
-      disposiciones.fila(mosca,           disposiciones.alturaDesdeArriba(1), 14, 1, 1) +
-      disposiciones.fila(medusa,          disposiciones.alturaDesdeArriba(3), 2, 1, 1) +
-      disposiciones.fila(calamarAmarillo, disposiciones.alturaDesdeArriba(3), 4, 1, 1) +
-      disposiciones.fila(alienAzul,       disposiciones.alturaDesdeArriba(3), 6, 1, 1) +
-      disposiciones.fila(pulpoRojo,       disposiciones.alturaDesdeArriba(3), 8, 1, 1) +
-      disposiciones.fila(calamarHeavy,    disposiciones.alturaDesdeArriba(3), 10, 1, 1) +
-      disposiciones.fila(alienHeavy,      disposiciones.alturaDesdeArriba(3), 12, 1, 1) +
-      disposiciones.fila(pulpoHeavy,      disposiciones.alturaDesdeArriba(3), 14, 1, 1)
-  )
-])
+/*
+  CÓMO DISEÑAR UN NIVEL
 
-const nivelUno = new Nivel(oleadas = [
-  new Oleada(
-    intervalo = 800,
-    disposicion =
-      disposiciones.filaCentrada(pulpo,   disposiciones.alturaDesdeArriba(1), 3, 1) +
-      disposiciones.filaCentrada(calamar, disposiciones.alturaDesdeArriba(2), 3, 2) +
-      disposiciones.filaCentrada(alien,   disposiciones.alturaDesdeArriba(3), 3, 1)
-  )
-])
+  Un nivel es una lista de formaciones. Cada formación se diseña con una Disposicion:
+
+    new Disposicion(
+        intervalo = 500,                // opcional (800 por defecto): ms entre pasos; menos = más rápida
+        filas = [                       // de arriba hacia abajo; cada fila se centra sola
+            fila.de(pulpo, 3),              3 pulpos juntos
+            fila.separada(calamar, 3),      3 calamares con una celda libre entre cada uno
+            fila.mezcla([alien, abeja])     enemigos de distintos tipos, juntos
+        ]
+    )
+
+  Para otra separación entre enemigos: new FilaDeEnemigos(tipos = [alien, alien], separacion = 4)
+
+  Cuando el jugador destruye una formación entera empieza la siguiente de la lista.
+
+  Ejemplo de un nivel con dos formaciones (la segunda, más rápida):
+
+    const nivelDos = new Nivel(
+        formaciones = [
+            new Disposicion(filas = [
+                fila.de(calamar, 5),
+                fila.de(alien, 5)
+            ]),
+            new Disposicion(intervalo = 500, filas = [
+                fila.separada(pulpo, 4),
+                fila.de(medusa, 7)
+            ])
+        ]
+    )
+*/
+
+const nivelUno = new Nivel(
+    formaciones = [
+        new Disposicion(filas = [
+            fila.de(pulpo, 3),
+            fila.separada(calamar, 3),
+            fila.de(alien, 3)
+        ])
+    ]
+)
+
+// Nivel de demostración: una sola fila con un enemigo de cada tipo
+const nivelDemo = new Nivel(
+    formaciones = [
+        new Disposicion(filas = [
+            fila.mezcla([pulpo, calamar, alien, sepia, abeja, kamikaze, mosca, medusa, calamarAmarillo, alienAzul, pulpoRojo, calamarHeavy, alienHeavy, pulpoHeavy])
+        ])
+    ]
+)

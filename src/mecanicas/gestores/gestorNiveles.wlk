@@ -12,14 +12,12 @@ import src.mecanicas.gestores.gestorDePuntos.*
 
 object gestorNiveles {
 
-  var niveles = [nivelUno]
+  const nivelesDelJuego = [nivelUno]   // niveles de una partida normal, en orden. Nunca se modifica.
+  var niveles = nivelesDelJuego        // niveles de la partida en curso (la normal o la demo)
+  var indice = 0                       // posición, en "niveles", del nivel que se está jugando
   var property contadorDeNiveles = 1
 
-  method contadorDeNiveles() = contadorDeNiveles
-
-  method iniciar() {
-    niveles = [nivelUno] // Reinicia la lista para que funcione "Volver a jugar"
-    contadorDeNiveles = 1
+  method iniciar() { // Arranca el generador de ovnis, bufos y carga el nivel actual
     generadorOvnis.iniciar()
     gestorBufos.iniciar()
     self.nivelActual().iniciar()
@@ -27,28 +25,31 @@ object gestorNiveles {
   }
 
   method nivelActual() {
-    return niveles.first()
+    return niveles.get(indice)
   }
 
-  method removerNivelActual() {
-    niveles.remove(self.nivelActual())
+  method haySiguienteNivel() { // Queda algún nivel después del actual
+    return indice < niveles.size() - 1
   }
 
-  method haySiguienteNivel() {
-    return not niveles.isEmpty()
-  }
-
-  method terminarNivel() {
-    self.removerNivelActual()
-    gestorBufos.detener()
+  method terminarNivel() { // Método llamado por nivel
+    gestorBufos.detener() // Limpia los bufos en pantalla antes de pasar o ganar
 
     if (self.haySiguienteNivel()) {
-      menu.menuEntreNiveles()
+      indice += 1
+      menu.menuEntreNiveles() // Cuando se da a continuar se inicia el siguiente nivel
       gestorBufos.iniciar()
       contadorDeNiveles += 1
     } else {
       self.ganar()
     }
+  }
+
+  // Deja todo listo para una partida nueva, desde el primer nivel
+  method reiniciar() {
+    niveles = nivelesDelJuego
+    indice = 0
+    contadorDeNiveles = 1
   }
 
   method ganar() {
@@ -57,6 +58,7 @@ object gestorNiveles {
     generadorOvnis.detener()
     gestorBufos.detener()
     menu.menuVictoria()
+    self.reiniciar()
   }
 
   method gameOver() {
@@ -64,6 +66,7 @@ object gestorNiveles {
     generadorOvnis.detener()
     gestorBufos.detener()
     menu.menuGameOver()
+    self.reiniciar()
   }
 
   method mostrar() {
@@ -72,14 +75,15 @@ object gestorNiveles {
     game.addVisual(contador)
   }
 
-  method configuracionDemo() {
+  method configuracionDemo() { // hardcodeo del nivel de demostración
     configuracion.dificultadElegida(1)
-    configuracion.tiposNaves().clear()
+    configuracion.tiposNaves().clear() // Evita acumular naves si entrás a la demo varias veces
     configuracion.tiposNaves().addAll([naveNormal, naveTanque])
     configuracion.cantidadJugadores(2)
 
     self.contadorDeNiveles(0)
     niveles = [nivelDemo]
+    indice = 0
   }
 
   method iniciarDemo() {
@@ -90,8 +94,8 @@ object gestorNiveles {
     gestorPuntaje.reiniciar()
     gestorPuntaje.mostrar()
     gestorNaves.iniciar()
-    generadorOvnis.iniciar() // Agregado para que salgan ovnis en la demo
-    gestorBufos.iniciar()    // Agregado para que caigan bufos en la demo
+    generadorOvnis.iniciar()
+    gestorBufos.iniciar()
     self.mostrar()
     musicaInGame.iniciar()
     self.nivelActual().iniciar()
