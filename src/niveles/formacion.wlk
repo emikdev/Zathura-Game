@@ -14,6 +14,10 @@ class Formacion {
     enemigos.add(enemigo)
   }
 
+  method intervalo(){
+    return intervalo
+  }
+
   // Reloj
 
   method iniciar() {
