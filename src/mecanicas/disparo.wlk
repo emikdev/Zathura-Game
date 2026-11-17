@@ -51,10 +51,6 @@ class Disparo {
     }
   }
 
-<<<<<<< HEAD
-  method colisionaCon(disparo){ }
-  method colisionaConObjeto(objeto){ }
-=======
   // Revisa colisiones solo en la celda actual sin dejar listeners en memoria
   method verificarColisiones() {
     game.getObjectsIn(position).copy().forEach({ objetivo =>
@@ -66,7 +62,6 @@ class Disparo {
 
   method colisionaCon(objetivo) { }
   method colisionaConMuro(muro) { }
->>>>>>> TestDeOptimisacion
 
   method destruir() {
     if (!destruido) {
