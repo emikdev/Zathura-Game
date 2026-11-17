@@ -30,4 +30,8 @@ object gestorNaves {
             gestorNiveles.gameOver()
         }
     }
+
+    method esNaveJugador(objeto) {
+        return naves.contains(objeto)
+    }
 }

@@ -9,13 +9,29 @@ class EstadoPersonaje {
 
 	const personaje
 	var animacion
-
+	
 	method initialize() {
-        animacion = new Animacion(estado = self, recursoDeAnimacion = self.recursoAnimacion())
-    }
+		animacion = new Animacion(
+		estado = self,
+		recursoDeAnimacion = self.recursoAnimacion()
+		)
+	}
 
-    method recursoAnimacion()
-    method terminoAnimacion()
+	method image() = animacion.frameActual()
+
+	method recursoAnimacion()
+
+	method terminoAnimacion()
+
+	// Al salir de cualquier estado, liberamos su animación del gestor
+	method salir() {
+		animacion.detener()
+	}
+
+	method cambiarANeutral() {
+		self.salir()
+		personaje.cambiarEstado(new Neutral(personaje = personaje))
+	}
 
 	method imagenActual(){
 		return animacion.frameActual()
@@ -27,10 +43,6 @@ class EstadoPersonaje {
 
 	method mover(direccion){
 		personaje.position(direccion.siguiente(personaje.position())) 
-	}
-
-	method cambiarANeutral(){
-		personaje.cambiarEstado(new Neutral(personaje = personaje))
 	}
 
 	method disparar() {

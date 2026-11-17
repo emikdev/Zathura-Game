@@ -1,14 +1,8 @@
-class RecursoDeAnimacion{
+class RecursoDeAnimacion {
+  const frames
+  const duracion = 500
 
-    const frames
-    const duracion = 500
-
-    method frames(){
-        return frames
-    }
-
-    method duracion(){
-        return duracion
-    }
-    
+  method frames() = frames
+  method duracion() = duracion
+  method tiempoPorFrame() = duracion / frames.size()
 }

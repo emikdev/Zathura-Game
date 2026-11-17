@@ -26,16 +26,20 @@ class ArmaMock {
 
 class ArsenalMock {
   const arma
+  const armasAgregadas = []
   var cambiosDeArma = 0
   var verificaciones = 0
 
   method armaActual() = arma
+  method agregarArma(nuevaArma) { armasAgregadas.add(nuevaArma) }
+  method armasAgregadas() = armasAgregadas
   method equiparSiguienteArma() { cambiosDeArma += 1 }
   method verificarArmaActual() { verificaciones += 1 }
 
   method cambiosDeArma() = cambiosDeArma
   method verificaciones() = verificaciones
 }
+
 
 class DisparoMock {
   const bando

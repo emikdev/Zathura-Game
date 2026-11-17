@@ -1,12 +1,13 @@
 import wollok.game.*
 import src.menu.menu.*
+import src.sonidos.sonido.*
 
 program Zathura {
 
 	// Dimensiones del tablero en celdas
 	game.width(20)
 	game.height(20)
-
+	sonido.precargarTodos()
 	// Tamano de cada celda en px
 	game.cellSize(32)
 

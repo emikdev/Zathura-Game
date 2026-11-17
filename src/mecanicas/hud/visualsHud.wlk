@@ -11,7 +11,15 @@ class VisualHud {
 
 class VisualVida inherits VisualHud {
     override method image() {
-        return "vida-frame" + nave.vidas().max(0) + ".png"
+        if (nave.escudoActivo()) {
+            // Opción A: si tenés un sprite por cada cantidad de vidas con escudo:
+            //return "vida-escudo-frame" + nave.vidas().max(0) + ".png"
+            
+            // Opción B: si querés mostrar siempre el mismo ícono de escudo encima del corazón:
+            return "buf_Escudo.png"
+        }else{
+            return "vida-frame" + nave.vidas().max(0) + ".png"
+        }
     }
 }
 

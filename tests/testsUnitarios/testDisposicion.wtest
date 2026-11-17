@@ -147,7 +147,7 @@ describe "Disposición: diseño de una formación" {
   }
 
   test "se puede configurar un intervalo personalizado" {
-    const disposicion = new Disposicion(intervalo = 450, filas = [])
+    const disposicion = new Disposicion(intervaloBase = 450, filas = [])
 
     assert.equals(450, disposicion.intervalo())
   }
