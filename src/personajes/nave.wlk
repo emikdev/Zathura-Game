@@ -3,6 +3,7 @@ import src.mecanicas.gestores.gestorNaves.*
 import wollok.game.*
 
 class NaveJugador inherits Personaje {
+    method escudoActivo() = bando.escudoActivo()
     
     override method iniciar(){
         game.addVisual(self)
