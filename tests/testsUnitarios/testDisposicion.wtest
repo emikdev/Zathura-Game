@@ -1,0 +1,203 @@
+import wollok.game.*
+import src.mecanicas.direcciones.*
+import src.niveles.disposicion.*
+import src.personajes.factory.tiposPersonajes.tiposDeEnemigos.*
+
+describe "FilaDeEnemigos: cálculo de posiciones y centrado en X" {
+
+  method initialize() {
+    game.width(20)
+    game.height(20)
+  }
+
+  test "una fila con un solo enemigo queda centrada en el tablero" {
+    const unaFila = new FilaDeEnemigos(tipos = [pulpo])
+    const celdas = unaFila.celdasEn(10)
+
+    assert.equals(1, celdas.size())
+    assert.equals(game.at(9, 10), celdas.first().last())
+  }
+
+  test "una fila con enemigos contiguos (separación 1) calcula el margen y los ubica consecutivamente" {
+    const unaFila = new FilaDeEnemigos(tipos = [pulpo, calamar, alien])
+    const celdas = unaFila.celdasEn(10)
+
+    assert.equals(3, celdas.size())
+    assert.equals(game.at(8, 10), celdas.get(0).last())
+    assert.equals(game.at(9, 10), celdas.get(1).last())
+    assert.equals(game.at(10, 10), celdas.get(2).last())
+  }
+
+  test "una fila con dos enemigos contiguos en tablero par queda centrada correctamente" {
+    const unaFila = new FilaDeEnemigos(tipos = [pulpo, calamar])
+    const celdas = unaFila.celdasEn(10)
+
+    assert.equals(2, celdas.size())
+    assert.equals(game.at(9, 10), celdas.get(0).last())
+    assert.equals(game.at(10, 10), celdas.get(1).last())
+  }
+
+  test "una fila con enemigos separados (separación 2) deja una celda libre entre cada uno" {
+    const unaFila = new FilaDeEnemigos(tipos = [pulpo, calamar, alien], separacion = 2)
+    const celdas = unaFila.celdasEn(10)
+
+    assert.equals(3, celdas.size())
+    assert.equals(game.at(7, 10), celdas.get(0).last())
+    assert.equals(game.at(9, 10), celdas.get(1).last())
+    assert.equals(game.at(11, 10), celdas.get(2).last())
+  }
+
+  test "el centrado en X se adapta al ancho configurado del tablero" {
+    game.width(10)
+    const unaFila = new FilaDeEnemigos(tipos = [pulpo, calamar])
+    const celdas = unaFila.celdasEn(5)
+
+    assert.equals(game.at(4, 5), celdas.get(0).last())
+    assert.equals(game.at(5, 5), celdas.get(1).last())
+  }
+}
+
+describe "FilaDeEnemigos: tipos de enemigo y eje Y" {
+
+  method initialize() {
+    game.width(20)
+    game.height(20)
+  }
+
+  test "todos los enemigos de la fila comparten la coordenada Y indicada" {
+    const unaFila = new FilaDeEnemigos(tipos = [pulpo, calamar, alien])
+    const celdas = unaFila.celdasEn(15)
+
+    assert.that(celdas.all({ celda => celda.last().y() == 15 }))
+  }
+
+  test "se preserva el orden de los tipos de izquierda a derecha" {
+    const tipos = [pulpo, calamar, alien]
+    const unaFila = new FilaDeEnemigos(tipos = tipos)
+    const celdas = unaFila.celdasEn(10)
+
+    assert.equals(tipos, celdas.map({ celda => celda.first() }))
+  }
+
+  test "cada celda es un par compuesto por el tipo y su posición" {
+    const unaFila = new FilaDeEnemigos(tipos = [pulpo])
+    const celda = unaFila.celdasEn(10).first()
+
+    assert.equals(2, celda.size())
+    assert.equals(pulpo, celda.first())
+    assert.equals(game.at(9, 10), celda.last())
+  }
+}
+
+describe "Ayudas de fila (object fila)" {
+
+  method initialize() {
+    game.width(20)
+    game.height(20)
+  }
+
+  test "fila.repetir genera una lista con la cantidad indicada del mismo tipo" {
+    assert.equals([pulpo, pulpo, pulpo], fila.repetir(pulpo, 3))
+  }
+
+  test "fila.de crea una fila de enemigos juntos con separación 1" {
+    const unaFila = fila.de(pulpo, 3)
+    const celdas = unaFila.celdasEn(10)
+
+    assert.equals(3, celdas.size())
+    assert.that(celdas.all({ celda => celda.first() == pulpo }))
+    assert.equals(game.at(8, 10), celdas.get(0).last())
+    assert.equals(game.at(9, 10), celdas.get(1).last())
+    assert.equals(game.at(10, 10), celdas.get(2).last())
+  }
+
+  test "fila.separada crea una fila con separación 2 entre enemigos" {
+    const unaFila = fila.separada(pulpo, 3)
+    const celdas = unaFila.celdasEn(10)
+
+    assert.equals(3, celdas.size())
+    assert.equals(game.at(7, 10), celdas.get(0).last())
+    assert.equals(game.at(9, 10), celdas.get(1).last())
+    assert.equals(game.at(11, 10), celdas.get(2).last())
+  }
+
+  test "fila.mezcla crea una fila con tipos combinados respetando el orden y separación 1" {
+    const tipos = [pulpo, alien, sepia]
+    const unaFila = fila.mezcla(tipos)
+    const celdas = unaFila.celdasEn(10)
+
+    assert.equals(tipos, celdas.map({ celda => celda.first() }))
+    assert.equals(game.at(8, 10), celdas.get(0).last())
+    assert.equals(game.at(9, 10), celdas.get(1).last())
+    assert.equals(game.at(10, 10), celdas.get(2).last())
+  }
+}
+
+describe "Disposición: diseño de una formación" {
+
+  method initialize() {
+    game.width(20)
+    game.height(20)
+  }
+
+  test "el intervalo por defecto es de 800 ms" {
+    const disposicion = new Disposicion(filas = [])
+
+    assert.equals(800, disposicion.intervalo())
+  }
+
+  test "se puede configurar un intervalo personalizado" {
+    const disposicion = new Disposicion(intervalo = 450, filas = [])
+
+    assert.equals(450, disposicion.intervalo())
+  }
+
+  test "una disposición sin filas no contiene celdas" {
+    const disposicion = new Disposicion(filas = [])
+
+    assert.that(disposicion.celdas().isEmpty())
+  }
+
+  test "la primera fila se ubica en tablero.filaMaxima()" {
+    const disposicion = new Disposicion(filas = [fila.de(pulpo, 2)])
+
+    assert.that(disposicion.celdas().all({ celda => celda.last().y() == tablero.filaMaxima() }))
+  }
+
+  test "las filas subsiguientes se apilan una celda hacia abajo respecto de la anterior" {
+    const disposicion = new Disposicion(
+      filas = [
+        fila.de(pulpo, 2),
+        fila.de(calamar, 2),
+        fila.de(alien, 2)
+      ]
+    )
+    const celdas = disposicion.celdas()
+    const yMaxima = tablero.filaMaxima()
+
+    assert.that(celdas.take(2).all({ celda => celda.last().y() == yMaxima }))
+    assert.that(celdas.drop(2).take(2).all({ celda => celda.last().y() == yMaxima - 1 }))
+    assert.that(celdas.drop(4).take(2).all({ celda => celda.last().y() == yMaxima - 2 }))
+  }
+
+  test "celdas() acumula la totalidad de enemigos de todas las filas en orden" {
+    const disposicion = new Disposicion(
+      filas = [
+        fila.de(pulpo, 2),
+        fila.de(calamar, 2)
+      ]
+    )
+    const celdas = disposicion.celdas()
+
+    assert.equals(4, celdas.size())
+    assert.equals([pulpo, pulpo, calamar, calamar], celdas.map({ celda => celda.first() }))
+  }
+
+  test "el cálculo de celdas se adapta dinámicamente a la altura del tablero" {
+    game.height(15)
+    const disposicion = new Disposicion(filas = [fila.de(pulpo, 1)])
+
+    // Con height 15, filaMaxima es 15 - 1 - 1 = 13
+    assert.equals(13, disposicion.celdas().first().last().y())
+  }
+}
