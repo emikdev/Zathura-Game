@@ -1,7 +1,7 @@
 import wollok.game.*
 import src.mecanicas.direcciones.*
 import src.mecanicas.animaciones.animacion.*
-import sonidos.sonido.*
+
 
 class Disparo {
 
@@ -38,7 +38,6 @@ class Disparo {
 
   method iniciar() {
     game.addVisual(self)
-    sonido.reproducir("disparo2.mp3")
     game.onCollideDo(self, { objetivo => objetivo.colisionaCon(self) })
   }
 

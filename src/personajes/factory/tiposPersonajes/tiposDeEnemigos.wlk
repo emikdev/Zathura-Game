@@ -4,22 +4,28 @@ import src.personajes.factory.comportamiento.ataque.ataques.*
 import src.personajes.factory.comportamiento.ataque.ningunaAccion.*
 import src.mecanicas.armas.armasEnemigas.*
 import src.mecanicas.arsenal.*
+import src.mecanicas.gestores.gestorBufos.* 
 
 
 // Un enemigo es un personaje que además sabe cómo ataca.
 class TipoPersonajeEnemigo inherits TipoPersonaje {
 
     const comportamientoAtaque
+    const property probabilidadBufo = 15 // Por defecto 15% para los enemigos 
     const puntosQueOtorga
 
     method comportamientoAtaque() {
         return comportamientoAtaque
     }
 
+    // Cada enemigo intenta soltar un bufo de arma usando SU propia probabilidad
+    method soltarBufoAlMorir(posicion) {
+        gestorBufos.intentarSoltarBufoEn(posicion, probabilidadBufo)
+    }
+
     method puntosQueOtorga() {
         return puntosQueOtorga
     }
-
 }
 
     /* MUY IMPORTANTE: Convención de los slots del arsenal: 0 = arma normal, 1 = arma pesada */
@@ -249,5 +255,6 @@ const ovni = new TipoPersonajeEnemigo(
     animacionImpacto = animacionImpactoOvniClasico,
     animacionMuerte = animacionMuerteOvniClasico,
     comportamientoAtaque = ningunaAccion,
+    probabilidadBufo = 100, // El ovni SIEMPRE suelta un bufo al morir
     puntosQueOtorga = 500
 )

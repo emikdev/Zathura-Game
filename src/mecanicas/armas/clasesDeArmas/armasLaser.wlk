@@ -2,7 +2,7 @@ import src.mecanicas.armas.armas.*
 
 // Armas que gastan munición de manera dinámica (más de 1 unidad por disparo)
 class ArmaLaser inherits Arma {
-    method municionConsumida() = 2
+    override method municionConsumida() = 2
 
     // Hay munición solo si alcanza para un disparo completo
     override method hayMunicion() = municion >= self.municionConsumida()

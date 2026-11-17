@@ -75,6 +75,10 @@ class Personaje{
         estadoActual.disparar()
     }
 
+    method seleccionarArma(arma) {
+        arsenal.seleccionarArma(arma) // o el método equivalente que tenga tu Arsenal
+    }
+    
     method siguienteArma(){
         estadoActual.siguienteArma()
     }
@@ -95,15 +99,23 @@ class Personaje{
         vidas -= 1
     }
 
+    method ganarVida() {
+        vidas += 1
+    }
+
     method tieneVidas(){
         return  vidas > 0
     }
 
     method colisionaCon(disparo) {
         if (bando.puedeColisionarCon(disparo.bando())) {
-            estadoActual.recibirImpacto(disparo.dano())
+            self.recibirImpactoDe(disparo) // Esta para evitar repetir logia en nave al evaluar si tiene el escudo activo
             disparo.destruir()
         }
+    }
+
+    method recibirImpactoDe(disparo) {
+        estadoActual.recibirImpacto(disparo.dano())
     }
 
     method cambiarEfecto(nuevoEfecto) {

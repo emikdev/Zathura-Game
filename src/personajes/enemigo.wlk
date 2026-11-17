@@ -3,7 +3,7 @@ import src.personajes.personaje.*
 import src.niveles.formacion.*
 import src.mecanicas.direcciones.*
 import src.mecanicas.gestores.gestorDePuntos.*
-
+import src.mecanicas.gestores.gestorBufos.*
 
 class Enemigo inherits Personaje {
   
@@ -26,13 +26,15 @@ class Enemigo inherits Personaje {
         }
     }
 
-    method seleccionarArma(slot){
+    override method seleccionarArma(slot){
         estadoActual.seleccionarArma(slot)
     }
 
     override method alQuedarseSinVidas() {
         formacion.quitar(self)
         gestorPuntaje.sumar(tipoPersonaje.puntosQueOtorga())
+        // Intentamos soltar un bufo con la probabilidad definida en el tipo de enemigo
+        tipoPersonaje.soltarBufoAlMorir(position)   
     }
 
     override method colisionaConMuro(muro) {

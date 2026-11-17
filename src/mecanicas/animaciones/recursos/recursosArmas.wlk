@@ -16,7 +16,7 @@ const armaLaserNave = new RecursoDeAnimacion(
     "ArmaLaser_frame_2.png",
     "ArmaLaser_frame_3.png"
   ],
-  duracion = 100
+  duracion = 20
 )
 
 const armaDePlasmaNave = new RecursoDeAnimacion(
@@ -25,7 +25,7 @@ const armaDePlasmaNave = new RecursoDeAnimacion(
     "ArmaDePlasma_frame_2.png",
     "ArmaDePlasma_frame_3.png"
   ],
-  duracion = 250
+  duracion = 100
 )
 
 // Armas Enemigas

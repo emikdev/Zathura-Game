@@ -8,6 +8,7 @@ import src.menu.seleccionador.*
 import src.menu.configuracion.*
 import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
 import src.mecanicas.gestores.gestorDePuntos.*
+import src.mecanicas.gestores.gestorBufos.*
 
 
 
@@ -23,6 +24,7 @@ object gestorNiveles {
         generadorOvnis.iniciar()
         self.nivelActual().iniciar()
         gestorNaves.iniciar()
+        gestorBufos.iniciar()
     }
 
     method nivelActual() {
