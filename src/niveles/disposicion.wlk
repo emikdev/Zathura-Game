@@ -37,8 +37,9 @@ class Disposicion {
   const filas                 // de arriba hacia abajo; cada una es una FilaDeEnemigos
 
   // Se calcula dinámicamente al lanzar la oleada para respetar la dificultad elegida en el menú
-  method intervalo() = intervaloBase.div(configuracion.dificultad().max(1))
-
+   // Easy: 800ms | Normal: 550ms | Hard: 380ms
+  method intervalo() = (950 - (configuracion.dificultad() * 190)).max(350)
+  
   method celdas() {
     const resultado = []
     filas.size().times({ n =>

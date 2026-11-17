@@ -18,7 +18,6 @@ class GestorDisparosBase {
 
   method cantidadActivos() = disparosActivos.size()
 
-  // Destruye todas las balas en vuelo y vacía la lista
   method limpiar() {
     disparosActivos.copy().forEach({ disparo => disparo.destruir() })
     disparosActivos.clear()
@@ -30,9 +29,10 @@ object gestorJugador inherits GestorDisparosBase {
 }
 
 object gestorEnemigos inherits GestorDisparosBase {
-  const limiteMaximo = 5
 
   override method puedeDisparar() = self.cantidadActivos() < self.limiteMaximo()
 
-  method limiteMaximo() = limiteMaximo * configuracion.dificultad()
+  // Easy: 5 balas | Normal: 7 balas | Hard: 9 balas
+  method limiteMaximo() = 3 + (configuracion.dificultad() * 2)
+
 }
