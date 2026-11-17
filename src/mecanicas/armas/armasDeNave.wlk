@@ -76,6 +76,7 @@ class TripleCanon inherits Arma {
 
 // Arma Básica del Jugador (Infinita, hereda directo de Arma)
 const armaBasica = new Arma(
+  iconoHud = "armaBasicaNaveHUD.png",
   danoBala = 2,
   recursoBala = armaBasicaNave,
   municion = 100
@@ -83,6 +84,7 @@ const armaBasica = new Arma(
 
 // Arma Láser Estándar
 const laserEstandar = new ArmaLaser(
+  iconoHud = "armaLaserNaveHUD.png",
   recursoBala = armaLaserNave,
   danoBala = 5,
   municion = 30
@@ -90,6 +92,7 @@ const laserEstandar = new ArmaLaser(
 
 // Cañón de Plasma Pesado
 const canonPlasma = new ArmaDePlasma(
+  iconoHud = "armaPlasmaNaveHUD.png",
   recursoBala = armaDePlasmaNave,
   danoBala = 10,
   municion = 10
@@ -97,6 +100,7 @@ const canonPlasma = new ArmaDePlasma(
 
 // Instanciación del Doble Cañón
 const miDobleCanon = new DobleCanon(
+  iconoHud = "armaLaserDobleNaveHUD.png",
   recursoBala = armaLaserNave,
   municion = 6, // Gasta de a 2, dura 3 ráfagas completas
   danoBala = 5 // Daño por cada proyectil individual
@@ -104,6 +108,7 @@ const miDobleCanon = new DobleCanon(
 
 // Instanciación del Triple Cañón
 const miTripleCanon = new TripleCanon(
+  iconoHud = "armaLaserTripleNaveHUD.png",
   recursoBala = armaLaserNave,
   municion = 9, // Gasta de a 3, dura 3 ráfagas completas
   danoBala = 7 // Daño por proyectil

@@ -1,14 +1,13 @@
 import src.mecanicas.animaciones.recursos.recursosDeAnimacion.*
 
 // Armas de las Naves (Jugador)
-
 const armaBasicaNave = new RecursoDeAnimacion(
   frames = [
     "disparoCeleste_frame_1.png",
     "disparoCeleste_frame_2.png",
     "disparoCeleste_frame_3.png"
   ],
-  duracion = 500
+  duracion = 400
 )
 
 const armaLaserNave = new RecursoDeAnimacion(
@@ -30,7 +29,6 @@ const armaDePlasmaNave = new RecursoDeAnimacion(
 )
 
 // Armas Enemigas
-
 // Basicas
 const armaEnemigaBlanca = new RecursoDeAnimacion(
   frames = [
@@ -73,7 +71,6 @@ const armaEnemigaMorada = new RecursoDeAnimacion(
 )
 
 // Especiales
-
 const armaEnemigaPesada = new RecursoDeAnimacion(
   frames = [
     "disparoPesadoBlanco_frame_1.png",
@@ -85,6 +82,7 @@ const armaEnemigaPesada = new RecursoDeAnimacion(
 // Disparo rápido: mismos frames que la bala básica a la MITAD de duración.
 // Como la bala avanza una celda por ciclo de animación, avanza el doble de rápido.
 object armaEnemigaMoradaRapida {
-    method frames() = armaEnemigaMorada.frames()
-    method duracion() = armaEnemigaMorada.duracion() / 2
+  method frames() = armaEnemigaMorada.frames()
+  
+  method duracion() = armaEnemigaMorada.duracion() / 2
 }

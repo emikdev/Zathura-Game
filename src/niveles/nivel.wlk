@@ -4,43 +4,42 @@ import src.menu.configuracion.*
 
 class Nivel {
 
-    const oleadas // lista de oleadas pre diseñadas
+  const oleadas // lista original de oleadas
+  var oleadasPendientes = [] // copia mutable para la partida actual
 
-    // Arranca el nivel: los muros se crean una sola vez y después empiezan las oleadas
-    method iniciar() {
-        gestorMuros.iniciar(configuracion.dificultad())
-        self.cargar()
+  method iniciar() {
+    oleadasPendientes = oleadas.copy()
+    gestorMuros.iniciar(configuracion.dificultad())
+    self.cargar()
+  }
+
+  method cargar() {
+    self.oleadaActual().iniciar(self)
+  }
+
+  method oleadaActual() {
+    return oleadasPendientes.first()
+  }
+
+  method removerOleadaActual() {
+    oleadasPendientes.remove(self.oleadaActual())
+  }
+
+  method hayOleadasPendientes() {
+    return not oleadasPendientes.isEmpty()
+  }
+
+  method formacionVacia() {
+    self.removerOleadaActual()
+    if (self.hayOleadasPendientes()) {
+      self.cargar()
+    } else {
+      self.nivelTerminado()
     }
+  }
 
-    method cargar() { // Arranca la oleada actual
-        self.oleadaActual().iniciar(self)
-    }
-
-    method oleadaActual() { // La oleada actual siempre es la primera de la lista
-        return oleadas.first()
-    }
-
-    method removerOleadaActual() {
-        oleadas.remove(self.oleadaActual())
-    }
-
-    method hayOleadasPendientes() {
-        return not oleadas.isEmpty()
-    }
-
-    // Lo llama la formación cuando se queda sin enemigos
-    method formacionVacia() {
-        self.removerOleadaActual()
-        if (self.hayOleadasPendientes()) {
-            self.cargar()
-        } else {
-            self.nivelTerminado()
-        }
-    }
-
-    method nivelTerminado() {
-        gestorMuros.detener()
-        gestorNiveles.terminarNivel()
-    }
-
+  method nivelTerminado() {
+    gestorMuros.detener()
+    gestorNiveles.terminarNivel()
+  }
 }

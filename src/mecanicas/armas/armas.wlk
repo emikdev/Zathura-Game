@@ -3,10 +3,14 @@ import src.mecanicas.disparo.*
 
 class Arma {
 
+    const iconoHud
+
     const recursoBala // recurso con frames y duracion de la bala
     const danoBala // daño base de la bala
     var property municion
     method municionConsumida() = 1 // cantidad de municion que gasta cada disparo
+
+    method iconoHud() = iconoHud
 
     method danoDisparo() {
         return danoBala

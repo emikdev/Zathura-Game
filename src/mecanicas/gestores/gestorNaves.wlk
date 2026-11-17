@@ -3,6 +3,7 @@ import src.mecanicas.controles.*
 import src.menu.configuracion.*
 import wollok.game.*
 import src.personajes.factory.factory.*
+import src.mecanicas.hud.hudJugador.*
 
 object gestorNaves {
 
@@ -11,7 +12,6 @@ object gestorNaves {
 
     method iniciar() {
         naves = configuracion.naves()   // se crean acá, con lo elegido en el menú
-
         naves.size().times({ n =>
             const i = n - 1
             const control = controles.get(i)
@@ -20,6 +20,7 @@ object gestorNaves {
             control.asignarA(nave)
             nave.iniciar()
         })
+        hud.iniciar(naves) // Carga un hud por nave
     }
 
     method eliminarNaveSinVidas(naveEliminada) {

@@ -1,23 +1,23 @@
 import src.mecanicas.animaciones.recursos.recursosDeAnimacion.*
 
 const bufoLaserRecursos = new RecursoDeAnimacion(
-    frames = ["buf_ArmaLaser.png"]
+    frames = ["armaLaserNaveHUD.png"]
 )
 
 const bufoPlasmaRecursos = new RecursoDeAnimacion(
-    frames = ["buf_ArmaPlasma.png"]
+    frames = ["armaPlasmaNaveHUD.png"]
 )
 
 const bufoDobleCanonRecursos = new RecursoDeAnimacion(
-    frames = ["buf_ArmaDoble.png"]
+    frames = ["armaLaserDobleNaveHUD.png"]
 )
 
 const bufoTripleCanonRecursos = new RecursoDeAnimacion(
-    frames = ["buf_ArmaTriple.png"]
+    frames = ["armaLaserTripleNaveHUD.png"]
 )
 
 const bufoVidaRecursos = new RecursoDeAnimacion(
-    frames = ["bufo_vida.png"]
+    frames = ["vida-frame0.png"]
 )
 
 const bufoEscudoRecursos = new RecursoDeAnimacion(

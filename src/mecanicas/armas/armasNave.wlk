@@ -7,6 +7,7 @@ import src.mecanicas.animaciones.recursos.recursosArmas.*
 
 // Arma básica del jugador (infinita)
 const armaBasica = new ArmaBasica(
+    iconoHud = "armaBasicaNaveHUD.png",
     danoBala = 1,
     recursoBala = armaBasicaNave,
     municion = 100
@@ -14,6 +15,7 @@ const armaBasica = new ArmaBasica(
 
 // Arma láser estándar (gasta 2 por disparo)
 const laserEstandar = new ArmaLaser(
+    iconoHud = "armaLaserNaveHUD.png",
     recursoBala = armaLaserNave,
     danoBala = 1,
     municion = 20 // 10 disparos
@@ -21,6 +23,7 @@ const laserEstandar = new ArmaLaser(
 
 // Cañón de plasma pesado (gasta 4 por disparo)
 const canonPlasma = new ArmaDePlasma(
+    iconoHud = "armaPlasmaNaveHUD.png",
     recursoBala = armaDePlasmaNave,
     danoBala = 3,
     municion = 40 // 10 disparos
@@ -28,6 +31,7 @@ const canonPlasma = new ArmaDePlasma(
 
 // Doble cañón (gasta 2 por ráfaga; el daño es por cada proyectil)
 const dobleCanon = new DobleCanon(
+    iconoHud = "armaLaserDobleNaveHUD.png",
     recursoBala = armaLaserNave,
     danoBala = 1,
     municion = 20 // 10 disparos
@@ -35,6 +39,7 @@ const dobleCanon = new DobleCanon(
 
 // Triple cañón (gasta 3 por ráfaga; el daño es por cada proyectil)
 const tripleCanon = new TripleCanon(
+    iconoHud = "armaLaserTripleNaveHUD.png",
     recursoBala = armaLaserNave,
     danoBala = 1,
     municion = 15 // 5 disparos
@@ -42,6 +47,7 @@ const tripleCanon = new TripleCanon(
 
 // Doble cañón pesado(gasta 2 por ráfaga; el daño es por cada proyectil)
 const dobleCanonPesado = new DobleCanon(
+    iconoHud = "armaPlasmaDobleHUD.png",
     recursoBala = armaDePlasmaNave,
     danoBala = 3,
     municion = 4 // 2 disparos
@@ -49,6 +55,7 @@ const dobleCanonPesado = new DobleCanon(
 
 // Triple cañón (gasta 3 por ráfaga; el daño es por cada proyectil)
 const tripleCanonPesado = new TripleCanon(
+    iconoHud = "armaPlasmaTripleNaveHUD.png",
     recursoBala = armaDePlasmaNave,
     danoBala = 3,
     municion = 6 // 2 disparos

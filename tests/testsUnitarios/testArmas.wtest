@@ -14,7 +14,7 @@ describe "Arma base" {
   const bandoSinPermiso = new BandoEspia(permiteDisparar = false)
   const tirador = new PersonajeMock(bando = bando, position = game.at(5, 5))
   const tiradorSinPermiso = new PersonajeMock(bando = bandoSinPermiso, position = game.at(5, 5))
-  const arma = new Arma(recursoBala = new RecursoMock(frame = "bala.png"), danoBala = 7, municion = 5)
+  const arma = new Arma(recursoBala = new RecursoMock(frame = "bala.png"), danoBala = 7, municion = 5, iconoHud = "x.png")
 
   method initialize() {
     game.width(20)
@@ -56,7 +56,7 @@ describe "Armas infinitas" {
   }
 
   test "ArmaBasica dispara sin gastar munición" {
-    const arma = new ArmaBasica(recursoBala = recurso, danoBala = 1, municion = 5)
+    const arma = new ArmaBasica(recursoBala = recurso, danoBala = 1, municion = 5, iconoHud = "x.png")
 
     arma.disparar(tirador)
     arma.disparar(tirador)
@@ -66,7 +66,7 @@ describe "Armas infinitas" {
   }
 
   test "ArmaBasica siempre tiene munición, incluso si se crea con 0" {
-    const arma = new ArmaBasica(recursoBala = recurso, danoBala = 1, municion = 0)
+    const arma = new ArmaBasica(recursoBala = recurso, danoBala = 1, municion = 0, iconoHud = "x.png")
 
     assert.that(arma.hayMunicion())
   }
@@ -105,8 +105,8 @@ describe "Armas de munición dinámica" {
   const bando = new BandoEspia()
   const tirador = new PersonajeMock(bando = bando, position = game.at(5, 5))
   const recurso = new RecursoMock(frame = "bala.png")
-  const laser = new ArmaLaser(recursoBala = recurso, danoBala = 5, municion = 10)
-  const plasma = new ArmaDePlasma(recursoBala = recurso, danoBala = 10, municion = 10)
+  const laser = new ArmaLaser(recursoBala = recurso, danoBala = 5, municion = 10, iconoHud = "x.png")
+  const plasma = new ArmaDePlasma(recursoBala = recurso, danoBala = 10, municion = 10, iconoHud = "x.png")
 
   method initialize() {
     game.width(20)
@@ -128,14 +128,14 @@ describe "Armas de munición dinámica" {
   }
 
   test "tiene munición solo si alcanza para un disparo completo" {
-    assert.that(new ArmaLaser(recursoBala = recurso, danoBala = 1, municion = 2).hayMunicion())
-    assert.notThat(new ArmaLaser(recursoBala = recurso, danoBala = 1, municion = 1).hayMunicion())
-    assert.that(new ArmaDePlasma(recursoBala = recurso, danoBala = 1, municion = 4).hayMunicion())
-    assert.notThat(new ArmaDePlasma(recursoBala = recurso, danoBala = 1, municion = 3).hayMunicion())
+    assert.that(new ArmaLaser(recursoBala = recurso, danoBala = 1, municion = 2, iconoHud = "x.png").hayMunicion())
+    assert.notThat(new ArmaLaser(recursoBala = recurso, danoBala = 1, municion = 1, iconoHud = "x.png").hayMunicion())
+    assert.that(new ArmaDePlasma(recursoBala = recurso, danoBala = 1, municion = 4, iconoHud = "x.png").hayMunicion())
+    assert.notThat(new ArmaDePlasma(recursoBala = recurso, danoBala = 1, municion = 3, iconoHud = "x.png").hayMunicion())
   }
 
   test "tras su último disparo posible queda sin munición suficiente, y el arsenal la descartará" {
-    const laserConUnDisparo = new ArmaLaser(recursoBala = recurso, danoBala = 1, municion = 2)
+    const laserConUnDisparo = new ArmaLaser(recursoBala = recurso, danoBala = 1, municion = 2, iconoHud = "x.png")
 
     laserConUnDisparo.disparar(tirador)
 
@@ -195,8 +195,8 @@ describe "Cañones múltiples" {
   const tiradorBordeIzquierdo = new PersonajeMock(bando = bando, position = game.at(0, 5))
   const tiradorBordeDerecho = new PersonajeMock(bando = bando, position = game.at(19, 5))
   const recurso = new RecursoMock(frame = "bala.png")
-  const doble = new DobleCanon(recursoBala = recurso, danoBala = 5, municion = 20)
-  const triple = new TripleCanon(recursoBala = recurso, danoBala = 7, municion = 15)
+  const doble = new DobleCanon(recursoBala = recurso, danoBala = 5, municion = 20, iconoHud = "x.png")
+  const triple = new TripleCanon(recursoBala = recurso, danoBala = 7, municion = 15, iconoHud = "x.png")
 
   method initialize() {
     game.width(20)
@@ -253,7 +253,7 @@ describe "Arma base: posición de la bala" {
   const bandoQueAjusta = new BandoEspiaQueAjusta()
   const tirador = new PersonajeMock(bando = bando, position = game.at(5, 5))
   const tiradorQueAjusta = new PersonajeMock(bando = bandoQueAjusta, position = game.at(5, 5))
-  const arma = new Arma(recursoBala = new RecursoMock(frame = "bala.png"), danoBala = 7, municion = 5)
+  const arma = new Arma(recursoBala = new RecursoMock(frame = "bala.png"), danoBala = 7, municion = 5, iconoHud = "x.png")
 
   method initialize() {
     game.width(20)
@@ -278,8 +278,8 @@ describe "Cañones múltiples: posición de las balas" {
   const bandoQueAjusta = new BandoEspiaQueAjusta()
   const tirador = new PersonajeMock(bando = bandoQueAjusta, position = game.at(5, 5))
   const recurso = new RecursoMock(frame = "bala.png")
-  const doble = new DobleCanon(recursoBala = recurso, danoBala = 5, municion = 20)
-  const triple = new TripleCanon(recursoBala = recurso, danoBala = 7, municion = 15)
+  const doble = new DobleCanon(recursoBala = recurso, danoBala = 5, municion = 20, iconoHud = "x.png")
+  const triple = new TripleCanon(recursoBala = recurso, danoBala = 7, municion = 15, iconoHud = "x.png")
 
   method initialize() {
     game.width(20)
