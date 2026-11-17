@@ -5,45 +5,47 @@ class SonidoAmbiente {
   const repetir = true
   const volumen = 0.5
   var estado = apagada
+  var pista = null
 
   method estado(nuevo) { estado = nuevo }
 
   method iniciar() { estado.iniciar(self) }
   method detener() { estado.detener(self) }
 
-  method sonidoNuevo() {
-    const sonido = game.sound(archivo)
-    sonido.shouldLoop(repetir)
-    sonido.volume(volumen)
-    return sonido
+  method obtenerPista() {
+    if (pista == null) {
+      pista = game.sound(archivo)
+      pista.shouldLoop(repetir)
+      pista.volume(volumen)
+    }
+    return pista
   }
 }
 
 object apagada {
   method iniciar(sonidoAmbiente) {
-    const sonido = sonidoAmbiente.sonidoNuevo()
-    sonido.play()
-    sonidoAmbiente.estado(new Sonando(sonido = sonido))
+    const pista = sonidoAmbiente.obtenerPista()
+    pista.play()
+    sonidoAmbiente.estado(sonando)
   }
 
-  method detener(sonidoAmbiente) {}
+  method detener(sonidoAmbiente) { }
 }
 
-class Sonando {
-  const sonido
-
-  method iniciar(sonidoAmbiente) {}
+object sonando {
+  method iniciar(sonidoAmbiente) { }
 
   method detener(sonidoAmbiente) {
-    if (sonido.played()){
-      sonido.stop()  
+    const pista = sonidoAmbiente.obtenerPista()
+    if (pista.played()) {
+      pista.stop()
     }
     sonidoAmbiente.estado(apagada)
   }
 }
 
-object musicaMenu inherits SonidoAmbiente(archivo = "musicaFondoMenu.mp3") {}
+object musicaMenu inherits SonidoAmbiente(archivo = "musicaFondoMenu.mp3") { }
 
-object musicaInGame inherits SonidoAmbiente(archivo = "inGame.mp3") {}
+object musicaInGame inherits SonidoAmbiente(archivo = "inGame.mp3") { }
 
-object musicaVictoria inherits SonidoAmbiente(archivo = "victoria.mp3") {}
+object musicaVictoria inherits SonidoAmbiente(archivo = "victoria.mp3") { }
