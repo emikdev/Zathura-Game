@@ -1,6 +1,7 @@
 import src.personajes.factory.tiposPersonajes.tipoPersonaje.*
 import src.personajes.personaje.*
 import src.niveles.formacion.*
+import src.mecanicas.direcciones.*
 import src.mecanicas.gestores.gestorDePuntos.*
 
 
@@ -10,6 +11,18 @@ class Enemigo inherits Personaje {
 
     method intentarAtacar() {
         tipoPersonaje.comportamientoAtaque().actuar(self)
+    }
+
+    method dejarFormacion(){
+        formacion.quitar(self)
+    }
+
+    method inmolarse(){
+        if(abajo.puedeAvanzar((self.position()))){
+            self.mover(abajo)
+        }else{
+            self.morir()
+        }
     }
 
     override method alQuedarseSinVidas() {
