@@ -50,7 +50,7 @@ import src.sonidos.sonido.*
           new Opcion(image = "salir.png", valor = "salir", position = game.center().right(-1).down(4))
         ],
         { opcion =>
-          if (opcion.valor() ==  "jugar") self.menuCantidadJugadores() else game.stop() 
+          if (opcion.valor() ==  "jugar") self.menuCantidadJugadores() else game.stop()
         }
       )
     }
@@ -185,7 +185,6 @@ import src.sonidos.sonido.*
         musicaMenu.detener()
         // Se inicia el gestor de niveles
 	      gestorNiveles.iniciar()
-        gestorPuntaje.reiniciar()
         gestorPuntaje.mostrar()
         gestorNiveles.mostrar()
         musicaInGame.iniciar()

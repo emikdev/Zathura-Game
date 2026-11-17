@@ -1,7 +1,11 @@
 import src.personajes.factory.tiposPersonajes.tipoPersonaje.*
 import src.personajes.personaje.*
 import src.niveles.formacion.*
+<<<<<<< HEAD
 import src.mecanicas.gestores.gestorBufos.* 
+=======
+import src.mecanicas.direcciones.*
+>>>>>>> dev
 import src.mecanicas.gestores.gestorDePuntos.*
 
 class Enemigo inherits Personaje {
@@ -10,6 +14,23 @@ class Enemigo inherits Personaje {
 
     method intentarAtacar() {
         tipoPersonaje.comportamientoAtaque().actuar(self)
+    }
+
+    method dejarFormacion(){
+        formacion.quitar(self)
+    }
+
+    method inmolarse(){
+        if(abajo.puedeAvanzar((self.position()))){
+            self.mover(abajo)
+            self.inmolarse()
+        }else{
+            self.morir()
+        }
+    }
+
+    method seleccionarArma(slot){
+        estadoActual.seleccionarArma(slot)
     }
 
     override method alQuedarseSinVidas() {

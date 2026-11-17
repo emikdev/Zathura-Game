@@ -18,5 +18,6 @@ class Disparando inherits EstadoPersonaje {
     }
     
     override method disparar(){ }
+    override method seleccionarArma(slot){ }
 
 }

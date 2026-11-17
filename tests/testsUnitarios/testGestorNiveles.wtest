@@ -1,0 +1,151 @@
+import wollok.game.*
+import src.mecanicas.gestores.gestorNiveles.*
+import src.niveles.niveles.*
+import src.mecanicas.gestores.gestorDeMuros.*
+
+describe "Gestor de niveles: contador de niveles y su visual" {
+
+  method initialize() {
+    game.clear()
+    game.width(20)
+    game.height(20)
+    gestorNiveles.reiniciar()
+  }
+
+  test "el contador de niveles arranca en 1" {
+    assert.equals(1, gestorNiveles.contadorDeNiveles())
+  }
+
+  test "el contador de niveles puede modificarse" {
+    gestorNiveles.contadorDeNiveles(3)
+
+    assert.equals(3, gestorNiveles.contadorDeNiveles())
+  }
+
+  test "reiniciar restablece el contador de niveles a 1" {
+    gestorNiveles.contadorDeNiveles(4)
+    gestorNiveles.reiniciar()
+
+    assert.equals(1, gestorNiveles.contadorDeNiveles())
+  }
+
+  test "el objeto contador se ubica en la barra superior en la columna 2" {
+    assert.equals(game.at(2, game.height() - 1), contador.position())
+  }
+
+  test "el objeto contador refleja el número del nivel actual" {
+    gestorNiveles.contadorDeNiveles(2)
+
+    assert.equals(2, contador.numero())
+  }
+
+  test "la imagen del contador corresponde al nivel actual (numero_X.png)" {
+    gestorNiveles.contadorDeNiveles(1)
+    assert.equals("numero_1.png", contador.image())
+
+    gestorNiveles.contadorDeNiveles(4)
+    assert.equals("numero_4.png", contador.image())
+  }
+
+  test "mostrar agrega el cartel 'lvl.png' y el contador al juego" {
+    gestorNiveles.mostrar()
+
+    assert.that(game.hasVisual(contador))
+    assert.that(game.allVisuals().any({ visual =>
+      visual.image() == "lvl.png" && visual.position() == game.at(0, game.height() - 1)
+    }))
+  }
+}
+
+describe "Gestor de niveles: consulta y estado de niveles" {
+
+  method initialize() {
+    game.clear()
+    game.width(20)
+    game.height(20)
+    gestorNiveles.reiniciar()
+  }
+
+  test "el nivel actual al comenzar es el primer nivel del juego (nivelUno)" {
+    assert.equals(nivelUno, gestorNiveles.nivelActual())
+  }
+
+  test "como hay 4 niveles, si estoy en el primero, hay siguiente nivel" {
+    assert.that(gestorNiveles.haySiguienteNivel())
+  }
+
+  test "como hay 4 niveles, si estoy en el ultimo osea el 4to, no hay siguiente nivel"{
+    
+    gestorNiveles.terminarNivel()
+    gestorNiveles.terminarNivel()
+    gestorNiveles.terminarNivel()
+
+    assert.notThat(gestorNiveles.haySiguienteNivel())
+  }
+}
+
+describe "Gestor de niveles: fin de nivel y partida" {
+
+  method initialize() {
+    game.clear()
+    game.width(20)
+    game.height(20)
+    gestorNiveles.reiniciar()
+    gestorMuros.detener()
+  }
+
+  test "al terminar el último nivel (osea el 4to ) se invoca ganar y se muestra la pantalla de victoria" {
+    gestorNiveles.terminarNivel()
+    gestorNiveles.terminarNivel()
+    gestorNiveles.terminarNivel()
+    gestorNiveles.terminarNivel()
+
+    assert.that(game.allVisuals().any({ visual => visual.image() == "ganaste.png" }))
+  }
+
+  test "ganar restablece el contador de niveles y el estado a los valores iniciales" {
+    gestorNiveles.contadorDeNiveles(5)
+
+    gestorNiveles.ganar()
+
+    assert.equals(1, gestorNiveles.contadorDeNiveles())
+  }
+
+  test "gameOver muestra la pantalla de derrota y restablece el contador de niveles" {
+    gestorNiveles.contadorDeNiveles(3)
+
+    gestorNiveles.gameOver()
+
+    assert.that(game.allVisuals().any({ visual => visual.image() == "perdiste.png" }))
+    assert.equals(1, gestorNiveles.contadorDeNiveles())
+  }
+
+  test "reiniciar restablece el nivel actual a nivelUno" {
+    gestorNiveles.reiniciar()
+
+    assert.equals(nivelUno, gestorNiveles.nivelActual())
+  }
+}
+
+describe "Gestor de niveles: inicio de partida (iniciar)" {
+
+  method initialize() {
+    game.clear()
+    game.width(20)
+    game.height(20)
+    gestorNiveles.reiniciar()
+    gestorMuros.detener()
+  }
+
+  test "iniciar arranca el generador de ovnis y el nivel actual sin fallar" {
+    assert.doesNotThrowException({ gestorNiveles.iniciar() })
+    gestorMuros.detener()
+  }
+
+  test "iniciar coloca en el tablero los elementos del nivel actual" {
+    gestorNiveles.iniciar()
+
+    assert.that(game.allVisuals().size() > 0)
+    gestorMuros.detener()
+  }
+}

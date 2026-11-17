@@ -22,8 +22,17 @@ class Arsenal {
         armaActual = (armaActual + 1) % armas.size()
     }
 
+<<<<<<< HEAD
     method verificarArmaActual() { // Revisa si el arma actual tiene municion, sino tiene la descarta y vuelve al primer arma
         if (not self.armaActual().hayMunicion()) {
+=======
+    method equiparArma(slot){
+        armaActual = slot
+    }
+
+    method verificarArmaActual(){ // Revisa si el arma actual tiene municion, sino tiene la descarta y vuelve al primer arma
+        if (not self.armaActual().hayMunicion()){
+>>>>>>> dev
             armas.remove(self.armaActual())
             armaActual = 0 
         }

@@ -14,12 +14,13 @@ import src.mecanicas.gestores.gestorBufos.*
 
 object gestorNiveles {
 
-    const nivelesDelJuego = [nivelUno]   // niveles de una partida normal, en orden. Nunca se modifica.
+    const nivelesDelJuego = [nivelUno, nivelDos,nivelTres,nivelCuatro]   // niveles de una partida normal, en orden. Nunca se modifica.
     var niveles = nivelesDelJuego        // niveles de la partida en curso (la normal o la demo)
     var indice = 0                       // posición, en "niveles", del nivel que se está jugando
     var property contadorDeNiveles = 1
 
     method iniciar() { // Arranca el generador de ovnis y carga el nivel actual
+        game.boardGround("fondo.png")
         generadorOvnis.iniciar()
         self.nivelActual().iniciar()
         gestorNaves.iniciar()
@@ -37,6 +38,7 @@ object gestorNiveles {
     method terminarNivel() { // Método llamado por nivel
         if (self.haySiguienteNivel()) {
             indice += 1
+            musicaInGame.detener()
             menu.menuEntreNiveles() // Cuando se da a continuar se inicia el siguiente nivel
             contadorDeNiveles += 1
         } else {

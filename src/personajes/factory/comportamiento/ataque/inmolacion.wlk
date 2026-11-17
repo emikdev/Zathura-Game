@@ -11,6 +11,7 @@ object inmolacion {
   }
 
   method actuar(personaje) {
+    personaje.dejarFormacion()
     personaje.inmolarse()
   }
 
