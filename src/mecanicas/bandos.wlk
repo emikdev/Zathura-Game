@@ -38,3 +38,9 @@ object enemigo inherits Bando {
   override method direccionDeDisparo() = abajo
   override method ajustarPosicion(posicion) = posicion.down(1)
 }
+
+object neutral inherits Bando {
+  override method gestor(){ }
+  override method direccionDeDisparo(){ }
+  override method ajustarPosicion(posicion){ }
+}
