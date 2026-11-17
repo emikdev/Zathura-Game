@@ -99,8 +99,6 @@ const nivelDos = new Nivel (
         ])
     ]
 )
-<<<<<<< HEAD
-=======
 
 const nivelTres = new Nivel (
 
@@ -157,4 +155,3 @@ const nivelCuatro = new Nivel(
     nivel 3 normales con especiales y cangrejo rojo
     nivel 4 normales con retro .
 */
->>>>>>> dev

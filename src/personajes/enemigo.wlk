@@ -1,12 +1,9 @@
 import src.personajes.factory.tiposPersonajes.tipoPersonaje.*
 import src.personajes.personaje.*
 import src.niveles.formacion.*
-<<<<<<< HEAD
-import src.mecanicas.gestores.gestorBufos.* 
-=======
 import src.mecanicas.direcciones.*
->>>>>>> dev
 import src.mecanicas.gestores.gestorDePuntos.*
+import src.mecanicas.gestores.gestorBufos.*
 
 class Enemigo inherits Personaje {
   
@@ -29,7 +26,7 @@ class Enemigo inherits Personaje {
         }
     }
 
-    method seleccionarArma(slot){
+    override method seleccionarArma(slot){
         estadoActual.seleccionarArma(slot)
     }
 
