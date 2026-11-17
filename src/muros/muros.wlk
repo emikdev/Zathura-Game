@@ -1,10 +1,16 @@
 import wollok.game.*
 import src.mecanicas.animaciones.recursos.recursosMuros.*
 import src.muros.estados.enPie.*
+import src.mecanicas.bandos.*
 
 class Muro {
 
   const property position
+  const bando = neutral
+
+  method bando(){
+    return bando
+  }
 
   const animacionBase = muroFramesBase  // frames ordenados de entero (índice 0) a más destruido (indice 5)
   const animacionMuerte = muroFramesMuerte // indice llega a 6
@@ -43,12 +49,18 @@ class Muro {
     estadoActual.colisionaCon(disparo)
   }
 
+  // Lo llama el objeto que colisiona
+  method colisionaConObjeto(objeto){
+    objeto.morir()
+    self.morir()
+  }
+
   method recibirImpacto() {
     estadoActual.recibirImpacto()
   }
 
   // Choque con un enemigo
-  method destruirse() {
+  method morir() {
     estadoActual.destruirse()
   }
 

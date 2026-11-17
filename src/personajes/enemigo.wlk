@@ -13,19 +13,6 @@ class Enemigo inherits Personaje {
         tipoPersonaje.comportamientoAtaque().actuar(self)
     }
 
-    method dejarFormacion(){
-        formacion.quitar(self)
-    }
-
-    method inmolarse(){
-        if(abajo.puedeAvanzar((self.position()))){
-            self.mover(abajo)
-            self.inmolarse()
-        }else{
-            self.morir()
-        }
-    }
-
     method seleccionarArma(slot){
         estadoActual.seleccionarArma(slot)
     }
@@ -35,9 +22,30 @@ class Enemigo inherits Personaje {
         gestorPuntaje.sumar(tipoPersonaje.puntosQueOtorga())
     }
 
-    override method colisionaConMuro(muro) {
-        muro.destruirse()
-        self.morir()
+    // Mensajes para la inmolacion
+
+    var inmolandose = false
+
+    method dejarFormacion(){
+        formacion.quitar(self)
+    }
+
+    method verificarColisiones() {
+        game.onCollideDo(self, { objetivo => objetivo.colisionarConObjeto(self) })
+    }
+
+    method inmolarse(){
+        inmolandose = true
+        game.schedule(formacion.intervalo() / 2, { self.avanzar() })
+    }
+
+    method avanzar(){
+        if(inmolandose && abajo.puedeAvanzar((self.position()))){
+            self.mover(abajo)
+        }else{
+            inmolandose = false
+            self.morir()
+        }
     }
 
 }
