@@ -99,10 +99,17 @@ class Personaje{
         return  vidas > 0
     }
 
-    method colisionaCon(disparo) {
+    method colisionaConDisparo(disparo) {
         if (bando.puedeColisionarCon(disparo.bando())) {
             estadoActual.recibirImpacto(disparo.dano())
             disparo.destruir()
+        }
+    }
+
+    method colisionaConObjeto(objeto){
+        if (bando.puedeColisionarCon(objeto.bando())){
+            self.morir()
+            objeto.morir()
         }
     }
 
@@ -123,6 +130,5 @@ class Personaje{
 
     method iniciar(){ }
     method alQuedarseSinVidas(){ }
-    method colisionaConMuro(muro){ }
 
 }
