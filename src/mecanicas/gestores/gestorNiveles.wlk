@@ -13,12 +13,13 @@ import src.mecanicas.gestores.gestorDePuntos.*
 
 object gestorNiveles {
 
-    const nivelesDelJuego = [nivelUno, nivelDos, nivelTres,nivelCuatro, nivelCinco,nivelSeis,nivelSiete]   // niveles de una partida normal, en orden. Nunca se modifica.
+    const nivelesDelJuego = [nivelUno, nivelDos,nivelTres,nivelCuatro]   // niveles de una partida normal, en orden. Nunca se modifica.
     var niveles = nivelesDelJuego        // niveles de la partida en curso (la normal o la demo)
     var indice = 0                       // posición, en "niveles", del nivel que se está jugando
     var property contadorDeNiveles = 1
 
     method iniciar() { // Arranca el generador de ovnis y carga el nivel actual
+        game.boardGround("fondo.png")
         generadorOvnis.iniciar()
         self.nivelActual().iniciar()
         gestorNaves.iniciar()
@@ -35,6 +36,7 @@ object gestorNiveles {
     method terminarNivel() { // Método llamado por nivel
         if (self.haySiguienteNivel()) {
             indice += 1
+            musicaInGame.detener()
             menu.menuEntreNiveles() // Cuando se da a continuar se inicia el siguiente nivel
             contadorDeNiveles += 1
         } else {
@@ -69,38 +71,6 @@ object gestorNiveles {
         const level = new Cartel (image = "lvl.png", position = game.at(0,game.height() -1) )
         game.addVisual(level)
         game.addVisual(contador)
-    }
-
-
-    method configuracionDemo(){ // hardcodeo de el nivel de demostracion.
-
-        
-        configuracion.dificultadElegida(1)
-        configuracion.tiposNaves().addAll([naveNormal,naveTanque])
-        configuracion.cantidadJugadores(2)
-
-        self.contadorDeNiveles(0)
-        
-        niveles = [nivelDemo]
-        indice = 0
-        
-        
-    }
-
-    method iniciarDemo(){
-
-        self.configuracionDemo()
-
-        game.clear()
-        musicaMenu.detener()
-        // Se inicia el gestor de niveles
-        gestorPuntaje.reiniciar()
-        gestorPuntaje.mostrar()
-        gestorNaves.iniciar()
-        self.mostrar()
-        musicaInGame.iniciar()
-        self.nivelActual().iniciar()
-        
     }
 
 }

@@ -46,19 +46,11 @@ import src.sonidos.sonido.*
       self.mostrar(
         "menuPrincipal.png",
         [
-          new Opcion(image = "demo.png", valor = "demo", position = game.center().left(11).down(4)),
-          new Opcion(image = "jugar.png", valor = "jugar", position = game.center().left(6).down(4)),
-          new Opcion(image = "salir.png", valor = "salir", position = game.center().right(1).down(4))
+          new Opcion(image = "jugar.png", valor = "jugar", position = game.center().left(10).down(4)),
+          new Opcion(image = "salir.png", valor = "salir", position = game.center().right(-1).down(4))
         ],
         { opcion =>
-          if (opcion.valor() ==  "jugar"){
-            self.menuCantidadJugadores() 
-          }if(opcion.valor()=="demo"){
-            gestorNiveles.iniciarDemo()
-          }
-
-          else game.stop()
-          
+          if (opcion.valor() ==  "jugar") self.menuCantidadJugadores() else game.stop()
         }
       )
     }
@@ -193,7 +185,6 @@ import src.sonidos.sonido.*
         musicaMenu.detener()
         // Se inicia el gestor de niveles
 	      gestorNiveles.iniciar()
-        gestorPuntaje.reiniciar()
         gestorPuntaje.mostrar()
         gestorNiveles.mostrar()
         musicaInGame.iniciar()
