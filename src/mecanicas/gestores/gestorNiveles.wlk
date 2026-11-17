@@ -71,38 +71,6 @@ object gestorNiveles {
         game.addVisual(contador)
     }
 
-
-    method configuracionDemo(){ // hardcodeo de el nivel de demostracion.
-
-        
-        configuracion.dificultadElegida(1)
-        configuracion.tiposNaves().addAll([naveNormal,naveTanque])
-        configuracion.cantidadJugadores(2)
-
-        self.contadorDeNiveles(0)
-        
-        niveles = [nivelDemo]
-        indice = 0
-        
-        
-    }
-
-    method iniciarDemo(){
-
-        self.configuracionDemo()
-
-        game.clear()
-        musicaMenu.detener()
-        // Se inicia el gestor de niveles
-        gestorPuntaje.reiniciar()
-        gestorPuntaje.mostrar()
-        gestorNaves.iniciar()
-        self.mostrar()
-        musicaInGame.iniciar()
-        self.nivelActual().iniciar()
-        
-    }
-
 }
 
 
