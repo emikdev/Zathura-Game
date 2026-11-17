@@ -79,10 +79,6 @@ class Personaje{
         estadoActual.siguienteArma()
     }
 
-    method seleccionarArma(slot){
-        estadoActual.seleccionarArma(slot)
-    }
-
     method restarSalud(dano){ 
         salud = (salud - dano).max(0) 
     }

@@ -26,6 +26,10 @@ class Enemigo inherits Personaje {
         }
     }
 
+    method seleccionarArma(slot){
+        estadoActual.seleccionarArma(slot)
+    }
+
     override method alQuedarseSinVidas() {
         formacion.quitar(self)
         gestorPuntaje.sumar(tipoPersonaje.puntosQueOtorga())
