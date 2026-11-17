@@ -5,7 +5,7 @@ import src.mecanicas.animaciones.recursos.recursosDeAnimacion.*
 const animacionBaseNaveBasica = new RecursoDeAnimacion(frames = ["nave.png"])
 const animacionDisparoNaveBasica = new RecursoDeAnimacion(frames = ["naveDisparando.png"])
 const animacionImpactoNaveBasica = new RecursoDeAnimacion(frames = ["naveImpacto-frame1.png", "naveImpacto-frame2.png", "naveImpacto-frame3.png", "naveImpacto-frame4.png"])
-const animacionMuerteNaveBasica = new RecursoDeAnimacion(frames = ["muerteNaveBasica-frame1.png", "muerteNaveBasica-frame2.png", "muerteNaveBasica-frame3.png", "muerteNaveBasica-frame4.png", "muerteNaveBasica-frame5.png", "muerteNaveBasica-frame6.png", "muerteNaveBasica-frame7.png"])
+const animacionMuerteNaveBasica = new RecursoDeAnimacion(frames = ["muerteNave-frame1.png", "muerteNave-frame2.png", "muerteNave-frame3.png", "muerteNave-frame4.png", "muerteNave-frame5.png", "muerteNave-frame6.png", "muerteNave-frame7.png"])
 
     /* Nave Tanque */
 
