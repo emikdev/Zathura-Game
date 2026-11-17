@@ -14,8 +14,8 @@ class Arsenal{
         armaActual = (armaActual + 1) % armas.size()
     }
 
-    method seleccionarArma(posicionLista){
-        armaActual = posicionLista
+    method equiparArma(slot){
+        armaActual = slot
     }
 
     method verificarArmaActual(){ // Revisa si el arma actual tiene municion, sino tiene la descarta y vuelve al primer arma

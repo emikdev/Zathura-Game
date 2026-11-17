@@ -20,9 +20,14 @@ class Enemigo inherits Personaje {
     method inmolarse(){
         if(abajo.puedeAvanzar((self.position()))){
             self.mover(abajo)
+            self.inmolarse()
         }else{
             self.morir()
         }
+    }
+
+    method seleccionarArma(slot){
+        estadoActual.seleccionarArma(slot)
     }
 
     override method alQuedarseSinVidas() {
