@@ -9,6 +9,7 @@ import src.mecanicas.gestores.gestorNiveles.*
 import src.sonidos.musicaMenu.*
 import src.sonidos.sonido.*
 import src.mecanicas.gestores.gestorAnimaciones.*
+import src.mecanicas.gestores.gestorBufos.*
 
 object menu {
 
@@ -89,7 +90,8 @@ object menu {
     })
   }
 
-  method menuEntreNiveles() {
+   method menuEntreNiveles() {
+    gestorBufos.detener()
     gestorDeAnimaciones.limpiar()
     game.clear()
     sonido.reproducir("levelPassed.mp3")
