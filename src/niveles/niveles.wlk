@@ -42,15 +42,57 @@ const nivelUno = new Nivel(
             fila.de(pulpo, 3),
             fila.separada(calamar, 3),
             fila.de(alien, 3)
+        ]),
+
+        new Disposicion(filas=[
+
+            fila.de(alien, 2),
+            fila.separada(calamar, 3),
+            fila.de(pulpo,2)
+        ]),
+
+        new Disposicion(intervalo = 600 , filas=[
+
+            fila.separada(cangrejoAmarillo, 1)
+
         ])
     ]
 )
 
-// Nivel de demostración: una sola fila con un enemigo de cada tipo
-const nivelDemo = new Nivel(
-    formaciones = [
-        new Disposicion(filas = [
-            fila.mezcla([pulpo, calamar, alien, sepia, abeja, kamikaze, mosca, medusa, calamarAmarillo, alienAzul, pulpoRojo, calamarHeavy, alienHeavy, pulpoHeavy])
+const nivelDos = new Nivel (
+
+    formaciones =[
+
+        new Disposicion (filas=[
+            fila.de(alien,3),
+            fila.separada(alienHeavy, 1),
+            fila.de(alien,3)
+
+        ]),
+
+        new Disposicion (filas =[
+            fila.de(calamar,3),
+            fila.separada(calamarHeavy, 1),
+            fila.de(calamar,3)
+
+        ]),
+
+        new Disposicion (filas=[
+            fila.de(pulpo,3),
+            fila.separada(pulpoHeavy, 1),
+            fila.de(pulpo,3)
+        ]),
+
+        new Disposicion (intervalo = 500 , filas=[
+
+            fila.separada(cangrejoAzul, 1)
         ])
     ]
 )
+
+/*
+    nivel 1 con los normales 2 o 3 oleadas y cangrejo amarillo
+    nivel 2 normales con heavys y cangrejo azul
+    nivel 3 normales con especiales y cangrejo rojo
+    nivel 4 normales con retro .
+*/

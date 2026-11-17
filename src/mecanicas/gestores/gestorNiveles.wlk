@@ -13,7 +13,7 @@ import src.mecanicas.gestores.gestorDePuntos.*
 
 object gestorNiveles {
 
-    const nivelesDelJuego = [nivelUno]   // niveles de una partida normal, en orden. Nunca se modifica.
+    const nivelesDelJuego = [nivelUno, nivelDos, nivelTres,nivelCuatro, nivelCinco,nivelSeis,nivelSiete]   // niveles de una partida normal, en orden. Nunca se modifica.
     var niveles = nivelesDelJuego        // niveles de la partida en curso (la normal o la demo)
     var indice = 0                       // posición, en "niveles", del nivel que se está jugando
     var property contadorDeNiveles = 1
