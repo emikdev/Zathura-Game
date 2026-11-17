@@ -176,7 +176,9 @@ describe "Nivel: finalización del nivel (nivelTerminado)" {
     nivel.iniciar()
 
     nivel.nivelTerminado()
-
+    nivel.nivelTerminado()
+    nivel.nivelTerminado()
+    nivel.nivelTerminado()
     assert.that(game.allVisuals().any({ v => v.image() == "ganaste.png" }))
   }
 }
