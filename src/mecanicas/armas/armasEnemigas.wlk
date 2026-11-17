@@ -10,6 +10,7 @@ const municionIlimitada = 999999
 // Básicas (infinitas)
 
 const armaEnemigaBasica = new ArmaBasica(
+    iconoHud = "armaBasicaEnemigaHUD.png",
     danoBala = 1,
     recursoBala = armaEnemigaBlanca,
     municion = 100
@@ -17,24 +18,28 @@ const armaEnemigaBasica = new ArmaBasica(
 
 // Variantes de color de la básica
 const armaEnemigaBasicaAmarilla = new ArmaBasica(
+    iconoHud = "armaAmarillaEnemigaHUD.png",
     danoBala = 3,
     recursoBala = armaEnemigaAmarilla,
     municion = 100
 )
 
 const armaEnemigaBasicaAzul = new ArmaBasica(
+    iconoHud = "armaAzulEnemigaHUD.png",
     danoBala = 3,
     recursoBala = armaEnemigaAzul,
     municion = 100
 )
 
 const armaEnemigaBasicaRoja = new ArmaBasica(
+    iconoHud = "armaRojaEnemigaHUD.png",
     danoBala = 3,
     recursoBala = armaEnemigaRoja,
     municion = 100
 )
 
 const armaEnemigaBasicaMorada = new ArmaBasica(
+    iconoHud = "armaMoradaEnemigaHUD.png",
     danoBala = 1,
     recursoBala = armaEnemigaMorada,
     municion = 100
@@ -44,6 +49,7 @@ const armaEnemigaBasicaMorada = new ArmaBasica(
 
 // Pesada (usada por Heavy's y Mosca): la que más daño hace
 const armaPesadaEnemiga = new ArmaBasica(
+    iconoHud = "armaPesadaHUD.png",
     recursoBala = armaEnemigaPesada,
     danoBala = 3,
     municion = 10
@@ -51,6 +57,7 @@ const armaPesadaEnemiga = new ArmaBasica(
 
 // Rápida (usada por Medusa y Sepia): la bala avanza el doble de rápido que la básica
 const armaRapidaEnemiga = new ArmaBasica(
+    iconoHud = "armaMoradaEnemigaHUD.png",
     recursoBala = armaEnemigaMoradaRapida,
     danoBala = 1,
     municion = 20
@@ -59,39 +66,45 @@ const armaRapidaEnemiga = new ArmaBasica(
 // Cañón doble por color
 
 const armaDobleAmarilla = new DobleCanon(
+    iconoHud = "armaAmarillaDobleEnemigaHUD.png",
     recursoBala = armaEnemigaAmarilla,
-    danoBala = 1,
+    danoBala = 5,
     municion = municionIlimitada
 )
 
 const armaDobleAzul = new DobleCanon(
+    iconoHud = "armaAzulDobleEnemigaHUD.png",
     recursoBala = armaEnemigaAzul,
-    danoBala = 1,
+    danoBala = 5,
     municion = municionIlimitada
 )
 
 const armaDobleRoja = new DobleCanon(
+    iconoHud = "armaRojaDobleEnemigaHUD.png",
     recursoBala = armaEnemigaRoja,
-    danoBala = 1,
+    danoBala = 5,
     municion = municionIlimitada
 )
 
 // Cañón triple por color (para los cangrejos)
 
 const armaTripleAmarilla = new TripleCanon(
+    iconoHud = "armaAmarillaTripleEnemigaHUD.png",
     recursoBala = armaEnemigaAmarilla,
-    danoBala = 1,
+    danoBala = 5,
     municion = municionIlimitada
 )
 
 const armaTripleAzul = new TripleCanon(
+    iconoHud = "armaAzulTripleEnemigaHUD.png",
     recursoBala = armaEnemigaAzul,
-    danoBala = 1,
+    danoBala = 5,
     municion = municionIlimitada
 )
 
 const armaTripleRoja = new TripleCanon(
+    iconoHud = "armaRojaTripleEnemigaHUD.png",
     recursoBala = armaEnemigaRoja,
-    danoBala = 1,
+    danoBala = 5,
     municion = municionIlimitada
 )
