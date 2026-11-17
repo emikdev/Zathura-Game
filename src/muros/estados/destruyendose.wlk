@@ -8,6 +8,8 @@ class Destruyendose inherits EstadoMuro {
     return new Animacion(estado = self, recursoDeAnimacion = muro.animacionMuerte())
   }
 
+  override method colisionaCon(disparo) { }
+
   // Mientras se destruye ignora impactos y choques
   override method recibirImpacto() { }
   override method destruirse() { }
