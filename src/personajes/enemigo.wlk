@@ -31,21 +31,25 @@ class Enemigo inherits Personaje {
     }
 
     method verificarColisiones() {
-        game.onCollideDo(self, { objetivo => objetivo.colisionarConObjeto(self) })
+        game.onCollideDo(self, { objetivo => objetivo.colisionaConObjeto(self) })
     }
 
     method inmolarse(){
         inmolandose = true
+        self.verificarColisiones()
         game.schedule(formacion.intervalo() / 2, { self.avanzar() })
     }
 
     method avanzar(){
         if(inmolandose && abajo.puedeAvanzar((self.position()))){
             self.mover(abajo)
+            game.schedule(formacion.intervalo() /2 , {self.avanzar()})
         }else{
             inmolandose = false
             self.morir()
         }
     }
+
+
 
 }
