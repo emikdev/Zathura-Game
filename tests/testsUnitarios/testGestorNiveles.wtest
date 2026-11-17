@@ -70,7 +70,16 @@ describe "Gestor de niveles: consulta y estado de niveles" {
     assert.equals(nivelUno, gestorNiveles.nivelActual())
   }
 
-  test "en la partida estándar con un solo nivel no hay siguiente nivel" {
+  test "como hay 4 niveles, si estoy en el primero, hay siguiente nivel" {
+    assert.that(gestorNiveles.haySiguienteNivel())
+  }
+
+  test "como hay 4 niveles, si estoy en el ultimo osea el 4to, no hay siguiente nivel"{
+    
+    gestorNiveles.terminarNivel()
+    gestorNiveles.terminarNivel()
+    gestorNiveles.terminarNivel()
+
     assert.notThat(gestorNiveles.haySiguienteNivel())
   }
 }
@@ -85,7 +94,10 @@ describe "Gestor de niveles: fin de nivel y partida" {
     gestorMuros.detener()
   }
 
-  test "al terminar el último nivel se invoca ganar y se muestra la pantalla de victoria" {
+  test "al terminar el último nivel (osea el 4to ) se invoca ganar y se muestra la pantalla de victoria" {
+    gestorNiveles.terminarNivel()
+    gestorNiveles.terminarNivel()
+    gestorNiveles.terminarNivel()
     gestorNiveles.terminarNivel()
 
     assert.that(game.allVisuals().any({ visual => visual.image() == "ganaste.png" }))

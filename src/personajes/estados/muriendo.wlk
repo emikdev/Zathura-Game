@@ -40,5 +40,5 @@ class Muriendo inherits EstadoPersonaje {
     override method disparar() { }
     override method recibirImpacto(dano) { }
     override method siguienteArma() { }
-    override method seleccionarArma(slot) { }
+    override method seleccionarArma(slot){ }
 }

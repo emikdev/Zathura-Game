@@ -106,6 +106,13 @@ class Personaje{
         }
     }
 
+    method colisionaConObjeto(objeto){
+        if (bando.puedeColisionarCon(objeto.bando())){
+            self.morir()
+            objeto.morir()
+        }
+    }
+
     method cambiarEfecto(nuevoEfecto) {
         efectoVisual.detener()   // Corta el efecto anterior
         efectoVisual = nuevoEfecto
@@ -123,6 +130,5 @@ class Personaje{
 
     method iniciar(){ }
     method alQuedarseSinVidas(){ }
-    method colisionaConMuro(muro){ }
 
 }

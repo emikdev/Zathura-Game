@@ -18,6 +18,10 @@ describe "Muro: en pie" {
     assert.equals("muro0.png", muro.image())
   }
 
+  test "pertenece al bando neutral" {
+    assert.equals(neutral, muro.bando())
+  }
+
   test "cada impacto avanza un frame hacia más destruido" {
     muro.recibirImpacto()
     assert.equals("muro1.png", muro.image())
@@ -38,8 +42,8 @@ describe "Muro: en pie" {
     assert.equals("muerte0.png", muro.image())
   }
 
-  test "un choque con un enemigo lo destruye sin pasar por los frames intermedios" {
-    muro.destruirse()
+  test "morir lo destruye sin pasar por los frames intermedios" {
+    muro.morir()
 
     assert.equals("muerte0.png", muro.image())
   }
@@ -82,7 +86,7 @@ describe "Muro: destruyéndose" {
   method initialize() {
     game.width(20)
     game.height(20)
-    muro.destruirse()
+    muro.morir()
   }
 
   test "muestra su animación de muerte" {
@@ -95,8 +99,8 @@ describe "Muro: destruyéndose" {
     assert.equals("muerte0.png", muro.image())
   }
 
-  test "ignora un segundo choque y no reinicia su animación" {
-    muro.destruirse()
+  test "ignora una segunda muerte y no reinicia su animación" {
+    muro.morir()
     assert.equals("muerte0.png", muro.image())
   }
 
@@ -151,11 +155,46 @@ describe "Muro: colisión con disparos" {
   }
 
   test "un muro que se está destruyendo es atravesado por los disparos, sin sumar impactos" {
-    muro.destruirse()
+    muro.morir()
 
     muro.colisionaCon(disparoJugador)
 
     assert.equals("muerte0.png", muro.image())
     assert.notThat(disparoJugador.fueDestruido())
+  }
+}
+
+describe "Muro: colisión con objetos" {
+
+  const muro = fabricaDeMuros.muro()
+  const objeto = new ObjetoMock()
+
+  method initialize() {
+    game.width(20)
+    game.height(20)
+  }
+
+  test "al chocar con un objeto mueren el muro y el objeto" {
+    muro.colisionaConObjeto(objeto)
+
+    assert.equals("muerte0.png", muro.image())
+    assert.equals(1, objeto.muertes())
+  }
+
+  test "el muro muere de una, sin pasar por los frames intermedios" {
+    muro.recibirImpacto()
+
+    muro.colisionaConObjeto(objeto)
+
+    assert.equals("muerte0.png", muro.image())
+  }
+
+  test "si el muro ya se está destruyendo, el objeto igual muere" {
+    muro.morir()
+
+    muro.colisionaConObjeto(objeto)
+
+    assert.equals(1, objeto.muertes())
+    assert.equals("muerte0.png", muro.image())
   }
 }
