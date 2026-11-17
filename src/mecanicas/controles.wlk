@@ -18,13 +18,13 @@ class Controles {
 const controlesNave1 = new Controles(
     teclaIzquierda = keyboard.a(),
     teclaDerecha = keyboard.d(),
-    teclaDisparo = keyboard.space(),
-    teclaSiguienteArma = keyboard.q()
+    teclaDisparo = keyboard.w(),
+    teclaSiguienteArma = keyboard.s()
 )
 
 const controlesNave2 = new Controles(
     teclaIzquierda = keyboard.left(),
     teclaDerecha = keyboard.right(),
     teclaDisparo = keyboard.up(),
-    teclaSiguienteArma = keyboard.enter()
+    teclaSiguienteArma = keyboard.down()
 )
