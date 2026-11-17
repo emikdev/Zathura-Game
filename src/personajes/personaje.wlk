@@ -75,6 +75,10 @@ class Personaje{
         estadoActual.disparar()
     }
 
+    method seleccionarArma(arma) {
+        arsenal.seleccionarArma(arma) // o el método equivalente que tenga tu Arsenal
+    }
+    
     method siguienteArma(){
         estadoActual.siguienteArma()
     }
