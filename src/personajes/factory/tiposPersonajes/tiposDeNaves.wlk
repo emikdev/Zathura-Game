@@ -1,6 +1,7 @@
 import src.mecanicas.animaciones.recursos.recursosNaves.*
 import src.personajes.factory.tiposPersonajes.tipoPersonaje.*
 import src.mecanicas.armas.armasNave.*
+import src.mecanicas.armas.armasEnemigas.*
 import src.mecanicas.arsenal.*
 
     /* MUY IMPORTANTE: Convención de los slots del arsenal: 0 = arma normal */
@@ -9,7 +10,7 @@ import src.mecanicas.arsenal.*
 const naveNormal = new TipoPersonaje(
     saludMaxima = 3,
     vidas = 3,
-    arsenalInicial = new Arsenal (armas = [armaBasica]), // FALTA: Arma Basica
+    arsenalInicial = new Arsenal (armas = [armaBasica, dobleCanonPesado]), // FALTA: Arma Basica
     animacionBase = animacionBaseNaveBasica,
     animacionDisparo = animacionDisparoNaveBasica,
     animacionImpacto = animacionImpactoNaveBasica,
@@ -22,7 +23,7 @@ const naveTanque = new TipoPersonaje(
     vidas = 2,
     arsenalInicial = new Arsenal (armas = [armaBasica]), // FALTA: Arma Basica y arma especial
     animacionBase = animacionBaseNaveTanque,
-    animacionDisparo = animacionDisparoNaveTanque,
+    animacionDisparo = animacionDisparoNaveTanque, 
     animacionImpacto = animacionImpactoNaveTanque,
     animacionMuerte = animacionMuerteNaveTanque
 )
@@ -31,7 +32,7 @@ const naveTanque = new TipoPersonaje(
 const naveAtaque = new TipoPersonaje(
     saludMaxima = 1,
     vidas = 3,
-    arsenalInicial = new Arsenal (armas = [armaBasica]), // FALTA: Arma Basica, arma pesada y arma rapida
+    arsenalInicial = new Arsenal (armas = [armaBasica, tripleCanonPesado, armaRapidaEnemiga]), // FALTA: Arma Basica, arma pesada y arma rapida
     animacionBase = animacionBaseNaveAtaque,
     animacionDisparo = animacionDisparoNaveAtaque,
     animacionImpacto = animacionImpactoNaveAtaque,

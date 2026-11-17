@@ -13,36 +13,28 @@ import src.mecanicas.gestores.gestorDePuntos.*
 
 object gestorNiveles {
 
-    
-    var niveles = [nivelUno]
+    const nivelesDelJuego = [nivelUno]   // niveles de una partida normal, en orden. Nunca se modifica.
+    var niveles = nivelesDelJuego        // niveles de la partida en curso (la normal o la demo)
+    var indice = 0                       // posición, en "niveles", del nivel que se está jugando
     var property contadorDeNiveles = 1
 
-    method contadorDeNiveles() = contadorDeNiveles // getter de puntos
-
-    method iniciar() { // Arranca el generador de ovnis y carga el primer nivel
+    method iniciar() { // Arranca el generador de ovnis y carga el nivel actual
         generadorOvnis.iniciar()
         self.nivelActual().iniciar()
         gestorNaves.iniciar()
     }
 
-    method nivelActual() { // Primer nivel de la lista
-        return niveles.first()
+    method nivelActual() {
+        return niveles.get(indice)
     }
 
-    method removerNivelActual() {
-        niveles.remove(self.nivelActual())
+    method haySiguienteNivel() { // Queda algún nivel después del actual
+        return indice < niveles.size() - 1
     }
 
-    method haySiguienteNivel() { // Quedan niveles después de sacar el actual
-        return not niveles.isEmpty()
-    }
-
-    
-
-method terminarNivel() { // Método llamado por nivel
-        self.removerNivelActual()
-
+    method terminarNivel() { // Método llamado por nivel
         if (self.haySiguienteNivel()) {
+            indice += 1
             menu.menuEntreNiveles() // Cuando se da a continuar se inicia el siguiente nivel
             contadorDeNiveles += 1
         } else {
@@ -50,17 +42,26 @@ method terminarNivel() { // Método llamado por nivel
         }
     }
 
+    // Deja todo listo para una partida nueva, desde el primer nivel
+    method reiniciar() {
+        niveles = nivelesDelJuego
+        indice = 0
+        contadorDeNiveles = 1
+    }
+
     method ganar() {
         musicaInGame.detener()
         musicaVictoria.iniciar()
         generadorOvnis.detener()
         menu.menuVictoria()
+        self.reiniciar()
     }
 
     method gameOver() {
         musicaInGame.detener()
         generadorOvnis.detener()
         menu.menuGameOver()
+        self.reiniciar()
     }
 
 
@@ -68,37 +69,6 @@ method terminarNivel() { // Método llamado por nivel
         const level = new Cartel (image = "lvl.png", position = game.at(0,game.height() -1) )
         game.addVisual(level)
         game.addVisual(contador)
-    }
-
-
-    method configuracionDemo(){ // hardcodeo de el nivel de demostracion.
-
-        
-        configuracion.dificultadElegida(1)
-        configuracion.tiposNaves().addAll([naveNormal,naveTanque])
-        configuracion.cantidadJugadores(2)
-
-        self.contadorDeNiveles(0)
-        
-        niveles = [nivelDemo]
-        
-        
-    }
-
-    method iniciarDemo(){
-
-        self.configuracionDemo()
-
-        game.clear()
-        musicaMenu.detener()
-        // Se inicia el gestor de niveles
-        gestorPuntaje.reiniciar()
-        gestorPuntaje.mostrar()
-        gestorNaves.iniciar()
-        self.mostrar()
-        musicaInGame.iniciar()
-        self.nivelActual().iniciar()
-        
     }
 
 }
