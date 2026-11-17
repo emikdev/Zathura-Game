@@ -99,7 +99,7 @@ class Personaje{
         return  vidas > 0
     }
 
-    method colisionaConDisparo(disparo) {
+    method colisionaCon(disparo) {
         if (bando.puedeColisionarCon(disparo.bando())) {
             estadoActual.recibirImpacto(disparo.dano())
             disparo.destruir()

@@ -45,7 +45,7 @@ class Muro {
   }
 
   // Lo llama el disparo (su onCollideDo): cualquier bando daña al muro
-  method colisionaConDisparo(disparo) {
+  method colisionaCon(disparo) {
     if (bando.puedeColisionarCon(disparo)) {
         estadoActual.recibirImpacto()
         disparo.destruir()

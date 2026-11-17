@@ -39,7 +39,7 @@ class Disparo {
   method iniciar() {
     game.addVisual(self)
     sonido.reproducir("disparo2.mp3")
-    game.onCollideDo(self, { objetivo => objetivo.colisionaConDisparo(self) })
+    game.onCollideDo(self, { objetivo => objetivo.colisionaCon(self) })
   }
 
   // Avanza el disparo de celda
@@ -53,7 +53,7 @@ class Disparo {
     }
   }
 
-  method colisionaConDisparo(disparo){ }
+  method colisionaCon(disparo){ }
   method colisionaConObjeto(objeto){ }
 
   method destruir() {
