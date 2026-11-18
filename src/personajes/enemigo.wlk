@@ -35,6 +35,7 @@ class Enemigo inherits Personaje {
     }
 
     method inmolarse(){
+        self.dejarFormacion()
         inmolandose = true
         self.verificarColisiones()
         game.schedule(formacion.intervalo() / 2, { self.avanzar() })
