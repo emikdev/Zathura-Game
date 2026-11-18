@@ -53,11 +53,15 @@ class Disparo {
 
   // Revisa colisiones solo en la celda actual sin dejar listeners en memoria
   method verificarColisiones() {
+    //game.onCollideDo(self, { objetivo => objetivo.colisionaCon(self) })
+
+    
     game.getObjectsIn(position).copy().forEach({ objetivo =>
       if (objetivo != self && !destruido) {
         objetivo.colisionaCon(self)
       }
     })
+    
   }
 
   method colisionaCon(objetivo) { }
