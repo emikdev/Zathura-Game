@@ -1,57 +1,66 @@
 import wollok.game.*
-import src.mecanicas.gestores.gestorNiveles.*
-import src.mecanicas.gestores.gestorDeMuros.*
+import src.gestores.gestorNiveles.*
+import src.gestores.gestorMuros.*
 import src.menu.configuracion.*
 import src.personajes.factory.factory.*
-import src.niveles.formacion.*
+import src.mecanicas.formacion.*
 
 class Nivel {
+  const disposiciones   // Lista de Disposicion (el plano)
+  var indiceActual = 0  
+  
+  const formacionesEnJuego = [] // Formaciones activas (normalmente una pero es una lista para usar operadores)
 
-    const formaciones   // lista de Disposicion, en el orden en que van apareciendo
-    var actual = 0      // posición en la lista de la formación que se está jugando
+  method iniciar() {
+      indiceActual = 0
+      formacionesEnJuego.clear() // Limpiamos cualquier resto del nivel anterior
+      gestorMuros.iniciar(configuracion.dificultad())
+      self.lanzarFormacion()
+  }
 
-    // Arranca el nivel: los muros se crean una sola vez y después empiezan las formaciones
-    method iniciar() {
-        actual = 0
-        gestorMuros.iniciar(configuracion.dificultad())
+  method disposicionActual() = disposiciones.get(indiceActual)
+
+  method hayFormacionesPendientes() = indiceActual < disposiciones.size() - 1
+
+  method lanzarFormacion() {
+    const plano = self.disposicionActual()
+    const nuevaFormacion = new Formacion(nivel = self, intervalo = plano.intervalo())
+    
+    formacionesEnJuego.add(nuevaFormacion)
+
+    plano.celdas().forEach({ celda =>
+      const tipo = celda.first()
+      const posicion = celda.last()
+      
+      const enemigo = factory.crearEnemigo(tipo, nuevaFormacion, posicion)
+      nuevaFormacion.agregar(enemigo)
+      game.addVisual(enemigo)
+    })
+  }
+
+  method formacionVacia(formacionAvisante) {
+    /* Nos aseguramos de que la formación que avisa sea la actual
+     (evita que dos enemigos mueran juntos y avancen dos veces) */
+    if (not formacionesEnJuego.isEmpty() && formacionesEnJuego.first() == formacionAvisante) {
+      formacionesEnJuego.clear() // Limpiamos la formación terminada
+      
+      if (self.hayFormacionesPendientes()) {
+        indiceActual += 1
         self.lanzarFormacion()
+      } else {
+        self.nivelTerminado()
+      }
     }
+  }
 
-    method formacionActual() {
-        return formaciones.get(actual)
-    }
+  method nivelTerminado() {
+    gestorMuros.detener()
+    gestorNiveles.terminarNivel()
+  }
 
-    method hayFormacionesPendientes() {
-        return actual < formaciones.size() - 1
-    }
-
-    // Crea la formación en juego a partir de su diseño y coloca a sus enemigos en el tablero
-    method lanzarFormacion() {
-        const disposicion = self.formacionActual()
-        const formacion = new Formacion(nivel = self, intervalo = disposicion.intervalo())
-
-        disposicion.celdas().forEach({ celda =>
-            const enemigo = factory.crearEnemigo(celda.first(), formacion, celda.last())
-            formacion.agregar(enemigo)
-            game.addVisual(enemigo)
-        })
-
-        formacion.iniciar()
-    }
-
-    // Lo llama la formación cuando se queda sin enemigos
-    method formacionVacia() {
-        if (self.hayFormacionesPendientes()) {
-            actual += 1
-            self.lanzarFormacion()
-        } else {
-            self.nivelTerminado()
-        }
-    }
-
-    method nivelTerminado() {
-        gestorMuros.detener()
-        gestorNiveles.terminarNivel()
-    }
-
+  // Delegación de colisiones
+  method hayEnemigoEn(posicion, disparo) {
+    // Le preguntamos a todas las formaciones activas (en la práctica, solo hay 1)
+    formacionesEnJuego.forEach({ f => f.hayEnemigoEn(posicion, disparo) })
+  }
 }

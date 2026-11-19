@@ -24,7 +24,7 @@ import src.menu.configuracion.*
   Ejemplo de un nivel con dos formaciones (la segunda, más rápida):
 
     const nivelDos = new Nivel(
-        formaciones = [
+        disposiciones = [
             new Disposicion(filas = [
                 fila.de(calamar, 5),
                 fila.de(alien, 5)
@@ -47,7 +47,7 @@ object intervalo {
 }
 
 const nivelUno = new Nivel(
-    formaciones = [
+    disposiciones = [
         new Disposicion(intervalo = intervalo.intervaloConDificultad() , filas = [
             fila.de(pulpo, 3),
             fila.separada(calamar, 3),
@@ -61,17 +61,15 @@ const nivelUno = new Nivel(
             fila.separada(pulpo,3)
         ]),
 
-        new Disposicion(intervalo = intervalo.intervaloConDificultad() , filas=[
-
+        new Disposicion(intervalo = intervalo.intervaloConDificultad()/2 , filas=[
             fila.de(cangrejoAmarillo, 1)
-
         ])
     ]
 )
 
 const nivelDos = new Nivel (
 
-    formaciones =[
+    disposiciones =[
 
         new Disposicion (intervalo = intervalo.intervaloConDificultad() ,filas=[
             fila.de(alien,3),
@@ -93,8 +91,7 @@ const nivelDos = new Nivel (
             fila.de(pulpo,3)
         ]),
 
-        new Disposicion (intervalo = intervalo.intervaloConDificultad() , filas=[
-
+        new Disposicion (intervalo = intervalo.intervaloConDificultad()/2 , filas=[
             fila.separada(cangrejoAzul, 1)
         ])
     ]
@@ -102,7 +99,7 @@ const nivelDos = new Nivel (
 
 const nivelTres = new Nivel (
 
-    formaciones =[
+    disposiciones =[
         new Disposicion (intervalo = intervalo.intervaloConDificultad() ,filas= [
             fila.de(abeja, 3),
             fila.separada(mosca, 3),
@@ -110,15 +107,13 @@ const nivelTres = new Nivel (
         ]),
 
         new Disposicion (intervalo = intervalo.intervaloConDificultad() ,filas=[
-
             fila.de(medusa,3),
             fila.separada(sepia, 3),
             fila.separada(kamikaze,3)
         ]),
 
-        new Disposicion (intervalo = intervalo.intervaloConDificultad() ,filas=[
-
-            fila.de(cangrejoAzul, 1)
+        new Disposicion (intervalo = intervalo.intervaloConDificultad()/2 ,filas=[
+            fila.de(cangrejoRojo, 1)
         ])
     ]
 
@@ -126,16 +121,14 @@ const nivelTres = new Nivel (
 
 const nivelCuatro = new Nivel(
 
-    formaciones = [
+    disposiciones = [
         new Disposicion (intervalo = intervalo.intervaloConDificultad() ,filas =[
-
             fila.de(alien,3),
             fila.separada(alienAzul, 2),
             fila.de(alien, 3)
         ]),
 
         new Disposicion (intervalo = intervalo.intervaloConDificultad(), filas=[
-
             fila.de(calamar,3),
             fila.separada(calamarAmarillo,2),
             fila.de(calamar,3)
