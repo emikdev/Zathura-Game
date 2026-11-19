@@ -1,14 +1,15 @@
-import src.mecanicas.gestores.gestorDisparos.*
-import src.mecanicas.gestores.gestorDePuntos.*
+import src.gestores.gestorDisparos.*
+import src.gestores.gestorDePuntos.*
 import src.mecanicas.direcciones.*
 import wollok.game.*
 import src.menu.seleccionador.*
 import src.menu.configuracion.*
 import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
-import src.mecanicas.gestores.gestorNiveles.*
+import src.gestores.gestorNiveles.*
 import src.sonidos.musicaMenu.*
 import src.sonidos.sonido.*
-
+import src.gestores.reloj.*
+import src.gestores.gestorOvnis.*
 
   // falta importar el archivo de los niveles
 
@@ -185,6 +186,9 @@ import src.sonidos.sonido.*
         musicaMenu.detener()
         // Se inicia el gestor de niveles
 	      gestorNiveles.iniciar()
+        // Se inicia el reloj que maneja el game
+        reloj.iniciar()
+        reloj.registrar(gestorOvnis)
         gestorPuntaje.mostrar()
         gestorNiveles.mostrar()
         musicaInGame.iniciar()
