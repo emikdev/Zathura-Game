@@ -1,6 +1,8 @@
-import src.personajes.personaje.*
-import src.mecanicas.gestores.gestorNaves.*
 import wollok.game.*
+
+import src.personajes.personaje.*
+import src.gestores.gestorNaves.*
+
 
 class NaveJugador inherits Personaje {
     
@@ -10,6 +12,7 @@ class NaveJugador inherits Personaje {
 
     method iconoArmaActual() = arsenal.armaActual().iconoHud()
     method municionActual() = arsenal.armaActual().municion()
+    
     method vidas(){
         return vidas
     }
