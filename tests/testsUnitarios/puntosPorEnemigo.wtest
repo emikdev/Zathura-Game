@@ -15,14 +15,6 @@ describe "Tests de puntos otorgados por los enemigos" {
   }
 
   // SUMA DE PUNTOS AL MORIR
-  test "Al quedarse sin vidas " {
-    const enemigoAlien = factory.crearEnemigo(alien, formacionMock, game.at(1, 10)) // test general de que el mensaje al quedarse sin vidas, devuelve un puntaje.
-
-    enemigoAlien.alQuedarseSinVidas()
-
-    assert.equals(25, gestorPuntaje.puntos())
-  }
-
 
   test "Cada tipo suma su propio valor al morir, los normales suman 25" {
     const enemigoAlien = factory.crearEnemigo(alien, formacionMock, game.at(1, 10))
