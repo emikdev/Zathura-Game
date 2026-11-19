@@ -3,11 +3,14 @@ import wollok.game.*
 import src.niveles.niveles.*
 import src.mecanicas.gestores.generadorOvnis.*
 import src.mecanicas.gestores.gestorNaves.*
-import src.menu.menu.*
+import src.menu.menus.menuEntreNiveles.*
+import src.menu.menus.menuVictoria.*
+import src.menu.menus.menuGameOver.*
 import src.menu.seleccionador.*
 import src.menu.configuracion.*
 import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
 import src.mecanicas.gestores.gestorDePuntos.*
+
 
 
 
@@ -37,7 +40,7 @@ object gestorNiveles {
         if (self.haySiguienteNivel()) {
             indice += 1
             musicaInGame.detener()
-            menu.menuEntreNiveles() // Cuando se da a continuar se inicia el siguiente nivel
+            entreNiveles.iniciarMenu() // Cuando se da a continuar se inicia el siguiente nivel
             contadorDeNiveles += 1
         } else {
             self.ganar()
@@ -55,14 +58,14 @@ object gestorNiveles {
         musicaInGame.detener()
         musicaVictoria.iniciar()
         generadorOvnis.detener()
-        menu.menuVictoria()
+        victoria.iniciarMenu()
         self.reiniciar()
     }
 
     method gameOver() {
         musicaInGame.detener()
         generadorOvnis.detener()
-        menu.menuGameOver()
+        gameOver.iniciarMenu()
         self.reiniciar()
     }
 

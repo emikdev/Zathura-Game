@@ -3,7 +3,8 @@ import src.menu.menu.*
 import src.sonidos.sonido.*
 
 object gameOver{
-    method menuGameOver (){
+
+    method iniciarMenu (){
       musicaMenu.detener()
       menu.menuInicial("perdiste.png")
       sonido.reproducir("fail.mp3")
