@@ -1,8 +1,13 @@
 import wollok.game.*
-import src.mecanicas.bandos.*
+
+import src.mecanicas.bandos.bandoEnemigo.*
+import src.mecanicas.bandos.bandoJugador.*
+
 import src.personajes.enemigo.*
 import src.personajes.nave.*
-import src.muros.muros.*
+import src.personajes.ovni.*
+
+import src.muros.muro.*
 
 // Factory encargada de crear personajes a partir de su tipo
 object factory {
@@ -17,6 +22,12 @@ object factory {
     method crearNave(tipoPersonaje, posicion) = new NaveJugador(
         tipoPersonaje = tipoPersonaje,
         bando = jugador,
+        posicionInicial = posicion
+    )
+
+    method crearOvni(tipoPersonaje, posicion) = new Ovni(
+        tipoPersonaje = tipoPersonaje,
+        bando = enemigo,
         posicionInicial = posicion
     )
 

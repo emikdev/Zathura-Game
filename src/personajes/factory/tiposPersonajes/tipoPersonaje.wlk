@@ -1,9 +1,7 @@
 // Datos de configuración de un tipo de personaje.
 class TipoPersonaje {
-
     const saludMaxima
     const vidas
-
     const arsenalInicial
 
     const animacionBase
@@ -11,32 +9,11 @@ class TipoPersonaje {
     const animacionImpacto
     const animacionMuerte
 
-    method saludMaxima() {
-        return saludMaxima
-    }
-
-    method vidas() {
-        return vidas
-    }
-
-    method arsenalInicial() {
-        return arsenalInicial
-    }
-
-    method animacionBase() {
-        return animacionBase
-    }
-
-    method animacionDisparo() {
-        return animacionDisparo
-    }
-
-    method animacionImpacto() {
-        return animacionImpacto
-    }
-
-    method animacionMuerte() {
-        return animacionMuerte
-    }
-
+    method saludMaxima() = saludMaxima
+    method vidas() = vidas
+    method arsenalInicial() = arsenalInicial
+    method animacionBase() = animacionBase
+    method animacionDisparo() = animacionDisparo
+    method animacionImpacto() = animacionImpacto
+    method animacionMuerte() = animacionMuerte
 }
