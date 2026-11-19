@@ -1,7 +1,7 @@
 import src.sonidos.sonido.*
 import src.menu.menu.*
-object entreNiveles {
 
+object entreNiveles {
 
    method iniciarMenu() {
       game.clear()

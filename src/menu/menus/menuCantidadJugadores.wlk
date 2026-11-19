@@ -5,10 +5,10 @@ import src.menu.seleccionador.*
 import src.menu.configuracion.*
 import src.menu.menus.menuUnJugador.*
 import src.menu.menus.menuDosJugadores.*
+
 object cantidadJugadores  {
   
-
-  method iniciarMenu() {
+    method iniciarMenu() {
       game.boardGround("fondo.png")
 
       menu.mostrar(

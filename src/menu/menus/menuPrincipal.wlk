@@ -2,7 +2,8 @@ import src.menu.menu.*
 import src.sonidos.musicaMenu.*
 import src.menu.seleccionador.*
 import src.menu.menus.menuReglas.*
-object menuPrincipal inherits menu{
+
+object menuPrincipal {
 
     method iniciarMenu() {
 

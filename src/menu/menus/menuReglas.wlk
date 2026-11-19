@@ -2,7 +2,8 @@ import src.menu.menu.*
 import src.sonidos.musicaMenu.*
 import src.menu.menus.menuControles.*
 import src.sonidos.sonido.*
-    object menuReglas {
+
+object menuReglas {
       
         method iniciarMenu(){
             game.clear()      

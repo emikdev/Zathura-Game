@@ -4,7 +4,7 @@ import src.sonidos.sonido.*
 import src.menu.seleccionador.*
 import src.menu.menus.menuSistemaPuntajes.*
 
-    object menuControles {
+object menuControles {
     method iniciarMenu(){
         game.clear()      
         musicaMenu.iniciar()

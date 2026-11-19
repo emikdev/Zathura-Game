@@ -4,8 +4,8 @@ import src.sonidos.sonido.*
 import src.menu.seleccionador.*
 import src.menu.configuracion.*
 import src.menu.menus.menuDificultad.*
+ 
  object menuUnJugador  {
-
 
     method iniciarMenu() {
       menu.elegirNave("elegiTuNave.png", { tipoNaveP1 =>
