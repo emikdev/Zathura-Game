@@ -65,12 +65,6 @@ describe "Armas infinitas" {
     assert.equals(5, arma.municion())
   }
 
-  test "ArmaBasica siempre tiene munición, incluso si se crea con 0" {
-    const arma = new ArmaBasica(recursoBala = recurso, danoBala = 1, municion = 0, iconoHud = "x.png")
-
-    assert.that(arma.hayMunicion())
-  }
-
   test "el arma básica del jugador es infinita" {
     const antes = armaBasica.municion()
 

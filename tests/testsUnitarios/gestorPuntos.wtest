@@ -12,25 +12,25 @@ describe "Tests del Gestor de Puntaje" {
 
   // ACUMULACION DE PUNTOS
 
-  test "Después de reiniciar el puntaje vale 0" {
-    gestorPuntaje.sumar(150)
-    gestorPuntaje.reiniciar()
-
-    assert.equals(0, gestorPuntaje.puntos())
-  }
-
   test "Sumar puntos incrementa el puntaje en esa cantidad" {
     gestorPuntaje.sumar(25)
 
     assert.equals(25, gestorPuntaje.puntos())
   }
-
+  
   test "Las sumas sucesivas se acumulan" {
     gestorPuntaje.sumar(25)
     gestorPuntaje.sumar(100)
     gestorPuntaje.sumar(500)
 
     assert.equals(625, gestorPuntaje.puntos())
+  }
+
+  test "Después de reiniciar el puntaje vale 0" {
+    gestorPuntaje.sumar(150)
+    gestorPuntaje.reiniciar()
+
+    assert.equals(0, gestorPuntaje.puntos())
   }
 
   test "Después de reiniciar se puede volver a acumular desde cero" {
@@ -40,6 +40,8 @@ describe "Tests del Gestor de Puntaje" {
 
     assert.equals(25, gestorPuntaje.puntos())
   }
+  
+
 
   // DIGITOS DEL MARCADOR
 
