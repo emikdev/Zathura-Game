@@ -1,40 +1,60 @@
-import wollok.game.*
-class Animacion {
+import src.gestores.reloj.*
 
+class Animacion {
   const estado
   const recursoDeAnimacion
+  const autoAvance
   var frameActual = 0
-  var activa = true
-  
-  // Exposicion del atributo interno para garantizar funcionamiento de disparo.wlk
-  method activa() = activa
-  
-  method initialize() {
-    self.animar()
-  }
-  
+  var acumulado = 0
+  var activa = true // el flag activa evita que un tick tardío después de detener() intente avanzar un frame.
+
   method frameActual() = recursoDeAnimacion.frames().get(frameActual)
+  method activa() = activa
+
+  method initialize() {
+      if (autoAvance) { reloj.registrar(self) }
+    }
   
-  method animar() {
-    game.schedule(
-      recursoDeAnimacion.duracion() / recursoDeAnimacion.frames().size(),
-      { if (activa) {
-          if (frameActual < (recursoDeAnimacion.frames().size() - 1)) {
+  method tick(deltaMs) {
+    if (activa) {
+      if (recursoDeAnimacion.frames().size() == 1) {
+        acumulado += deltaMs
+        if (acumulado >= recursoDeAnimacion.duracion()) {
+          estado.terminoAnimacion()
+        }
+      } else {
+        acumulado += deltaMs
+        const msPorFrame = recursoDeAnimacion.duracion() / recursoDeAnimacion.frames().size()
+        if (acumulado >= msPorFrame) {
+          acumulado = 0
+          if (frameActual < recursoDeAnimacion.frames().size() - 1) {
             frameActual += 1
-            self.animar()
           } else {
             estado.terminoAnimacion()
           }
-        } }
-    )
+        }
+      }
+    }
   }
   
+  method avanzarFrameBase() {
+    if (recursoDeAnimacion.frames().size() > 1) {
+      frameActual = (frameActual + 1) % recursoDeAnimacion.frames().size()
+    }
+  }
+
   method reiniciar() {
     frameActual = 0
-    self.animar()
+    acumulado = 0
   }
-  
+
   method detener() {
     activa = false
+    reloj.olvidar(self)
   }
+
+  method posicionarEnFrame(indice) {
+    frameActual = indice
+  }
+
 }

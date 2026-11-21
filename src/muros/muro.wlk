@@ -1,7 +1,7 @@
 import wollok.game.*
 import src.mecanicas.animaciones.recursos.recursosMuros.*
 import src.muros.estados.enPie.*
-import src.mecanicas.bandos.*
+import src.mecanicas.bandos.bandoNeutral.*
 
 class Muro {
 
@@ -69,5 +69,7 @@ class Muro {
     estadoActual.finalizarAnimacion()
     if (game.hasVisual(self)) game.removeVisual(self)
   }
+
+  method estaEnPie() = estadoActual.esEnPie()
 
 }

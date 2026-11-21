@@ -1,8 +1,8 @@
-import src.personajes.factory.comportamiento.ataque.disparo.*
-import src.personajes.factory.comportamiento.ataque.disparoConArma.*
-import src.personajes.factory.comportamiento.ataque.inmolacion.*
-import src.personajes.factory.comportamiento.ataque.conProbabilidad.*
-import src.personajes.factory.comportamiento.ataque.alternativas.*
+import src.personajes.comportamiento.ataque.disparo.*
+import src.personajes.comportamiento.ataque.disparoConArma.*
+import src.personajes.comportamiento.ataque.inmolacion.*
+import src.personajes.comportamiento.ataque.conProbabilidad.*
+import src.personajes.comportamiento.ataque.alternativas.*
 
 /* Catálogo de comportamientos de ataque. Cada método devuelve instancias NUEVAS, así cada personaje tiene las suyas.
  Uso en un tipo de enemigo: method comportamientoAtaque() = ataques.probabilistico(20) */

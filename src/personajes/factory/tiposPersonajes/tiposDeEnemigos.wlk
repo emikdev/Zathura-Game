@@ -1,25 +1,21 @@
 import src.personajes.factory.tiposPersonajes.tipoPersonaje.*
+
 import src.mecanicas.animaciones.recursos.recursoEnemigos.*
-import src.personajes.factory.comportamiento.ataque.ataques.*
-import src.personajes.factory.comportamiento.ataque.ningunaAccion.*
+
+import src.personajes.comportamiento.ataque.ataques.*
+import src.personajes.comportamiento.ataque.ningunaAccion.*
+
 import src.mecanicas.armas.armasEnemigas.*
 import src.mecanicas.arsenal.*
 
 
 // Un enemigo es un personaje que además sabe cómo ataca.
 class TipoPersonajeEnemigo inherits TipoPersonaje {
-
     const comportamientoAtaque
     const puntosQueOtorga
 
-    method comportamientoAtaque() {
-        return comportamientoAtaque
-    }
-
-    method puntosQueOtorga() {
-        return puntosQueOtorga
-    }
-
+    method comportamientoAtaque() = comportamientoAtaque
+    method puntosQueOtorga() = puntosQueOtorga
 }
 
     /* MUY IMPORTANTE: Convención de los slots del arsenal: 0 = arma normal, 1 = arma pesada */
@@ -205,7 +201,7 @@ const pulpoHeavy = new TipoPersonajeEnemigo(
 const cangrejoAmarillo = new TipoPersonajeEnemigo(
     saludMaxima = 10,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaTripleAmarilla]),
+    arsenalInicial = new Arsenal (armas = [armaDobleAmarilla]),
     animacionBase = animacionBaseCangrejoAmarillo,
     animacionDisparo = animacionDisparoCangrejoAmarillo,
     animacionImpacto = animacionImpactoCangrejoAmarillo,
@@ -217,7 +213,7 @@ const cangrejoAmarillo = new TipoPersonajeEnemigo(
 const cangrejoAzul = new TipoPersonajeEnemigo(
     saludMaxima = 15,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaTripleAzul]),
+    arsenalInicial = new Arsenal (armas = [armaDobleAzul]),
     animacionBase = animacionBaseCangrejoAzul,
     animacionDisparo = animacionDisparoCangrejoAzul,
     animacionImpacto = animacionImpactoCangrejoAzul,
@@ -229,25 +225,11 @@ const cangrejoAzul = new TipoPersonajeEnemigo(
 const cangrejoRojo = new TipoPersonajeEnemigo(
     saludMaxima = 20,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaTripleRoja]),
+    arsenalInicial = new Arsenal (armas = [armaDobleRoja]),
     animacionBase = animacionBaseCangrejoRojo,
     animacionDisparo = animacionDisparoCangrejoRojo,
     animacionImpacto = animacionImpactoCangrejoRojo,
     animacionMuerte = animacionMuerteCangrejoRojo,
     comportamientoAtaque = ataques.probabilistico(80),
-    puntosQueOtorga = 500
-)
-
-/* Ovnis */
-
-const ovni = new TipoPersonajeEnemigo(
-    saludMaxima = 1,
-    vidas = 1,
-    arsenalInicial = new Arsenal (armas = []), // No dispara
-    animacionBase = animacionBaseOvniClasico,
-    animacionDisparo = animacionDisparoOvniClasico,
-    animacionImpacto = animacionImpactoOvniClasico,
-    animacionMuerte = animacionMuerteOvniClasico,
-    comportamientoAtaque = ningunaAccion,
     puntosQueOtorga = 500
 )

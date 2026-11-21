@@ -28,7 +28,7 @@ object gestorEnemigos inherits GestorDisparosBase {
 
   override method puedeDisparar() = self.cantidadActivos() < self.limiteMaximo()
 
-  const limiteMaximo = 5 // Base inicial
+  const limiteMaximo =  configuracion.dificultad() + 1
 
   method limiteMaximo() = limiteMaximo * configuracion.dificultad()
 

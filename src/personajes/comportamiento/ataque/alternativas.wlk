@@ -1,4 +1,4 @@
-import src.personajes.factory.comportamiento.ataque.ningunaAccion.*
+import src.personajes.comportamiento.ataque.ningunaAccion.*
 
 /* Evalúa las opciones en orden y elige la primera que decida hacer algo.
  Si ninguna lo hace, elige ningunaAccion. */
