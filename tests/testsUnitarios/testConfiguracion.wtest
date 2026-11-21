@@ -1,5 +1,5 @@
 import wollok.game.*
-import src.menu.menu.*
+import src.menu.menus.menuCantidadJugadores.*
 import src.menu.configuracion.*
 import src.mecanicas.bandos.*
 import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
@@ -26,7 +26,7 @@ describe "Dificultad elegida desde el menú y chequeo de el objeto configuracion
   }
 
   method simular(jugadores, dificultad) {
-    menu.menuCantidadJugadores()
+      cantidadJugadores.iniciarMenu()
     self.elegir(jugadores - 1)
     jugadores.times({ i => self.elegir(0) })
     self.elegir(dificultad)

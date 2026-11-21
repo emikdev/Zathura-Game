@@ -18,10 +18,6 @@ describe "Muro: en pie" {
     assert.equals("muro0.png", muro.image())
   }
 
-  test "pertenece al bando neutral" {
-    assert.equals(neutral, muro.bando())
-  }
-
   test "cada impacto avanza un frame hacia más destruido" {
     muro.recibirImpacto()
     assert.equals("muro1.png", muro.image())

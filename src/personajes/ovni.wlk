@@ -18,7 +18,6 @@ class Ovni inherits Personaje {
 
   // El ovni no está en formación
   override method estaEnFormacion() = false
-  override method salirDeFormacionSiCorresponde() { } 
 
   // Como hereda de Personaje, al morir da sus puntos (TipoPersonajeOvni los tiene)
   override method alQuedarseSinVidas() {
