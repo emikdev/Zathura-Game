@@ -1,18 +1,19 @@
 import wollok.game.*
 import src.menu.menu.*
+import src.gestores.reloj.*
 
 program Zathura {
 
 	// Dimensiones del tablero en celdas
 	game.width(20)
-	game.height(20)
+	game.height(15)
 
 	// Tamano de cada celda en px
 	game.cellSize(32)
 
 	// Titulo del juego
 	game.title("Zathura Game")
-	
+
 	// Se carga el menu
 	menu.iniciar()
 
