@@ -6,20 +6,20 @@ import src.personajes.factory.factory.*
 import src.mecanicas.formacion.*
 
 class Nivel {
-  const disposiciones   // Lista de Disposicion (el plano)
+  const disposiciones   
   var indiceActual = 0  
-  
-  const formacionesEnJuego = [] // Formaciones activas (normalmente una pero es una lista para usar operadores)
+  const formacionesEnJuego = [] 
 
   method iniciar() {
-      indiceActual = 0
-      formacionesEnJuego.clear() // Limpiamos cualquier resto del nivel anterior
-      gestorMuros.iniciar(configuracion.dificultad())
-      self.lanzarFormacion()
+    indiceActual = 0
+    // Limpiamos por completo las formaciones antes de arrancar
+    formacionesEnJuego.clear() 
+    
+    gestorMuros.iniciar(configuracion.dificultad())
+    self.lanzarFormacion()
   }
 
   method disposicionActual() = disposiciones.get(indiceActual)
-
   method hayFormacionesPendientes() = indiceActual < disposiciones.size() - 1
 
   method lanzarFormacion() {
@@ -39,10 +39,8 @@ class Nivel {
   }
 
   method formacionVacia(formacionAvisante) {
-    /* Nos aseguramos de que la formación que avisa sea la actual
-     (evita que dos enemigos mueran juntos y avancen dos veces) */
     if (not formacionesEnJuego.isEmpty() && formacionesEnJuego.first() == formacionAvisante) {
-      formacionesEnJuego.clear() // Limpiamos la formación terminada
+      formacionesEnJuego.clear() 
       
       if (self.hayFormacionesPendientes()) {
         indiceActual += 1
@@ -58,9 +56,7 @@ class Nivel {
     gestorNiveles.terminarNivel()
   }
 
-  // Delegación de colisiones
   method hayEnemigoEn(posicion, disparo) {
-    // Le preguntamos a todas las formaciones activas (en la práctica, solo hay 1)
     formacionesEnJuego.forEach({ f => f.hayEnemigoEn(posicion, disparo) })
   }
 }
