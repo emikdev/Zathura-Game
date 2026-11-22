@@ -7,6 +7,8 @@ import src.personajes.estados.muriendo.*
 import src.mecanicas.animaciones.animacion.*
 import src.personajes.efectos.efectoImpacto.*
 
+import src.gestores.reloj.*
+
 class EstadoPersonaje {
   const personaje
   var animacion
@@ -55,4 +57,9 @@ class EstadoPersonaje {
   method seleccionarArma(slot) { personaje.arsenal().equiparArma(slot) }
   
   method esMuriendo() = false
+
+  method detener() {
+    self.finalizarAnimacion()
+    reloj.olvidar(self)
+  }
 }

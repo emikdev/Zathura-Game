@@ -65,9 +65,13 @@ class Disparo {
   method colisionaCon(disparo) { }
   method colisionaConObjeto(objeto) { }
 
+  method detener() {
+    self.destruir()
+  }
+
   method destruir() {
     activo = false
-    reloj.olvidar(self)
+    reloj.olvidar(self) 
     bando.liberar(self)
     animacion.detener()
     if (game.hasVisual(self)) game.removeVisual(self)

@@ -1,9 +1,10 @@
 import src.personajes.comportamiento.movimiento.travesia.*
 import src.personajes.personaje.*
 import src.gestores.gestorDePuntos.*
+import src.gestores.reloj.*
 
 class Ovni inherits Personaje {
-  var comportamientoMovimiento = null
+  var comportamientoMovimiento
 
   method iniciarTravesia(travesia) {
     comportamientoMovimiento = travesia
@@ -24,9 +25,14 @@ class Ovni inherits Personaje {
     gestorPuntaje.sumar(tipoPersonaje.puntosQueOtorga())
   }
 
+  method detener() {
+    game.removeVisual(self)
+    reloj.olvidar(self)
+  }
+
   override method morir() {
     // Si muere, detenemos su movimiento
-    if (comportamientoMovimiento != null) { comportamientoMovimiento.detener() }
+    comportamientoMovimiento.detener()
     super()
   }
 }

@@ -56,6 +56,11 @@ class Muriendo inherits EstadoPersonaje {
     self.cambiarANeutral()
   }
 
+  override method detener() {
+    reloj.olvidar(self)
+    animacion.detener()
+  }
+
   override method mover(direccion) { }
   override method disparar() { }
   override method recibirImpacto(dano) { }
