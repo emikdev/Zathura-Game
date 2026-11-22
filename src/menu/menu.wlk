@@ -68,18 +68,24 @@ object menu {
     }
 
     method empezar() {
-        game.clear()
-        musicaMenu.detener()
-        
-        // Se inicia el gestor de niveles
-	      gestorNiveles.iniciar()
-        
-        // Se inicia el reloj que maneja el game
-        reloj.iniciar()
-        reloj.registrar(gestorOvnis)
-        
-        gestorPuntaje.mostrar()
-        gestorNiveles.mostrar()
-        musicaInGame.iniciar()
+      game.clear()
+      musicaMenu.detener()
+      
+      // Iniciamos el reloj y limpiamos cualquier resto de la partida anterior (por si volvimos a jugar)
+      reloj.iniciar()
+
+      // Se reinicia el gestor de puntos para cuando queramos volver a jugar
+      gestorPuntaje.reiniciar()
+      
+      // Registramos al gestor de ovnis (que vive durante todo el juego)
+      reloj.registrar(gestorOvnis)
+      
+      // Iniciamos la partida
+      gestorNiveles.iniciar() 
+      
+      // Se carga el entorno
+      gestorPuntaje.mostrar()
+      gestorNiveles.mostrar()
+      musicaInGame.iniciar()
     }
 }
