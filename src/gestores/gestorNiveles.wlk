@@ -26,16 +26,17 @@ object gestorNiveles {
     }
 
     method nivelActual() = niveles.get(indice)
-
     method haySiguienteNivel() = indice < niveles.size() - 1
 
     method terminarNivel() { 
         if (self.haySiguienteNivel()) {
             indice += 1
             musicaInGame.detener()
-            reloj.limpiarTodo() 
-            entreNiveles.iniciarMenu() // <-- Usa tu menú modularizado
             contadorDeNiveles += 1
+            
+            reloj.limpiarTodo() // Limpiamos el nivel recién terminado
+            
+            entreNiveles.iniciarMenu() 
         } else {
             self.ganar()
         }
@@ -51,17 +52,21 @@ object gestorNiveles {
         musicaInGame.detener()
         musicaVictoria.iniciar()
         gestorOvnis.detener()
-        reloj.limpiarTodo()
-        victoria.iniciarMenu() // <-- Usa tu menú modularizado
-        self.reiniciar()
+        
+        reloj.limpiarTodo() // Limpiamos la partida
+        self.reiniciar()    // Volvemos al nivel 1
+        
+        victoria.iniciarMenu()
     }
 
     method gameOver() {
         musicaInGame.detener()
         gestorOvnis.detener()
+        
         reloj.limpiarTodo()
-        gameOver.iniciarMenu() // <-- Usa tu menú modularizado
         self.reiniciar()
+        
+        gameOver.iniciarMenu()
     }
 
     method hayEnemigoEn(posicion, disparo) {

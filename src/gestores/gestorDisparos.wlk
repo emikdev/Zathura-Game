@@ -15,6 +15,10 @@ class GestorDisparosBase {
   }
   
   method cantidadActivos() = disparosActivos.size()
+
+  method limpiar() {
+      disparosActivos.clear()
+  }
 }
 
 // 1. El del jugador: Solo registra/libera, no le importan los límites numéricos

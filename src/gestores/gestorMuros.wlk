@@ -23,7 +23,6 @@ object gestorMuros {
 
     method cantidadActivos() = muros.size()
 
-    // NUEVO MÉTODO PARA COLISIONES
     method hayMuroEn(posicion, disparo) {
         const murosChocados = muros.filter({ m => m.position() == posicion && m.estaEnPie() })
         
