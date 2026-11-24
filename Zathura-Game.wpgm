@@ -6,7 +6,7 @@ program Zathura {
 
 	// Dimensiones del tablero en celdas
 	game.width(20)
-	game.height(15)
+	game.height(20)
 
 	// Tamano de cada celda en px
 	game.cellSize(32)
