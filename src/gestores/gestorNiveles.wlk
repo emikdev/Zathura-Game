@@ -53,20 +53,21 @@ object gestorNiveles {
         contadorDeNiveles = 1
     }
 
-    method ganar() {
-        musicaInGame.detener()
-        musicaVictoria.iniciar()
-        gestorOvnis.detener()
-        reloj.limpiarTodo() 
-        self.reiniciar()    
-        victoria.iniciarMenu()
-    }
-
-    method gameOver() {
+    method limpiarPartida() {
         musicaInGame.detener()
         gestorOvnis.detener()
         reloj.limpiarTodo()
         self.reiniciar()
+    }
+
+    method ganar() {
+        self.limpiarPartida()
+        musicaVictoria.iniciar()
+        victoria.iniciarMenu()
+    }
+
+    method gameOver() {
+        self.limpiarPartida()
         gameOver.iniciarMenu()
     }
 

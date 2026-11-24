@@ -55,8 +55,6 @@ class EstadoPersonaje {
 
   method siguienteArma() { personaje.arsenal().equiparSiguienteArma() }
   method seleccionarArma(slot) { personaje.arsenal().equiparArma(slot) }
-  
-  method esMuriendo() = false
 
   method detener() {
     self.finalizarAnimacion()
