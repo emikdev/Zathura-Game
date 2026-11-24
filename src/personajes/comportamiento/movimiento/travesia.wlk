@@ -1,41 +1,35 @@
 import wollok.game.*
-import src.gestores.gestorOvnis.*
 import src.personajes.comportamiento.movimiento.movimientosEnemigo.*
 
 class Travesia inherits ComportamientoMovimiento {
   const intervalo
   const direccion
-  var enemigo = null
   var acumulado = 0
+  var activa = true
 
-  method agregar(unEnemigo) {
-    enemigo = unEnemigo
-  }
-
-  method position() = enemigo.position()
-
-  override method tick(enemigoActual, deltaMs) {
-    acumulado += deltaMs
-    if (acumulado >= intervalo) {
-      acumulado = 0
-      self.paso()
+  override method tick(enemigo, deltaMs) {
+    if (activa) {
+      acumulado += deltaMs
+      if (acumulado >= intervalo) {
+        acumulado = 0
+        self.paso(enemigo)
+      }
     }
   }
 
-  method paso() {
+  method paso(enemigo) {
     if (direccion.puedeAvanzar(enemigo.position())) {
       enemigo.mover(direccion)
     } else {
-      self.cruzoElTablero()
+      self.cruzoElTablero(enemigo)
     }
   }
 
-  method cruzoElTablero() {
+  method cruzoElTablero(enemigo) {
     self.detener()
-    enemigo.retirar()
+    enemigo.detener()
   }
-
   method detener() {
-    gestorOvnis.quitar(enemigo) 
+    activa = false
   }
 }
