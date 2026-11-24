@@ -50,7 +50,8 @@ class Disposicion {
     method celdas() {
         const resultado = []
         filas.size().times({ n =>
-            resultado.addAll(filas.get(n - 1).celdasEn(tablero.filaMaxima() - (n - 1)))
+            // MODIFICADO ACÁ: Restamos 1 a filaMaxima() para que spawneen un poco más abajo
+            resultado.addAll(filas.get(n - 1).celdasEn(tablero.filaMaxima() - 1 - (n - 1)))
         })
         return resultado
     }
