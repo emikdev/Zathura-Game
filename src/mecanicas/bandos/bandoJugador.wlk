@@ -16,7 +16,7 @@ object jugador inherits Bando {
   // El jugador sabe a quién puede dispararle
   override method verificarColisionesDeDisparo(disparo, posicion) {
     gestorNiveles.hayEnemigoEn(posicion, disparo)
-    if (disparo.activo()) { gestorMuros.hayMuroEn(posicion, disparo) }
-    if (disparo.activo()) { gestorOvnis.hayOvniEn(posicion, disparo) }
+    gestorMuros.hayMuroEn(posicion, disparo)
+    gestorOvnis.hayOvniEn(posicion, disparo)
   }
 }

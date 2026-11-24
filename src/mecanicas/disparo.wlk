@@ -43,9 +43,10 @@ class Disparo {
       const direccion = bando.direccionDeDisparo()
       const posicionFutura = direccion.siguiente(self.position())
       
-      // El bando se encarga de la lógica polimórfica
+      // El bando chequea colisiones (y puede destruir el disparo)
       bando.verificarColisionesDeDisparo(self, posicionFutura)
       
+      // Si sobrevivió a los chequeos, avanza
       if (activo) {
         self.avanzar()
       }

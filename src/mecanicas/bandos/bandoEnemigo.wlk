@@ -13,7 +13,7 @@ object enemigo inherits Bando {
 
   // El enemigo sabe a quién puede dispararle
   override method verificarColisionesDeDisparo(disparo, posicion) {
+    gestorNaves.chocaDisparoEn(posicion, disparo)
     gestorMuros.hayMuroEn(posicion, disparo)
-    if (disparo.activo()) { gestorNaves.chocaDisparoEn(posicion, disparo) }
   }
 }
