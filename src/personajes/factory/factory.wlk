@@ -25,10 +25,11 @@ object factory {
         posicionInicial = posicion
     )
 
-    method crearOvni(tipoPersonaje, posicion) = new Ovni(
+    method crearOvni(tipoPersonaje, posicion, comportamientoMovimiento) = new Ovni(
         tipoPersonaje = tipoPersonaje,
-        bando = enemigo,
-        posicionInicial = posicion
+        bando = enemigo, 
+        posicionInicial = posicion,
+        comportamientoMovimiento = comportamientoMovimiento
     )
 
     method crearMuro(dificultad, position) = new Muro(
