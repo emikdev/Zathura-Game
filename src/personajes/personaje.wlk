@@ -78,11 +78,15 @@ class Personaje {
       efectoVisual = sinEfecto
   }
 
-  method retirar() {
+  method detener() {
     game.removeVisual(self)
     estadoActual.finalizarAnimacion()
     efectoVisual.detener()
     reloj.olvidar(self)
+  }
+
+  method reactivar() {
+      estadoActual.reactivarAnimacion()
   }
 
   method morir() {
