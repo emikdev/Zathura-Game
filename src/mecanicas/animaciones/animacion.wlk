@@ -53,12 +53,13 @@ class Animacion {
     reloj.olvidar(self)
   }
 
-  method retirar() {
-    self.detener()
-  }
-
   method posicionarEnFrame(indice) {
     frameActual = indice
+  }
+
+  method reactivar() {
+    activa = true
+    reloj.registrar(self)
   }
 
 }

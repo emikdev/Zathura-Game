@@ -111,10 +111,4 @@ class Formacion {
       enemigosChocados.first().colisionaCon(disparo)
     }
   }
-
-  method retirar() {
-    enemigos.forEach({ e => e.retirar() })
-    enemigosEnInmolacion.forEach({ e => e.retirar() })
-    reloj.olvidar(self)
-  }
 }
