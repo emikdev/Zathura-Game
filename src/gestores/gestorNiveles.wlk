@@ -19,10 +19,18 @@ object gestorNiveles {
     var indice = 0                       
     var property contadorDeNiveles = 1
 
-    method iniciar() { 
+    method iniciarJuego() { 
         game.boardGround("fondo.png")
+        gestorNaves.iniciar() 
+        self.iniciarNivelActual()
+    }
+
+    method iniciarNivelActual() {
         self.nivelActual().iniciar()
-        gestorNaves.iniciar()
+        gestorPuntaje.mostrar()
+        self.mostrar()
+        
+        musicaInGame.iniciar() // <--- ARRANCAMOS LA MÚSICA ACÁ
     }
 
     method nivelActual() = niveles.get(indice)
@@ -31,11 +39,8 @@ object gestorNiveles {
     method terminarNivel() { 
         if (self.haySiguienteNivel()) {
             indice += 1
-            musicaInGame.detener()
+            musicaInGame.detener() // Detiene la música para el menú
             contadorDeNiveles += 1
-            
-            reloj.limpiarTodo() // Limpiamos el nivel recién terminado
-            
             entreNiveles.iniciarMenu() 
         } else {
             self.ganar()
@@ -52,20 +57,16 @@ object gestorNiveles {
         musicaInGame.detener()
         musicaVictoria.iniciar()
         gestorOvnis.detener()
-        
-        reloj.limpiarTodo() // Limpiamos la partida
-        self.reiniciar()    // Volvemos al nivel 1
-        
+        reloj.limpiarTodo() 
+        self.reiniciar()    
         victoria.iniciarMenu()
     }
 
     method gameOver() {
         musicaInGame.detener()
         gestorOvnis.detener()
-        
         reloj.limpiarTodo()
         self.reiniciar()
-        
         gameOver.iniciarMenu()
     }
 
