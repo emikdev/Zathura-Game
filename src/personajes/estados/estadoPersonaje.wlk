@@ -62,4 +62,9 @@ class EstadoPersonaje {
     self.finalizarAnimacion()
     reloj.olvidar(self)
   }
+
+  method reactivarAnimacion() {
+    animacion.reactivar()
+  }
+
 }
