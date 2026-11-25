@@ -1,7 +1,7 @@
 import wollok.game.*
 import src.personajes.personaje.*
 import src.personajes.factory.tiposPersonajes.tipoPersonaje.*
-import src.mecanicas.bandos.*
+import src.mecanicas.bandos.bandoJugador.*
 
 /* Frames de una animación. La duración enorme evita que el temporizador
  de Animacion la avance sola durante un test. */
