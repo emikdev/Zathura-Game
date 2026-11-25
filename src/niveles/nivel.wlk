@@ -59,4 +59,10 @@ class Nivel {
   method hayEnemigoEn(posicion, disparo) {
     formacionesEnJuego.forEach({ f => f.hayEnemigoEn(posicion, disparo) })
   }
+
+  method limpiarFormacionActual() {
+  if (not formacionesEnJuego.isEmpty()) {
+    self.formacionVacia(formacionesEnJuego.first())
+  }
+}
 }
