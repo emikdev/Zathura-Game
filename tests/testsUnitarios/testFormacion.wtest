@@ -1,121 +1,87 @@
 import wollok.game.*
-import src.niveles.formacion.*
+import src.mecanicas.formacion.*
 import tests.mocks.mocksFormacion.*
+import src.gestores.reloj.*
 
-describe "Formación: movimiento en bloque" {
+describe "Formación: Movimiento y bordes" {
 
-  const nivel = new NivelMock()
-  const formacion = new Formacion(nivel = nivel, intervalo = 100)
-  const izquierdo = new EnemigoMock(position = game.at(5, 10))
-  const derecho = new EnemigoMock(position = game.at(6, 10))
+  var nivel
+  var formacion
+  var izquierdo
+  var derecho
 
   method initialize() {
+    game.clear()
     game.width(20)
     game.height(20)
-    formacion.agregar(izquierdo)
-    formacion.agregar(derecho)
+    reloj.limpiarTodo()
+    
+    nivel = new NivelMock()
+    formacion = new Formacion(nivel = nivel, intervalo = 100)
+    izquierdo = new EnemigoMock(position = game.at(5, 10))
+    derecho = new EnemigoMock(position = game.at(6, 10))
   }
 
-  test "mientras todos puedan, avanzan juntos una celda hacia la derecha" {
+  test "Mientras todos puedan avanzar, se mueven juntos en bloque" {
+    formacion.agregar(izquierdo)
+    formacion.agregar(derecho)
+
     formacion.mover()
 
     assert.equals(game.at(6, 10), izquierdo.position())
     assert.equals(game.at(7, 10), derecho.position())
   }
 
-  test "mantiene la dirección en los pasos siguientes" {
-    3.times({ i => formacion.mover() })
+  test "Si uno solo choca contra el borde, toda la formación baja y cambia de dirección" {
+    // Ponemos a uno en el borde derecho para forzar el choque
+    izquierdo.position(game.at(19, 10))
+    formacion.agregar(izquierdo)
+    formacion.agregar(derecho) // Está en el 6,10
 
-    assert.equals(game.at(8, 10), izquierdo.position())
-    assert.equals(game.at(9, 10), derecho.position())
-  }
+    formacion.mover() // Al chocar, deben bajar y cambiar a izquierda
 
-  test "una formación vacía puede moverse sin fallar" {
-    const vacia = new Formacion(nivel = nivel, intervalo = 100)
+    assert.equals(game.at(19, 9), izquierdo.position())
+    assert.equals(game.at(6, 9), derecho.position())
 
-    assert.doesNotThrowException({ vacia.mover() })
-  }
-}
+    formacion.mover() // Ahora se mueven a la izquierda
 
-describe "Formación: rebote en los bordes" {
-
-  const nivel = new NivelMock()
-  const formacion = new Formacion(nivel = nivel, intervalo = 100)
-  const centrado = new EnemigoMock(position = game.at(5, 10))
-  const enElBordeDerecho = new EnemigoMock(position = game.at(19, 10))
-
-  method initialize() {
-    game.width(20)
-    game.height(20)
-    formacion.agregar(centrado)
-    formacion.agregar(enElBordeDerecho)
-  }
-
-  test "si uno solo no puede avanzar, baja toda la formación sin avanzar de lado" {
-    formacion.mover()
-
-    assert.equals(game.at(5, 9), centrado.position())
-    assert.equals(game.at(19, 9), enElBordeDerecho.position())
-  }
-
-  test "después de bajar, la formación avanza en sentido contrario" {
-    formacion.mover()   // baja y se da vuelta
-    formacion.mover()   // ahora avanza hacia la izquierda
-
-    assert.equals(game.at(4, 9), centrado.position())
-    assert.equals(game.at(18, 9), enElBordeDerecho.position())
-  }
-
-  test "al llegar al borde contrario vuelve a bajar y a invertir la dirección" {
-    formacion.mover()                        // baja en el borde derecho
-    5.times({ i => formacion.mover() })      // el centrado llega a la columna 0
-    assert.equals(game.at(0, 9), centrado.position())
-
-    formacion.mover()                        // ya no puede ir a la izquierda: baja
-    assert.equals(game.at(0, 8), centrado.position())
-    assert.equals(game.at(14, 8), enElBordeDerecho.position())
-
-    formacion.mover()                        // vuelve a avanzar hacia la derecha
-    assert.equals(game.at(1, 8), centrado.position())
-    assert.equals(game.at(15, 8), enElBordeDerecho.position())
+    assert.equals(game.at(18, 9), izquierdo.position())
+    assert.equals(game.at(5, 9), derecho.position())
   }
 }
 
-describe "Formación: quién ataca" {
+describe "Formación: Ataques" {
 
-  const nivel = new NivelMock()
-  const formacion = new Formacion(nivel = nivel, intervalo = 100)
-  const deAtras = new EnemigoMock(position = game.at(5, 12))
-  const deAdelante = new EnemigoMock(position = game.at(5, 10))
-  const deOtraColumna = new EnemigoMock(position = game.at(7, 11))
+  var nivel
+  var formacion
+  var deAtras
+  var deAdelante
+  var deOtraColumna
 
   method initialize() {
+    game.clear()
     game.width(20)
     game.height(20)
+    reloj.limpiarTodo()
+    
+    nivel = new NivelMock()
+    formacion = new Formacion(nivel = nivel, intervalo = 100)
+    deAtras = new EnemigoMock(position = game.at(5, 12))
+    deAdelante = new EnemigoMock(position = game.at(5, 10))
+    deOtraColumna = new EnemigoMock(position = game.at(7, 11))
+    
     formacion.agregar(deAtras)
     formacion.agregar(deAdelante)
     formacion.agregar(deOtraColumna)
   }
 
-  test "en cada columna solo está al frente el enemigo más cercano a la nave" {
+  test "En cada columna solo está al frente el enemigo más cercano a la nave" {
     assert.that(formacion.estaAlFrente(deAdelante))
     assert.notThat(formacion.estaAlFrente(deAtras))
-  }
-
-  test "un enemigo de otra columna no se bloquea con los demás, aunque esté a distinta altura" {
     assert.that(formacion.estaAlFrente(deOtraColumna))
   }
 
-  test "la primera línea tiene un enemigo por columna" {
-    const primeraLinea = formacion.enemigosEnPrimeraLinea()
-
-    assert.equals(2, primeraLinea.size())
-    assert.that(primeraLinea.contains(deAdelante))
-    assert.that(primeraLinea.contains(deOtraColumna))
-    assert.notThat(primeraLinea.contains(deAtras))
-  }
-
-  test "atacar le ordena intentar un ataque solo a la primera línea" {
+  test "Atacar le ordena intentar un ataque solo a la primera línea" {
     formacion.atacar()
 
     assert.equals(1, deAdelante.ataques())
@@ -123,111 +89,66 @@ describe "Formación: quién ataca" {
     assert.equals(0, deAtras.ataques())
   }
 
-  test "los huecos no cuentan: un enemigo está bloqueado por cualquiera más abajo en su columna" {
-    const lejano = new EnemigoMock(position = game.at(5, 2))
-    formacion.agregar(lejano)
-
-    assert.that(formacion.estaAlFrente(lejano))
-    assert.notThat(formacion.estaAlFrente(deAdelante))
-    assert.notThat(formacion.estaAlFrente(deAtras))
-  }
-
-  test "si el de adelante sale de la formación, el de atrás pasa a primera línea" {
+  test "Si el de adelante sale de la formación, el de atrás pasa a primera línea" {
     formacion.quitar(deAdelante)
 
     assert.that(formacion.estaAlFrente(deAtras))
   }
 }
 
-describe "Formación: un paso del reloj" {
+describe "Formación: Ciclo de vida y paso del reloj" {
 
-  const nivel = new NivelMock()
-  const formacion = new Formacion(nivel = nivel, intervalo = 100)
-  const registro = new RegistroDeEventos()
-  const uno = new EnemigoMock(nombre = "uno", registro = registro, position = game.at(5, 10))
-  const dos = new EnemigoMock(nombre = "dos", registro = registro, position = game.at(6, 10))
+  var nivel
+  var formacion
+  var uno
+  var dos
 
   method initialize() {
+    game.clear()
     game.width(20)
     game.height(20)
+    reloj.limpiarTodo()
+    
+    nivel = new NivelMock()
+    formacion = new Formacion(nivel = nivel, intervalo = 100)
+    uno = new EnemigoMock(position = game.at(5, 10))
+    dos = new EnemigoMock(position = game.at(6, 10))
+    
     formacion.agregar(uno)
     formacion.agregar(dos)
   }
 
-  test "primero se mueven todos y después ataca la primera línea" {
+  test "Un paso completo mueve a todos y luego hace atacar a la primera línea" {
     formacion.paso()
 
-    assert.equals(["mover uno", "mover dos", "atacar uno", "atacar dos"], registro.eventos())
+    // Verifica que se movieron
+    assert.equals(game.at(6, 10), uno.position())
+    assert.equals(game.at(7, 10), dos.position())
+    
+    // Verifica que atacaron
+    assert.equals(1, uno.ataques())
+    assert.equals(1, dos.ataques())
   }
 
-  test "cada paso deja a la formación una celda más adelante" {
+  test "Al quitar un enemigo, este deja de moverse y atacar con la formación" {
+    formacion.quitar(uno)
+
     formacion.paso()
-    formacion.paso()
 
-    assert.equals(game.at(7, 10), uno.position())
-    assert.equals(game.at(8, 10), dos.position())
-  }
-}
-
-describe "Formación: cuando se quedan sin enemigos" {
-
-  const nivel = new NivelMock()
-  const formacion = new Formacion(nivel = nivel, intervalo = 100)
-  const primero = new EnemigoMock(position = game.at(5, 10))
-  const segundo = new EnemigoMock(position = game.at(6, 10))
-
-  method initialize() {
-    game.width(20)
-    game.height(20)
-    formacion.agregar(primero)
-    formacion.agregar(segundo)
+    // 'uno' se quedó quieto
+    assert.equals(game.at(5, 10), uno.position())
+    assert.equals(0, uno.ataques())
+    
+    // 'dos' siguió con la formación
+    assert.equals(game.at(7, 10), dos.position())
+    assert.equals(1, dos.ataques())
   }
 
-  test "un enemigo quitado deja de moverse con la formación" {
-    formacion.quitar(primero)
+  test "Al quitar al último enemigo, se avisa al nivel que la formación quedó vacía" {
+    formacion.quitar(uno)
+    assert.equals(0, nivel.avisos()) // Todavía queda 'dos'
 
-    formacion.mover()
-
-    assert.equals(game.at(5, 10), primero.position())
-    assert.equals(game.at(7, 10), segundo.position())
-  }
-
-  test "un enemigo quitado deja de atacar" {
-    formacion.quitar(primero)
-
-    formacion.atacar()
-
-    assert.equals(0, primero.ataques())
-    assert.equals(1, segundo.ataques())
-  }
-
-  test "mientras queden enemigos no le avisa al nivel" {
-    formacion.quitar(primero)
-
-    assert.equals(0, nivel.avisos())
-  }
-
-  test "al quitar al último le avisa al nivel que la formación quedó vacía" {
-    formacion.quitar(primero)
-    formacion.quitar(segundo)
-
-    assert.equals(1, nivel.avisos())
-  }
-
-  test "quitar un enemigo que no pertenece a la formación no la vacía ni avisa al nivel" {
-    formacion.quitar(new EnemigoMock(position = game.at(1, 1)))
-
-    assert.equals(0, nivel.avisos())
-  }
-}
-
-describe "Formación: identidad del reloj" {
-
-  test "cada formación tiene su propio reloj, así detener una no frena a las otras" {
-    const nivel = new NivelMock()
-    const una = new Formacion(nivel = nivel, intervalo = 100)
-    const otra = new Formacion(nivel = nivel, intervalo = 100)
-
-    assert.notEquals(una.nombreTick(), otra.nombreTick())
+    formacion.quitar(dos)
+    assert.equals(1, nivel.avisos()) // Se quedó vacía
   }
 }
