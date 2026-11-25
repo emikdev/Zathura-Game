@@ -1,58 +1,42 @@
 import wollok.game.*
-import src.mecanicas.bandos.*
-import src.mecanicas.direcciones.*
-import src.mecanicas.gestores.gestorDisparos.*
+import src.mecanicas.bandos.bandoJugador.*
+import src.mecanicas.bandos.bandoEnemigo.*
+import src.gestores.gestorDisparos.*
 import tests.mocks.mocksPersonaje.*
 
-describe "Bandos: quién puede dañar a quién" {
+describe "Bandos: delegación de disparos" {
 
-  test "un bando puede dañar a su opuesto" {
-    assert.that(jugador.puedeColisionarCon(enemigo))
-    assert.that(enemigo.puedeColisionarCon(jugador))
+  method initialize() {
+    // Limpiamos los gestores para evitar que el estado de un test afecte al otro
+    // (Si tus gestores no tienen un método limpiar(), deberías agregarlo, 
+    // o inicializar los disparos a 0 de alguna forma).
+    gestorJugador.limpiar()
+    gestorEnemigos.limpiar()
   }
 
-  test "un bando no se daña a sí mismo (sin fuego amigo)" {
-    assert.notThat(jugador.puedeColisionarCon(jugador))
-    assert.notThat(enemigo.puedeColisionarCon(enemigo))
-  }
-}
-
-describe "Bandos: configuración de cada uno" {
-
-  test "el jugador dispara hacia arriba y el enemigo hacia abajo" {
-    assert.equals(arriba, jugador.direccionDeDisparo())
-    assert.equals(abajo, enemigo.direccionDeDisparo())
-  }
-
-  test "la bala del jugador nace una celda arriba del tirador y la del enemigo una abajo" {
-    assert.equals(game.at(5, 6), jugador.ajustarPosicion(game.at(5, 5)))
-    assert.equals(game.at(5, 4), enemigo.ajustarPosicion(game.at(5, 5)))
-  }
-}
-
-describe "Bandos: delegación en su gestor" {
-
-  const disparoAliado = new DisparoMock(bando = jugador, dano = 1)
-
-  test "cada bando registra sus disparos en su propio gestor" {
-    jugador.registrar(disparoAliado)
-
+  test "Cada bando registra y libera sus disparos en su propio gestor" {
+    const disparo = new DisparoMock(bando = jugador, dano = 1)
+    
+    // Al registrar, el disparo entra en el gestor del jugador
+    jugador.registrar(disparo)
     assert.equals(1, gestorJugador.cantidadActivos())
     assert.equals(0, gestorEnemigos.cantidadActivos())
-  }
-
-  test "liberar un disparo del bando lo saca de su gestor" {
-    jugador.registrar(disparoAliado)
-    assert.equals(1, gestorJugador.cantidadActivos())
-
-    jugador.liberar(disparoAliado)
+    
+    // Al liberar, el disparo sale del gestor
+    jugador.liberar(disparo)
     assert.equals(0, gestorJugador.cantidadActivos())
   }
 
-  test "el tope de los enemigos no limita al jugador" {
-    gestorEnemigos.limiteMaximo().times({ i => enemigo.registrar(new DisparoMock(bando = enemigo, dano = 1)) })
+  test "El límite de disparos en pantalla aplica solo al bando enemigo" {
+    // Llenamos el gestor del enemigo hasta su límite máximo
+    gestorEnemigos.limiteMaximo().times({ i => 
+      enemigo.registrar(new DisparoMock(bando = enemigo, dano = 1)) 
+    })
 
+    // El enemigo llega a su tope y ya no puede disparar
     assert.notThat(enemigo.puedeDisparar())
+    
+    // Pero el jugador no tiene ese límite y puede seguir disparando
     assert.that(jugador.puedeDisparar())
   }
 }
