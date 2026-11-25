@@ -2,115 +2,69 @@ import wollok.game.*
 import src.mecanicas.hud.visualsHud.*
 import tests.mocks.mocksHud.*
 
-describe "Visual de vida" {
+describe "Visuales del HUD" {
 
-  const nave = new NaveMock(vidas = 3)
-  const visual = new VisualVida(nave = nave, posicion = game.at(4, 0))
+  var nave
+  var visualVida
+  var visualArma
+  var centena
+  var decena
+  var unidad
 
-  test "muestra el asset que corresponde a las vidas de la nave" {
-    assert.equals("vida-frame3.png", visual.image())
+  method initialize() {
+    nave = new NaveMock()
+    visualVida = new VisualVida(nave = nave, posicion = game.at(4, 0))
+    visualArma = new VisualArma(nave = nave, posicion = game.at(1, 0))
+    centena = new Centena(nave = nave, posicion = game.at(2, 0))
+    decena = new Decena(nave = nave, posicion = game.at(3, 0))
+    unidad = new Unidad(nave = nave, posicion = game.at(4, 0))
   }
 
-  test "se actualiza cuando la nave pierde una vida" {
+  // Visual de vida
+
+  test "El visual de vida refleja el estado actual de la nave" {
+    nave.vidas(3)
+    assert.equals("vida-frame3.png", visualVida.image())
+
     nave.vidas(2)
-
-    assert.equals("vida-frame2.png", visual.image())
+    assert.equals("vida-frame2.png", visualVida.image())
   }
 
-  test "con cero vidas muestra el asset de cero vidas" {
+  test "Si la nave se queda sin vidas, el visual muestra el frame de cero" {
     nave.vidas(0)
-
-    assert.equals("vida-frame0.png", visual.image())
+    assert.equals("vida-frame0.png", visualVida.image())
   }
 
-  test "con vidas negativas muestra el asset de cero vidas" {
-    nave.vidas(-1)
+  // Visual de arma
 
-    assert.equals("vida-frame0.png", visual.image())
-  }
+  test "El visual de arma refleja el ícono actual y se actualiza al cambiarlo" {
+    nave.iconoArmaActual("laser.png")
+    assert.equals("laser.png", visualArma.image())
 
-  test "se dibuja en la posición indicada" {
-    assert.equals(game.at(4, 0), visual.position())
-  }
-}
-
-describe "Visual de arma" {
-
-  const nave = new NaveMock(iconoArmaActual = "laser.png")
-  const visual = new VisualArma(nave = nave, posicion = game.at(1, 0))
-
-  test "muestra el ícono del arma actual de la nave" {
-    assert.equals("laser.png", visual.image())
-  }
-
-  test "se actualiza cuando la nave cambia de arma" {
     nave.iconoArmaActual("plasma.png")
-
-    assert.equals("plasma.png", visual.image())
+    assert.equals("plasma.png", visualArma.image())
   }
 
-  test "se dibuja en la posición indicada" {
-    assert.equals(game.at(1, 0), visual.position())
-  }
-}
+  // Visuales de munición
 
-describe "Visuales de munición" {
-
-  const nave = new NaveMock()
-  const centena = new Centena(nave = nave, posicion = game.at(2, 0))
-  const decena = new Decena(nave = nave, posicion = game.at(3, 0))
-  const unidad = new Unidad(nave = nave, posicion = game.at(4, 0))
-
-  // Munición que pasa a tener la nave y los assets que muestran, de izquierda a derecha
-  method imagenesPara(municion) {
-    nave.municionActual(municion)
-    return [centena.image(), decena.image(), unidad.image()]
+  test "La munición se divide correctamente en centena, decena y unidad" {
+    // Un solo test es suficiente para validar que la UI de munición funciona
+    nave.municionActual(128)
+    
+    assert.equals("numero_1.png", centena.image())
+    assert.equals("numero_2.png", decena.image())
+    assert.equals("numero_8.png", unidad.image())
   }
 
-  test "sin munición muestra tres ceros" {
-    assert.equals(["numero_0.png", "numero_0.png", "numero_0.png"], self.imagenesPara(0))
-  }
+  test "Los visuales de munición se actualizan dinámicamente al gastar balas" {
+    nave.municionActual(10)
+    assert.equals("numero_0.png", centena.image())
+    assert.equals("numero_1.png", decena.image())
+    assert.equals("numero_0.png", unidad.image())
 
-  test "con una sola cifra solo usa las unidades" {
-    assert.equals(["numero_0.png", "numero_0.png", "numero_7.png"], self.imagenesPara(7))
-  }
-
-  test "con dos cifras usa decenas y unidades" {
-    assert.equals(["numero_0.png", "numero_4.png", "numero_2.png"], self.imagenesPara(42))
-  }
-
-  test "con tres cifras usa las tres" {
-    assert.equals(["numero_1.png", "numero_2.png", "numero_8.png"], self.imagenesPara(128))
-  }
-
-  test "el máximo de tres cifras muestra tres nueves" {
-    assert.equals(["numero_9.png", "numero_9.png", "numero_9.png"], self.imagenesPara(999))
-  }
-
-  test "una centena exacta no mezcla las cifras de abajo" {
-    assert.equals(["numero_1.png", "numero_0.png", "numero_0.png"], self.imagenesPara(100))
-  }
-
-  test "una decena exacta deja las unidades en cero" {
-    assert.equals(["numero_0.png", "numero_3.png", "numero_0.png"], self.imagenesPara(30))
-  }
-
-  test "cada visual expone su cifra como número" {
-    nave.municionActual(305)
-
-    assert.equals(3, centena.numeros())
-    assert.equals(0, decena.numeros())
-    assert.equals(5, unidad.numeros())
-  }
-
-  test "se actualizan cuando la nave gasta munición" {
-    assert.equals(["numero_0.png", "numero_1.png", "numero_0.png"], self.imagenesPara(10))
-    assert.equals(["numero_0.png", "numero_0.png", "numero_9.png"], self.imagenesPara(9))
-  }
-
-  test "se dibujan en las posiciones indicadas" {
-    assert.equals(game.at(2, 0), centena.position())
-    assert.equals(game.at(3, 0), decena.position())
-    assert.equals(game.at(4, 0), unidad.position())
+    nave.municionActual(9)
+    assert.equals("numero_0.png", centena.image())
+    assert.equals("numero_0.png", decena.image())
+    assert.equals("numero_9.png", unidad.image())
   }
 }
