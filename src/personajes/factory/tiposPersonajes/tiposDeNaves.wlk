@@ -15,7 +15,7 @@ class TipoPersonajeNave inherits TipoPersonaje {
 const naveNormal = new TipoPersonajeNave(
     saludMaxima = 3,
     vidas = 3,
-    arsenalInicial = new Arsenal (armas = [armaBasica, dobleCanonPesado]), // FALTA: Arma Basica
+    arsenalInicial = new Arsenal (armas = [armaBasica, dobleCanonPesado, tripleCanonPesado]),
     animacionBase = animacionBaseNaveBasica,
     animacionDisparo = animacionDisparoNaveBasica,
     animacionImpacto = animacionImpactoNaveBasica,
@@ -25,8 +25,8 @@ const naveNormal = new TipoPersonajeNave(
 // Aguanta más daño y tiene un arma pesada pero tiene una vida
 const naveTanque = new TipoPersonajeNave(
     saludMaxima = 6,
-    vidas = 2,
-    arsenalInicial = new Arsenal (armas = [armaBasica]), // FALTA: Arma Basica y arma especial
+    vidas = 3,
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasicaAmarilla]),
     animacionBase = animacionBaseNaveTanque,
     animacionDisparo = animacionDisparoNaveTanque, 
     animacionImpacto = animacionImpactoNaveTanque,
@@ -36,8 +36,8 @@ const naveTanque = new TipoPersonajeNave(
 // Frágil, compensa con un pesada y un arma más rápida
 const naveAtaque = new TipoPersonajeNave(
     saludMaxima = 1,
-    vidas = 3,
-    arsenalInicial = new Arsenal (armas = [armaBasica, tripleCanonPesado, armaRapidaEnemiga]), // FALTA: Arma Basica, arma pesada y arma rapida
+    vidas = 1,
+    arsenalInicial = new Arsenal (armas = [armaRapidaEnemiga, tripleCanonPesado, canonPlasma]),
     animacionBase = animacionBaseNaveAtaque,
     animacionDisparo = animacionDisparoNaveAtaque,
     animacionImpacto = animacionImpactoNaveAtaque,

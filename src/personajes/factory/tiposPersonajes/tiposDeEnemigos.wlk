@@ -164,7 +164,7 @@ const pulpoRojo = new TipoPersonajeEnemigo(
 const alienHeavy = new TipoPersonajeEnemigo(
     saludMaxima = 3,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaEnemigaBasica]), // FALTA: Arma Basica y pesada
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaPesadaEnemiga]),
     animacionBase = animacionBaseAlienHeavy,
     animacionDisparo = animacionDisparoAlienHeavy,
     animacionImpacto = animacionImpactoAlienHeavy,
@@ -176,7 +176,7 @@ const alienHeavy = new TipoPersonajeEnemigo(
 const calamarHeavy = new TipoPersonajeEnemigo(
     saludMaxima = 3,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaEnemigaBasica]), // FALTA: Arma Basica y pesada
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaPesadaEnemiga]),
     animacionBase = animacionBaseCalamarHeavy,
     animacionDisparo = animacionDisparoCalamarHeavy,
     animacionImpacto = animacionImpactoCalamarHeavy,
@@ -188,7 +188,7 @@ const calamarHeavy = new TipoPersonajeEnemigo(
 const pulpoHeavy = new TipoPersonajeEnemigo(
     saludMaxima = 3,
     vidas = 1,
-    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaEnemigaBasica]), // FALTA: Arma Basica y pesada
+    arsenalInicial = new Arsenal (armas = [armaEnemigaBasica, armaPesadaEnemiga]),
     animacionBase = animacionBasePulpoHeavy,
     animacionDisparo = animacionDisparoPulpoHeavy,
     animacionImpacto = animacionImpactoPulpoHeavy,
