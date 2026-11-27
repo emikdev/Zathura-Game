@@ -1,68 +1,61 @@
 import wollok.game.*
-import src.mecanicas.gestores.gestorDeMuros.*
+import src.gestores.gestorMuros.*
 
 describe "Gestor de muros" {
 
   method initialize() {
+    game.clear()
     game.width(20)
     game.height(20)
+    gestorMuros.detener() // Ahora sí va a encontrar el gestorMuros
   }
 
-  test "iniciar crea muros y los agrega todos al tablero" {
+  test "Iniciar crea los muros y los agrega al tablero" {
     gestorMuros.iniciar(1)
 
     assert.that(gestorMuros.cantidadActivos() > 0)
     assert.equals(gestorMuros.cantidadActivos(), game.allVisuals().size())
   }
 
-  test "iniciar dos veces no duplica los muros" {
+  test "Iniciar dos veces no duplica los muros (limpia los anteriores)" {
     gestorMuros.iniciar(1)
-    const cantidad = gestorMuros.cantidadActivos()
+    const cantidadInicial = gestorMuros.cantidadActivos()
 
     gestorMuros.iniciar(1)
 
-    assert.equals(cantidad, gestorMuros.cantidadActivos())
-    assert.equals(cantidad, game.allVisuals().size())
+    assert.equals(cantidadInicial, gestorMuros.cantidadActivos())
+    assert.equals(cantidadInicial, game.allVisuals().size())
   }
 
-  test "un muro destruido sale del gestor y del tablero" {
+  test "Al destruir un muro, sale del gestor y del tablero, pero los demás quedan" {
     gestorMuros.iniciar(1)
-    const cantidad = gestorMuros.cantidadActivos()
+    const cantidadInicial = gestorMuros.cantidadActivos()
     const muro = game.allVisuals().first()
 
     gestorMuros.muroDestruido(muro)
 
-    assert.equals(cantidad - 1, gestorMuros.cantidadActivos())
+    assert.equals(cantidadInicial - 1, gestorMuros.cantidadActivos())
+    assert.equals(cantidadInicial - 1, game.allVisuals().size())
     assert.notThat(game.hasVisual(muro))
   }
 
-  test "los muros restantes siguen en el tablero" {
+  test "Detener retira todos los muros del tablero (incluso si se llama sin muros)" {
     gestorMuros.iniciar(1)
-    const cantidad = gestorMuros.cantidadActivos()
-
-    gestorMuros.muroDestruido(game.allVisuals().first())
-
-    assert.equals(cantidad - 1, game.allVisuals().size())
-  }
-
-  test "detener retira todos los muros" {
-    gestorMuros.iniciar(1)
-
     gestorMuros.detener()
-
     assert.equals(0, gestorMuros.cantidadActivos())
     assert.that(game.allVisuals().isEmpty())
+
+    // Llamar a detener de nuevo no debe romper nada
+    gestorMuros.detener()
+    assert.equals(0, gestorMuros.cantidadActivos())
   }
 
-  test "detener sin muros no falla" {
-    assert.doesNotThrowException({ gestorMuros.detener() })
-  }
-
-  test "una dificultad más alta hace nacer los muros más destruidos" {
+  test "Una dificultad más alta hace nacer los muros más destruidos" {
+    // En dificultad 1, nacen enteros
     gestorMuros.iniciar(1)
     const imagenFacil = game.allVisuals().first().image()
-    gestorMuros.detener()
-
+    
+    // En dificultad 4, nacen más destruidos
     gestorMuros.iniciar(4)
     const imagenDificil = game.allVisuals().first().image()
 
