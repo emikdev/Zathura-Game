@@ -1,7 +1,7 @@
 class ArmaMock{
     var municion
 
-    method disparar(){
+    method disparar(personaje){
         municion -=1
     }
 

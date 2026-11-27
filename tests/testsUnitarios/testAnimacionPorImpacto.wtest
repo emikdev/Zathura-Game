@@ -1,53 +1,45 @@
 import src.muros.animacion.animacionPorImpacto.*
 import tests.mocks.mocksMuro.*
 
-describe "Animación por impacto" {
+describe "Animación por impacto (Muros)" {
 
-  const estado = new EstadoAnimacionMock()
-  const recurso = new RecursoFramesMock(frames = ["a.png", "b.png", "c.png"])
-  const animacion = new AnimacionPorImpacto(estado = estado, recursoDeAnimacion = recurso)
+  var estado
+  var recurso
+  var animacion
 
-  test "arranca en el primer frame" {
+  method initialize() {
+    estado = new EstadoAnimacionMock()
+    recurso = new RecursoFramesMock(frames = ["a.png", "b.png", "c.png"])
+
+    animacion = new AnimacionPorImpacto(estado = estado, recursoDeAnimacion = recurso, autoAvance = false)
+  }
+
+  test "Arranca en el primer frame por defecto, pero puede empezar en otro" {
     assert.equals("a.png", animacion.frameActual())
+
+    animacion.posicionarEnFrame(2)
+    assert.equals("c.png", animacion.frameActual())
   }
 
-  test "puede arrancar en otro frame" {
-    const avanzada = new AnimacionPorImpacto(estado = estado, recursoDeAnimacion = recurso, frameActual = 2)
-
-    assert.equals("c.png", avanzada.frameActual())
-  }
-
-  test "avanzar pasa al frame siguiente" {
+  test "Cada pedido de avanzar desplaza un frame hacia adelante" {
     animacion.avanzar()
-
     assert.equals("b.png", animacion.frameActual())
-  }
 
-  test "avanza un frame por cada pedido" {
     animacion.avanzar()
-    animacion.avanzar()
-
     assert.equals("c.png", animacion.frameActual())
   }
 
-  test "mientras no esté en el último frame no avisa al estado" {
-    animacion.avanzar()
+  test "Al pedir avanzar en el último frame, avisa al estado y no cambia de frame" {
+    // Lo posicionamos directo en el último frame
+    animacion.posicionarEnFrame(2) 
+
     animacion.avanzar()
 
-    assert.equals(0, estado.terminos())
+    assert.equals(1, estado.terminos()) // Avisó al estado
+    assert.equals("c.png", animacion.frameActual()) // Se quedó en el último frame
   }
 
-  test "estando en el último frame, avanzar avisa al estado y no cambia de frame" {
-    animacion.avanzar()
-    animacion.avanzar()
-
-    animacion.avanzar()
-
-    assert.equals(1, estado.terminos())
-    assert.equals("c.png", animacion.frameActual())
-  }
-
-  test "una animación detenida ignora los pedidos de avanzar" {
+  test "Una animación detenida ignora los pedidos de avanzar" {
     animacion.detener()
 
     animacion.avanzar()

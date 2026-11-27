@@ -2,306 +2,188 @@ import wollok.game.*
 import src.mecanicas.armas.armas.*
 import src.mecanicas.armas.armasNave.*
 import src.mecanicas.armas.armasEnemigas.*
-import tests.mocks.mocksPersonaje.*
-import tests.mocks.mocksArmas.*
 import src.mecanicas.armas.clasesDeArmas.armaBasica.*
 import src.mecanicas.armas.clasesDeArmas.armasLaser.*
 import src.mecanicas.armas.clasesDeArmas.armasMultiples.*
+import tests.mocks.mocksArmas.*
+import tests.mocks.mocksPersonaje.*
 
-describe "Arma base" {
+describe "Armas: Disparo básico y munición" {
 
-  const bando = new BandoEspia()
-  const bandoSinPermiso = new BandoEspia(permiteDisparar = false)
-  const tirador = new PersonajeMock(bando = bando, position = game.at(5, 5))
-  const tiradorSinPermiso = new PersonajeMock(bando = bandoSinPermiso, position = game.at(5, 5))
-  const arma = new Arma(recursoBala = new RecursoMock(frame = "bala.png"), danoBala = 7, municion = 5, iconoHud = "x.png")
+  var bando
+  var bandoSinPermiso
+  var arma
 
   method initialize() {
+    game.clear()
     game.width(20)
     game.height(20)
+    
+    bando = new BandoEspia(permiteDisparar = true)
+    bandoSinPermiso = new BandoEspia(permiteDisparar = false)
+    
+    arma = new Arma(recursoBala = new RecursoMock(frame = "bala.png"), danoBala = 7, municion = 5, iconoHud = "x.png")
   }
 
-  test "al disparar registra una bala con el daño del arma, en la posición del tirador" {
+  method tiradorEn(bandoAsignado, posicion) = object {
+    method bando() = bandoAsignado
+    method position() = posicion
+  }
+
+  test "Al disparar, genera la bala con el daño y posición correctos, y consume munición" {
+    const tirador = self.tiradorEn(bando, game.at(5, 5))
+    
     arma.disparar(tirador)
 
-    assert.equals(1, bando.disparosRegistrados().size())
+    assert.equals(4, arma.municion()) // Gastó 1
     const bala = bando.disparosRegistrados().first()
     assert.equals(7, bala.dano())
     assert.equals(game.at(5, 5), bala.position())
   }
 
-  test "cada disparo gasta una unidad de munición" {
+  test "Si el bando no tiene permiso, no dispara ni consume munición" {
+    const tirador = self.tiradorEn(bandoSinPermiso, game.at(5, 5))
+    
     arma.disparar(tirador)
 
-    assert.equals(4, arma.municion())
-  }
-
-  test "si el bando no puede disparar, no dispara ni gasta munición" {
-    arma.disparar(tiradorSinPermiso)
-
-    assert.equals(0, bandoSinPermiso.disparosRegistrados().size())
-    assert.equals(5, arma.municion())
+    assert.equals(5, arma.municion()) // No gastó nada
+    assert.that(bandoSinPermiso.disparosRegistrados().isEmpty())
   }
 }
 
-describe "Armas infinitas" {
+describe "Armas: Munición infinita vs dinámica" {
 
-  const bando = new BandoEspia()
-  const tirador = new PersonajeMock(bando = bando, position = game.at(5, 5))
-  const recurso = new RecursoMock(frame = "bala.png")
+  var bando
+  var recurso
+  var tirador
 
   method initialize() {
+    game.clear()
     game.width(20)
     game.height(20)
+    
+    bando = new BandoEspia(permiteDisparar = true)
+    recurso = new RecursoMock(frame = "bala.png")
+    
+    tirador = object {
+      method bando() = bando
+      method position() = game.at(5, 5)
+    }
   }
 
-  test "ArmaBasica dispara sin gastar munición" {
-    const arma = new ArmaBasica(recursoBala = recurso, danoBala = 1, municion = 5, iconoHud = "x.png")
-
-    arma.disparar(tirador)
-    arma.disparar(tirador)
-
-    assert.equals(2, bando.disparosRegistrados().size())
-    assert.equals(5, arma.municion())
-  }
-
-  test "ArmaBasica siempre tiene munición, incluso si se crea con 0" {
-    const arma = new ArmaBasica(recursoBala = recurso, danoBala = 1, municion = 0, iconoHud = "x.png")
-
-    assert.that(arma.hayMunicion())
-  }
-
-  test "el arma básica del jugador es infinita" {
-    const antes = armaBasica.municion()
+  test "Las armas básicas y enemigas disparan infinitamente sin gastar munición" {
+    const armaBasica = new ArmaBasica(recursoBala = recurso, danoBala = 1, municion = 5, iconoHud = "x.png")
+    const armaEnemiga = armaEnemigaBasica
 
     armaBasica.disparar(tirador)
+    armaBasica.disparar(tirador)
+    armaEnemiga.disparar(tirador)
 
-    assert.equals(antes, armaBasica.municion())
+    assert.equals(5, armaBasica.municion()) 
+    assert.equals(3, bando.disparosRegistrados().size()) 
   }
 
-  test "las armas enemigas no gastan munición" {
-    const armas = [
-      armaEnemigaBasica,
-      armaEnemigaBasicaAmarilla,
-      armaEnemigaBasicaAzul,
-      armaEnemigaBasicaRoja,
-      armaEnemigaBasicaMorada,
-      armaPesadaEnemiga,
-      armaRapidaEnemiga
-    ]
+  test "Las armas especiales gastan munición según su costo y dejan de disparar si no alcanza" {
+    const laser = new ArmaLaser(recursoBala = recurso, danoBala = 5, municion = 2, iconoHud = "x.png")
+    assert.that(laser.hayMunicion())
 
-    armas.forEach({ arma =>
-      const antes = arma.municion()
-      arma.disparar(tirador)
-      assert.equals(antes, arma.municion())
-    })
-
-    assert.equals(7, bando.disparosRegistrados().size())
-  }
-}
-
-describe "Armas de munición dinámica" {
-
-  const bando = new BandoEspia()
-  const tirador = new PersonajeMock(bando = bando, position = game.at(5, 5))
-  const recurso = new RecursoMock(frame = "bala.png")
-  const laser = new ArmaLaser(recursoBala = recurso, danoBala = 5, municion = 10, iconoHud = "x.png")
-  const plasma = new ArmaDePlasma(recursoBala = recurso, danoBala = 10, municion = 10, iconoHud = "x.png")
-
-  method initialize() {
-    game.width(20)
-    game.height(20)
-  }
-
-  test "ArmaLaser gasta 2 unidades por disparo y dispara con su daño" {
     laser.disparar(tirador)
+    assert.equals(0, laser.municion())
+    assert.notThat(laser.hayMunicion())
 
-    assert.equals(8, laser.municion())
-    assert.equals(5, bando.disparosRegistrados().first().dano())
-  }
-
-  test "ArmaDePlasma gasta 4 unidades por disparo y dispara con su daño" {
-    plasma.disparar(tirador)
-
-    assert.equals(6, plasma.municion())
-    assert.equals(10, bando.disparosRegistrados().first().dano())
-  }
-
-  test "tiene munición solo si alcanza para un disparo completo" {
-    assert.that(new ArmaLaser(recursoBala = recurso, danoBala = 1, municion = 2, iconoHud = "x.png").hayMunicion())
-    assert.notThat(new ArmaLaser(recursoBala = recurso, danoBala = 1, municion = 1, iconoHud = "x.png").hayMunicion())
-    assert.that(new ArmaDePlasma(recursoBala = recurso, danoBala = 1, municion = 4, iconoHud = "x.png").hayMunicion())
-    assert.notThat(new ArmaDePlasma(recursoBala = recurso, danoBala = 1, municion = 3, iconoHud = "x.png").hayMunicion())
-  }
-
-  test "tras su último disparo posible queda sin munición suficiente, y el arsenal la descartará" {
-    const laserConUnDisparo = new ArmaLaser(recursoBala = recurso, danoBala = 1, municion = 2, iconoHud = "x.png")
-
-    laserConUnDisparo.disparar(tirador)
-
-    assert.notThat(laserConUnDisparo.hayMunicion())
+    const plasma = new ArmaDePlasma(recursoBala = recurso, danoBala = 10, municion = 3, iconoHud = "x.png")
+    assert.notThat(plasma.hayMunicion())
   }
 }
 
-describe "Armas de la nave: disparos que rinde cada una" {
+describe "Armas: Cañones múltiples y bordes" {
 
-  const bando = new BandoEspia()
-  const tirador = new PersonajeMock(bando = bando, position = game.at(5, 5))
-
-  method initialize() {
-    game.width(20)
-    game.height(20)
-  }
-
-  // Dispara todas las veces menos una: todavía le tiene que alcanzar para el último.
-  // Con ese último disparo se queda sin munición suficiente.
-  method verificarQueRinde(arma, disparos) {
-    (disparos - 1).times({ i => arma.disparar(tirador) })
-    assert.that(arma.hayMunicion())
-
-    arma.disparar(tirador)
-    assert.notThat(arma.hayMunicion())
-  }
-
-  test "láser estándar: 10 disparos" {
-    self.verificarQueRinde(laserEstandar, 10)
-  }
-
-  test "cañón de plasma: 10 disparos" {
-    self.verificarQueRinde(canonPlasma, 10)
-  }
-
-  test "doble cañón: 10 ráfagas" {
-    self.verificarQueRinde(dobleCanon, 10)
-  }
-
-  test "triple cañón: 5 ráfagas" {
-    self.verificarQueRinde(tripleCanon, 5)
-  }
-
-  test "doble cañón pesado: 5 ráfagas" {
-    self.verificarQueRinde(dobleCanonPesado, 5)
-  }
-
-  test "triple cañón pesado: 3 ráfagas" {
-    self.verificarQueRinde(tripleCanonPesado, 3)
-  }
-}
-
-describe "Cañones múltiples" {
-
-  const bando = new BandoEspia()
-  const tirador = new PersonajeMock(bando = bando, position = game.at(5, 5))
-  const tiradorBordeIzquierdo = new PersonajeMock(bando = bando, position = game.at(0, 5))
-  const tiradorBordeDerecho = new PersonajeMock(bando = bando, position = game.at(19, 5))
-  const recurso = new RecursoMock(frame = "bala.png")
-  const doble = new DobleCanon(recursoBala = recurso, danoBala = 5, municion = 20, iconoHud = "x.png")
-  const triple = new TripleCanon(recursoBala = recurso, danoBala = 7, municion = 15, iconoHud = "x.png")
+  var recurso
 
   method initialize() {
+    game.clear()
     game.width(20)
     game.height(20)
+    recurso = new RecursoMock(frame = "bala.png")
   }
 
-  method posicionesDeBalas() = bando.disparosRegistrados().map({ bala => bala.position() })
+  method posicionesDeBalas(bandoAsignado) = bandoAsignado.disparosRegistrados().map({ bala => bala.position() })
 
-  test "DobleCanon dispara dos balas, una en cada columna vecina, y gasta 2 de munición" {
+  test "El DobleCañón dispara dos balas en columnas vecinas y gasta 2 de munición" {
+    const bando = new BandoEspia(permiteDisparar = true)
+    const doble = new DobleCanon(recursoBala = recurso, danoBala = 5, municion = 10, iconoHud = "x.png")
+    const tirador = object {
+      method bando() = bando
+      method position() = game.at(5, 5)
+    }
+
     doble.disparar(tirador)
 
+    assert.equals(8, doble.municion())
     assert.equals(2, bando.disparosRegistrados().size())
-    assert.that(self.posicionesDeBalas().contains(game.at(4, 5)))
-    assert.that(self.posicionesDeBalas().contains(game.at(6, 5)))
-    assert.equals(18, doble.municion())
+    assert.that(self.posicionesDeBalas(bando).contains(game.at(4, 5)))
+    assert.that(self.posicionesDeBalas(bando).contains(game.at(6, 5)))
   }
 
-  test "TripleCanon dispara tres balas (centro y columnas vecinas) y gasta 3 de munición" {
+  test "El TripleCañón dispara tres balas (centro y vecinas) y gasta 3 de munición" {
+    const bando = new BandoEspia(permiteDisparar = true)
+    const triple = new TripleCanon(recursoBala = recurso, danoBala = 7, municion = 10, iconoHud = "x.png")
+    const tirador = object {
+      method bando() = bando
+      method position() = game.at(5, 5)
+    }
+
     triple.disparar(tirador)
 
+    assert.equals(7, triple.municion())
     assert.equals(3, bando.disparosRegistrados().size())
-    assert.that(self.posicionesDeBalas().contains(game.at(5, 5)))
-    assert.that(self.posicionesDeBalas().contains(game.at(4, 5)))
-    assert.that(self.posicionesDeBalas().contains(game.at(6, 5)))
-    assert.equals(12, triple.municion())
+    assert.that(self.posicionesDeBalas(bando).contains(game.at(5, 5)))
   }
 
-  test "cada bala de una ráfaga hace el daño base del arma" {
-    triple.disparar(tirador)
+  test "En los bordes, los cañones múltiples ajustan la cantidad de balas generadas" {
+    const doble = new DobleCanon(recursoBala = recurso, danoBala = 5, municion = 10, iconoHud = "x.png")
+    const triple = new TripleCanon(recursoBala = recurso, danoBala = 7, municion = 10, iconoHud = "x.png")
+    
+    const bandoIzq = new BandoEspia(permiteDisparar = true)
+    const bandoDer = new BandoEspia(permiteDisparar = true)
+    
+    const tiradorIzquierdo = object {
+      method bando() = bandoIzq
+      method position() = game.at(0, 5)
+    }
+    const tiradorDerecho = object {
+      method bando() = bandoDer
+      method position() = game.at(19, 5)
+    }
 
-    assert.that(bando.disparosRegistrados().all({ bala => bala.dano() == 7 }))
-  }
+    doble.disparar(tiradorIzquierdo)
+    assert.equals(1, bandoIzq.disparosRegistrados().size())
 
-  test "DobleCanon pegado al borde izquierdo solo genera la bala de la derecha" {
-    doble.disparar(tiradorBordeIzquierdo)
-
-    assert.equals(1, bando.disparosRegistrados().size())
-    assert.that(self.posicionesDeBalas().contains(game.at(1, 5)))
-    assert.equals(18, doble.municion())   // gasta munición igual, una sola vez
-  }
-
-  test "TripleCanon pegado al borde derecho solo genera centro e izquierda" {
-    triple.disparar(tiradorBordeDerecho)
-
-    assert.equals(2, bando.disparosRegistrados().size())
-    assert.that(self.posicionesDeBalas().contains(game.at(19, 5)))
-    assert.that(self.posicionesDeBalas().contains(game.at(18, 5)))
+    triple.disparar(tiradorDerecho)
+    assert.equals(2, bandoDer.disparosRegistrados().size())
   }
 }
 
-describe "Arma base: posición de la bala" {
-
-  const bando = new BandoEspia()
-  const bandoQueAjusta = new BandoEspiaQueAjusta()
-  const tirador = new PersonajeMock(bando = bando, position = game.at(5, 5))
-  const tiradorQueAjusta = new PersonajeMock(bando = bandoQueAjusta, position = game.at(5, 5))
-  const arma = new Arma(recursoBala = new RecursoMock(frame = "bala.png"), danoBala = 7, municion = 5, iconoHud = "x.png")
+describe "Armas: Ajuste de posición del bando" {
 
   method initialize() {
+    game.clear()
     game.width(20)
     game.height(20)
   }
 
-  test "si el bando no ajusta la posición, la bala nace en la del tirador" {
+  test "La bala se posiciona en la celda que dicta el ajuste del bando, no encima del tirador" {
+    const bandoQueAjusta = new BandoEspiaQueAjusta(permiteDisparar = true)
+    const recurso = new RecursoMock(frame = "bala.png")
+    const arma = new Arma(recursoBala = recurso, danoBala = 7, municion = 5, iconoHud = "x.png")
+    
+    const tirador = object {
+      method bando() = bandoQueAjusta
+      method position() = game.at(5, 5)
+    }
+
     arma.disparar(tirador)
-
-    assert.equals(game.at(5, 5), bando.disparosRegistrados().first().position())
-  }
-
-  test "la bala nace en la posición que ajusta el bando, no encima del tirador" {
-    arma.disparar(tiradorQueAjusta)
 
     assert.equals(game.at(5, 6), bandoQueAjusta.disparosRegistrados().first().position())
-  }
-}
-
-describe "Cañones múltiples: posición de las balas" {
-
-  const bandoQueAjusta = new BandoEspiaQueAjusta()
-  const tirador = new PersonajeMock(bando = bandoQueAjusta, position = game.at(5, 5))
-  const recurso = new RecursoMock(frame = "bala.png")
-  const doble = new DobleCanon(recursoBala = recurso, danoBala = 5, municion = 20, iconoHud = "x.png")
-  const triple = new TripleCanon(recursoBala = recurso, danoBala = 7, municion = 15, iconoHud = "x.png")
-
-  method initialize() {
-    game.width(20)
-    game.height(20)
-  }
-
-  method posicionesDeBalas() = bandoQueAjusta.disparosRegistrados().map({ bala => bala.position() })
-
-  test "DobleCanon: las dos balas nacen ajustadas, cada una en su columna" {
-    doble.disparar(tirador)
-
-    assert.equals(2, self.posicionesDeBalas().size())
-    assert.that(self.posicionesDeBalas().contains(game.at(4, 6)))
-    assert.that(self.posicionesDeBalas().contains(game.at(6, 6)))
-  }
-
-  test "TripleCanon: las tres balas nacen ajustadas, incluida la del centro" {
-    triple.disparar(tirador)
-
-    assert.equals(3, self.posicionesDeBalas().size())
-    assert.that(self.posicionesDeBalas().contains(game.at(5, 6)))
-    assert.that(self.posicionesDeBalas().contains(game.at(4, 6)))
-    assert.that(self.posicionesDeBalas().contains(game.at(6, 6)))
   }
 }

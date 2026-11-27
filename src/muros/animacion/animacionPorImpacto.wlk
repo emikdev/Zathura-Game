@@ -1,11 +1,9 @@
 import src.mecanicas.animaciones.animacion.*
 
-// Animación que no avanza sola por tiempo: avanza un frame cada vez que se lo piden.
-// Al pedirle avanzar estando en el último frame, avisa a su estado con terminoAnimacion().
 class AnimacionPorImpacto inherits Animacion {
 
-  // Sin temporizador: el constructor de Animacion llama a animar() y acá no hace nada
-  override method animar() { }
+  // Ya no hace falta sobreescribir animar(), la clase padre no lo usa.
+  // El autoAvance se pasa en false desde EnPie.
 
   method esUltimoFrame() = frameActual == recursoDeAnimacion.frames().size() - 1
 
@@ -18,5 +16,4 @@ class AnimacionPorImpacto inherits Animacion {
       }
     }
   }
-
 }

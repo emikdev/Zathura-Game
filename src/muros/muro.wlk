@@ -1,7 +1,7 @@
 import wollok.game.*
 import src.mecanicas.animaciones.recursos.recursosMuros.*
 import src.muros.estados.enPie.*
-import src.mecanicas.bandos.*
+import src.mecanicas.bandos.bandoNeutral.*
 
 class Muro {
 
@@ -41,7 +41,6 @@ class Muro {
   // Lo llama el gestor al agregar el muro al tablero (en vez de un game.addVisual suelto)
   method iniciar() {
     game.addVisual(self)
-    game.onCollideDo(self, { otro => otro.colisionaConObjeto(self) })   // personajes: el que choca decide qué le pasa
   }
 
   // Lo llama el disparo (su onCollideDo): cualquier bando daña al muro
@@ -69,5 +68,7 @@ class Muro {
     estadoActual.finalizarAnimacion()
     if (game.hasVisual(self)) game.removeVisual(self)
   }
+
+  method estaEnPie() = estadoActual.esEnPie()
 
 }

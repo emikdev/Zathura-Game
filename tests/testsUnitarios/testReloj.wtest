@@ -1,0 +1,56 @@
+import src.gestores.reloj.*
+import tests.mocks.mocksReloj.*
+
+describe "Reloj Global" {
+  
+  var tickeableMock
+
+  method initialize() {
+    reloj.limpiarTodo()
+    reloj.reanudar() // Aseguramos que arranque activo
+    tickeableMock = new TickeableMock()
+  }
+
+  test "Al pausar el reloj, los objetos registrados dejan de recibir ticks" {
+    reloj.registrar(tickeableMock)
+    reloj.pausar()
+    
+    reloj.tick() // Forzamos el pulso del reloj
+    assert.equals(0, tickeableMock.ticksRecibidos())
+
+    reloj.reanudar()
+    reloj.tick()
+    assert.equals(1, tickeableMock.ticksRecibidos()) // Vuelve a latir
+  }
+
+  test "Registrar el mismo objeto dos veces no lo duplica" {
+    reloj.registrar(tickeableMock)
+    reloj.registrar(tickeableMock)
+    
+    reloj.tick()
+    
+    // Si se hubiera duplicado, el tick habría sumado 2
+    assert.equals(1, tickeableMock.ticksRecibidos())
+  }
+
+  test "Olvidar a un objeto hace que deje de actualizarse" {
+    reloj.registrar(tickeableMock)
+    reloj.olvidar(tickeableMock)
+    
+    reloj.tick()
+    
+    assert.equals(0, tickeableMock.ticksRecibidos())
+  }
+
+  test "Limpiar todo detiene a los objetos y vacía la lista" {
+    reloj.registrar(tickeableMock)
+    
+    reloj.limpiarTodo()
+    
+    assert.equals(1, tickeableMock.vecesDetenido())
+    
+    // Hacemos un tick para verificar que la lista quedó vacía y no le llega nada
+    reloj.tick()
+    assert.equals(0, tickeableMock.ticksRecibidos())
+  }
+}

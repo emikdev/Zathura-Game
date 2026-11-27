@@ -1,4 +1,4 @@
-import src.personajes.factory.comportamiento.ataque.ningunaAccion.*
+import src.personajes.comportamiento.ataque.ningunaAccion.*
 
 /* Envuelve cualquier acción (disparo, inmolacion, Alternativas, otra ConProbabilidad, etc)
    y la elige solo si sale la probabilidad, expresada como porcentaje de 0 a 100. */

@@ -1,65 +1,63 @@
 import tests.mocks.mocksArsenal.*
 import src.mecanicas.arsenal.*
 
+describe "Arsenal de armas" {
 
-describe "tests de arsenal" {
+  var armaBasica
+  var armaEspecial1
+  var armaEspecial2
+  var arsenal
 
-    const armaBasica = new ArmaMock(municion = 1000)
-    const armaEspecial1 = new ArmaMock(municion = 1)
-    const armaEspecial2 = new ArmaMock(municion = 5)
+  method initialize() {
+    // Instanciamos todo de cero antes de cada test para evitar contaminación
+    armaBasica = new ArmaMock(municion = 1000)
+    armaEspecial1 = new ArmaMock(municion = 1)
+    armaEspecial2 = new ArmaMock(municion = 5)
+    arsenal = new Arsenal(armas = [armaBasica, armaEspecial1])
+  }
 
-    const arsenalTest = new Arsenal(armas = [armaBasica, armaEspecial1])
+  // Cambio de armas
 
-    test "Lista de armas empieza en arma basica"{
-        assert.equals(armaBasica, arsenalTest.armaActual())
-    }
+  test "Arranca equipando el arma básica y permite ciclar entre las disponibles" {
+    assert.equals(armaBasica, arsenal.armaActual())
+    
+    arsenal.equiparSiguienteArma()
+    assert.equals(armaEspecial1, arsenal.armaActual())
+    
+    arsenal.equiparSiguienteArma()
+    assert.equals(armaBasica, arsenal.armaActual())
+  }
 
-    test "Uso de equipar siguiente arma"{
+  test "Agregar un arma al arsenal la incluye al final del ciclo" {
+    arsenal.agregarArma(armaEspecial2)
+    
+    arsenal.equiparSiguienteArma() // Pasa a especial1
+    arsenal.equiparSiguienteArma() // Pasa a especial2
+    
+    assert.equals(armaEspecial2, arsenal.armaActual())
+  }
 
-        assert.equals(armaBasica, arsenalTest.armaActual())
-        arsenalTest.equiparSiguienteArma()
-        assert.equals(armaEspecial1, arsenalTest.armaActual())
-        arsenalTest.equiparSiguienteArma()
-        assert.equals(armaBasica, arsenalTest.armaActual())
-        
-    }
+  // Munición y descarte
 
-    test "Agrega armaEspecial2 a armas"{
+  test "Al verificar el arma, si no tiene munición se descarta y vuelve a la primera" {
+    arsenal.equiparSiguienteArma()
+    
+    // Gastamos el único proyectil del arma especial (le pasamos null porque el mock no usa el personaje)
+    arsenal.armaActual().disparar(null) 
+    
+    arsenal.verificarArmaActual()
+    
+    // Al descartarse el arma especial por falta de munición, 
+    // el puntero vuelve a la posición inicial (arma básica).
+    assert.equals(armaBasica, arsenal.armaActual()) 
+  }
 
-        arsenalTest.agregarArma(armaEspecial2)
-        arsenalTest.equiparSiguienteArma()
-        arsenalTest.equiparSiguienteArma()
-
-        assert.equals(armaEspecial2, arsenalTest.armaActual())
-        
-
-    }
-
-    test "Descarte de arma sin municion"{
-        arsenalTest.equiparSiguienteArma()
-
-        assert.equals(armaEspecial1, arsenalTest.armaActual())
-        
-        arsenalTest.armaActual().disparar()
-        arsenalTest.verificarArmaActual()
-
-        /* 
-
-            Al descartarse el armaEspecial1 por falta de municion, 
-            el arma actual se situa sobre el armaBasica ya que ante
-            cualquier descarte el puntero vuelve a la posicion inicial.
-
-        */
-
-        assert.equals(armaBasica, arsenalTest.armaActual()) 
-
-    }
-
-    test "No se eliminan armas con municion"{
-        arsenalTest.equiparSiguienteArma()
-        assert.that(arsenalTest.armaActual().hayMunicion())
-        arsenalTest.verificarArmaActual()
-        assert.equals(armaEspecial1, arsenalTest.armaActual())
-    }
-
+  test "Al verificar el arma, si todavía tiene munición se mantiene equipada" {
+    arsenal.equiparSiguienteArma()
+    
+    assert.that(arsenal.armaActual().hayMunicion())
+    arsenal.verificarArmaActual()
+    
+    assert.equals(armaEspecial1, arsenal.armaActual())
+  }
 }

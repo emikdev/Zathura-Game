@@ -1,5 +1,5 @@
 import wollok.game.*
-import src.muros.muros.*
+import src.muros.muro.*
 
 /* Recurso de animación con los frames que se le pasen. La duración enorme evita que el
  temporizador de Animacion la avance sola durante un test. */

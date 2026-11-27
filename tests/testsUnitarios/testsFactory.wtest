@@ -1,0 +1,61 @@
+import wollok.game.*
+import src.personajes.factory.factory.*
+import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
+import src.personajes.factory.tiposPersonajes.tiposDeEnemigos.*
+import src.personajes.factory.tiposPersonajes.tiposDeOvnis.*
+import src.personajes.enemigo.*
+import src.personajes.nave.*
+import src.personajes.ovni.*
+import src.muros.muro.*
+import src.mecanicas.bandos.bandoJugador.*
+import src.mecanicas.bandos.bandoEnemigo.*
+
+describe "Factory: Ensamblaje y creación de objetos" {
+
+  method initialize() {
+    game.clear()
+    game.width(20)
+    game.height(20)
+  }
+
+  test "crearNave asigna el bando jugador y la posición inicial" {
+    const posicion = game.at(5, 5)
+    const naveCreada = factory.crearNave(naveNormal, posicion)
+
+    assert.that(naveCreada !== null)
+    assert.equals(jugador, naveCreada.bando())
+    assert.equals(posicion, naveCreada.position())
+  }
+
+  test "crearEnemigo asigna el bando enemigo, la formación y la posición" {
+    const posicion = game.at(10, 10)
+    const formacionFalsa = object { } 
+    
+    const enemigoCreado = factory.crearEnemigo(alien, formacionFalsa, posicion)
+
+    assert.equals(enemigo, enemigoCreado.bando()) // Compara bando enemigo con el objeto
+    assert.equals(posicion, enemigoCreado.position())
+  }
+
+  test "crearOvni asigna el bando enemigo, la posición y su comportamiento de movimiento" {
+    const posicion = game.at(0, 18)
+    const travesiaFalsa = object { } 
+    
+    const ovniCreado = factory.crearOvni(ovniBasico, posicion, travesiaFalsa)
+
+    assert.equals(enemigo, ovniCreado.bando())
+    assert.equals(posicion, ovniCreado.position())
+  }
+
+  test "crearMuro calcula sus impactos iniciales en base a la dificultad" {
+    const posicion = game.at(2, 3)
+    
+    // En dificultad 1, el muro debe nacer entero (0 impactos)
+    const muroFacil = factory.crearMuro(1, posicion)
+    assert.equals(0, muroFacil.impactosIniciales())
+
+    // En dificultad 3, el muro debe nacer con 2 impactos
+    const muroDificil = factory.crearMuro(3, posicion)
+    assert.equals(2, muroDificil.impactosIniciales())
+  }
+}

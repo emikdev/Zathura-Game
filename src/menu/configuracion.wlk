@@ -14,6 +14,6 @@ object configuracion {
   }
 
 
-  method naves() = tiposNaves.map({ tipo => factory.crearNave(tipo , game.at(1, tablero.filaMinima())) } )
+  method naves() = tiposNaves.map({ tipo => factory.crearNave(tipo , game.at(7, tablero.filaMinima())) } )
 
 }

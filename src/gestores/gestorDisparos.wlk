@@ -15,6 +15,10 @@ class GestorDisparosBase {
   }
   
   method cantidadActivos() = disparosActivos.size()
+
+  method limpiar() {
+      disparosActivos.clear()
+  }
 }
 
 // 1. El del jugador: Solo registra/libera, no le importan los límites numéricos
@@ -28,7 +32,7 @@ object gestorEnemigos inherits GestorDisparosBase {
 
   override method puedeDisparar() = self.cantidadActivos() < self.limiteMaximo()
 
-  const limiteMaximo = 5 // Base inicial
+  const limiteMaximo =  configuracion.dificultad() + 1
 
   method limiteMaximo() = limiteMaximo * configuracion.dificultad()
 

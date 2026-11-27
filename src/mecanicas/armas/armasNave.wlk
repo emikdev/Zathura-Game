@@ -47,7 +47,7 @@ const tripleCanon = new TripleCanon(
 
 // Doble cañón pesado(gasta 2 por ráfaga; el daño es por cada proyectil)
 const dobleCanonPesado = new DobleCanon(
-    iconoHud = "armaPlasmaDobleHUD.png",
+    iconoHud = "armaPlasmaDobleNaveHUD.png",
     recursoBala = armaDePlasmaNave,
     danoBala = 3,
     municion = 10 // 5 disparos
