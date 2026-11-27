@@ -14,6 +14,28 @@ Modo Cooperativo / Multijugador: Compatible para 1 o 2 jugadores simultáneos en
 
 Sistema de Puntuación: Destruye diferentes tipos de enemigos (Básicos, Especiales, Heavys y el escurridizo OVNI de bonificación) para sumar puntos y batir récords.
 
+## Como funciona cada nivel?
+
+Cada nivel tendra una cantidad de oleadas que la dificultad de cada una aumentara conforme se vayan eliminando y respecto de la dificultad elegida por el jugador o jugadores, al eliminarlas, te enfrentaras al Boss de dicho nivel, que sera un cangrejo.
+
+### Oleadas
+
+- Las oleadas del nivel 1 estan conformadas por enemigos básicos que aguantan apenas un disparo, y su daño es bajo.
+- Las oleadas del nivel 2 ya contienen enemigos Heavy's, los cuales tienen un aumento de vida y su disparo te quitara una vida entera.
+
+Que características tienen los cangrejos por las cuales es un Boss?
+
+- Muchisima Vida.
+- Disparo Especial.
+- Movimiento más Rápido
+
+## Dificultad
+
+Que impacto tiene la seleccion de la dificultad en el juego?
+- TODOS los enemigos se moveran más rápido.
+- El daño de TODOS los enemigos sera mayor.
+
+
 ## Menus
 
 ### Todos los menus se manejan con las siguientes Teclas.
@@ -22,9 +44,6 @@ Sistema de Puntuación: Destruye diferentes tipos de enemigos (Básicos, Especia
 ### Este es el menu Principal 
 
 <img src="assets/menuInicial.png" alt="Descripción" width="400" />
-## Tecnologías
-
-- **Wollok** (Wollok Game)
 
 ### Las reglas del juego: 
 
@@ -52,6 +71,12 @@ Sistema de Puntuación: Destruye diferentes tipos de enemigos (Básicos, Especia
 ### Imagenes In Game
 
 <img src="assets/inGame.png" alt="Descripción" width="400" /><img src="assets/inGame2.png" alt="Descripción" width="400" />
+
+## Tecnología utilizada.
+
+- **Wollok** (Wollok Game)
+
+
 ## Integrantes
 
 - Muñoz Damian (emikdev)
