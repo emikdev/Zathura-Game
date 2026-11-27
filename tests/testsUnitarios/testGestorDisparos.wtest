@@ -1,57 +1,62 @@
 import wollok.game.*
-import src.mecanicas.bandos.*
-import src.mecanicas.gestores.gestorDisparos.*
+import src.gestores.gestorDisparos.*
+import src.mecanicas.bandos.bandoJugador.*
+import src.mecanicas.bandos.bandoEnemigo.*
 import tests.mocks.mocksPersonaje.*
 
-describe "Gestor de disparos enemigos" {
+describe "Gestor de disparos" {
 
-  const unDisparo = new DisparoMock(bando = enemigo, dano = 1)
+  var unDisparoEnemigo
 
-  method registrarEnemigos(cantidad) {
-    cantidad.times({ i => gestorEnemigos.registrarDisparo(new DisparoMock(bando = enemigo, dano = 1)) })
+  method initialize() {
+    // Ahora sí, limpiamos usando el método que agregaste
+    gestorEnemigos.limpiar()
+    gestorJugador.limpiar()
+    
+    unDisparoEnemigo = new DisparoMock(bando = enemigo, dano = 1)
   }
 
-  test "con un lugar libre todavía puede disparar" {
-    self.registrarEnemigos(gestorEnemigos.limiteMaximo() - 1)
+  test "El gestor enemigo respeta su límite máximo en pantalla y libera espacio al destruirse" {
+    const disparosCreados = []
+    
+    // Llenamos el gestor hasta el tope guardando las referencias
+    gestorEnemigos.limiteMaximo().times({ i => 
+      const d = new DisparoMock(bando = enemigo, dano = 1)
+      gestorEnemigos.registrarDisparo(d) 
+      disparosCreados.add(d)
+    })
+    
+    // Ya no puede disparar
+    assert.notThat(gestorEnemigos.puedeDisparar())
 
+    // Al liberar (destruir) el primer disparo de la lista, se libera un lugar
+    gestorEnemigos.liberarDisparo(disparosCreados.first())
     assert.that(gestorEnemigos.puedeDisparar())
   }
 
-  test "al llegar a su tope no puede disparar" {
-    self.registrarEnemigos(gestorEnemigos.limiteMaximo())
+  test "No se permiten registros duplicados y liberar uno inexistente no rompe el gestor" {
+    // Intentamos registrar el mismo disparo dos veces
+    gestorEnemigos.registrarDisparo(unDisparoEnemigo)
+    gestorEnemigos.registrarDisparo(unDisparoEnemigo)
+    
+    // Solo ocupa 1 lugar
+    assert.equals(1, gestorEnemigos.cantidadActivos())
 
-    assert.notThat(gestorEnemigos.puedeDisparar())
-  }
+    // Liberamos uno que nunca se registró
+    const disparoFantasma = new DisparoMock(bando = enemigo, dano = 1)
+    gestorEnemigos.liberarDisparo(disparoFantasma)
 
-  test "al liberar un disparo vuelve a poder disparar" {
-    gestorEnemigos.registrarDisparo(unDisparo)
-    self.registrarEnemigos(gestorEnemigos.limiteMaximo() - 1)
-    assert.notThat(gestorEnemigos.puedeDisparar())
-
-    gestorEnemigos.liberarDisparo(unDisparo)
-
-    assert.that(gestorEnemigos.puedeDisparar())
-  }
-
-  test "registrar dos veces el mismo disparo no ocupa dos lugares" {
-    gestorEnemigos.registrarDisparo(unDisparo)
-    gestorEnemigos.registrarDisparo(unDisparo)
-
+    // El gestor ignora el fantasmita y no cambia de tamaño
     assert.equals(1, gestorEnemigos.cantidadActivos())
   }
 
-  test "liberar un disparo que no estaba registrado no cambia nada" {
-    gestorEnemigos.liberarDisparo(unDisparo)
+  test "El gestor del jugador no tiene límite de disparos en pantalla" {
+    // Registramos 20 disparos
+    20.times({ i => 
+      gestorJugador.registrarDisparo(new DisparoMock(bando = jugador, dano = 1)) 
+    })
 
-    assert.equals(0, gestorEnemigos.cantidadActivos())
-  }
-}
-
-describe "Gestor de disparos del jugador" {
-
-  test "no tiene tope: puede disparar aunque haya muchos disparos activos" {
-    20.times({ i => gestorJugador.registrarDisparo(new DisparoMock(bando = jugador, dano = 1)) })
-
+    // El jugador sigue pudiendo disparar
     assert.that(gestorJugador.puedeDisparar())
   }
 }
