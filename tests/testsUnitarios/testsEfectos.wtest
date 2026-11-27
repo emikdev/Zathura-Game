@@ -1,0 +1,49 @@
+import wollok.game.*
+import src.personajes.efectos.efectosPersonaje.*
+import src.personajes.estados.neutral.*
+import tests.mocks.mocksPersonaje.*
+
+// Mock para no depender de archivos de audio reales en los tests
+class EfectoImpactoMock inherits EfectoVisual {
+  var termino = false
+
+  override method recursoAnimacion() = new RecursoMock(frame = "impacto.png")
+  
+  override method terminoAnimacion() {
+    termino = true
+    self.terminar() // Le dice al personaje que se limpie el efecto
+  }
+  
+  method haTerminado() = termino
+}
+
+describe "Efectos Visuales en el Personaje" {
+
+  var personaje
+  var efecto
+
+  method initialize() {
+    game.clear()
+    game.width(20)
+    game.height(20)
+    
+    personaje = fabricaDePruebas.personaje(2, null)
+    efecto = new EfectoImpactoMock(personaje = personaje)
+  }
+
+  test "El personaje cambia su imagen al recibir un efecto y vuelve a la base al terminar" {
+    // 1. Estado inicial
+    assert.equals("base.png", personaje.image())
+
+    // 2. Le aplicamos el efecto
+    personaje.cambiarEfecto(efecto)
+    assert.equals("impacto.png", personaje.image()) // Ahora muestra el efecto
+
+    // 3. El efecto termina su animación
+    efecto.terminoAnimacion()
+
+    // 4. El personaje debería haber vuelto a su imagen base
+    assert.that(efecto.haTerminado())
+    assert.equals("base.png", personaje.image()) 
+  }
+}
