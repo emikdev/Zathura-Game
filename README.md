@@ -4,104 +4,104 @@ Proyecto de la materia **Objetos 1** (UNQ). Consiste en el desarrollo del juego 
 
 ## Descripción
 
-Zathura Game es un videojuego de disparos en el espacio, estilo arcade clásico (Space Invaders / Galaga). Enfrentate a oleadas implacables de alienígenas 👾, elegí tu nave para definir tu estrategia, cada una contara con un arsenal de armas distintas, demuestra tus habilidades de Gamer 🕹️ para alcanzar la victoria absoluta🏅.
+Zathura Game es un videojuego de disparos en el espacio, estilo arcade clásico (Space Invaders / Galaga). Enfrentate a oleadas implacables de alienígenas 👾, elegí tu nave para definir tu estrategia —cada una contará con un arsenal de armas distintas— y demostrá tus habilidades de *gamer* 🕹️ para alcanzar la victoria absoluta 🏅.
 
-## Menus
+## Menús
 
-### Todos los menus se manejan con las siguientes Teclas.
+### Todos los menús se manejan con las siguientes teclas
 <img src="assets/controlesMenu.png" alt="Descripción" width="400" />
 
-### Este es el menu Principal 
+### Este es el menú principal
 
 <img src="assets/menuInicial.png" alt="Descripción" width="400" />
 
-
-### Las reglas del juego: 
+# Las reglas de combate
 
 <img src="assets/reglas1.png" alt="Descripción" width="400" />
 
-## Sistema De Niveles
+## Sistema de niveles
 
-Sistema de Oleadas y Niveles: Progresión dinámica a través de niveles con dificultad creciente hasta llegar al enfrentamiento final.
+- **Sistema de oleadas y niveles:** progresión dinámica a través de niveles con dificultad creciente hasta llegar al enfrentamiento final.
+- **Modo cooperativo / multijugador:** compatible para 1 o 2 jugadores simultáneos en pantalla. ¡Tené en cuenta que, en caso de jugar de a dos, la dificultad será mayor! ⚠️⚠️⚠️
+- **Sistema de puntuación:** destruí diferentes tipos de enemigos (Básicos, Especiales, *Heavys* y el escurridizo OVNI de bonificación) para sumar puntos y batir récords.
+- **Cantidad de niveles:** 4.
 
-Modo Cooperativo / Multijugador: Compatible para 1 o 2 jugadores simultáneos en pantalla. Tené en cuenta que en caso de jugar de dos, la dificultad sera mayor!⚠️⚠️⚠️
+## ¿Cómo funciona cada nivel?
 
-Sistema de Puntuación: Destruye diferentes tipos de enemigos (Básicos, Especiales, Heavys y el escurridizo OVNI de bonificación) para sumar puntos y batir récords.
-
-## Como funciona cada nivel?
-
-Cada nivel tendra una cantidad de oleadas que la dificultad de cada una aumentara conforme se vayan eliminando y respecto de la dificultad elegida por el jugador o jugadores, al eliminarlas, te enfrentaras al Boss de dicho nivel, que sera un cangrejo.
+Cada nivel tendrá una cantidad de oleadas cuya dificultad aumentará conforme se vayan eliminando y según la dificultad elegida por el jugador o los jugadores. Al eliminarlas, te enfrentarás al *Boss* de dicho nivel, que será un cangrejo.
 
 ### Oleadas
 
-- Las oleadas del nivel 1 estan conformadas por enemigos básicos que aguantan apenas un disparo, y su daño es bajo.
-- Las oleadas del nivel 2 ya contienen enemigos Heavy's, los cuales tienen un aumento de vida y su disparo te quitara una vida entera.
+- Las oleadas del nivel 1 están conformadas por enemigos básicos que aguantan apenas un disparo, y su daño es bajo.
+- Las oleadas del nivel 2 ya contienen enemigos *Heavy*, los cuales tienen un aumento de vida y su disparo te quitará una vida entera.
+- Y así sucesivamente aumentará la dificultad y cambiarán los enemigos (no hago más *spoiler* 👾👾👾).
 
-Que características tienen los cangrejos por las cuales es un Boss?
+### Imagen In Game
 
-- Muchisima Vida.
-- Disparo Especial.
-- Movimiento más Rápido
+<img src="assets/inGame.png" alt="Descripción" width="400" />
+
+¿Qué características tienen los cangrejos por las cuales son un *Boss*?
+
+- Muchísima vida ☠️
+- Disparo especial ☠️☠️
+- Movimiento más rápido ☠️☠️☠️
+
+### Imagen In Game
+<img src="assets/inGame2.png" alt="Descripción" width="400" />
 
 # Dificultad
 
 <img src="assets/seleccionDificulty.png" alt="Descripción" width="400" />
 
-### Que impacto tiene la seleccion de la dificultad en el juego?
+### ¿Qué impacto tiene la selección de la dificultad en el juego?
 
-- TODOS los enemigos se moveran más rápido.
-- El daño de TODOS los enemigos sera mayor.
-- Los puntos recibidos por eliminar a los enemigos sera mayor.
+- TODOS los enemigos se moverán más rápido.
+- El daño de TODOS los enemigos será mayor.
+- Los puntos recibidos por eliminar a los enemigos serán mayores.
 
-# Puntajes.
+# Puntajes
 
-### Sistema de puntos que otorgan los enemigos al ser eliminados.
+### Sistema de puntos que otorgan los enemigos al ser eliminados
 
 <img src="assets/sistemaPuntosReadme.png" alt="Descripción" width="400" />
 
 # Naves
 
-## Modo un Jugador o modo cooperativo 2 Jugadores.
+## Modo un jugador o modo cooperativo de 2 jugadores 🤝
 
-### Seleccion de Cantidad De Jugadores.
+### Selección de cantidad de jugadores
 
 <img src="assets/seleccionCantPlayers.png" alt="Descripción" width="400" />
 
-## Estos los controles de la nave para un jugador y para el modo cooperativo de 2 jugadores
+## Estos son los controles de la nave para un jugador y para el modo cooperativo de 2 jugadores
 <img src="assets/controlesNave.png" alt="Descripción" width="400" />
 
-## Estas son las naves que se pueden elegir.
+## Estas son las naves que se pueden elegir
 
 <img src="assets/seleccionNaves.png" alt="Descripción" width="400" />
 
-## Mecanicas de las Armas segun la Nave.
+## Mecánicas de las armas según la nave
 
-### Nave Normal
-- Arma Básica: Disparo Normal.
-- Arma Pesada de Nave Normal: Disparo Doble.
+### Nave normal
+- Arma básica: disparo normal.
+- Arma pesada de nave normal: disparo doble.
 
-### Nave De Ataque
-- Arma Básica: Disparo Normal.
-- Arma Pesada: Disparo Triple
-- Arma Especial: Disparo único pero con muchisimo daño.
+### Nave de ataque
+- Arma básica: disparo normal.
+- Arma pesada: disparo triple.
+- Arma especial: disparo único pero con muchísimo daño.
 
-### Nave Tanque
+### Nave tanque
 
-- Arma Básica: Disparo Normal.
+- Arma básica: disparo normal.
 
-### Imagenes In Game
-
-<img src="assets/inGame.png" alt="Descripción" width="400" /><img src="assets/inGame2.png" alt="Descripción" width="400" />
-
-## Tecnología utilizada.
+## Tecnología utilizada
 
 - **Wollok** (Wollok Game)
 
-
 ## Integrantes
 
-- Muñoz Damian (emikdev)
+- Muñoz Damián (emikdev)
 - Marcos Correia (Marcos-Correia17)
-- Joaquin Paniagua (joaquinjesus1234)
+- Joaquín Paniagua (joaquinjesus1234)
 - Nahuel Romero (NRomeroDev)
-
