@@ -14,43 +14,17 @@ Modo Cooperativo / Multijugador: Compatible para 1 o 2 jugadores simultáneos en
 
 Sistema de Puntuación: Destruye diferentes tipos de enemigos (Básicos, Especiales, Heavys y el escurridizo OVNI de bonificación) para sumar puntos y batir récords.
 
+## Menus
+
+### Los menus se manejan con las siguientes Teclas.
+<img src="assets/controlesMenu.png" alt="Descripción" width="400" />
+
+### Este es el menu Principal 
+
+<img src="assets/menuInicial.png" alt="Descripción" width="400" />
 ## Tecnologías
 
 - **Wollok** (Wollok Game)
-
-## Estructura del proyecto
-
-```
-assets/
-├── enemigos/       # Sprites y animaciones de cada tipo de enemigo
-├── naves/          # Sprites y animaciones de la/s nave/s del jugador
-├── ovnis/          # Sprites y animaciones de los ovnis
-└── recursos/        # Disparos y muertes genéricos reutilizables
-
-src/
-├── mapas/                    # Diseño y carga de niveles
-└── personajes/
-    ├── mecanicas/            # Herramientas reutilizables (disparos, direcciones, randomizer, etc.)
-    ├── enemigos/             # Clase base y subclases de enemigos
-    ├── naves/                # Clase base y subclases de naves
-    └── ovnis/                # Clase base y subclases de ovnis
-
-test/
-├── testGeneral/       # Tests de integración / casos generales
-└── testUnitarios/     # Tests unitarios de cada componente
-
-Zathura-Game.wpgm       # Programa principal del juego
-```
-
-## Cómo ejecutar
-
-1. Abrir el proyecto en **Wollok IDE**.
-2. Ejecutar el programa `Zathura-Game.wpgm`.
-
-## Cómo correr los tests
-
-1. Abrir el proyecto en **Wollok IDE**.
-2. Ejecutar los tests ubicados en `test/testGeneral` y `test/testUnitarios`.
 
 ## Integrantes
 
@@ -59,6 +33,3 @@ Zathura-Game.wpgm       # Programa principal del juego
 - Joaquin Paniagua (joaquinjesus1234)
 - Nahuel Romero (NRomeroDev)
 
-## Estado
-
-Proyecto en desarrollo.
