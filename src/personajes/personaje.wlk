@@ -1,6 +1,7 @@
 import src.mecanicas.animaciones.animacion.*
 import src.personajes.efectos.efectosPersonaje.*
 import src.personajes.estados.neutral.*
+import src.gestores.reloj.*
 
 class Personaje {
   var property position
@@ -77,11 +78,15 @@ class Personaje {
       efectoVisual = sinEfecto
   }
 
-  method retirar() {
+  method detener() {
     game.removeVisual(self)
     estadoActual.finalizarAnimacion()
     efectoVisual.detener()
-    // Próximamente: reloj.olvidar(self)
+    reloj.olvidar(self)
+  }
+
+  method reactivar() {
+      estadoActual.reactivarAnimacion()
   }
 
   method morir() {

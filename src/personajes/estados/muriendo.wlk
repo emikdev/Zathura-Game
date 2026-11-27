@@ -29,7 +29,6 @@ class Muriendo inherits EstadoPersonaje {
   override method terminoAnimacion() {
     animacion.detener()
     game.removeVisual(personaje)
-    
     if (personaje.tieneVidas()) {
       sonido.reproducir("pierdeVida.mp3")
       // Ya estamos registrados en el reloj, solo esperamos que pase el tiempo
@@ -56,9 +55,15 @@ class Muriendo inherits EstadoPersonaje {
     self.cambiarANeutral()
   }
 
+  override method detener() {
+    reloj.olvidar(self)
+    animacion.detener()
+  }
+
   override method mover(direccion) { }
   override method disparar() { }
   override method recibirImpacto(dano) { }
   override method siguienteArma() { }
   override method seleccionarArma(slot) { }
+
 }

@@ -11,15 +11,29 @@ object gestorNaves {
 
     method iniciar() {
         naves = configuracion.naves()
-        naves.size().times({ n =>
-            const i = n - 1
+        
+        var i = 0
+        naves.forEach({ nave =>
             const control = controles.get(i)
-            const nave = naves.get(i)
-
             control.asignarA(nave)
             nave.iniciar()
+            i += 1
         })
+        
         hud.iniciar(naves)
+    }
+
+    // Método para el cambio de nivel
+    method restaurarVisuales() {
+        var i = 0
+        naves.forEach({ nave =>
+            const control = controles.get(i)
+            control.asignarA(nave) 
+            nave.restaurarParaNuevoNivel() 
+            i += 1
+        })
+        
+        hud.iniciar(naves) 
     }
 
     method eliminarNaveSinVidas(naveEliminada) {
@@ -29,9 +43,9 @@ object gestorNaves {
         }
     }
 
-    // NUEVO MÉTODO PARA COLISIONES
+    // --- MÉTODOS DE COLISIÓN (LOS QUE FALTABAN) ---
     
-    // El disparo enemigo llama a este
+    // Para los disparos enemigos
     method chocaDisparoEn(posicion, disparo) {
         const navesChocadas = naves.filter({ n => n.position() == posicion })
         if (not navesChocadas.isEmpty()) {
@@ -39,12 +53,11 @@ object gestorNaves {
         }
     }
 
-    // El kamikaze llama a este
+    // Para los kamikazes
     method chocaKamikazeEn(posicion, kamikaze) {
         const navesChocadas = naves.filter({ n => n.position() == posicion })
         if (not navesChocadas.isEmpty()) {
             navesChocadas.first().colisionaConObjeto(kamikaze)
         }
     }
-
 }

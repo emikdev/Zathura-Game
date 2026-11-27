@@ -57,4 +57,9 @@ class Animacion {
     frameActual = indice
   }
 
+  method reactivar() {
+    activa = true
+    reloj.registrar(self)
+  }
+
 }

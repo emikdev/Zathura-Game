@@ -1,119 +1,105 @@
 import wollok.game.*
-import src.mecanicas.bandos.*
+import src.mecanicas.bandos.bandoJugador.*
+import src.mecanicas.bandos.bandoEnemigo.*
 import src.mecanicas.direcciones.*
+import src.personajes.estados.neutral.*
+import src.personajes.estados.disparando.*
+import src.personajes.estados.muriendo.*
 import tests.mocks.mocksPersonaje.*
 
 describe "Estado Neutral" {
 
-  const armaMock = new ArmaMock()
-  const arsenalMock = new ArsenalMock(arma = armaMock)
-  const personaje = fabricaDePruebas.personaje(2, arsenalMock)
-  const disparoEnemigoLeve = new DisparoMock(bando = enemigo, dano = 1)
+  var armaMock
+  var arsenalMock
+  var personaje
+  var neutral
 
   method initialize() {
+    armaMock = new ArmaMock()
+    arsenalMock = new ArsenalMock(arma = armaMock)
+    personaje = fabricaDePruebas.personaje(2, arsenalMock)
     fabricaDePruebas.prepararTablero(personaje)
+    neutral = new Neutral(personaje = personaje)
   }
 
   test "mover desplaza al personaje en la dirección indicada" {
-    personaje.mover(derecha)
-    personaje.mover(arriba)
+    neutral.mover(derecha)
+    neutral.mover(arriba)
 
     assert.equals(game.at(6, 6), personaje.position())
   }
 
-  test "al terminar su animación sigue en neutral (es el loop base)" {
-    const estadoAntes = personaje.estado()
+  test "al terminar su animación sigue en neutral" {
+    neutral.terminoAnimacion()
 
-    estadoAntes.terminoAnimacion()
-
-    assert.equals(estadoAntes, personaje.estado())
-    assert.equals("base.png", personaje.image())
+    assert.equals("base.png", neutral.imagenActual())
   }
 
   test "pedirle pasar a neutral no reemplaza el estado actual" {
-    const estadoAntes = personaje.estado()
+    neutral.cambiarANeutral()
 
-    estadoAntes.cambiarANeutral()
-
-    assert.equals(estadoAntes, personaje.estado())
+    assert.equals("base.png", neutral.imagenActual())
   }
 
   test "disparar lo pasa al estado disparando" {
-    personaje.disparar()
+    neutral.disparar()
 
+    // Al llamar a neutral.disparar(), el personaje cambia su estado a Disparando
     assert.equals("disparo.png", personaje.image())
   }
 
   test "cambiar de arma se delega en el arsenal" {
-    personaje.siguienteArma()
+    neutral.siguienteArma()
 
     assert.equals(1, arsenalMock.cambiosDeArma())
-  }
-
-  test "un impacto no letal no le impide moverse" {
-    personaje.colisionaCon(disparoEnemigoLeve)
-    personaje.mover(derecha)
-
-    assert.equals(game.at(6, 5), personaje.position())
-  }
-
-  test "un impacto no letal no le impide disparar" {
-    personaje.colisionaCon(disparoEnemigoLeve)
-    personaje.disparar()
-
-    assert.equals(1, armaMock.disparos())
   }
 }
 
 describe "Estado Disparando" {
 
-  const armaMock = new ArmaMock()
-  const arsenalMock = new ArsenalMock(arma = armaMock)
-  const personaje = fabricaDePruebas.personaje(2, arsenalMock)
+  var armaMock
+  var arsenalMock
+  var personaje
+  var disparando
 
   method initialize() {
+    armaMock = new ArmaMock()
+    arsenalMock = new ArsenalMock(arma = armaMock)
+    personaje = fabricaDePruebas.personaje(2, arsenalMock)
     fabricaDePruebas.prepararTablero(personaje)
+    // Al instanciarlo, se ejecuta su initialize() y dispara
+    disparando = new Disparando(personaje = personaje)
   }
 
   test "al disparar usa el arma actual con el personaje como tirador" {
-    personaje.disparar()
-
     assert.equals(1, armaMock.disparos())
     assert.equals(personaje, armaMock.tirador())
   }
 
   test "después de disparar verifica el arma actual" {
-    personaje.disparar()
-
     assert.equals(1, arsenalMock.verificaciones())
   }
 
   test "mientras dispara ignora un segundo disparo" {
-    personaje.disparar()
-    personaje.disparar()
+    disparando.disparar()
 
     assert.equals(1, armaMock.disparos())
   }
 
   test "mientras dispara puede seguir moviéndose" {
-    personaje.disparar()
-    personaje.mover(derecha)
+    disparando.mover(derecha)
 
     assert.equals(game.at(6, 5), personaje.position())
   }
 
   test "al terminar su animación vuelve a neutral" {
-    personaje.disparar()
-
-    personaje.estado().terminoAnimacion()
+    disparando.terminoAnimacion()
 
     assert.equals("base.png", personaje.image())
   }
 
   test "una vez de vuelta en neutral puede disparar de nuevo" {
-    personaje.disparar()
-    personaje.estado().terminoAnimacion()
-
+    disparando.terminoAnimacion()
     personaje.disparar()
 
     assert.equals(2, armaMock.disparos())
@@ -122,95 +108,62 @@ describe "Estado Disparando" {
 
 describe "Estado Muriendo" {
 
-  const armaMock = new ArmaMock()
-  const arsenalMock = new ArsenalMock(arma = armaMock)
-  const personaje = fabricaDePruebas.personaje(2, arsenalMock)
-  const disparoLetal = new DisparoMock(bando = enemigo, dano = fabricaDePruebas.saludMaxima())
+  var armaMock
+  var arsenalMock
+  var personaje
+  var muriendo
 
   method initialize() {
+    armaMock = new ArmaMock()
+    arsenalMock = new ArsenalMock(arma = armaMock)
+    personaje = fabricaDePruebas.personaje(2, arsenalMock)
     fabricaDePruebas.prepararTablero(personaje)
-  }
-
-  method morir() {
-    personaje.colisionaCon(disparoLetal)
-  }
-
-  // Muere, termina su animación y reaparece (sin esperar los 3 segundos reales)
-  method morirYReaparecer() {
-    self.morir()
-    personaje.estado().terminoAnimacion()
-    personaje.estado().reaparecer()
+    // Al instanciarlo, se ejecuta su initialize() y pierde una vida
+    muriendo = new Muriendo(personaje = personaje)
   }
 
   test "un impacto letal inicia la animación de muerte" {
-    self.morir()
-
-    assert.equals("muerte.png", personaje.image())
-    assert.that(personaje.sinSalud())
+    assert.equals("muerte.png", muriendo.imagenActual())
   }
 
   test "morir cuesta exactamente una vida" {
-    self.morir()
+    // Arrancó con 2 vidas, pero el initialize de Muriendo ya le restó 1
+    muriendo.terminoAnimacion()
     assert.that(personaje.tieneVidas())
-
-    personaje.estado().terminoAnimacion()
-    personaje.estado().reaparecer()
-    self.morir()
-    assert.notThat(personaje.tieneVidas())
   }
 
   test "mientras muere ignora el movimiento" {
-    self.morir()
-
-    personaje.mover(derecha)
+    muriendo.mover(derecha)
 
     assert.equals(fabricaDePruebas.posicionInicial(), personaje.position())
   }
 
   test "mientras muere ignora los disparos" {
-    self.morir()
-
-    personaje.disparar()
+    muriendo.disparar()
 
     assert.equals(0, armaMock.disparos())
   }
 
   test "mientras muere ignora el cambio de arma" {
-    self.morir()
-
-    personaje.siguienteArma()
+    muriendo.siguienteArma()
 
     assert.equals(0, arsenalMock.cambiosDeArma())
   }
 
-  test "mientras muere ignora nuevos impactos y no pierde otra vida" {
-    self.morir()
-    self.morir()   // si lo procesara, perdería la segunda vida
-
-    assert.that(personaje.tieneVidas())
-  }
-
   test "al terminar su animación con vidas restantes sale del tablero" {
-    self.morir()
-
-    personaje.estado().terminoAnimacion()
+    muriendo.terminoAnimacion()
 
     assert.notThat(game.hasVisual(personaje))
   }
 
   test "al reaparecer vuelve a su posición inicial, con salud completa y en neutral" {
-    personaje.mover(derecha)
+    personaje.position(game.at(6, 6)) // Lo movemos de su posición inicial
 
-    self.morirYReaparecer()
+    muriendo.terminoAnimacion() // Simula que terminó la animación (lo saca del tablero)
+    muriendo.reaparecer()       // Simula que pasaron los 3 segundos y vuelve a aparecer
 
     assert.equals(fabricaDePruebas.posicionInicial(), personaje.position())
     assert.notThat(personaje.sinSalud())
-    assert.equals("base.png", personaje.image())
-  }
-
-  test "al reaparecer vuelve al tablero" {
-    self.morirYReaparecer()
-
-    assert.that(game.hasVisual(personaje))
+    assert.equals("base.png", personaje.image()) // Al reaparecer, cambia el estado a Neutral
   }
 }

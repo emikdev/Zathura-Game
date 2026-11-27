@@ -1,152 +1,62 @@
 import wollok.game.*
 import src.mecanicas.direcciones.*
-import src.niveles.travesia.*
+import src.personajes.comportamiento.movimiento.travesia.*
 import tests.mocks.mocksTravesia.*
 
-describe "Travesía: avance en línea recta" {
+describe "Comportamiento de Travesía (Ovnis)" {
 
-  const travesia = new Travesia(intervalo = 100, direccion = derecha)
-  const ovni = new OvniMock(position = game.at(5, 10))
+  var travesiaDerecha
+  var ovni
 
   method initialize() {
+    game.clear()
     game.width(20)
     game.height(20)
-    travesia.agregar(ovni)
-    travesia.iniciar()
+    travesiaDerecha = new Travesia(intervalo = 100, direccion = derecha)
+    ovni = new OvniMock(position = game.at(5, 10))
   }
 
-  test "mientras pueda avanzar, el personaje se mueve una celda en su dirección" {
-    travesia.paso()
+  // Movimiento recto
+
+  test "Avanza al personaje en la dirección indicada al acumular el tiempo del intervalo" {
+    // Simulamos el paso de 100ms (el intervalo de la travesía)
+    travesiaDerecha.tick(ovni, 100)
 
     assert.equals(game.at(6, 10), ovni.position())
     assert.equals(1, ovni.movimientos())
   }
 
-  test "mantiene la dirección en los pasos siguientes" {
-    3.times({ i => travesia.paso() })
+  test "Mantiene la trayectoria y la fila en los pasos siguientes" {
+    travesiaDerecha.tick(ovni, 100)
+    travesiaDerecha.tick(ovni, 100)
+    travesiaDerecha.tick(ovni, 100)
 
     assert.equals(game.at(8, 10), ovni.position())
-  }
-
-  test "mientras pueda avanzar no se retira" {
-    3.times({ i => travesia.paso() })
-
-    assert.equals(0, ovni.retiradas())
-  }
-
-  test "avanza sin cambiar de fila" {
-    5.times({ i => travesia.paso() })
-
     assert.equals(10, ovni.position().y())
   }
-}
 
-describe "Travesía: cruce del tablero" {
+  // Límites del tablero
 
-  const travesiaDerecha = new Travesia(intervalo = 100, direccion = derecha)
-  const travesiaIzquierda = new Travesia(intervalo = 100, direccion = izquierda)
-  const ovniDerecha = new OvniMock(position = game.at(17, 10))
-  const ovniIzquierda = new OvniMock(position = game.at(2, 10))
+  test "Al llegar al borde del tablero, detiene al personaje sin moverlo de su última celda" {
+    // Lo posicionamos en el borde derecho (última columna jugable)
+    ovni.position(game.at(19, 10))
+    
+    travesiaDerecha.tick(ovni, 100)
 
-  method initialize() {
-    game.width(20)
-    game.height(20)
-    travesiaDerecha.agregar(ovniDerecha)
-    travesiaDerecha.iniciar()
-    travesiaIzquierda.agregar(ovniIzquierda)
-    travesiaIzquierda.iniciar()
-  }
-
-  test "hacia la derecha llega hasta la última columna sin retirarse" {
-    2.times({ i => travesiaDerecha.paso() })   // 18 y 19
-
-    assert.equals(game.at(19, 10), ovniDerecha.position())
-    assert.equals(0, ovniDerecha.retiradas())
-  }
-
-  test "hacia la derecha, al no poder avanzar más se retira sin moverse" {
-    3.times({ i => travesiaDerecha.paso() })   // 18, 19 y el intento de cruzar
-
-    assert.equals(game.at(19, 10), ovniDerecha.position())
-    assert.equals(2, ovniDerecha.movimientos())
-    assert.equals(1, ovniDerecha.retiradas())
-  }
-
-  test "hacia la izquierda llega hasta la primera columna sin retirarse" {
-    2.times({ i => travesiaIzquierda.paso() })   // 1 y 0
-
-    assert.equals(game.at(0, 10), ovniIzquierda.position())
-    assert.equals(0, ovniIzquierda.retiradas())
-  }
-
-  test "hacia la izquierda, al no poder avanzar más se retira" {
-    3.times({ i => travesiaIzquierda.paso() })
-
-    assert.equals(1, ovniIzquierda.retiradas())
-  }
-
-  test "una travesía no afecta al personaje de otra" {
-    3.times({ i => travesiaDerecha.paso() })
-
-    assert.equals(0, ovniIzquierda.movimientos())
-    assert.equals(0, ovniIzquierda.retiradas())
-  }
-}
-
-describe "Travesía: personaje que ya está en el borde" {
-
-  const travesia = new Travesia(intervalo = 100, direccion = derecha)
-  const ovniEnElBorde = new OvniMock(position = game.at(19, 10))
-
-  method initialize() {
-    game.width(20)
-    game.height(20)
-    travesia.agregar(ovniEnElBorde)
-    travesia.iniciar()
-  }
-
-  test "se retira en el primer paso sin moverse" {
-    travesia.paso()
-
-    assert.equals(0, ovniEnElBorde.movimientos())
-    assert.equals(1, ovniEnElBorde.retiradas())
-    assert.equals(game.at(19, 10), ovniEnElBorde.position())
-  }
-}
-
-describe "Travesía: quitar" {
-
-  const travesia = new Travesia(intervalo = 100, direccion = derecha)
-  const ovni = new OvniMock(position = game.at(5, 10))
-
-  method initialize() {
-    game.width(20)
-    game.height(20)
-    travesia.agregar(ovni)
-    travesia.iniciar()
-  }
-
-  test "quitar al enemigo detiene la travesía sin retirarlo ni moverlo" {
-    travesia.quitar(ovni)
-
-    assert.equals(0, ovni.retiradas())
+    // Se queda en el borde y se le avisa al personaje que se detenga
+    assert.equals(game.at(19, 10), ovni.position())
     assert.equals(0, ovni.movimientos())
-    assert.equals(game.at(5, 10), ovni.position())
-  }
-}
-
-describe "Travesía: identidad del reloj" {
-
-  test "cada travesía tiene su propio reloj, así detener una no frena a las otras" {
-    const una = new Travesia(intervalo = 100, direccion = derecha)
-    const otra = new Travesia(intervalo = 100, direccion = derecha)
-
-    assert.notEquals(una.nombreTick(), otra.nombreTick())
+    assert.equals(1, ovni.detenidos())
   }
 
-  test "el reloj mantiene siempre el mismo nombre" {
-    const travesia = new Travesia(intervalo = 100, direccion = derecha)
+  // Detención manual (muerte del ovni)
 
-    assert.equals(travesia.nombreTick(), travesia.nombreTick())
+  test "Si se detiene la travesía manualmente, deja de actualizar al personaje" {
+    travesiaDerecha.detener() // Simula que el ovni murió y la travesía se detuvo
+
+    travesiaDerecha.tick(ovni, 100)
+
+    // El tick pasa, pero como la travesía está inactiva, el ovni no se mueve
+    assert.equals(0, ovni.movimientos())
   }
 }

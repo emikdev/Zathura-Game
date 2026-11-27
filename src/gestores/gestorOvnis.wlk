@@ -1,15 +1,13 @@
 import wollok.game.*
-
 import src.mecanicas.direcciones.*
 import src.gestores.reloj.*
-
 import src.personajes.comportamiento.movimiento.travesia.*
 import src.personajes.factory.tiposPersonajes.tiposDeOvnis.*
 import src.personajes.factory.factory.*
 
 object gestorOvnis {
   const intervaloAparicion = 15000
-  const probabilidad = 20
+  const probabilidad = 25
   
   var acumuladoAparicion = 0
   var ovnisActivos = []
@@ -37,18 +35,16 @@ object gestorOvnis {
     self.lanzarDesde(0.randomUpTo(2) < 1)
   }
 
-  method lanzarDesde(haciaDerecha) {
+method lanzarDesde(haciaDerecha) {
     const direccion = if (haciaDerecha) derecha else izquierda
     const x = if (haciaDerecha) 0 else game.width() - 1
 
     const travesia = new Travesia(intervalo = 250, direccion = direccion)
-    // Usamos la factory corregida
-    const ovniNuevo = factory.crearOvni(ovniBasico, game.at(x, tablero.filaMaxima()))
+    const ovniNuevo = factory.crearOvni(ovniBasico, game.at(x, tablero.filaMaxima()), travesia)
     
-    ovniNuevo.iniciarTravesia(travesia)
     game.addVisual(ovniNuevo)
     ovnisActivos.add(ovniNuevo)
-  }
+}
 
   method quitar(ovni) {
     ovnisActivos.remove(ovni)
@@ -62,8 +58,13 @@ object gestorOvnis {
   }
 
   method detener() {
-    ovnisActivos.copy().forEach({ o => o.retirar() })
+    ovnisActivos.copy().forEach({ o => o.detener() })
     ovnisActivos.clear()
-    reloj.olvidar(self)
+  }
+  
+  method limpiar() {
+    ovnisActivos.copy().forEach({ o => o.detener() })
+    ovnisActivos.clear()
+    acumuladoAparicion = 0
   }
 }

@@ -5,7 +5,7 @@ import src.gestores.reloj.*
 
 class Formacion {
   const nivel
-  const intervalo // Ya es un numero (ej: 800)
+  const intervalo
   
   const enemigos = []
   const enemigosEnInmolacion = []
@@ -102,11 +102,7 @@ class Formacion {
 
   method hayEnemigoEn(posicion, disparo) {
     const todosLosEnemigos = enemigos + enemigosEnInmolacion
-    
-    const enemigosChocados = todosLosEnemigos.filter({ e => 
-      e.position() == posicion && not e.esMuriendo() 
-    })
-    
+    const enemigosChocados = todosLosEnemigos.filter({ e => e.position() == posicion})
     if (not enemigosChocados.isEmpty()) {
       enemigosChocados.first().colisionaCon(disparo)
     }

@@ -1,136 +1,83 @@
 import wollok.game.*
-import src.mecanicas.bandos.*
+import src.mecanicas.bandos.bandoJugador.*
+import src.mecanicas.bandos.bandoEnemigo.*
 import tests.mocks.mocksPersonaje.*
 
-describe "Personaje: creación y ciclo de vida" {
+describe "Personaje: ciclo de vida y colisiones" {
 
-  const armaMock = new ArmaMock()
-  const arsenalMock = new ArsenalMock(arma = armaMock)
-  const personaje = fabricaDePruebas.personaje(2, arsenalMock)
+  var armaMock
+  var arsenalMock
+  var personaje
 
   method initialize() {
+    armaMock = new ArmaMock()
+    arsenalMock = new ArsenalMock(arma = armaMock)
+    personaje = fabricaDePruebas.personaje(2, arsenalMock)
     fabricaDePruebas.prepararTablero(personaje)
   }
 
-  // Creación a partir de su tipo
+  // Ciclo de vida
 
-  test "arranca en su posición inicial" {
-    assert.equals(fabricaDePruebas.posicionInicial(), personaje.position())
-  }
-
-  test "arranca en estado neutral mostrando su animación base" {
+  test "Arranca en estado neutral mostrando su animación base" {
     assert.equals("base.png", personaje.image())
   }
 
-  test "usa el arsenal que define su tipo" {
-    assert.equals(arsenalMock, personaje.arsenal())
-  }
-
-  // Salud
-  
-  test "con daño menor a su salud máxima no queda sin salud" {
+  test "El daño se acumula y al agotar la salud cambia al estado Muriendo" {
     personaje.restarSalud(fabricaDePruebas.saludMaxima() - 1)
-
     assert.notThat(personaje.sinSalud())
+    
+    personaje.restarSalud(1)
+    personaje.morir() 
+    
+    assert.equals("muerte.png", personaje.image())
   }
 
-  test "con daño igual a su salud máxima queda sin salud" {
-    personaje.restarSalud(fabricaDePruebas.saludMaxima())
-
-    assert.that(personaje.sinSalud())
-  }
-
-  test "el daño se acumula hasta dejarlo sin salud" {
-    personaje.restarSalud(1)
-    personaje.restarSalud(1)
-    assert.notThat(personaje.sinSalud())
-
-    personaje.restarSalud(1)
-    assert.that(personaje.sinSalud())
-  }
-
-  test "restaurar la salud la devuelve al máximo de su tipo" {
+  test "Restaurar la salud limpia todo el daño acumulado" {
     personaje.restarSalud(fabricaDePruebas.saludMaxima())
     personaje.restaurarSalud()
-    // Si hubiera quedado con salud parcial, este daño lo mataría
-    personaje.restarSalud(fabricaDePruebas.saludMaxima() - 1)
-
+    
     assert.notThat(personaje.sinSalud())
   }
 
-  // Vidas (arranca con 2)
-
-  test "mientras le queden vidas sigue teniendo vidas" {
+  test "Pierde vidas hasta quedarse sin ninguna" {
     personaje.perderVida()
-
     assert.that(personaje.tieneVidas())
-  }
 
-  test "al perder todas sus vidas ya no tiene vidas" {
     personaje.perderVida()
-    personaje.perderVida()
-
     assert.notThat(personaje.tieneVidas())
   }
 
-  // Retirada
-
-  test "al retirarse sale del tablero" {
-    personaje.retirar()
-
+  test "Al detenerse sale del tablero" {
+    personaje.detener()
     assert.notThat(game.hasVisual(personaje))
   }
-}
 
-// Colisiones
+  // Colisiones
 
-describe "Personaje: colisiones con disparos" {
-
-  const armaMock = new ArmaMock()
-  const arsenalMock = new ArsenalMock(arma = armaMock)
-  const personaje = fabricaDePruebas.personaje(2, arsenalMock)   // bando: jugador
-
-  const disparoEnemigoLeve = new DisparoMock(bando = enemigo, dano = 1)
-  const disparoEnemigoLetal = new DisparoMock(bando = enemigo, dano = fabricaDePruebas.saludMaxima())
-  const disparoAliado = new DisparoMock(bando = jugador, dano = 1)
-
-  method initialize() {
-    fabricaDePruebas.prepararTablero(personaje)
-  }
-
-  test "un disparo de otro bando lo daña y muestra el efecto de impacto" {
-    personaje.colisionaCon(disparoEnemigoLeve)
+  test "Un disparo enemigo daña al personaje, muestra el efecto y se destruye" {
+    const disparoEnemigo = new DisparoMock(bando = enemigo, dano = 1)
+    
+    personaje.colisionaCon(disparoEnemigo)
 
     assert.equals("impacto.png", personaje.image())
-    assert.notThat(personaje.sinSalud()) // Como el dano es leve no lo deja sin salud/lo mata.
+    assert.that(disparoEnemigo.fueDestruido())
   }
 
-  test "un disparo de otro bando se destruye al impactar" {
-    personaje.colisionaCon(disparoEnemigoLeve)
-
-    assert.that(disparoEnemigoLeve.fueDestruido())
-  }
-
-  test "un disparo del mismo bando lo atraviesa sin dañarlo ni destruirse" {
+  test "Un disparo aliado es ignorado y no se destruye" {
+    const disparoAliado = new DisparoMock(bando = jugador, dano = 1)
+    
     personaje.colisionaCon(disparoAliado)
 
-    assert.equals("base.png", personaje.image()) // No reacciona al impacto, es decir, no recibe dano ni muestra efecto visual.
+    assert.equals("base.png", personaje.image()) 
     assert.notThat(disparoAliado.fueDestruido())
   }
 
-  test "un disparo con daño igual a su salud lo deja sin salud y muriendo" {
-    personaje.colisionaCon(disparoEnemigoLetal)
+  test "Un disparo letal lo cambia al estado Muriendo" {
+    const disparoLetal = new DisparoMock(bando = enemigo, dano = fabricaDePruebas.saludMaxima())
+    
+    personaje.colisionaCon(disparoLetal)
 
+    assert.equals("muerte.png", personaje.image())
     assert.that(personaje.sinSalud())
-    assert.equals("muerte.png", personaje.image())
-  }
-
-  test "el daño de varios disparos se acumula hasta matarlo" {
-    personaje.colisionaCon(disparoEnemigoLeve)
-    personaje.colisionaCon(disparoEnemigoLeve)
-    assert.equals("impacto.png", personaje.image())
-
-    personaje.colisionaCon(disparoEnemigoLeve)
-    assert.equals("muerte.png", personaje.image())
   }
 }

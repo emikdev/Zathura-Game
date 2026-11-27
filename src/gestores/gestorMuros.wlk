@@ -23,7 +23,6 @@ object gestorMuros {
 
     method cantidadActivos() = muros.size()
 
-    // NUEVO MÉTODO PARA COLISIONES
     method hayMuroEn(posicion, disparo) {
         const murosChocados = muros.filter({ m => m.position() == posicion && m.estaEnPie() })
         
@@ -32,10 +31,10 @@ object gestorMuros {
         }
     }
 
-    method chocaKamikazeEn(posicion, kamikaze) {
+    method chocaEnemigoEn(posicion, enemigo) {
         const murosChocados = muros.filter({ m => m.position() == posicion && m.estaEnPie() })
         if (not murosChocados.isEmpty()) {
-            murosChocados.first().colisionaConObjeto(kamikaze)
+            murosChocados.first().colisionaConObjeto(enemigo)
         }
     }
 

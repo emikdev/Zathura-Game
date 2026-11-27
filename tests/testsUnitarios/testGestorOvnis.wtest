@@ -1,0 +1,69 @@
+import wollok.game.*
+import src.gestores.gestorOvnis.*
+import src.mecanicas.direcciones.*
+import src.mecanicas.bandos.bandoJugador.* 
+import src.gestores.reloj.*
+import tests.mocks.mocksPersonaje.*
+
+describe "Gestor de Ovnis" {
+
+  var disparoMock
+
+  method initialize() {
+    game.clear()
+    game.width(20)
+    game.height(20)
+    reloj.limpiarTodo()
+    gestorOvnis.limpiar() 
+    disparoMock = new DisparoMock(bando = jugador, dano = 1)
+  }
+
+  // Lanzamiento y posicionamiento
+
+  test "Lanzar un ovni lo posiciona en el borde correcto y lo agrega al tablero" {
+    // Hacia la derecha: debe nacer en la columna 0 (izquierda)
+    gestorOvnis.lanzarDesde(true)
+    
+    // Buscamos el ovni en el tablero en lugar de esperar un return
+    const ovniDerecha = game.allVisuals().first()
+    assert.that(game.hasVisual(ovniDerecha))
+    assert.equals(0, ovniDerecha.position().x())
+
+    // Hacia la izquierda: debe nacer en la última columna (derecha)
+    gestorOvnis.lanzarDesde(false)
+    
+    // Buscamos el nuevo ovni (el último que se agregó)
+    const ovniIzquierda = game.allVisuals().last()
+    assert.that(game.hasVisual(ovniIzquierda))
+    assert.equals(game.width() - 1, ovniIzquierda.position().x())
+  }
+
+  // Colisiones
+
+  test "Detecta si un disparo impacta contra un ovni en vuelo" {
+    gestorOvnis.lanzarDesde(true)
+    
+    // Obtenemos el ovni recién creado y le preguntamos su posición real
+    const ovni = game.allVisuals().first()
+    
+    // Le pasamos esa posición al gestor
+    gestorOvnis.hayOvniEn(ovni.position(), disparoMock)
+
+    assert.that(disparoMock.fueDestruido())
+  }
+
+  // Limpieza
+
+  test "Al limpiar el gestor, se eliminan todos los ovnis del tablero" {
+    gestorOvnis.lanzarDesde(true)
+    gestorOvnis.lanzarDesde(false)
+    
+    // Verificamos que se agregaron al tablero
+    assert.equals(2, game.allVisuals().size())
+
+    gestorOvnis.limpiar()
+
+    // Verificamos que el tablero quedó vacío
+    assert.equals(0, game.allVisuals().size())
+  }
+}
