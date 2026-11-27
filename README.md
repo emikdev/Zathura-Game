@@ -16,7 +16,7 @@ Sistema de Puntuación: Destruye diferentes tipos de enemigos (Básicos, Especia
 
 ## Menus
 
-### Los menus se manejan con las siguientes Teclas.
+### Todos los menus se manejan con las siguientes Teclas.
 <img src="assets/controlesMenu.png" alt="Descripción" width="400" />
 
 ### Este es el menu Principal 
@@ -26,6 +26,32 @@ Sistema de Puntuación: Destruye diferentes tipos de enemigos (Básicos, Especia
 
 - **Wollok** (Wollok Game)
 
+### Las reglas del juego: 
+
+<img src="assets/reglas1.png" alt="Descripción" width="400" />
+
+### Estos los controles de la nave para un jugador y para el modo cooperativo de 2 jugadores
+<img src="assets/controlesNave.png" alt="Descripción" width="400" />
+
+### Este es el Sistema De Puntuación del juego 
+
+<img src="assets/sistemaPuntosReadme.png" alt="Descripción" width="400" />
+
+### Seleccion de Cantidad De Jugadores.
+
+<img src="assets/seleccionCantPlayers.png" alt="Descripción" width="400" />
+
+### Estas son las naves que se pueden elegir.
+
+<img src="assets/seleccionNaves.png" alt="Descripción" width="400" />
+
+### Las dificultades
+
+<img src="assets/seleccionDificulty.png" alt="Descripción" width="400" />
+
+### Imagenes In Game
+
+<img src="assets/inGame.png" alt="Descripción" width="400" /><img src="assets/inGame2.png" alt="Descripción" width="400" />
 ## Integrantes
 
 - Muñoz Damian (emikdev)
