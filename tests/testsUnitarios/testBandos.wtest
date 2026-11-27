@@ -8,8 +8,6 @@ describe "Bandos: delegación de disparos" {
 
   method initialize() {
     // Limpiamos los gestores para evitar que el estado de un test afecte al otro
-    // (Si tus gestores no tienen un método limpiar(), deberías agregarlo, 
-    // o inicializar los disparos a 0 de alguna forma).
     gestorJugador.limpiar()
     gestorEnemigos.limpiar()
   }

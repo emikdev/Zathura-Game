@@ -9,7 +9,6 @@ describe "Gestor de disparos" {
   var unDisparoEnemigo
 
   method initialize() {
-    // Ahora sí, limpiamos usando el método que agregaste
     gestorEnemigos.limpiar()
     gestorJugador.limpiar()
     

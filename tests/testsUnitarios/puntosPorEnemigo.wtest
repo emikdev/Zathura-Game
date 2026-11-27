@@ -17,7 +17,6 @@ describe "Tests de puntos otorgados por los enemigos" {
   // Suma de puntos al morir
 
   test "Al morir, un enemigo suma los puntos configurados en su tipo" {
-    // Usamos alien.puntosQueOtorga() para que el test no se rompa si cambian el balance del juego
     const enemigoNormal = factory.crearEnemigo(alien, formacionMock, game.at(1, 10))
     enemigoNormal.alQuedarseSinVidas()
     assert.equals(alien.puntosQueOtorga(), gestorPuntaje.puntos())
@@ -30,7 +29,6 @@ describe "Tests de puntos otorgados por los enemigos" {
   }
 
   test "Al morir, un ovni suma los puntos configurados en su tipo" {
-    // Corregimos la firma: (tipoPersonaje, posicion, comportamientoMovimiento). Pasamos null porque al matarlo no se mueve.
     const ovni = factory.crearOvni(ovniBasico, game.at(3, 10), null)
     
     ovni.alQuedarseSinVidas()

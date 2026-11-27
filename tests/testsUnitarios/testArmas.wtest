@@ -19,7 +19,6 @@ describe "Armas: Disparo básico y munición" {
     game.width(20)
     game.height(20)
     
-    // ACÁ ESTABA EL ERROR: Le pasamos el parámetro
     bando = new BandoEspia(permiteDisparar = true)
     bandoSinPermiso = new BandoEspia(permiteDisparar = false)
     
@@ -63,7 +62,7 @@ describe "Armas: Munición infinita vs dinámica" {
     game.width(20)
     game.height(20)
     
-    bando = new BandoEspia(permiteDisparar = true) // <--- Corregido
+    bando = new BandoEspia(permiteDisparar = true)
     recurso = new RecursoMock(frame = "bala.png")
     
     tirador = object {
@@ -111,7 +110,7 @@ describe "Armas: Cañones múltiples y bordes" {
   method posicionesDeBalas(bandoAsignado) = bandoAsignado.disparosRegistrados().map({ bala => bala.position() })
 
   test "El DobleCañón dispara dos balas en columnas vecinas y gasta 2 de munición" {
-    const bando = new BandoEspia(permiteDisparar = true) // <--- Corregido
+    const bando = new BandoEspia(permiteDisparar = true)
     const doble = new DobleCanon(recursoBala = recurso, danoBala = 5, municion = 10, iconoHud = "x.png")
     const tirador = object {
       method bando() = bando
@@ -127,7 +126,7 @@ describe "Armas: Cañones múltiples y bordes" {
   }
 
   test "El TripleCañón dispara tres balas (centro y vecinas) y gasta 3 de munición" {
-    const bando = new BandoEspia(permiteDisparar = true) // <--- Corregido
+    const bando = new BandoEspia(permiteDisparar = true)
     const triple = new TripleCanon(recursoBala = recurso, danoBala = 7, municion = 10, iconoHud = "x.png")
     const tirador = object {
       method bando() = bando
@@ -145,8 +144,8 @@ describe "Armas: Cañones múltiples y bordes" {
     const doble = new DobleCanon(recursoBala = recurso, danoBala = 5, municion = 10, iconoHud = "x.png")
     const triple = new TripleCanon(recursoBala = recurso, danoBala = 7, municion = 10, iconoHud = "x.png")
     
-    const bandoIzq = new BandoEspia(permiteDisparar = true) // <--- Corregido
-    const bandoDer = new BandoEspia(permiteDisparar = true) // <--- Corregido
+    const bandoIzq = new BandoEspia(permiteDisparar = true)
+    const bandoDer = new BandoEspia(permiteDisparar = true)
     
     const tiradorIzquierdo = object {
       method bando() = bandoIzq
@@ -174,7 +173,7 @@ describe "Armas: Ajuste de posición del bando" {
   }
 
   test "La bala se posiciona en la celda que dicta el ajuste del bando, no encima del tirador" {
-    const bandoQueAjusta = new BandoEspiaQueAjusta(permiteDisparar = true) // <--- Corregido
+    const bandoQueAjusta = new BandoEspiaQueAjusta(permiteDisparar = true)
     const recurso = new RecursoMock(frame = "bala.png")
     const arma = new Arma(recursoBala = recurso, danoBala = 7, municion = 5, iconoHud = "x.png")
     

@@ -32,17 +32,17 @@ describe "Efectos Visuales en el Personaje" {
   }
 
   test "El personaje cambia su imagen al recibir un efecto y vuelve a la base al terminar" {
-    // 1. Estado inicial
+    // Estado inicial
     assert.equals("base.png", personaje.image())
 
-    // 2. Le aplicamos el efecto
+    // Le aplicamos el efecto
     personaje.cambiarEfecto(efecto)
     assert.equals("impacto.png", personaje.image()) // Ahora muestra el efecto
 
-    // 3. El efecto termina su animación
+    // El efecto termina su animación
     efecto.terminoAnimacion()
 
-    // 4. El personaje debería haber vuelto a su imagen base
+    // El personaje debería haber vuelto a su imagen base
     assert.that(efecto.haTerminado())
     assert.equals("base.png", personaje.image()) 
   }

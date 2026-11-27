@@ -59,16 +59,16 @@ describe "Disparo: Movimiento y destrucción" {
   }
 
   test "Al destruirse un disparo enemigo, libera el cupo y permite volver a disparar" {
-    // 1. Registramos el disparo REAL en el gestor
+    // Registramos el disparo REAL en el gestor
     gestorEnemigos.registrarDisparo(disparoEnemigo)
     
-    // 2. Llenamos el resto del gestor hasta su límite con Mocks
+    //  Llenamos el resto del gestor hasta su límite con Mocks
     (gestorEnemigos.limiteMaximo() - 1).times({ i => 
       gestorEnemigos.registrarDisparo(new DisparoMock(bando = enemigo, dano = 1)) 
     })
     assert.notThat(gestorEnemigos.puedeDisparar())
 
-    // 3. Destruimos el disparo real. Como estaba en la lista, se libera el cupo.
+    // Destruimos el disparo real. Como estaba en la lista, se libera el cupo.
     disparoEnemigo.destruir()
 
     assert.that(gestorEnemigos.puedeDisparar())

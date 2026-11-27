@@ -25,7 +25,7 @@ describe "Diseño de formaciones (Disposicion y FilaDeEnemigos)" {
     const celdasSeparadas = filaSeparada.celdasEn(10)
 
     assert.equals(game.at(8, 10), celdasSeparadas.first().last())
-    assert.equals(game.at(10, 10), celdasSeparadas.last().last()) // <-- Acá estaba el error (decía 11)
+    assert.equals(game.at(10, 10), celdasSeparadas.last().last())
   }
 
   test "Cada celda generada contiene el tipo de enemigo en el orden correcto" {

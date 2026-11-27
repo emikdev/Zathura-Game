@@ -25,9 +25,7 @@ describe "Personaje: ciclo de vida y colisiones" {
   test "El daño se acumula y al agotar la salud cambia al estado Muriendo" {
     personaje.restarSalud(fabricaDePruebas.saludMaxima() - 1)
     assert.notThat(personaje.sinSalud())
-
-    // En lugar de usar personaje.estado() (que ya no existe), forzamos la muerte 
-    // usando el método morir() que es parte de la interfaz pública de Personaje.
+    
     personaje.restarSalud(1)
     personaje.morir() 
     
@@ -50,7 +48,6 @@ describe "Personaje: ciclo de vida y colisiones" {
   }
 
   test "Al detenerse sale del tablero" {
-    // Cambiamos retirar() por detener()
     personaje.detener()
     assert.notThat(game.hasVisual(personaje))
   }

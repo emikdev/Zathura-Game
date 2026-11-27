@@ -76,7 +76,7 @@ describe "Gestor de niveles: Interfaz en pantalla" {
   }
 
   test "Iniciar el nivel actual carga los elementos del nivel (muros y enemigos) en el tablero" {
-    gestorNiveles.iniciarNivelActual() // <--- Usamos el método correcto
+    gestorNiveles.iniciarNivelActual()
     
     // Verifica que el nivel haya poblado el tablero
     assert.that(game.allVisuals().size() > 0)

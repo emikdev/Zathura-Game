@@ -7,7 +7,7 @@ describe "Gestor de muros" {
     game.clear()
     game.width(20)
     game.height(20)
-    gestorMuros.detener() // Ahora sí va a encontrar el gestorMuros
+    gestorMuros.detener()
   }
 
   test "Iniciar crea los muros y los agrega al tablero" {

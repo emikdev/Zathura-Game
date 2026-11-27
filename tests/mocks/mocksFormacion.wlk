@@ -16,7 +16,6 @@ class EnemigoMock {
     eventos.add("atacar " + nombre)
   }
   
-  // Requerido por el nuevo Formacion.paso()
   method prepararPaso() { }
 
   method ataques() = ataques
@@ -26,7 +25,6 @@ class EnemigoMock {
 class NivelMock {
   var avisos = 0
 
-  // Requerido por la nueva firma: formacionVacia(formacion)
   method formacionVacia(formacion) { avisos += 1 }
 
   method avisos() = avisos

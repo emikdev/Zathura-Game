@@ -10,16 +10,13 @@ describe "Animación por impacto (Muros)" {
   method initialize() {
     estado = new EstadoAnimacionMock()
     recurso = new RecursoFramesMock(frames = ["a.png", "b.png", "c.png"])
-    
-    // Asumimos que AnimacionPorImpacto no avanza por tiempo (autoAvance = false)
-    // Si tu clase requiere autoAvance en el constructor, agregalo acá.
+
     animacion = new AnimacionPorImpacto(estado = estado, recursoDeAnimacion = recurso, autoAvance = false)
   }
 
   test "Arranca en el primer frame por defecto, pero puede empezar en otro" {
     assert.equals("a.png", animacion.frameActual())
 
-    // Usamos el método que creamos en el refactor en lugar de pasarlo por constructor
     animacion.posicionarEnFrame(2)
     assert.equals("c.png", animacion.frameActual())
   }

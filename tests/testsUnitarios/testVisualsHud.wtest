@@ -48,7 +48,6 @@ describe "Visuales del HUD" {
   // Visuales de munición
 
   test "La munición se divide correctamente en centena, decena y unidad" {
-    // Un solo test es suficiente para validar que la UI de munición funciona
     nave.municionActual(128)
     
     assert.equals("numero_1.png", centena.image())
