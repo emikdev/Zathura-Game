@@ -16,6 +16,11 @@ class Enemigo inherits Personaje {
   method intentarAtacar() = tipoPersonaje.comportamientoAtaque().actuar(self)
   method seleccionarArma(slot) { estadoActual.seleccionarArma(slot) }
 
+  override method mover(direccion) {
+    super(direccion) // Llama al mover() de Personaje, que actualiza la posición
+    gestorMuros.chocaEnemigoEn(self.position(), self) // Verifica si pisó un muro
+  }
+
   override method alQuedarseSinVidas() {
     formacion.olvidarEnemigoLibre(self)
     formacion.quitar(self)
@@ -43,14 +48,15 @@ class Enemigo inherits Personaje {
   // Movimiento físico del kamikaze
   method avanzarKamikaze() {
     if (abajo.puedeAvanzar(self.position())) {
-      self.mover(abajo)
+      self.mover(abajo) 
+      
+      // Solo chequeamos las naves, porque los muros ya se chequean dentro de mover()
       gestorNaves.chocaKamikazeEn(self.position(), self) 
-      gestorMuros.chocaKamikazeEn(self.position(), self)
+      
     } else {
       self.terminarInmolacion()
     }
   }
-
   method terminarInmolacion() {
     self.morir()
   }
