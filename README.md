@@ -35,6 +35,20 @@ Que impacto tiene la seleccion de la dificultad en el juego?
 - TODOS los enemigos se moveran más rápido.
 - El daño de TODOS los enemigos sera mayor.
 
+## Mecanicas de las Armas.
+
+### Nave Normal
+- Arma Básica: Disparo Normal.
+- Arma Pesada de Nave Normal: Disparo Doble.
+
+### Nave De Ataque
+- Arma Básica: Disparo Normal.
+- Arma Pesada: Disparo Triple
+- Arma Especial: Disparo único pero con muchisimo daño.
+
+### Nave Tanque
+
+- Arma Básica: Disparo Normal.
 
 ## Menus
 

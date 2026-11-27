@@ -1,3 +1,4 @@
+import src.menu.configuracion.*
 import src.personajes.factory.tiposPersonajes.tipoPersonaje.*
 
 import src.mecanicas.animaciones.recursos.recursoEnemigos.*
@@ -15,7 +16,7 @@ class TipoPersonajeEnemigo inherits TipoPersonaje {
     const puntosQueOtorga
 
     method comportamientoAtaque() = comportamientoAtaque
-    method puntosQueOtorga() = puntosQueOtorga
+    method puntosQueOtorga() = puntosQueOtorga * configuracion.dificultad()
 }
 
     /* MUY IMPORTANTE: Convención de los slots del arsenal: 0 = arma normal, 1 = arma pesada */
