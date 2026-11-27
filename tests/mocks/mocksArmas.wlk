@@ -1,5 +1,5 @@
 class BandoEspia {
-  const permiteDisparar = true
+  const permiteDisparar
   const disparosRegistrados = []
 
   method ajustarPosicion(posicion) = posicion
@@ -7,9 +7,12 @@ class BandoEspia {
   method registrar(disparo) { disparosRegistrados.add(disparo) }
   method liberar(disparo) { }
   
-  // Nuevos métodos del refactor:
   method direccionDeDisparo() = null 
   method verificarColisionesDeDisparo(disparo, posicion) { }
 
   method disparosRegistrados() = disparosRegistrados
+}
+
+class BandoEspiaQueAjusta inherits BandoEspia {
+  override method ajustarPosicion(posicion) = posicion.up(1)
 }
