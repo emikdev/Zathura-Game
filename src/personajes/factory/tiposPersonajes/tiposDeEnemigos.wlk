@@ -8,7 +8,7 @@ import src.personajes.comportamiento.ataque.ningunaAccion.*
 
 import src.mecanicas.armas.armasEnemigas.*
 import src.mecanicas.arsenal.*
-import src.gestores.gestorBufos.* // o src.buf.gestorBufos.* según el nombre exacto de tu carpeta
+import src.gestores.gestorBufos.*
 
 
 class TipoPersonajeEnemigo inherits TipoPersonaje {
@@ -171,7 +171,7 @@ const pulpoRojo = new TipoPersonajeEnemigo(
 const alienHeavy = new TipoPersonajeEnemigo(
     saludMaxima = 3,
     vidas = 1,
-    arsenalInicial = new Arsenal(armas = [armaEnemigaBasica, armaEnemigaBasica]),
+    arsenalInicial = new Arsenal(armas = [armaEnemigaBasica, armaPesadaEnemiga]),
     animacionBase = animacionBaseAlienHeavy,
     animacionDisparo = animacionDisparoAlienHeavy,
     animacionImpacto = animacionImpactoAlienHeavy,
@@ -184,7 +184,7 @@ const alienHeavy = new TipoPersonajeEnemigo(
 const calamarHeavy = new TipoPersonajeEnemigo(
     saludMaxima = 3,
     vidas = 1,
-    arsenalInicial = new Arsenal(armas = [armaEnemigaBasica, armaEnemigaBasica]),
+    arsenalInicial = new Arsenal(armas = [armaEnemigaBasica, armaPesadaEnemiga]),
     animacionBase = animacionBaseCalamarHeavy,
     animacionDisparo = animacionDisparoCalamarHeavy,
     animacionImpacto = animacionImpactoCalamarHeavy,
@@ -197,7 +197,7 @@ const calamarHeavy = new TipoPersonajeEnemigo(
 const pulpoHeavy = new TipoPersonajeEnemigo(
     saludMaxima = 3,
     vidas = 1,
-    arsenalInicial = new Arsenal(armas = [armaEnemigaBasica, armaEnemigaBasica]),
+    arsenalInicial = new Arsenal(armas = [armaEnemigaBasica, armaPesadaEnemiga]),
     animacionBase = animacionBasePulpoHeavy,
     animacionDisparo = animacionDisparoPulpoHeavy,
     animacionImpacto = animacionImpactoPulpoHeavy,
@@ -207,7 +207,7 @@ const pulpoHeavy = new TipoPersonajeEnemigo(
     probabilidadBufo = 50
 )
 
-/* Cangrejos (100%) */
+/* Cangrejos (0% por que termina el nivel, nunca lo vas a poder agarrar - emikdev) */
 const cangrejoAmarillo = new TipoPersonajeEnemigo(
     saludMaxima = 10,
     vidas = 1,
@@ -218,7 +218,7 @@ const cangrejoAmarillo = new TipoPersonajeEnemigo(
     animacionMuerte = animacionMuerteCangrejoAmarillo,
     comportamientoAtaque = ataques.probabilistico(75),
     puntosQueOtorga = 500,
-    probabilidadBufo = 100
+    probabilidadBufo = 0
 )
 
 const cangrejoAzul = new TipoPersonajeEnemigo(
@@ -231,7 +231,7 @@ const cangrejoAzul = new TipoPersonajeEnemigo(
     animacionMuerte = animacionMuerteCangrejoAzul,
     comportamientoAtaque = ataques.probabilistico(80),
     puntosQueOtorga = 500,
-    probabilidadBufo = 100
+    probabilidadBufo = 0
 )
 
 const cangrejoRojo = new TipoPersonajeEnemigo(
@@ -244,5 +244,5 @@ const cangrejoRojo = new TipoPersonajeEnemigo(
     animacionMuerte = animacionMuerteCangrejoRojo,
     comportamientoAtaque = ataques.probabilistico(80),
     puntosQueOtorga = 500,
-    probabilidadBufo = 100
+    probabilidadBufo = 0
 )

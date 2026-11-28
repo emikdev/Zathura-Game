@@ -21,7 +21,7 @@ const armaEnemigaBasicaAmarilla = new ArmaBasica(
     iconoHud = "armaAmarillaEnemigaHUD.png",
     danoBala = 3,
     recursoBala = armaEnemigaAmarilla,
-    municion = 100
+    municion = 999
 )
 
 const armaEnemigaBasicaAzul = new ArmaBasica(
@@ -42,7 +42,7 @@ const armaEnemigaBasicaMorada = new ArmaBasica(
     iconoHud = "armaMoradaEnemigaHUD.png",
     danoBala = 1,
     recursoBala = armaEnemigaMorada,
-    municion = 100
+    municion = 999
 )
 
 // Variantes de daño y velocidad
@@ -59,8 +59,8 @@ const armaPesadaEnemiga = new ArmaBasica(
 const armaRapidaEnemiga = new ArmaBasica(
     iconoHud = "armaMoradaEnemigaHUD.png",
     recursoBala = armaEnemigaMoradaRapida,
-    danoBala = 1,
-    municion = 20
+    danoBala = 3,
+    municion = 999
 )
 
 // Cañón doble por color
