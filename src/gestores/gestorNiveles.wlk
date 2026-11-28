@@ -12,7 +12,7 @@ import src.menu.configuracion.*
 import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
 import src.gestores.gestorDePuntos.*
 import src.gestores.reloj.*
-import src.mecanicas.gestores.gestorBufos.*
+import src.gestores.gestorBufos.*
 
 object gestorNiveles {
     const nivelesDelJuego = [nivelUno, nivelDos, nivelTres, nivelCuatro] 

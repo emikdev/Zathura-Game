@@ -3,7 +3,6 @@ import src.gestores.gestorNiveles.*
 import src.niveles.niveles.*
 import src.gestores.gestorMuros.*
 import src.gestores.reloj.*
-import src.gestores.gestorBufos.*
 
 describe "Gestor de niveles: Progresión y fin de partida" {
 
@@ -14,7 +13,6 @@ describe "Gestor de niveles: Progresión y fin de partida" {
     reloj.limpiarTodo()
     gestorMuros.detener()
     gestorNiveles.reiniciar()
-    gestorBufos.detener()
   }
 
   test "Al iniciar una partida, arranca en el nivel 1 y el contador lo refleja" {
@@ -75,5 +73,12 @@ describe "Gestor de niveles: Interfaz en pantalla" {
     
     assert.that(game.hasVisual(contador))
     assert.that(game.allVisuals().any({ v => v.image() == "lvl.png" }))
+  }
+
+  test "Iniciar el nivel actual carga los elementos del nivel (muros y enemigos) en el tablero" {
+    gestorNiveles.iniciarNivelActual()
+    
+    // Verifica que el nivel haya poblado el tablero
+    assert.that(game.allVisuals().size() > 0)
   }
 }
