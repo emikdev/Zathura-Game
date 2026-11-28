@@ -8,6 +8,11 @@ import src.gestores.gestorDisparos.*
 import src.mecanicas.bandos.bando.*
 
 object jugador inherits Bando {
+  var escudo = false
+  method activarEscudo() { escudo = true }
+  method desactivarEscudo() { escudo = false }
+  method escudoActivo() { return escudo }
+  
   override method gestor() = gestorJugador
   override method direccionDeDisparo() = arriba
   override method ajustarPosicion(posicion) = posicion.up(1)

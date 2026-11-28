@@ -60,4 +60,8 @@ object gestorNaves {
             navesChocadas.first().colisionaConObjeto(kamikaze)
         }
     }
+    
+    method esNaveJugador(objeto) {
+        return naves.contains(objeto)
+    }
 }

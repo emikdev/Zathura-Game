@@ -12,6 +12,7 @@ import src.menu.configuracion.*
 import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
 import src.gestores.gestorDePuntos.*
 import src.gestores.reloj.*
+import src.gestores.gestorBufos.*
 
 object gestorNiveles {
     const nivelesDelJuego = [nivelUno, nivelDos, nivelTres, nivelCuatro] 
@@ -28,6 +29,7 @@ object gestorNiveles {
     method iniciarNivelActual() {
         self.nivelActual().iniciar()
         gestorPuntaje.mostrar()
+         gestorBufos.iniciar()
         self.mostrar()
         
         musicaInGame.iniciar() // <--- ARRANCAMOS LA MÚSICA ACÁ

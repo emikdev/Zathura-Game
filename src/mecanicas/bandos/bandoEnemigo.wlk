@@ -7,6 +7,12 @@ import src.gestores.gestorDisparos.*
 import src.mecanicas.bandos.bando.*
 
 object enemigo inherits Bando {
+  var bloqueo = false
+  method activarBloqueo() { bloqueo = true }
+  method desactivarBloqueo() { bloqueo = false }
+  method estaBloqueado() { return bloqueo }
+  override method puedeDisparar() = super() && !self.estaBloqueado()
+
   override method gestor() = gestorEnemigos
   override method direccionDeDisparo() = abajo
   override method ajustarPosicion(posicion) = posicion.down(1)
