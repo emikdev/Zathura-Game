@@ -9,6 +9,7 @@ import src.mecanicas.bandos.bandoEnemigo.* // Importá jugador y enemigo
 
 object gestorBufos {
     const bufosActivos = []
+    var habilitado = false
 
     // Dentro de object gestorBufos:
     var idEscudo = 0
@@ -55,7 +56,7 @@ object gestorBufos {
         return (5000 + extraPorDificultad + extraPorJugadores).min(20000)
     }
 
-      method generarBufoAleatorio() {
+    method generarBufoAleatorio() {
         const xAleatoria = tablero.columnaMinima().randomUpTo(tablero.columnaMaxima() + 1).truncate(0)
         const posInicial = game.at(xAleatoria, tablero.filaMaxima())
         self.generarBufoEn(posInicial)
@@ -64,6 +65,7 @@ object gestorBufos {
     */
 
     method iniciar() {
+        habilitado = true
         // Descomentar este bloque si querés reactivar la caída aleatoria desde arriba:
         /*
         if (not activo) {
@@ -84,7 +86,7 @@ object gestorBufos {
         return (probabilidadBase - penalizacionDificultad - penalizacionJugadores).max(5)
     }
 
-    // Genera un bufo de aleatorio en la posición dada
+    // Genera un bufo aleatorio en la posición dada
     method generarBufoEn(posicion) {
         const creadorElegido = tiposDeBufos.anyOne()
         const nuevoBufo = creadorElegido.apply(posicion)
@@ -93,7 +95,7 @@ object gestorBufos {
 
     // Método llamado por los enemigos al morir usando su probabilidad integrada
     method intentarSoltarBufoEn(posicion, probabilidadBase) {
-        if (0.randomUpTo(100) < self.probabilidadDropActual(probabilidadBase)) {
+        if (habilitado and 0.randomUpTo(100) < self.probabilidadDropActual(probabilidadBase)) {
             self.generarBufoEn(posicion)
         }
     }
@@ -108,6 +110,7 @@ object gestorBufos {
 
     // Limpia todos los bufos activos en pantalla al terminar nivel o en Game Over
     method detener() {
+        habilitado = false
         // Descomentar este bloque si reactivás la caída aleatoria desde arriba:
         /*
         if (activo) {
@@ -120,5 +123,6 @@ object gestorBufos {
         jugador.desactivarEscudo()
         enemigo.desactivarBloqueo()
         bufosActivos.copy().forEach({ bufo => bufo.desaparecer() })
+        bufosActivos.clear()
     }
 }

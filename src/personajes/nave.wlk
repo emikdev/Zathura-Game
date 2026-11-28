@@ -28,6 +28,10 @@ class NaveJugador inherits Personaje {
     method municionActual() = arsenal.armaActual().municion()
     method vidas() = vidas
 
+    method ganarVida() {
+        vidas = vidas + 1
+    }
+    
     override method alQuedarseSinVidas() {
         gestorNaves.eliminarNaveSinVidas(self)
     }
