@@ -1,12 +1,14 @@
 import wollok.game.*
 import src.buf.buf.*
-import src.mecanicas.gestores.gestorBufos.*
-import src.mecanicas.gestores.gestorNaves.*
+import src.gestores.gestorBufos.*
+import src.gestores.gestorNaves.*
 import src.mecanicas.disparo.*
-import src.mecanicas.bandos.*
+import src.mecanicas.bandos.bandoJugador.*
+import src.mecanicas.bandos.bandoEnemigo.*
 import src.personajes.factory.tiposPersonajes.tiposDeEnemigos.*
 import src.menu.configuracion.*
-import tests.mocks.mocksPersonaje.* 
+import tests.mocks.mocksPersonaje.*
+import tests.mocks.mocksArmas.*
 
 describe "Tests del Sistema de Bufos" {
 
@@ -49,7 +51,7 @@ describe "Tests del Sistema de Bufos" {
   }
 
   // El bufo desaparece al llegar al borde inferior del mapa
-   test "El bufo cae paso a paso y desaparece al llegar al borde inferior del mapa" {
+  test "El bufo cae paso a paso y desaparece al llegar al borde inferior del mapa" {
     const bufo = new BufoArma(
       position = game.at(2, 2),
       recursoAnimacion = recursoBufoMock,
@@ -66,7 +68,6 @@ describe "Tests del Sistema de Bufos" {
     bufo.caer()
     assert.notThat(game.hasVisual(bufo))
   }
-
 
   // El bufo de arma es recogido por la nave y desaparece, agregando el arma al arsenal
   test "Cuando la nave recoge un BufoArma, agrega el arma al arsenal y el bufo desaparece" {
