@@ -37,6 +37,7 @@ describe "Tests del Sistema de Bufos" {
     configuracion.dificultadElegida(1)
     configuracion.cantidadJugadores(1)
     gestorBufos.detener()
+    gestorBufos.iniciar()
   }
 
   // El bufo se genera en la posición del enemigo al morir
