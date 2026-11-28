@@ -17,7 +17,7 @@ Zathura Game es un videojuego de disparos en el espacio, estilo arcade clásico 
 
 # Las reglas de combate
 
-<img src="assets/reglas1.png" alt="Descripción" width="400" />
+<img src="assets/reglas2.png" alt="Descripción" width="400" />
 
 ## Sistema de niveles
 
@@ -84,16 +84,17 @@ Cada nivel tendrá una cantidad de oleadas cuya dificultad aumentará conforme s
 
 ### Nave normal
 - Arma básica: disparo normal.
-- Arma pesada de nave normal: disparo doble.
+- Arma cañon doble: disparo doble.
+- Arma cañon triple: disparo triple.
 
 ### Nave de ataque
-- Arma básica: disparo normal.
-- Arma pesada: disparo triple.
-- Arma especial: disparo único pero con muchísimo daño.
+- Arma básica: disparo normal con un x2 de velocidad y un x3 de daño
+- Arma triple cañon: disparo triple.
+- Arma cañon de plasma: disparo único pero con muchísimo daño.
 
 ### Nave tanque
 
-- Arma básica: disparo normal.
+- Arma básica amarilla: disparo normal con un x3 de daño
 
 ## Tecnología utilizada
 
