@@ -16,6 +16,7 @@ class Ovni inherits Personaje {
 
   override method alQuedarseSinVidas() {
     gestorPuntaje.sumar(tipoPersonaje.puntosQueOtorga())
+    tipoPersonaje.soltarBufoAlMorir(self.position())
   }
 
   override method detener() {

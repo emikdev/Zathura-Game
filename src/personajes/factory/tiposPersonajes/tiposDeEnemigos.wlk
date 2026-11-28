@@ -20,7 +20,7 @@ class TipoPersonajeEnemigo inherits TipoPersonaje {
     method puntosQueOtorga() = puntosQueOtorga * configuracion.dificultad()
 
     method soltarBufoAlMorir(posicion) {
-        gestorBufos.intentarSoltarBufoEn(posicion, probabilidadBufo)
+        gestorBufos.intentarSoltarBufoEn(posicion, self.probabilidadBufo())
     }
 }
 
