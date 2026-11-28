@@ -32,7 +32,7 @@ object gestorNiveles {
          gestorBufos.iniciar()
         self.mostrar()
         
-        musicaInGame.iniciar() // <--- ARRANCAMOS LA MÚSICA ACÁ
+        musicaInGame.iniciar()
     }
 
     method nivelActual() = niveles.get(indice)
@@ -43,7 +43,8 @@ object gestorNiveles {
             indice += 1
             musicaInGame.detener() // Detiene la música para el menú
             contadorDeNiveles += 1
-            entreNiveles.iniciarMenu() 
+            gestorBufos.limpiar() // Limpia los bufos que estaban cayendo para que no queden sobre el menu
+            entreNiveles.iniciarMenu() // Llama el menu
         } else {
             self.ganar()
         }
@@ -58,6 +59,7 @@ object gestorNiveles {
     method limpiarPartida() {
         musicaInGame.detener()
         gestorOvnis.detener()
+        gestorBufos.limpiar() // Limpia los bufos que estan cayendo para que no se queden sobre los menus
         reloj.limpiarTodo()
         self.reiniciar()
     }

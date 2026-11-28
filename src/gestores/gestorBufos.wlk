@@ -122,6 +122,11 @@ object gestorBufos {
         idBloqueo += 1
         jugador.desactivarEscudo()
         enemigo.desactivarBloqueo()
+        self.limpiar() // Agrego este metodo para evitar la superposicion de bufos sobre los menus y lo uso para no repetir logica - emikdev
+    }
+
+    // Saca de pantalla los bufos que estén cayendo, sin tocar nada más
+    method limpiar() {
         bufosActivos.copy().forEach({ bufo => bufo.desaparecer() })
         bufosActivos.clear()
     }
