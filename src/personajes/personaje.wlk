@@ -54,12 +54,16 @@ class Personaje {
   method restaurarSalud() { salud = tipoPersonaje.saludMaxima() }
   method perderVida() { vidas -= 1 }
   method tieneVidas() = vidas > 0
-
+  
   method colisionaCon(disparo) {
-    if (bando.puedeColisionarCon(disparo.bando())) {
-      estadoActual.recibirImpacto(disparo.dano())
-      disparo.destruir()
+        if (bando.puedeColisionarCon(disparo.bando())) {
+            self.recibirImpactoDe(disparo) // Esta para evitar repetir logia en nave al evaluar si tiene el escudo activo
+            disparo.destruir()
+        }
     }
+
+   method recibirImpactoDe(disparo) {
+    estadoActual.recibirImpacto(disparo.dano())
   }
 
   method colisionaConObjeto(objeto) {

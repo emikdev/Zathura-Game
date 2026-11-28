@@ -4,6 +4,7 @@ import src.personajes.estados.neutral.*
 import wollok.game.*
 
 class NaveJugador inherits Personaje {
+    method escudoActivo() = bando.escudoActivo()
     
     override method iniciar(){
         game.addVisual(self)
@@ -27,7 +28,17 @@ class NaveJugador inherits Personaje {
     method municionActual() = arsenal.armaActual().municion()
     method vidas() = vidas
 
+    method ganarVida() {
+        vidas = vidas + 1
+    }
+    
     override method alQuedarseSinVidas() {
         gestorNaves.eliminarNaveSinVidas(self)
+    }
+
+    override method recibirImpactoDe(disparo) {
+        if (!bando.escudoActivo()) { // verifica si el escudo esta activo antes de recibir el impacto
+            super(disparo)
+        }
     }
 }

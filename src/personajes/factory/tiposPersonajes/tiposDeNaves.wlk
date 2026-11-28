@@ -15,7 +15,7 @@ class TipoPersonajeNave inherits TipoPersonaje {
 const naveNormal = new TipoPersonajeNave(
     saludMaxima = 3,
     vidas = 3,
-    arsenalInicial = new Arsenal (armas = [armaBasica, dobleCanonPesado, tripleCanonPesado]),
+    arsenalInicial = new Arsenal (armas = [armaBasica, laserEstandar, dobleCanonPesado]),
     animacionBase = animacionBaseNaveBasica,
     animacionDisparo = animacionDisparoNaveBasica,
     animacionImpacto = animacionImpactoNaveBasica,

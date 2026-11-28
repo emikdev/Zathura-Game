@@ -4,4 +4,5 @@ class NaveMock {
   var property vidas = 3
   var property iconoArmaActual = "arma.png"
   var property municionActual = 0
+  var property escudoActivo = false
 }

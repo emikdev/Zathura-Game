@@ -106,3 +106,11 @@ Cada nivel tendrá una cantidad de oleadas cuya dificultad aumentará conforme s
 - Marcos Correia (Marcos-Correia17)
 - Joaquín Paniagua (joaquinjesus1234)
 - Nahuel Romero (NRomeroDev)
+
+## Pendintes de implementacion
+
+- Al agarrar un arma (un bufo) de un tipo que ya tenes en el inventario deberia sumarse la municion no darte un arma nueva.
+- Deberia ponerse un limite en el maximo de vidas que se puede tene (se podria ajustar a la dificultad) por que a partir de 3 vidas no tenemos assets.
+- Por mas que esta contempla hay un pequeno bug que hace que si se da la casualidad de que el ultimo enemigo de la ultima oleada del nivel suelta un bufo el gestos hace .limpiar() antes de que se llegue a generar o algo por el estilo y ese bufo queda cayendo en el menu.
+- Agregar mas tipos de Ovnis, por mas que su implementacion esta pensada para manejar varios tipos con varios comportamientos a estas alturas ya no queremos hacer mas assets y ya no tenemos imaginacion.
+- Revisar el codigo, siempre hay cosas que se pueden mejorar/optimizar.

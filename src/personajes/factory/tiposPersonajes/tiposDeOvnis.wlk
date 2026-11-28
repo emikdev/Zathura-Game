@@ -20,5 +20,6 @@ const ovniBasico = new TipoPersonajeEnemigo(
     animacionImpacto = animacionImpactoOvniClasico,
     animacionMuerte = animacionMuerteOvniClasico,
     comportamientoAtaque = ningunaAccion,
-    puntosQueOtorga = 500
+    puntosQueOtorga = 500,
+    probabilidadBufo = 120 
 )

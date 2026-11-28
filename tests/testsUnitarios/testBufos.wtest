@@ -1,0 +1,132 @@
+import wollok.game.*
+import src.buf.buf.*
+import src.gestores.gestorBufos.*
+import src.gestores.gestorNaves.*
+import src.mecanicas.disparo.*
+import src.mecanicas.bandos.bandoJugador.*
+import src.mecanicas.bandos.bandoEnemigo.*
+import src.personajes.factory.tiposPersonajes.tiposDeEnemigos.*
+import src.menu.configuracion.*
+import tests.mocks.mocksPersonaje.*
+import tests.mocks.mocksArmas.*
+import src.personajes.factory.tiposPersonajes.tiposDeOvnis.*
+
+describe "Tests del Sistema de Bufos" {
+
+  const recursoBufoMock = new RecursoMock(frame = "bufo.png")
+  const recursoDisparoMock = new RecursoMock(frame = "disparo.png")
+
+  const armaBaseMock = new ArmaMock()
+  const armaNuevaMock = new ArmaMock()
+  const arsenalMock = new ArsenalMock(arma = armaBaseMock)
+
+  // Creamos un personaje real usando tu fábrica de pruebas
+  const naveJugador = fabricaDePruebas.personaje(3, arsenalMock)
+
+  // Mock simple de enemigo en pantalla
+  const enemigoMock = object {
+    var property position = game.at(5, 5)
+    method image() = "enemigo.png"
+    method bando() = enemigo
+  }
+
+  method initialize() {
+    game.clear()
+    fabricaDePruebas.prepararTablero(naveJugador)
+    game.addVisual(enemigoMock)
+
+    configuracion.dificultadElegida(1)
+    configuracion.cantidadJugadores(1)
+    gestorBufos.detener()
+    gestorBufos.iniciar()
+  }
+
+  // El bufo se genera en la posición del enemigo al morir
+  test "Un enemigo con 100% de probabilidad genera un bufo en su posición al morir" {
+    const posicionMuerte = game.at(4, 7)
+
+    gestorBufos.intentarSoltarBufoEn(posicionMuerte, 100)
+
+    const bufoGenerado = game.getObjectsIn(posicionMuerte).find({ obj => obj != naveJugador and obj != enemigoMock })
+    assert.that(game.hasVisual(bufoGenerado))
+    assert.equals(posicionMuerte, bufoGenerado.position())
+  }
+
+  // El bufo desaparece al llegar al borde inferior del mapa
+  test "El bufo cae paso a paso y desaparece al llegar al borde inferior del mapa" {
+    const bufo = new BufoArma(
+      position = game.at(2, 2),
+      recursoAnimacion = recursoBufoMock,
+      fabricaArma = { armaNuevaMock }
+    )
+    bufo.iniciar()
+
+    // Baja de y=2 a y=1 (nuevo borde inferior jugable, sigue visible)
+    bufo.caer()
+    assert.equals(game.at(2, 1), bufo.position())
+    assert.that(game.hasVisual(bufo))
+
+    // Intenta bajar de y=1 a y=0 (entra en zona de HUD, sale de la zona jugable y desaparece)
+    bufo.caer()
+    assert.notThat(game.hasVisual(bufo))
+  }
+
+  // El bufo de arma es recogido por la nave y desaparece, agregando el arma al arsenal
+  test "Cuando la nave recoge un BufoArma, agrega el arma al arsenal y el bufo desaparece" {
+    const bufoArma = new BufoArma(
+      position = naveJugador.position(),
+      recursoAnimacion = recursoBufoMock,
+      fabricaArma = { armaNuevaMock }
+    )
+    bufoArma.iniciar()
+
+    bufoArma.aplicarA(naveJugador)
+    bufoArma.desaparecer()
+
+    assert.notThat(game.hasVisual(bufoArma))
+    assert.that(arsenalMock.armasAgregadas().contains(armaNuevaMock))
+  }
+
+  // El bufo no tira errores al colisionar con disparos o enemigos
+  test "El bufo atraviesa balas y enemigos sin destruirse ni lanzar errores" {
+    const bufo = new BufoVida(
+      position = game.at(5, 6),
+      recursoAnimacion = recursoBufoMock
+    )
+    bufo.iniciar()
+
+    const disparo = new Disparo(
+      recursoAnimacion = recursoDisparoMock,
+      dano = 5,
+      bando = jugador,
+      position = game.at(5, 5)
+    )
+    disparo.iniciar()
+
+    // Cae justo sobre la celda donde están enemigoMock y disparo (5, 5)
+    bufo.caer()
+
+    assert.equals(game.at(5, 5), bufo.position())
+    assert.that(game.hasVisual(bufo))
+    assert.that(game.hasVisual(disparo))
+    assert.notThat(gestorNaves.esNaveJugador(enemigoMock))
+    assert.notThat(gestorNaves.esNaveJugador(disparo))
+  }
+
+     // El OVNI suelta un bufo al morir incluso en la dificultad más alta y con 2 jugadores
+    test "El ovniBasico siempre genera un bufo al morir sin importar la dificultad o jugadores" {
+      const posicionMuerteOvni = game.at(8, 12)
+      
+      // Simulamos el peor escenario de penalización (Hard = 3, 2 Jugadores)
+      configuracion.dificultadElegida(3)
+      configuracion.cantidadJugadores(2)
+
+      ovniBasico.soltarBufoAlMorir(posicionMuerteOvni)
+
+      const bufoGenerado = game.getObjectsIn(posicionMuerteOvni).find({ obj => obj != naveJugador and obj != enemigoMock })
+      assert.that(game.hasVisual(bufoGenerado))
+      assert.equals(posicionMuerteOvni, bufoGenerado.position())
+    }
+
+
+}

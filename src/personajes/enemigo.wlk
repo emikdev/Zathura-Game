@@ -4,6 +4,7 @@ import src.personajes.personaje.*
 import src.mecanicas.direcciones.*
 import src.gestores.gestorDePuntos.*
 import src.gestores.gestorNaves.*
+import src.gestores.gestorBufos.*
 import src.gestores.gestorMuros.*
 import src.gestores.reloj.*
 import src.personajes.comportamiento.movimiento.movimientoEnFormacion.*
@@ -25,6 +26,8 @@ class Enemigo inherits Personaje {
     formacion.olvidarEnemigoLibre(self)
     formacion.quitar(self)
     gestorPuntaje.sumar(tipoPersonaje.puntosQueOtorga())
+    // Intentamos soltar un bufo con la probabilidad definida en el tipo de enemigo
+    tipoPersonaje.soltarBufoAlMorir(position)  
   }
 
   override method estaEnFormacion() = true

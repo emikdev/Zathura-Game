@@ -1,16 +1,24 @@
-class Arsenal{
+class Arsenal {
     const armas = []
     var armaActual = 0
 
-    method armaActual(){ // Devuelve el arma actual
+    method armaActual() { // Devuelve el arma actual
         return armas.get(armaActual)
     }
-
-    method agregarArma(nuevaArma){ // Agrega un arma a armas
-        armas.add(nuevaArma)
+    
+    method agregarArma(nuevaArma) { // Agrega un arma a armas
+        if (not armas.contains(nuevaArma)) {
+            armas.add(nuevaArma)
+        }
     }
 
-    method equiparSiguienteArma(){ // Devuelve el siguiente arma en armas, si llega al final vuelve al primer arma
+    method seleccionarArma(slot) {
+        if (slot.between(0, armas.size() - 1)) {
+            armaActual = slot
+        }
+    }
+
+    method equiparSiguienteArma() { // Devuelve el siguiente arma en armas, si llega al final vuelve al primer arma
         armaActual = (armaActual + 1) % armas.size()
     }
 
@@ -24,5 +32,4 @@ class Arsenal{
             armaActual = 0 
         }
     }
-
 }
