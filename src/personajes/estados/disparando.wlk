@@ -13,7 +13,7 @@ class Disparando inherits EstadoPersonaje {
     
     /* Si el recurso de animación tiene 1 solo frame, queremos que la animación 
      "avance" (termine) por tiempo para que llame a terminoAnimacion. */
-    method autoAvanceAnimacion() = true
+    override method autoAvanceAnimacion() = true
 
     override method terminoAnimacion() {
         self.cambiarANeutral()

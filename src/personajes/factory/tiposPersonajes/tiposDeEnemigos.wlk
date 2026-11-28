@@ -1,8 +1,11 @@
 import src.menu.configuracion.*
 import src.personajes.factory.tiposPersonajes.tipoPersonaje.*
+
 import src.mecanicas.animaciones.recursos.recursoEnemigos.*
+
 import src.personajes.comportamiento.ataque.ataques.*
 import src.personajes.comportamiento.ataque.ningunaAccion.*
+
 import src.mecanicas.armas.armasEnemigas.*
 import src.mecanicas.arsenal.*
 import src.gestores.gestorBufos.* // o src.buf.gestorBufos.* según el nombre exacto de tu carpeta
@@ -208,7 +211,7 @@ const pulpoHeavy = new TipoPersonajeEnemigo(
 const cangrejoAmarillo = new TipoPersonajeEnemigo(
     saludMaxima = 10,
     vidas = 1,
-    arsenalInicial = new Arsenal(armas = [armaDobleAmarilla]),
+    arsenalInicial = new Arsenal (armas = [armaDobleAmarilla]),
     animacionBase = animacionBaseCangrejoAmarillo,
     animacionDisparo = animacionDisparoCangrejoAmarillo,
     animacionImpacto = animacionImpactoCangrejoAmarillo,
@@ -221,7 +224,7 @@ const cangrejoAmarillo = new TipoPersonajeEnemigo(
 const cangrejoAzul = new TipoPersonajeEnemigo(
     saludMaxima = 15,
     vidas = 1,
-    arsenalInicial = new Arsenal(armas = [armaDobleAzul]),
+    arsenalInicial = new Arsenal (armas = [armaDobleAzul]),
     animacionBase = animacionBaseCangrejoAzul,
     animacionDisparo = animacionDisparoCangrejoAzul,
     animacionImpacto = animacionImpactoCangrejoAzul,
@@ -234,7 +237,7 @@ const cangrejoAzul = new TipoPersonajeEnemigo(
 const cangrejoRojo = new TipoPersonajeEnemigo(
     saludMaxima = 20,
     vidas = 1,
-    arsenalInicial = new Arsenal(armas = [armaDobleRoja]),
+    arsenalInicial = new Arsenal (armas = [armaDobleRoja]),
     animacionBase = animacionBaseCangrejoRojo,
     animacionDisparo = animacionDisparoCangrejoRojo,
     animacionImpacto = animacionImpactoCangrejoRojo,
