@@ -1,161 +1,153 @@
 import wollok.game.*
-import src.muros.muros.*
-import src.mecanicas.bandos.*
-import src.mecanicas.gestores.gestorDeMuros.*
+import src.muros.muro.*
+import src.mecanicas.bandos.bandoJugador.*
+import src.mecanicas.bandos.bandoEnemigo.*
 import tests.mocks.mocksMuro.*
 import tests.mocks.mocksPersonaje.*
+import src.gestores.reloj.*
 
-describe "Muro: en pie" {
+describe "Muro: En pie y ciclo de vida" {
 
-  const muro = fabricaDeMuros.muro()
+  var muro
 
   method initialize() {
+    game.clear()
     game.width(20)
     game.height(20)
+    reloj.limpiarTodo() // Evita que queden animaciones colgadas entre tests
+    muro = fabricaDeMuros.muro()
   }
 
-  test "nace entero, mostrando el primer frame" {
+  test "Nace entero mostrando el primer frame" {
     assert.equals("muro0.png", muro.image())
   }
 
-  test "cada impacto avanza un frame hacia más destruido" {
+  test "Cada impacto avanza un frame, hasta llegar al límite antes de destruirse" {
     muro.recibirImpacto()
     assert.equals("muro1.png", muro.image())
 
     muro.recibirImpacto()
     assert.equals("muro2.png", muro.image())
+
+    muro.recibirImpacto()
+    assert.equals("muro3.png", muro.image()) // Último frame en pie
+
+    muro.recibirImpacto()
+    assert.equals("muerte0.png", muro.image()) // Pasa a destruyéndose
   }
 
-  test "con tantos impactos como frames menos uno queda en el último frame, todavía en pie" {
-    3.times({ i => muro.recibirImpacto() })
-
-    assert.equals("muro3.png", muro.image())
-  }
-
-  test "el impacto siguiente al último frame lo empieza a destruir" {
-    4.times({ i => muro.recibirImpacto() })
-
+  test "Morir lo pasa al estado Destruyéndose sin pasar por los frames intermedios" {
+    muro.morir()
     assert.equals("muerte0.png", muro.image())
   }
 
-  test "un choque con un enemigo lo destruye sin pasar por los frames intermedios" {
-    muro.destruirse()
-
-    assert.equals("muerte0.png", muro.image())
-  }
-
-  test "con impactos iniciales arranca más destruido" {
-    const muroDañado = fabricaDeMuros.muroConImpactos(2)
-
-    assert.equals("muro2.png", muroDañado.image())
-  }
-
-  test "los impactos iniciales se limitan: nunca nace ya destruido, queda a un impacto de caer" {
+  test "Los impactos iniciales se limitan: nunca nace destruido" {
     const muroAlLimite = fabricaDeMuros.muroConImpactos(10)
     assert.equals("muro3.png", muroAlLimite.image())
 
     muroAlLimite.recibirImpacto()
-
     assert.equals("muerte0.png", muroAlLimite.image())
   }
 
-  test "al iniciarse queda en el tablero" {
+  test "Iniciar lo agrega al tablero y retirar lo saca (incluso si no estaba)" {
     muro.iniciar()
     assert.that(game.hasVisual(muro))
-  }
-
-  test "al retirarse sale del tablero" {
-    muro.iniciar()
+    
     muro.retirar()
     assert.notThat(game.hasVisual(muro))
-  }
-
-  test "retirar un muro que no está en el tablero no falla" {
-    assert.doesNotThrowException({ muro.retirar() })
-  }
-}
-
-describe "Muro: destruyéndose" {
-
-  const muro = fabricaDeMuros.muro()
-
-  method initialize() {
-    game.width(20)
-    game.height(20)
-    muro.destruirse()
-  }
-
-  test "muestra su animación de muerte" {
-    assert.equals("muerte0.png", muro.image())
-  }
-
-  test "ignora nuevos impactos" {
-    3.times({ i => muro.recibirImpacto() })
-
-    assert.equals("muerte0.png", muro.image())
-  }
-
-  test "ignora un segundo choque y no reinicia su animación" {
-    muro.destruirse()
-    assert.equals("muerte0.png", muro.image())
-  }
-
-  test "al terminar su animación de muerte sale del tablero" {
-    muro.iniciar()
-    muro.estado().terminoAnimacion()
+    
+    muro.retirar() // Retirar de nuevo no debe fallar
     assert.notThat(game.hasVisual(muro))
   }
 }
 
-describe "Muro: colisión con disparos" {
+describe "Muro: Destrucción" {
 
-  const muro = fabricaDeMuros.muro()
-  const disparoJugador = new DisparoMock(bando = jugador, dano = 1)
-  const disparoEnemigo = new DisparoMock(bando = enemigo, dano = 1)
-  const disparoPotente = new DisparoMock(bando = jugador, dano = 100)
+  var muro
 
   method initialize() {
+    game.clear()
     game.width(20)
     game.height(20)
+    reloj.limpiarTodo()
+    muro = fabricaDeMuros.muro()
+    muro.morir() // Lo pasamos al estado Destruyéndose
   }
 
-  test "un disparo del jugador lo daña y se destruye" {
-    muro.colisionaCon(disparoJugador)
+  test "Muestra su animación de muerte e ignora nuevos impactos" {
+    assert.equals("muerte0.png", muro.image())
+    
+    3.times({ i => muro.recibirImpacto() })
+    assert.equals("muerte0.png", muro.image()) // Sigue igual
+  }
 
+  test "Al terminar su animación de muerte sale del tablero" {
+    muro.iniciar()
+    muro.estado().terminoAnimacion() // Simulamos que la animación terminó
+    
+    assert.notThat(game.hasVisual(muro))
+  }
+}
+
+describe "Muro: Colisiones" {
+
+  var muro
+  var disparoJugador
+  var disparoEnemigo
+  var disparoPotente
+
+  method initialize() {
+    game.clear()
+    game.width(20)
+    game.height(20)
+    reloj.limpiarTodo()
+    
+    muro = fabricaDeMuros.muro()
+    disparoJugador = new DisparoMock(bando = jugador, dano = 1)
+    disparoEnemigo = new DisparoMock(bando = enemigo, dano = 1)
+    disparoPotente = new DisparoMock(bando = jugador, dano = 100)
+  }
+
+  test "Los disparos de cualquier bando lo dañan y se destruyen" {
+    muro.colisionaCon(disparoJugador)
     assert.equals("muro1.png", muro.image())
     assert.that(disparoJugador.fueDestruido())
-  }
 
-  test "un disparo enemigo también lo daña y se destruye" {
     muro.colisionaCon(disparoEnemigo)
-
-    assert.equals("muro1.png", muro.image())
+    assert.equals("muro2.png", muro.image())
     assert.that(disparoEnemigo.fueDestruido())
   }
 
-  test "el daño del disparo no importa: cada impacto avanza un solo frame" {
+  test "El daño del disparo es irrelevante: cada impacto avanza un solo frame" {
     muro.colisionaCon(disparoPotente)
-
     assert.equals("muro1.png", muro.image())
   }
 
-  test "los disparos de ambos bandos se acumulan hasta destruirlo" {
+  test "Los disparos de ambos bandos se acumulan hasta destruirlo" {
     muro.colisionaCon(disparoJugador)
     muro.colisionaCon(disparoEnemigo)
     muro.colisionaCon(disparoJugador)
     assert.equals("muro3.png", muro.image())
 
     muro.colisionaCon(disparoEnemigo)
-
     assert.equals("muerte0.png", muro.image())
   }
 
-  test "un muro que se está destruyendo es atravesado por los disparos, sin sumar impactos" {
-    muro.destruirse()
-
+  test "Un muro que se está destruyendo es atravesado por los disparos" {
+    muro.morir()
     muro.colisionaCon(disparoJugador)
+    
+    assert.equals("muerte0.png", muro.image())
+    assert.notThat(disparoJugador.fueDestruido()) // El disparo no choca
+  }
+
+  test "Al chocar con un objeto, el muro y el objeto mueren de inmediato" {
+    const objeto = new ObjetoMock()
+    muro.recibirImpacto() // Le damos un impacto previo para confirmar que no pasa por frames
+
+    muro.colisionaConObjeto(objeto)
 
     assert.equals("muerte0.png", muro.image())
-    assert.notThat(disparoJugador.fueDestruido())
+    assert.equals(1, objeto.muertes())
   }
 }

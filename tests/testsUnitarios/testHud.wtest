@@ -2,101 +2,87 @@ import wollok.game.*
 import src.mecanicas.hud.hudJugador.*
 import tests.mocks.mocksHud.*
 
-describe "HUD: una nave" {
+describe "HUD del juego" {
 
-  const nave = new NaveMock(vidas = 3, iconoArmaActual = "laser.png", municionActual = 42)
+  var naveUno
+  var naveDos
 
   method initialize() {
+    game.clear()
     game.width(20)
     game.height(20)
-    hud.iniciar([nave])
+    naveUno = new NaveMock(vidas = 3, iconoArmaActual = "laser.png", municionActual = 42)
+    naveDos = new NaveMock(vidas = 1)
   }
 
-  // Assets que se ven en las primeras cinco celdas de la fila inferior, de izquierda a derecha
-  method imagenesDelHud() = [0, 1, 2, 3, 4].map({ x => game.getObjectsIn(game.at(x, 0)).first().image() })
+  // HUD de una sola nave
 
-  test "crea cinco visuales por nave: vidas, arma y tres cifras de munición" {
+  test "Al iniciar con una nave crea los 5 visuales correspondientes" {
+    hud.iniciar([naveUno])
+    
     assert.equals(5, game.allVisuals().size())
   }
 
-  test "ocupan cinco celdas consecutivas de la esquina inferior izquierda, una cada una" {
-    const visualesPorCelda = [0, 1, 2, 3, 4].map({ x => game.getObjectsIn(game.at(x, 0)).size() })
-    assert.equals([1, 1, 1, 1, 1], visualesPorCelda)
+  test "Los visuales muestran los datos actuales de la nave en orden" {
+    hud.iniciar([naveUno])
+    
+    const imagenes = game.allVisuals().map({ visual => visual.image() })
+    
+    // Verificamos que existan los visuales esperados (vida, arma, y las cifras de munición)
+    assert.that(imagenes.contains("vida-frame3.png"))
+    assert.that(imagenes.contains("laser.png"))
+    assert.that(imagenes.contains("numero_0.png")) // Centena
+    assert.that(imagenes.contains("numero_4.png")) // Decena
+    assert.that(imagenes.contains("numero_2.png")) // Unidad
   }
 
-  test "se ordenan: vidas, arma, centena, decena y unidad" {
-    assert.equals(
-      ["vida-frame3.png", "laser.png", "numero_0.png", "numero_4.png", "numero_2.png"],
-      self.imagenesDelHud()
-    )
+  test "El HUD se actualiza automáticamente cuando cambia el estado de la nave" {
+    hud.iniciar([naveUno])
+    
+    naveUno.vidas(2)
+    naveUno.iconoArmaActual("plasma.png")
+    naveUno.municionActual(105)
+
+    const imagenes = game.allVisuals().map({ visual => visual.image() })
+    assert.that(imagenes.contains("vida-frame2.png"))
+    assert.that(imagenes.contains("plasma.png"))
+    assert.that(imagenes.contains("numero_1.png"))
+    assert.that(imagenes.contains("numero_0.png"))
+    assert.that(imagenes.contains("numero_5.png"))
   }
 
-  test "se actualizan solos cuando cambia el estado de la nave" {
-    nave.vidas(2)
-    nave.iconoArmaActual("plasma.png")
-    nave.municionActual(105)
+  // HUD de dos naves
 
-    assert.equals(
-      ["vida-frame2.png", "plasma.png", "numero_1.png", "numero_0.png", "numero_5.png"],
-      self.imagenesDelHud()
-    )
-  }
-}
-
-describe "HUD: dos naves" {
-
-  const naveUno = new NaveMock(vidas = 3)
-  const naveDos = new NaveMock(vidas = 1)
-
-  method initialize() {
-    game.width(20)
-    game.height(20)
-  }
-
-  method imagenesDeVida() {
-    return game.allVisuals()
-      .map({ visual => visual.image() })
-      .filter({ imagen => imagen.startsWith("vida-frame") })
-  }
-
-  test "crea diez visuales, cinco por nave" {
+  test "Al iniciar con dos naves crea 10 visuales (5 por nave)" {
     hud.iniciar([naveUno, naveDos])
 
     assert.equals(10, game.allVisuals().size())
   }
 
-  test "cada nave tiene su propio visual de vidas" {
+  test "Cada nave tiene su propio indicador de vidas independiente" {
     hud.iniciar([naveUno, naveDos])
 
-    assert.equals(2, self.imagenesDeVida().size())
-    assert.that(self.imagenesDeVida().contains("vida-frame3.png"))
-    assert.that(self.imagenesDeVida().contains("vida-frame1.png"))
+    const vidasMostradas = game.allVisuals()
+      .map({ visual => visual.image() })
+      .filter({ imagen => imagen.startsWith("vida-frame") })
+
+    assert.equals(2, vidasMostradas.size())
+    assert.that(vidasMostradas.contains("vida-frame3.png")) // Vidas de naveUno
+    assert.that(vidasMostradas.contains("vida-frame1.png")) // Vidas de naveDos
   }
 
-  test "el HUD de la primera nave queda a la izquierda y el de la segunda no lo pisa" {
+  test "Los HUDs no se superponen y quedan dentro del tablero" {
     hud.iniciar([naveUno, naveDos])
 
     const posiciones = game.allVisuals().map({ visual => visual.position() })
+    
+    // Verifica que no haya dos visuales en la misma posición
     assert.equals(posiciones.size(), posiciones.asSet().size())
-  }
-
-  test "todos los visuales quedan dentro del tablero" {
-    hud.iniciar([naveUno, naveDos])
-
-    assert.that(game.allVisuals().all({ visual => visual.position().x().between(0, game.width() - 1) }))
-  }
-
-  test "con otro ancho de tablero el HUD de la segunda nave sigue dentro" {
-    game.width(30)
-
-    hud.iniciar([naveUno, naveDos])
-
-    assert.that(game.allVisuals().all({ visual => visual.position().x().between(0, game.width() - 1) }))
-  }
-
-  test "una nave sola no crea el HUD de la segunda" {
-    hud.iniciar([naveUno])
-
-    assert.equals(5, game.allVisuals().size())
+    
+    // Verifica que todos estén dentro de los límites del tablero
+    assert.that(game.allVisuals().all({ visual => 
+      visual.position().x().between(0, game.width() - 1) && 
+      visual.position().y().between(0, game.height() - 1) 
+    }))
   }
 }

@@ -5,16 +5,18 @@ import src.muros.animacion.animacionPorImpacto.*
 class EnPie inherits EstadoMuro {
 
   override method crearAnimacion() {
-    return new AnimacionPorImpacto(
+    const anim = new AnimacionPorImpacto(
       estado = self,
       recursoDeAnimacion = muro.animacionBase(),
-      frameActual = muro.impactosIniciales()   // en dificultades altas arranca más destruido
+      autoAvance = false // CRUCIAL: no se registra en el reloj
     )
+    anim.posicionarEnFrame(muro.impactosIniciales())
+    return anim
   }
 
   // Cada impacto hace avanzar un frame hacia "más destruido"
   override method recibirImpacto() {
-    animacion.avanzar()
+    animacion.avanzar() // Llama al avanzar() de AnimacionPorImpacto
   }
 
   override method colisionaCon(disparo) {
@@ -35,5 +37,7 @@ class EnPie inherits EstadoMuro {
   method pasarADestruyendose() {
     muro.cambiarEstado(new Destruyendose(muro = muro))
   }
+
+  override method esEnPie() = true
 
 }

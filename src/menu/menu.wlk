@@ -1,193 +1,84 @@
-import src.mecanicas.gestores.gestorDisparos.*
-import src.mecanicas.gestores.gestorDePuntos.*
+import src.gestores.gestorDisparos.*
+import src.gestores.gestorDePuntos.*
 import src.mecanicas.direcciones.*
 import wollok.game.*
 import src.menu.seleccionador.*
 import src.menu.configuracion.*
 import src.personajes.factory.tiposPersonajes.tiposDeNaves.*
-import src.mecanicas.gestores.gestorNiveles.*
+import src.gestores.gestorNiveles.*
 import src.sonidos.musicaMenu.*
 import src.sonidos.sonido.*
+import src.menu.menus.menuPrincipal.*
+import src.gestores.reloj.*
+import src.gestores.gestorOvnis.*
 
+object menu {
+  method iniciar() {
+    menuPrincipal.iniciarMenu()
+  }
 
-  // falta importar el archivo de los niveles
-
-  object menu {
-    method iniciar() {
-      self.menuReglas()
-    }
-
-    method mostrar(titulo, opciones, alSeleccionar) {
+  method mostrar(titulo, opciones, alSeleccionar) {
     self.mostrar(titulo, opciones, alSeleccionar, 4, 0)
   }
-    // Arma una pantalla genérica: título + opciones + selector + teclas
-    method mostrar(titulo, opciones, alSeleccionar,alturaFlecha,anchoFlecha) {
-      game.clear()
 
-      const seleccionador = new Seleccionador(
-        opciones = opciones,
-        alSeleccionar = alSeleccionar,
-        alturaFlecha = alturaFlecha,
-        anchoFlecha = anchoFlecha              
-      )
+  method mostrar(titulo, opciones, alSeleccionar,alturaFlecha,anchoFlecha) {
+    game.clear()
 
-      game.addVisual(new Cartel(image = titulo, position = game.center().up(6).left(6)))
-      opciones.forEach({ opcion => game.addVisual(opcion) })
-      game.addVisual(seleccionador)
+    const seleccionador = new Seleccionador(
+      opciones = opciones,
+      alSeleccionar = alSeleccionar,
+      alturaFlecha = alturaFlecha,
+      anchoFlecha = anchoFlecha              
+    )
 
-      seleccionador.controles()
-    }
-    
-    method menuPrincipal() {
+    game.addVisual(new Cartel(image = titulo, position = game.center().up(6).left(6)))
+    opciones.forEach({ opcion => game.addVisual(opcion) })
+    game.addVisual(seleccionador)
 
-      game.boardGround("fondo.png")
-      musicaMenu.iniciar()
+    seleccionador.controles()
+  }
 
-      self.mostrar(
-        "menuPrincipal.png",
-        [
-          new Opcion(image = "jugar.png", valor = "jugar", position = game.center().left(10).down(4)),
-          new Opcion(image = "salir.png", valor = "salir", position = game.center().right(-1).down(4))
-        ],
-        { opcion =>
-          if (opcion.valor() ==  "jugar") self.menuCantidadJugadores() else game.stop()
-        }
-      )
-    }
-
-    method menuControles() {
-      game.clear()      
-      musicaMenu.iniciar()
-      game.boardGround("controles.png")
-      keyboard.space().onPressDo({self.menuSistemaPuntajes() sonido.reproducir("choose.mp3")})
-
-    }
-
-    method menuReglas() {
-      game.clear()      
-      musicaMenu.iniciar()
-      game.boardGround("reglas2.png")
-      keyboard.space().onPressDo({self.menuControles() sonido.reproducir("choose.mp3")})
-
-    }
-
-    method menuSistemaPuntajes() {
-      game.clear()
-      musicaMenu.iniciar()
-      game.boardGround("sistemaPuntajes.png")
-      keyboard.space().onPressDo({self.menuPrincipal() sonido.reproducir("choose.mp3")})
-    }
-
-    method menuEntreNiveles() {
-      game.clear()
-      sonido.reproducir("levelPassed.mp3")
-      game.boardGround("entreNiveles.png")
-      keyboard.space().onPressDo({self.empezar() sonido.reproducir("choose.mp3")})
-    }
-
-    
-  method menuCantidadJugadores() {
-      self.mostrar(
-        "cuantosJugadores.png",
-        [
-          new Opcion(image = "unJugador.png", valor = 1, position = game.center().left(10).down(4)),
-          new Opcion(image = "dosJugadores.png" , valor = 2, position = game.center().right(-1).down(4))
-        ],
-        { opcion =>
-          configuracion.cantidadJugadores(opcion.valor()) 
-          configuracion.tiposNaves().clear()
-          if(opcion.valor() == 1 ) self.menuUnJugador() else self.menuDosJugadores()
-        }
-      )
-    }
-
-    method menuUnJugador() {
-      self.elegirNave("elegiTuNave.png", { tipoNaveP1 =>
-        configuracion.tiposNaves().add(tipoNaveP1)
-        self.menuDificultad()
-      })
-    }
-
-  method menuDificultad() {
-    self.mostrar(
-      "elegiLaDificultad.png",
+  method menuInicial(titulo) {
+    self.mostrar(titulo,
       [
-        new Opcion(image = "easy.png", valor = 1, position = game.center().left(10).down(4)),
-        new Opcion(image = "normal.png", valor = 2, position = game.center().down(4).left(5)),
-        new Opcion(image = "hard.png", valor = 3, position = game.center().right(0).down(4))
+        new Opcion(image = "volverAJugar.png", valor = "volver", position = game.center().left(10).down(4)),
+        new Opcion(image = "salir.png",        valor = "salir",  position = game.center().right(-1).down(4))
       ],
       { opcion =>
-        configuracion.dificultadElegida(opcion.valor())
-        self.empezar()
+        if (opcion.valor() == "volver"){ 
+          musicaVictoria.detener()
+          menuPrincipal.iniciarMenu() 
+        }else{ 
+            game.stop()
+        }
       }
     )
   }
 
-    method menuDosJugadores() {
-      self.elegirNave("jugador1ElegiTuNave.png", { tipoNaveP1 =>
-        configuracion.tiposNaves().add(tipoNaveP1)
-
-        self.elegirNave("jugador2ElegiTuNave.png", { tipoNaveP2 =>
-          configuracion.tiposNaves().add(tipoNaveP2)
-
-        self.menuDificultad()
-        })
-      })
-    }
-
-
-
-    method menuGameOver (){
-      musicaMenu.detener()
-      self.menuInicial("perdiste.png")
-      sonido.reproducir("fail.mp3")
-    }
-
-    method menuVictoria() {
-      musicaMenu.detener()
-      musicaVictoria.iniciar()
-      self.menuInicial("ganaste.png")
-    }
-
-    method menuInicial(titulo) {
-      self.mostrar(titulo,
-    [
-      new Opcion(image = "volverAJugar.png", valor = "volver", position = game.center().left(10).down(4)),
-      new Opcion(image = "salir.png",        valor = "salir",  position = game.center().right(-1).down(4))
-    ],
-    { opcion =>
-      if (opcion.valor() == "volver"){ 
-
-        musicaVictoria.detener()
-        self.menuPrincipal() 
-      }else{ 
-          game.stop()
-      }
-    }
-  )
-}
-
-    method elegirNave(titulo, alElegir) {
-      
-        self.mostrar(titulo, self.opcionesNave(), {opcion => alElegir.apply(opcion.valor())} , 9 , 2)
-    }
-
-    method opcionesNave() {
-  return [
-    new Opcion(image = "naveTanqueMenu.png", valor = naveTanque, position = game.center().left(10).down(7)),
-    new Opcion(image = "naveNormalMenu.png",       valor = naveNormal,       position = game.center().down(7).left(3) ),
-    new Opcion(image = "naveDeAtaqueMenu.png", valor = naveAtaque, position = game.center().right(3).down(7))
-  ]
-}
-
-    method empezar() {
-        game.clear()
-        musicaMenu.detener()
-        // Se inicia el gestor de niveles
-	      gestorNiveles.iniciar()
-        gestorPuntaje.mostrar()
-        gestorNiveles.mostrar()
-        musicaInGame.iniciar()
-    }
-
+  method elegirNave(titulo, alElegir) {
+      self.mostrar(titulo, self.opcionesNave(), {opcion => alElegir.apply(opcion.valor())} , 9 , 2)
   }
+
+  method opcionesNave() {
+    return [
+      new Opcion(image = "naveTanqueMenu.png", valor = naveTanque, position = game.center().left(10).down(7)),
+      new Opcion(image = "naveNormalMenu.png",       valor = naveNormal,       position = game.center().down(7).left(3) ),
+      new Opcion(image = "naveDeAtaqueMenu.png", valor = naveAtaque, position = game.center().right(3).down(7))
+    ]
+  }
+
+  method empezar() {
+      game.clear()
+      musicaMenu.detener()
+      
+      reloj.limpiarTodo() 
+      gestorOvnis.limpiar() 
+  
+      reloj.iniciar() 
+      reloj.registrar(gestorOvnis)
+      
+      gestorPuntaje.reiniciar() 
+      
+      gestorNiveles.iniciarJuego() 
+  }
+}

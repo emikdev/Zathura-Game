@@ -23,4 +23,6 @@ class EstadoMuro {
     animacion.detener()
   }
 
+  method esEnPie() = false
+
 }

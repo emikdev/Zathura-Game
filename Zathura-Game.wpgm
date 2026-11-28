@@ -1,5 +1,6 @@
 import wollok.game.*
 import src.menu.menu.*
+import src.gestores.reloj.*
 
 program Zathura {
 
@@ -13,10 +14,8 @@ program Zathura {
 	// Titulo del juego
 	game.title("Zathura Game")
 
-	// saco el inicio del fondo de aca, ya que segun el menu que haya cambiara.
-	
 	// Se carga el menu
-	menu.iniciar()	
+	menu.iniciar()
 
 	// Inicializador del juego
 	game.start()

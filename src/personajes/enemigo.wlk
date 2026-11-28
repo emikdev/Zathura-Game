@@ -1,45 +1,71 @@
 import src.personajes.factory.tiposPersonajes.tipoPersonaje.*
+import src.mecanicas.formacion.*
 import src.personajes.personaje.*
-import src.niveles.formacion.*
 import src.mecanicas.direcciones.*
-import src.mecanicas.gestores.gestorDePuntos.*
-import src.mecanicas.gestores.gestorBufos.*
+import src.gestores.gestorDePuntos.*
+import src.gestores.gestorNaves.*
+import src.gestores.gestorBufos.*
+import src.gestores.gestorMuros.*
+import src.gestores.reloj.*
+import src.personajes.comportamiento.movimiento.movimientoEnFormacion.*
+import src.personajes.comportamiento.movimiento.movimientoKamikaze.*
 
 class Enemigo inherits Personaje {
+  const formacion
+  var comportamientoMovimiento = movimientoEnFormacion
+
+  method intentarAtacar() = tipoPersonaje.comportamientoAtaque().actuar(self)
+  method seleccionarArma(slot) { estadoActual.seleccionarArma(slot) }
+
+  override method mover(direccion) {
+    super(direccion) // Llama al mover() de Personaje, que actualiza la posición
+    gestorMuros.chocaEnemigoEn(self.position(), self) // Verifica si pisó un muro
+  }
+
+  override method alQuedarseSinVidas() {
+    formacion.olvidarEnemigoLibre(self)
+    formacion.quitar(self)
+    gestorPuntaje.sumar(tipoPersonaje.puntosQueOtorga())
+    // Intentamos soltar un bufo con la probabilidad definida en el tipo de enemigo
+    tipoPersonaje.soltarBufoAlMorir(position)  
+  }
+
+  override method estaEnFormacion() = true
+
+  override method dejarFormacion() {
+    formacion.sacarDeLista(self)
+  }
   
-    const formacion
+  method inmolarse() {
+    self.dejarFormacion()
+    formacion.registrarEnemigoLibre(self)
+    comportamientoMovimiento = new MovimientoKamikaze(intervalo = formacion.intervalo())
+    reloj.registrar(self)
+  }
 
-    method intentarAtacar() {
-        tipoPersonaje.comportamientoAtaque().actuar(self)
+  // El Reloj llama a este tick
+  method tick(deltaMs) {
+    comportamientoMovimiento.tick(self, deltaMs)
+  }
+
+  // Movimiento físico del kamikaze
+  method avanzarKamikaze() {
+    if (abajo.puedeAvanzar(self.position())) {
+      self.mover(abajo) 
+      
+      // Solo chequeamos las naves, porque los muros ya se chequean dentro de mover()
+      gestorNaves.chocaKamikazeEn(self.position(), self) 
+      
+    } else {
+      self.terminarInmolacion()
     }
+  }
+  method terminarInmolacion() {
+    self.morir()
+  }
 
-    method dejarFormacion(){
-        formacion.quitar(self)
-    }
-
-    method inmolarse(){
-        if(abajo.puedeAvanzar((self.position()))){
-            self.mover(abajo)
-            self.inmolarse()
-        }else{
-            self.morir()
-        }
-    }
-
-    override method seleccionarArma(slot){
-        estadoActual.seleccionarArma(slot)
-    }
-
-    override method alQuedarseSinVidas() {
-        formacion.quitar(self)
-        gestorPuntaje.sumar(tipoPersonaje.puntosQueOtorga())
-        // Intentamos soltar un bufo con la probabilidad definida en el tipo de enemigo
-        tipoPersonaje.soltarBufoAlMorir(position)   
-    }
-
-    override method colisionaConMuro(muro) {
-        muro.destruirse()
-        self.morir()
-    }
-
+  override method morir() {
+    reloj.olvidar(self)
+    super()
+  }
 }

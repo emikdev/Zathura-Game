@@ -1,140 +1,106 @@
 import src.mecanicas.animaciones.animacion.*
 import src.personajes.efectos.efectosPersonaje.*
 import src.personajes.estados.neutral.*
-class Personaje{
+import src.gestores.reloj.*
 
-    var property position
-    const posicionInicial
+class Personaje {
+  var property position
+  const posicionInicial
 
-    var salud
-    var vidas
+  var salud
+  var vidas
 
-    const tipoPersonaje
-    const bando
+  const tipoPersonaje
+  const bando
     
-    var arsenal
+  var arsenal
 
-    var estadoActual
-    var efectoVisual
+  var estadoActual
+  var efectoVisual
 
-    method arsenal(){
-        return arsenal
-    }
+  method initialize() {
+    estadoActual = new Neutral(personaje = self)
+    efectoVisual = sinEfecto
+    salud = tipoPersonaje.saludMaxima()
+    vidas = tipoPersonaje.vidas()
+    position = posicionInicial
+    arsenal = tipoPersonaje.arsenalInicial()
+  }
 
-    method initialize(){
-        estadoActual = new Neutral(personaje = self)
-        efectoVisual = sinEfecto
-        salud = tipoPersonaje.saludMaxima()
-        vidas = tipoPersonaje.vidas()
-        position = posicionInicial
-        arsenal = tipoPersonaje.arsenalInicial()
-    }
+  method arsenal() = arsenal
+  method animacionBase() = tipoPersonaje.animacionBase()
+  method animacionDisparo() = tipoPersonaje.animacionDisparo()
+  method animacionMuerte() = tipoPersonaje.animacionMuerte()
+  method animacionImpacto() = tipoPersonaje.animacionImpacto()
+  method bando() = bando
+  method posicionInicial() = posicionInicial
 
-    method animacionBase(){
-        return tipoPersonaje.animacionBase()
-    }
+  method esMuriendo() = estadoActual.esMuriendo()
+  
+  method image() = efectoVisual.imagen(estadoActual.imagenActual())
 
-    method animacionDisparo(){
-      return tipoPersonaje.animacionDisparo()
-    }
+  method cambiarEstado(nuevoEstado) {
+    estadoActual.finalizarAnimacion()
+    estadoActual = nuevoEstado
+  }
 
-    method animacionMuerte(){
-      return tipoPersonaje.animacionMuerte()
-    }
+  method mover(direccion) { estadoActual.mover(direccion) }
+  method disparar() { estadoActual.disparar() }
+  method siguienteArma() { estadoActual.siguienteArma() }
+  method prepararPaso() { estadoActual.prepararPaso() }
 
-    method animacionImpacto(){
-        return tipoPersonaje.animacionImpacto()
-    }
-
-    method estado(){
-        return estadoActual
-    }
-
-    method bando(){
-        return bando
-    }
-
-    method posicionInicial(){
-        return posicionInicial
-    }
-
-    method image(){
-        return efectoVisual.imagen(estadoActual.imagenActual())
-    }
-
-    method cambiarEstado(nuevoEstado) {
-        estadoActual.finalizarAnimacion()
-        estadoActual = nuevoEstado
-    }
-
-    method mover(direccion){
-        estadoActual.mover(direccion)
-    }
-
-    method disparar(){
-        estadoActual.disparar()
-    }
-
-    method seleccionarArma(arma) {
-        arsenal.seleccionarArma(arma) // o el método equivalente que tenga tu Arsenal
-    }
-    
-    method siguienteArma(){
-        estadoActual.siguienteArma()
-    }
-
-    method restarSalud(dano){ 
-        salud = (salud - dano).max(0) 
-    }
-
-    method sinSalud(){
-        return salud <= 0
-    }
-
-    method restaurarSalud(){ 
-        salud = tipoPersonaje.saludMaxima()
-    }
-
-    method perderVida(){
-        vidas -= 1
-    }
-
-    method ganarVida() {
-        vidas += 1
-    }
-
-    method tieneVidas(){
-        return  vidas > 0
-    }
-
-    method colisionaCon(disparo) {
+  method restarSalud(dano) { salud = (salud - dano).max(0) }
+  method sinSalud() = salud <= 0
+  method restaurarSalud() { salud = tipoPersonaje.saludMaxima() }
+  method perderVida() { vidas -= 1 }
+  method tieneVidas() = vidas > 0
+  
+  method colisionaCon(disparo) {
         if (bando.puedeColisionarCon(disparo.bando())) {
             self.recibirImpactoDe(disparo) // Esta para evitar repetir logia en nave al evaluar si tiene el escudo activo
             disparo.destruir()
         }
     }
 
-    method recibirImpactoDe(disparo) {
-        estadoActual.recibirImpacto(disparo.dano())
+   method recibirImpactoDe(disparo) {
+    estadoActual.recibirImpacto(disparo.dano())
+  }
+
+  method colisionaConObjeto(objeto) {
+    if (bando.puedeColisionarCon(objeto.bando())) {
+      self.morir()
+      objeto.morir()
     }
+  }
 
-    method cambiarEfecto(nuevoEfecto) {
-        efectoVisual.detener()   // Corta el efecto anterior
-        efectoVisual = nuevoEfecto
-    }
+  method cambiarEfecto(nuevoEfecto) {
+    efectoVisual.detener()
+    efectoVisual = nuevoEfecto
+  }
 
-    method retirar() {
-        game.removeVisual(self)
-        estadoActual.finalizarAnimacion()
-        efectoVisual.detener()
-    }
+  method quitarEfecto() {
+      efectoVisual = sinEfecto
+  }
 
-    method morir() {
-        estadoActual.recibirImpacto(salud)
-    }
+  method detener() {
+    game.removeVisual(self)
+    estadoActual.finalizarAnimacion()
+    efectoVisual.detener()
+    reloj.olvidar(self)
+  }
 
-    method iniciar(){ }
-    method alQuedarseSinVidas(){ }
-    method colisionaConMuro(muro){ }
+  method reactivar() {
+      estadoActual.reactivarAnimacion()
+  }
 
+  method morir() {
+    // Forzamos que la salud llegue a 0 y disparamos el impacto final que cambia el estado a muriendo
+    self.restarSalud(salud)
+    estadoActual.recibirImpacto(0)
+  }
+
+  method iniciar() { }
+  method alQuedarseSinVidas() { }
+  method dejarFormacion() { }
+  method estaEnFormacion() = false
 }

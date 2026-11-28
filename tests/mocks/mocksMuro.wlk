@@ -1,13 +1,14 @@
 import wollok.game.*
-import src.muros.muros.*
+import src.muros.muro.*
 
 /* Recurso de animación con los frames que se le pasen. La duración enorme evita que el
  temporizador de Animacion la avance sola durante un test. */
 class RecursoFramesMock {
   const frames
+  const duracion = 1000000
 
   method frames() = frames
-  method duracion() = 1000000
+  method duracion() = duracion
 }
 
 // Estado falso de una animación: solo cuenta cuántas veces le avisaron que terminó.
@@ -17,6 +18,15 @@ class EstadoAnimacionMock {
   method terminoAnimacion() { terminos += 1 }
 
   method terminos() = terminos
+}
+
+// Objeto que choca contra un muro: lo único que se le pide es morir().
+class ObjetoMock {
+  var muertes = 0
+
+  method morir() { muertes += 1 }
+
+  method muertes() = muertes
 }
 
 // Arma muros reales con recursos mock: 4 frames de muro en pie (muro0..muro3) y 2 de muerte (muerte0..muerte1).

@@ -7,7 +7,7 @@ const armaBasicaNave = new RecursoDeAnimacion(
     "disparoCeleste_frame_2.png",
     "disparoCeleste_frame_3.png"
   ],
-  duracion = 400
+  duracion = 10
 )
 
 const armaLaserNave = new RecursoDeAnimacion(
@@ -16,7 +16,7 @@ const armaLaserNave = new RecursoDeAnimacion(
     "ArmaLaser_frame_2.png",
     "ArmaLaser_frame_3.png"
   ],
-  duracion = 20
+  duracion = 10
 )
 
 const armaDePlasmaNave = new RecursoDeAnimacion(
@@ -25,7 +25,7 @@ const armaDePlasmaNave = new RecursoDeAnimacion(
     "ArmaDePlasma_frame_2.png",
     "ArmaDePlasma_frame_3.png"
   ],
-  duracion = 100
+  duracion = 10
 )
 
 // Armas Enemigas
@@ -35,7 +35,8 @@ const armaEnemigaBlanca = new RecursoDeAnimacion(
     "disparoBlanco_frame_1.png",
     "disparoBlanco_frame_2.png",
     "disparoBlanco_frame_3.png"
-  ]
+  ],
+  duracion = 10
 )
 
 const armaEnemigaAmarilla = new RecursoDeAnimacion(
@@ -43,7 +44,8 @@ const armaEnemigaAmarilla = new RecursoDeAnimacion(
     "disparoAmarillo_frame_1.png",
     "disparoAmarillo_frame_2.png",
     "disparoAmarillo_frame_3.png"
-  ]
+  ],
+  duracion = 10
 )
 
 const armaEnemigaAzul = new RecursoDeAnimacion(
@@ -51,7 +53,8 @@ const armaEnemigaAzul = new RecursoDeAnimacion(
     "disparoAzul_frame_1.png",
     "disparoAzul_frame_2.png",
     "disparoAzul_frame_3.png"
-  ]
+  ],
+  duracion = 10
 )
 
 const armaEnemigaRoja = new RecursoDeAnimacion(
@@ -59,7 +62,8 @@ const armaEnemigaRoja = new RecursoDeAnimacion(
     "disparoRojo_frame_1.png",
     "disparoRojo_frame_2.png",
     "disparoRojo_frame_3.png"
-  ]
+  ],
+  duracion = 10
 )
 
 const armaEnemigaMorada = new RecursoDeAnimacion(
@@ -67,7 +71,8 @@ const armaEnemigaMorada = new RecursoDeAnimacion(
     "disparoVioleta_frame_1.png",
     "disparoVioleta_frame_2.png",
     "disparoVioleta_frame_3.png"
-  ]
+  ],
+  duracion = 10
 )
 
 // Especiales
@@ -76,13 +81,13 @@ const armaEnemigaPesada = new RecursoDeAnimacion(
     "disparoPesadoBlanco_frame_1.png",
     "disparoPesadoBlanco_frame_2.png",
     "disparoPesadoBlanco_frame_3.png"
-  ]
+  ],
+  duracion = 10
 )
 
 // Disparo rápido: mismos frames que la bala básica a la MITAD de duración.
 // Como la bala avanza una celda por ciclo de animación, avanza el doble de rápido.
 object armaEnemigaMoradaRapida {
   method frames() = armaEnemigaMorada.frames()
-  
   method duracion() = armaEnemigaMorada.duracion() / 2
 }
