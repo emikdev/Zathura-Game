@@ -9,6 +9,7 @@ import src.personajes.factory.tiposPersonajes.tiposDeEnemigos.*
 import src.menu.configuracion.*
 import tests.mocks.mocksPersonaje.*
 import tests.mocks.mocksArmas.*
+import src.personajes.factory.tiposPersonajes.tiposDeOvnis.*
 
 describe "Tests del Sistema de Bufos" {
 
@@ -111,4 +112,21 @@ describe "Tests del Sistema de Bufos" {
     assert.notThat(gestorNaves.esNaveJugador(enemigoMock))
     assert.notThat(gestorNaves.esNaveJugador(disparo))
   }
+
+     // El OVNI suelta un bufo al morir incluso en la dificultad más alta y con 2 jugadores
+    test "El ovniBasico siempre genera un bufo al morir sin importar la dificultad o jugadores" {
+      const posicionMuerteOvni = game.at(8, 12)
+      
+      // Simulamos el peor escenario de penalización (Hard = 3, 2 Jugadores)
+      configuracion.dificultadElegida(3)
+      configuracion.cantidadJugadores(2)
+
+      ovniBasico.soltarBufoAlMorir(posicionMuerteOvni)
+
+      const bufoGenerado = game.getObjectsIn(posicionMuerteOvni).find({ obj => obj != naveJugador and obj != enemigoMock })
+      assert.that(game.hasVisual(bufoGenerado))
+      assert.equals(posicionMuerteOvni, bufoGenerado.position())
+    }
+
+
 }
