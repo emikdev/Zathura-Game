@@ -1,6 +1,7 @@
 import src.mecanicas.animaciones.recursos.recursosArmas.*
 import src.mecanicas.animaciones.recursos.recursosBufos.*
-import src.mecanicas.armas.armasDeNave.*
+import src.mecanicas.armas.armasNave.*
+import src.mecanicas.armas.clasesDeArmas.armaBasica.*
 import src.mecanicas.armas.clasesDeArmas.armasLaser.*
 import src.mecanicas.armas.clasesDeArmas.armasMultiples.*
 import src.buf.buf.*
@@ -12,8 +13,8 @@ const tiposDeBufos = [
       fabricaArma = { new ArmaLaser(
           iconoHud = "armaLaserNaveHUD.png",
           recursoBala = armaLaserNave,
-          danoBala = 5,
-          municion = 30
+          danoBala = 1,
+          municion = 20 // 10 disparos
         ) }
     ) },
 
@@ -23,8 +24,8 @@ const tiposDeBufos = [
       fabricaArma = { new ArmaDePlasma(
           iconoHud = "armaPlasmaNaveHUD.png",
           recursoBala = armaDePlasmaNave,
-          danoBala = 10,
-          municion = 10
+          danoBala = 3,
+          municion = 40 // 10 disparos
         ) }
     ) },
 
@@ -34,8 +35,8 @@ const tiposDeBufos = [
       fabricaArma = { new DobleCanon(
           iconoHud = "armaLaserDobleNaveHUD.png",
           recursoBala = armaLaserNave,
-          danoBala = 5,
-          municion = 4
+          danoBala = 1,
+          municion = 20 // 10 disparos
         ) }
     ) },
 
@@ -45,8 +46,8 @@ const tiposDeBufos = [
       fabricaArma = { new TripleCanon(
           iconoHud = "armaLaserTripleNaveHUD.png",
           recursoBala = armaLaserNave,
-          danoBala = 7,
-          municion = 6
+          danoBala = 1,
+          municion = 15 // 5 disparos
         ) }
     ) },
 
@@ -57,7 +58,7 @@ const tiposDeBufos = [
           iconoHud = "armaPlasmaDobleNaveHUD.png",
           recursoBala = armaDePlasmaNave,
           danoBala = 3,
-          municion = 4
+          municion = 20 // 10 disparos
         ) }
     ) },
 
@@ -68,7 +69,7 @@ const tiposDeBufos = [
           iconoHud = "armaPlasmaTripleNaveHUD.png",
           recursoBala = armaDePlasmaNave,
           danoBala = 3,
-          municion = 6
+          municion = 30 // 10 disparos
         ) }
     ) },
 
